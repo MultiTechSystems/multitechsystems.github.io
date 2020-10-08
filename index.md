@@ -4,4 +4,4 @@
 
 [Multicast Protocol](multicast) Protocol for creating multicast sessions between a LoRaWAN network and multiple end-devices.
 
-[Fragement Data Transfer Protocol](fragmentation) Protocol for efficient transmission of files to end-devices used for firmware updates. 
+[Fragmented Data Transfer Protocol](fragmentation) Protocol for efficient transmission of files to end-devices used for firmware updates.

@@ -1,2 +1,4 @@
 theme: jekyll-theme-hacker
-site_favicon: favicon.ico
+title: Multitech System Technical Documentation
+description: Collection of articles for working with Multitech devies in LoRaWAN networks.
+favicon: favicon.ico

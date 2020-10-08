@@ -1,6 +1,6 @@
 theme: jekyll-theme-hacker
 title: Multitech System Technical Documentation
-description: Collection of articles for working with Multitech devies in LoRaWAN networks.
+description: Collection of articles for working with Multitech devices in LoRaWAN networks.
 favicon: favicon.ico
 plugins:
   - jekyll-feed

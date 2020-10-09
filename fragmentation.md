@@ -179,7 +179,8 @@ c9   01  0000     FF           01
 
 ## CRC Verification
 
-CRC verification uplink
+
+CRC-64 verification uplink, http://download.redis.io/redis-stable/src/crc64.c
 ```
 Port ID  Index  CRC Value
 c9   80  00     1C57CAE8353843B2

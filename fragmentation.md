@@ -160,8 +160,33 @@ ID  Index&N Fragment
 
 ## Parity Frames
 
+After all fragments have been transmitted parity frames will be sent to allow any missed packets to be recovered using the received packets.
+
 ```
 RECV 012657daf029040000c90829041a805f134cafa5a481c531f6028941cb6003e99528b558a057594b4734927c50d7e888e8d4aca4f39011f10d4e2cf627986dcd1fbfd973f8b4cc06ab6844fee73c835456048586587f734435ae0236a3463fa5788c7d0e3f6eeb6ca2be46a925fce44664cce8e3074631ab934e9c3829d140cdd725a8c897ac03e8e048a5fa9e8972e44a648bf200722c8d51081b025c655704f6f505a7d8c9dd685076a7588d64abae39dcf798096872a1dcfd7d0915812f2bbfe618a6918c26c2a15651f24fc467963327fdeafe6487004f0db9940407c348eb2d35d7a5f8077bb130ce34ece63f82ef59285fee973a46aabb438c
+
+Type  DevAddr  FCnt     Port    Payload
+01       2657daf0 29040000 c9   0829041a805f134cafa5a481c531f6028941cb6003e99528b558a05
+                                7594b4734927c50d7e888e8d4aca4f39011f10d4e2cf627986dcd1f
+                                bfd973f8b4cc06ab6844fee73c835456048586587f734435ae0236a
+                                3463fa5788c7d0e3f6eeb6ca2be46a925fce44664cce8e3074631ab
+                                934e9c3829d140cdd725a8c897ac03e8e048a5fa9e8972e44a648bf
+                                200722c8d51081b025c655704f6f505a7d8c9dd685076a7588d64ab
+                                ae39dcf798096872a1dcfd7d0915812f2bbfe618a6918c26c2a1565
+                                1f24fc467963327fdeafe6487004f0db9940407c348eb2d35d7a5f8
+                                077bb130ce34ece63f82ef59285fee973a46aabb438c
+
+ID  Index&N Fragment
+08  2904    1a805f134cafa5a481c531f6028941cb6003e99528b558a05
+            7594b4734927c50d7e888e8d4aca4f39011f10d4e2cf627986dcd1f
+            bfd973f8b4cc06ab6844fee73c835456048586587f734435ae0236a
+            3463fa5788c7d0e3f6eeb6ca2be46a925fce44664cce8e3074631ab
+            934e9c3829d140cdd725a8c897ac03e8e048a5fa9e8972e44a648bf
+            200722c8d51081b025c655704f6f505a7d8c9dd685076a7588d64ab
+            ae39dcf798096872a1dcfd7d0915812f2bbfe618a6918c26c2a1565
+            1f24fc467963327fdeafe6487004f0db9940407c348eb2d35d7a5f8
+            077bb130ce34ece63f82ef59285fee973a46aabb438c
+
 ```
 
 ## Status Request

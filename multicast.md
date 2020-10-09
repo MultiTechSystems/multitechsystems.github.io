@@ -9,7 +9,7 @@ This example is using Dot v4.0.0 firmware and mPower 5.3.0 on Conduit
 
 ## AT Commands
 
-### Setup the output format
+### Output format
 Enable addition of Type, DevAddr, FCnt and Port to HEX output of the data. Use AT+RXO=2 for ascii output instead of hexadeicmal.
 
 ```
@@ -55,11 +55,13 @@ This setting controls the when the Session Setup packet will be queued for each 
 
 This setting controls the time allowed for end-devices to retrieve the Session Setup before the multicast payload will be sent.
 
-# Session Progess
+# Session Progress
 
 ![Multicast Operation Progress](/images/MULTICAST-OPERATION-PROGRESS.png)
 
 After setup time has expired and until launch time the Operation will be in Setup phase. After the setup phase ends the session will transfer to the Broadcasting phase and send the scheduled packet. The progress page shows the Operation and corresponding Multicast EUI.
+
+## Session Setup Req
 
 The Session Setup can be seen below in the Class A uplink response. Port 200 (0xC8) is the multicast setup protocol port. There are two commands in this packet.
 
@@ -99,6 +101,11 @@ MC ID DevAddr  Encrypted Key                    FCnt Start  FCnt End
 MC Class C Session Req
 MC ID Start Time   Timeout Freq   DR
 04 00 11a2a84c     0f      68e28c 0a
+```
+
+## Session Setup Ans
+```
+c8 020004000D0000
 ```
 
 # More Messages

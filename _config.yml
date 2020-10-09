@@ -1,5 +1,5 @@
 theme: jekyll-theme-leap-day
-title: Multitech System Technical Documentation
+title: Multitech System Developer Documentation
 description: Collection of articles for working with Multitech devices in LoRaWAN networks.
 favicon: favicon.ico
 plugins:

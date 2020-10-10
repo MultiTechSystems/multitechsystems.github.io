@@ -1,4 +1,4 @@
-# Multitech Systems Technical Documentation
+# Multitech Systems Developer Docs
 
 [LoRaWAN App Connect](lorawan-app-connect) Protocol and sample applications for connecting a LoRaWAN network to back-end services.
 

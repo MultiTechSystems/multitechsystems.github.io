@@ -94,13 +94,13 @@ Type  DevAddr  FCnt     Port  Payload
 01    d4482f00 02000000 c8    02002657daf02710fa55811ddca35b3bcf307a149f37000000000000000004004e4fab4c0d68e28c0a
 
 MC Group Setup Req
-MC ID DevAddr  Encrypted Key                    FCnt Start  FCnt End
-02 00 2657daf0 2710fa55811ddca35b3bcf307a149f37 00000000 0000000004004e4fab4c0d68e28c0a
-02 00 2f49daf0 11fe3c120a78c11b4b769c52e45d2116 00000000    00000000
+MC Index DevAddr  Encrypted Key                    FCnt Start  FCnt End
+02 00    2657daf0 2710fa55811ddca35b3bcf307a149f37 00000000 0000000004004e4fab4c0d68e28c0a
+02 00    2f49daf0 11fe3c120a78c11b4b769c52e45d2116 00000000    00000000
 
 MC Class C Session Req
-MC ID Start Time   Timeout Freq   DR
-04 00 11a2a84c     0f      68e28c 0a
+MC Index Start Time   Timeout Freq   DR
+04 00    11a2a84c     0f      68e28c 0a
 ```
 ## Fragmentation Setup
 
@@ -116,15 +116,15 @@ Type  DevAddr  FCnt     Port  Payload
 01    d4482f00 03000000 ca    0303
 
 Frag Session Delete
-MC
-03 03
+CMD
+03  03
 
 Type  DevAddr  FCnt     Port  Payload
 01    d4482f00 04000000 c9    02012204ef00a200000000
 
 Frag Setup Req
-MC FragSession  NbFrag FragSize  Control  Padding  Descriptor
-02 01           2204   ef        00       a2       00000000
+CMD FragIndex  NbFrag FragSize  Control  Padding  Descriptor
+02  01           2204   ef        00       a2       00000000
 ```
 
 ```
@@ -166,7 +166,7 @@ After all fragments have been transmitted parity frames will be sent to allow an
 RECV 012657daf029040000c90829041a805f134cafa5a481c531f6028941cb6003e99528b558a057594b4734927c50d7e888e8d4aca4f39011f10d4e2cf627986dcd1fbfd973f8b4cc06ab6844fee73c835456048586587f734435ae0236a3463fa5788c7d0e3f6eeb6ca2be46a925fce44664cce8e3074631ab934e9c3829d140cdd725a8c897ac03e8e048a5fa9e8972e44a648bf200722c8d51081b025c655704f6f505a7d8c9dd685076a7588d64abae39dcf798096872a1dcfd7d0915812f2bbfe618a6918c26c2a15651f24fc467963327fdeafe6487004f0db9940407c348eb2d35d7a5f8077bb130ce34ece63f82ef59285fee973a46aabb438c
 
 Type  DevAddr  FCnt     Port    Payload
-01       2657daf0 29040000 c9   0829041a805f134cafa5a481c531f6028941cb6003e99528b558a05
+01    2657daf0 29040000 c9   0829041a805f134cafa5a481c531f6028941cb6003e99528b558a05
                                 7594b4734927c50d7e888e8d4aca4f39011f10d4e2cf627986dcd1f
                                 bfd973f8b4cc06ab6844fee73c835456048586587f734435ae0236a
                                 3463fa5788c7d0e3f6eeb6ca2be46a925fce44664cce8e3074631ab
@@ -198,8 +198,8 @@ RECV 012657daf02a040000c90100
 ### Status Answer Uplink
 
 ```
-Port ID  Recieved MissingFrag  Status
-c9   01  0000     FF           01
+Port CMD  Received MissingFrag  Status
+c9   01   0000     FF           01
 ```
 
 ## CRC Verification
@@ -207,14 +207,14 @@ c9   01  0000     FF           01
 
 CRC-64 verification uplink, http://download.redis.io/redis-stable/src/crc64.c
 ```
-Port ID  Index  CRC Value
-c9   80  00     1C57CAE8353843B2
+Port CMD  Index  CRC Value
+c9   80   00     1C57CAE8353843B2
 ```
 
 CRC verification response, 0x01 expected for a matching CRC. Otherwise 0x00 will be received and the file was not assembled correctly.
 ```
 RECV 01187950000c000000c98001
 
-Port ID  Status
+Port CMD  Status
 c9   80  01
 ```

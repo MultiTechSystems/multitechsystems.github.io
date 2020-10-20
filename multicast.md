@@ -103,6 +103,37 @@ MC ID Start Time   Timeout Freq   DR
 04 00 11a2a84c     0f      68e28c 0a
 ```
 
+Example session key derivation
+
+```python
+from Crypto.Cipher import AES
+
+encrypted_key = bytearray.fromhex('1996988aa74237bf48b970a5d67e4317')
+
+nonce = bytearray.fromhex("00000000000000000000000000000000")
+appkey = bytearray.fromhex("00000000000000000000000000000000")
+
+cipher = AES.new(appkey, AES.MODE_ECB)
+rootkey = cipher.encrypt(nonce)
+
+cipher1 = AES.new(rootkey, AES.MODE_ECB)
+mcKEKey = cipher1.encrypt(nonce)
+
+cipher2 = AES.new(mcKEKey, AES.MODE_ECB)
+mcKey = cipher2.encrypt(encrypted_key)
+
+keygen_cipher = AES.new(mcKey, AES.MODE_ECB)
+
+# McAppSKey = aes128_encrypt(McKey, 0x01 | McAddr | pad16)
+# McNetSKey = aes128_encrypt(McKey, 0x02 | McAddr | pad16)
+
+print("MCKey: " + mcKey.encode("hex"))
+print("AppSKey: " + keygen_cipher.encrypt(bytearray.fromhex("018b9adaf00000000000000000000000")).encode("hex"))
+print("NwkSKey: " + keygen_cipher.encrypt(bytearray.fromhex("028b9adaf00000000000000000000000")).encode("hex"))
+
+```
+
+
 ## Session Setup Ans
 ```
 c8 020004000D0000

@@ -11,3 +11,5 @@ Questions or issues can be posted at [Multitech Systems Github](https://github.c
 [Fragmented Data Transfer Protocol](fragmentation) Protocol for efficient transmission of files to end-devices used for firmware updates.
 
 [Dot Development](dot-development) Developing with mDot and xDot.
+
+[XDot DAPLink](xdot-daplink) XDot DK debug interface.

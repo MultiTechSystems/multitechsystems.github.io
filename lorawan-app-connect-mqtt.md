@@ -13,24 +13,28 @@
 
 * Publishes
   * lorawan/\<APP-EUI>/\<GW-UUID>/init
-    ```json
+    ```
     lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/init
+    ```
+    ```json
     {
       "gateways_euis": ["00-80-00-00-d0-00-01-1a", "00-80-00-00-d0-00-01-ff"],
       "time": "2023-03-04T23:08:26.021832Z"
     }
     ```
   * lorawan/\<APP-EUI>/\<GW-UUID>/close
-    ```json
+    ```
     lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/close (null)
     ```
   * lorawan/\<APP-EUI>/\<GW-UUID>/disconnected
-    ```json
+    ```
     lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/disconnected (null)
     ```
   * lorawan/\<APP-EUI>/\<DEV-EUI>/up
-    ```json
+    ```
     lorawan/8b-6c-f0-8e-ee-df-1b-b6/00-80-00-ff-ff-00-00-03/up
+    ```
+    ```json
     {
       "jver": 1,
       "tmst": 561224395,
@@ -66,8 +70,10 @@
     }
     ```
   * lorawan/\<APP-EUI>/\<DEV-EUI>/joined
-    ```json
+    ```
     lorawan/8b-6c-f0-8e-ee-df-1b-b6/00-80-00-ff-ff-00-00-03/joined
+    ```
+    ```json
     {
       "joineui": "16-ea-76-f6-ab-66-3d-80",
       "name": "JSR-DEBIAN-PC-DOT2",
@@ -78,8 +84,10 @@
     }
     ```
   * lorawan/\<GW-UUID>/\<DEV-EUI>/joined
-    ```json
+    ```
     lorawan/029998E06156CDD44523264B523115C1/00-80-00-ff-ff-00-00-03/joined
+    ```
+    ```json
     {
       "joineui": "16-ea-76-f6-ab-66-3d-80",
       "name": "JSR-DEBIAN-PC-DOT2",
@@ -123,23 +131,28 @@
     * lorawan/\<APP-EUI>/\<GW-UUID>/lora_req - send request for lora-query utility
       * https://www.multitech.net/developer/software/lora/lora-network-server/
       * command - lora-query command to run
-      ```json
+      * Example: retrieve count of device records
+      ```
       $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m '{"command":"device count"}'
       ```
       * response
-      ```json
+      ```
       lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_res
+      ```
+      ```json
       {
         "count" : 9
       }
       ```
-      * request pages of up to 500 records
-      ```json
+      * Example: request pages of up to 500 records
+      ```
       $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m '{"command":"device list json page 0"}'
       ```
       * response
-      ```json
+      ```
       lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_res
+      ```
+      ```json
       [{
         "class" : "A",
         "created_at" : "2022-12-27T19:40:37Z",
@@ -158,9 +171,7 @@
         "rejoin_count" : 0,
         "serial_number" : "",
         "tags" : ""
-      },
-      ...
-      ]
+      }]
       ```
     * lorawan/\<APP-EUI>/\<GW-UUID>/log_req - send request for log file
       * lines - number of lines to returned
@@ -169,8 +180,10 @@
       $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/log_req -m '{"file":"/var/log/messages","lines":100}'
       ```
       * response
-      ```json
+      ```
       lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/log_res
+      ```
+      ```json
       {"result": "2023-03-05T19:55:56.913366+00:00 mtcdt lora-app-connect: Call setup MQTT App\n2023-03-05T19:55:56.934340+00:00 mtcdt lora-app-connect: Setup MQTT App\n2023-03-05T19:55:57.014137+00:00 mtcdt lora-app-connect: MQTT connect mqtt://172.16.0.222:1883\n2023-03-05T19:55:59.985408+00:00 mtcdt lora-app-connect: Start client\n2023-03-05T19:56:00.039355+00:00 mtcdt lora-app..."}"
         ```
 

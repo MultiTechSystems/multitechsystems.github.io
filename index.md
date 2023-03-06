@@ -4,7 +4,9 @@ Questions or issues can be posted at [Multitech Systems Github](https://github.c
 
 ## Articles
 
-[LoRaWAN App Connect](lorawan-app-connect) Protocol and sample applications for connecting a LoRaWAN network to back-end services.
+[LoRaWAN App Connect HTTP](lorawan-app-connect) Protocol and sample applications for connecting a LoRaWAN network to back-end services.
+
+[LoRaWAN App Connect MQTT](lorawan-app-connect-mqtt) Protocol and sample applications for connecting a LoRaWAN network to back-end services.
 
 [Multicast Protocol](multicast) Protocol for creating multicast sessions between a LoRaWAN network and multiple end-devices.
 

@@ -124,7 +124,7 @@
         ```json
         $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/00-80-00-ff-ff-00-00-03/down -m '{"data":"QA=="}'
       * clear - clear downlinks for a device
-      ```json
+      ```
       $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/00-80-00-ff-ff-00-00-03/clear -m ""
       ```
   * Topics to request gateway info
@@ -176,7 +176,7 @@
     * lorawan/\<APP-EUI>/\<GW-UUID>/log_req - send request for log file
       * lines - number of lines to returned
       * file - name of file to read from /var/log folder, only paths to /var/log are allowed.
-      ```json
+      ```
       $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/log_req -m '{"file":"/var/log/messages","lines":100}'
       ```
       * response

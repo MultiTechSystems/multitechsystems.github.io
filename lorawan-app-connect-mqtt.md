@@ -109,10 +109,10 @@
 ### Subscribed
 Subscribed topics allow communication to the gateway to issue downlinks, clear a downlink queue or request info.
   * ***It is recomended to use topic access control to limit the clients that are able to make calls to the gateway to your back-end services***
-    * https://mosquitto.org/documentation/dynamic-security/
-    * https://blog.jaimyn.dev/mqtt-use-acls-multiple-user-accounts/
+    * [Mosquitto Dynamic Security](https://mosquitto.org/documentation/dynamic-security/)
+    * [MQTT Multiple User Accounts](https://blog.jaimyn.dev/mqtt-use-acls-multiple-user-accounts/)
   * Topics to manage the downlink queue
-    * https://www.multitech.net/developer/software/lora/lora-network-server/mqtt-messages/
+    * [Multitech LNS MQTT Messages](https://www.multitech.net/developer/software/lora/lora-network-server/mqtt-messages/)
     * lorawan/\<APP-EUI>/\<DEV-EUI>/+
     * lorawan/\<GW-EUI>/\<DEV-EUI>/+
     * lorawan/\<GW-UUID>/\<DEV-EUI>/+
@@ -133,7 +133,7 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
 ### Topics to request gateway info
 ### LoRa Query
   * lorawan/\<APP-EUI>/\<GW-UUID>/lora_req - send request for lora-query utility
-    * https://www.multitech.net/developer/software/lora/lora-network-server/
+    * [Multitech LNS LoRa Query](https://www.multitech.net/developer/software/lora/lora-network-server/)
     * command - lora-query command to run
     * Example: retrieve count of device records
     ```
@@ -193,7 +193,7 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
       ```
 ### API Requests
   API Requests can get or change any configuration settings, restart services or reboot the gateway
-  * https://www.multitech.net/developer/software/mtr-software/mtr-api-reference/
+  * [Multitech mPower API](https://www.multitech.net/developer/software/mtr-software/mtr-api-reference/)
   * lorawan/\<APP-EUI>/\<GW-UUID>/api_req - send request for log file
     * method - GET, PUT, POST or DELETE
     * path - API path to call
@@ -271,7 +271,7 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
 
 ### Test brokers
 
-* https://test.mosquitto.org/
+* [Mosquitto Test Broker](https://test.mosquitto.org/)
   * Supports TLS1.2 server certificate, client certificate and apikey settings for authentication
   * Application configuration
     * url: mqtts://test.mosquitto.org:8883
@@ -279,7 +279,7 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
       * server_cert: server certificate
       * clent_cert: client certicate
       * apikey: client private key
-* https://flespi.com/mqtt-api
+* [FLESPI Test Broker](https://flespi.com/mqtt-api)
   * Supports authentication using username access token for authentication
   * Application configuration
     * url: mqtt://mqtt.flespi.io

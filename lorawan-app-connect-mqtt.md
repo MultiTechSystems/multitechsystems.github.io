@@ -102,9 +102,12 @@
     * ```json
       ["00-80-00-0d-00-00-00-01"]
       ```
-  * lorawan/\<GW-UUID>/\<APP-EUI>/lora_res
-  * lorawan/\<GW-UUID>/\<APP-EUI>/log_res
-  * lorawan/\<GW-UUID>/\<APP-EUI>/api_res
+  * lorawan/\<APP-EUI>/\<GW-UUID>/lora_res
+    * Responses to lora query requests, see subscribed topics to make requests
+  * lorawan/\<APP-EUI>/\<GW-UUID>/log_res
+    * Responses to log requests, see subscribed topics to make requests
+  * lorawan/\<APP-EUI>/\<GW-UUID>/api_res
+    * Responses to API requests, see subscribed topics to make requests
 
 ### Subscribed
 Subscribed topics allow communication to the gateway to issue downlinks, clear a downlink queue or request info.

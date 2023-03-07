@@ -220,7 +220,7 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
         }
     }
     ```
-    •	Change LoRa Network Settings
+    *	Change LoRa Network Settings
     ```json
     {
       "method": "PUT",
@@ -228,7 +228,7 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
       "body": "{\"channelPlan\":\"US915\"}"
     }
     ```
-    •	List device DevEUI and AppKey
+    *	List device DevEUI and AppKey
     ```json
     {
       "method": "GET",
@@ -236,7 +236,7 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
       "body": ""
     }
     ```
-    •	Create device DevEUI and AppKey record
+    *	Create device DevEUI and AppKey record
     ```json
     {
       "method": "POST",
@@ -244,12 +244,12 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
       "body": "{\"deveui\": \"00800000FFFF0001\",\"appeui\": \"0080000000000017\",\"appkey\": \"00800000FFFF000100800000FFFF0001\",\"class\": \"A\"}"
     }
     ```
-    •	Remove device DevEUI and AppKey, provide index or DEVEUI to record to delete
+    *	Remove device DevEUI and AppKey, provide index or DEVEUI to record to delete
     ```json
     {
       "method": "DELETE",
       "path": "/api/loraNetwork/whitelist/devices/0",
-    "body": ""
+      "body": ""
     }
     ```
     Or
@@ -258,6 +258,14 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
       "method": "DELETE",
       "path": "/api/loraNetwork/whitelist/devices/00800000FFFF0001",
       "body": ""
+    }
+    ```
+    * Restart LoRa services
+    ```json
+    {
+      "method":"POST",
+      "path":"/api/lora/restart",
+      "body":""
     }
     ```
 

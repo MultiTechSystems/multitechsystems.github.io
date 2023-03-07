@@ -10,8 +10,7 @@
       password: MQTT password
 
 ## MQTT Protocol
-
-* Publishes
+### Publishes
   * lorawan/\<APP-EUI>/\<GW-UUID>/init
     ```
     lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/init
@@ -107,7 +106,11 @@
   * lorawan/\<GW-UUID>/\<APP-EUI>/log_res
   * lorawan/\<GW-UUID>/\<APP-EUI>/api_res
 
-* Subscribed
+### Subscribed
+Subscribed topics allow communication to the gateway to issue downlinks, clear a downlink queue or request info.
+  * ***It is recomended to use topic access control to limit the clients that are able to make calls to the gateway to your back-end services***
+    * https://mosquitto.org/documentation/dynamic-security/
+    * https://blog.jaimyn.dev/mqtt-use-acls-multiple-user-accounts/
   * Topics to manage the downlink queue
     * https://www.multitech.net/developer/software/lora/lora-network-server/mqtt-messages/
     * lorawan/\<APP-EUI>/\<DEV-EUI>/+
@@ -127,65 +130,136 @@
       ```
       $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/00-80-00-ff-ff-00-00-03/clear -m ""
       ```
-  * Topics to request gateway info
-    * lorawan/\<APP-EUI>/\<GW-UUID>/lora_req - send request for lora-query utility
-      * https://www.multitech.net/developer/software/lora/lora-network-server/
-      * command - lora-query command to run
-      * Example: retrieve count of device records
+### Topics to request gateway info
+### LoRa Query
+  * lorawan/\<APP-EUI>/\<GW-UUID>/lora_req - send request for lora-query utility
+    * https://www.multitech.net/developer/software/lora/lora-network-server/
+    * command - lora-query command to run
+    * Example: retrieve count of device records
+    ```
+    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m '{"command":"device count"}'
+    ```
+    * response
+    ```
+    lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_res
+    ```
+    ```json
+    {
+      "count" : 9
+    }
+    ```
+    * Example: request pages of up to 500 records
+    ```
+    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m '{"command":"device list json page 0"}'
+    ```
+    * response
+    ```
+    lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_res
+    ```
+    ```json
+    [{
+      "class" : "A",
+      "created_at" : "2022-12-27T19:40:37Z",
+      "deveui" : "00-80-00-00-04-00-59-04",
+      "device_profile_id" : 0,
+      "device_profile_updated_at" : "2022-12-27T19:40:37Z",
+      "firmware_version" : "",
+      "hardware_version" : "",
+      "last_app_nonce" : 9,
+      "last_nonce" : 14,
+      "last_seen" : "",
+      "name" : "",
+      "network_profile_id" : 1,
+      "network_profile_updated_at" : "2022-12-27T19:40:37Z",
+      "product_id" : "",
+      "rejoin_count" : 0,
+      "serial_number" : "",
+      "tags" : ""
+    }]
+    ```
+### Log Requests
+  * lorawan/\<APP-EUI>/\<GW-UUID>/log_req - send request for log file
+    * lines - number of lines to returned
+    * file - name of file to read from /var/log folder, only paths to /var/log are allowed.
+    ```
+    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/log_req -m '{"file":"/var/log/messages","lines":100}'
+    ```
+    * response
+    ```
+    lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/log_res
+    ```
+    ```json
+    {"result": "2023-03-05T19:55:56.913366+00:00 mtcdt lora-app-connect: Call setup MQTT App\n2023-03-05T19:55:56.934340+00:00 mtcdt lora-app-connect: Setup MQTT App\n2023-03-05T19:55:57.014137+00:00 mtcdt lora-app-connect: MQTT connect mqtt://172.16.0.222:1883\n2023-03-05T19:55:59.985408+00:00 mtcdt lora-app-connect: Start client\n2023-03-05T19:56:00.039355+00:00 mtcdt lora-app..."}"
       ```
-      $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m '{"command":"device count"}'
-      ```
-      * response
-      ```
-      lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_res
-      ```
-      ```json
-      {
-        "count" : 9
-      }
-      ```
-      * Example: request pages of up to 500 records
-      ```
-      $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m '{"command":"device list json page 0"}'
-      ```
-      * response
-      ```
-      lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_res
-      ```
-      ```json
-      [{
-        "class" : "A",
-        "created_at" : "2022-12-27T19:40:37Z",
-        "deveui" : "00-80-00-00-04-00-59-04",
-        "device_profile_id" : 0,
-        "device_profile_updated_at" : "2022-12-27T19:40:37Z",
-        "firmware_version" : "",
-        "hardware_version" : "",
-        "last_app_nonce" : 9,
-        "last_nonce" : 14,
-        "last_seen" : "",
-        "name" : "",
-        "network_profile_id" : 1,
-        "network_profile_updated_at" : "2022-12-27T19:40:37Z",
-        "product_id" : "",
-        "rejoin_count" : 0,
-        "serial_number" : "",
-        "tags" : ""
-      }]
-      ```
-    * lorawan/\<APP-EUI>/\<GW-UUID>/log_req - send request for log file
-      * lines - number of lines to returned
-      * file - name of file to read from /var/log folder, only paths to /var/log are allowed.
-      ```
-      $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/log_req -m '{"file":"/var/log/messages","lines":100}'
-      ```
-      * response
-      ```
-      lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/log_res
-      ```
-      ```json
-      {"result": "2023-03-05T19:55:56.913366+00:00 mtcdt lora-app-connect: Call setup MQTT App\n2023-03-05T19:55:56.934340+00:00 mtcdt lora-app-connect: Setup MQTT App\n2023-03-05T19:55:57.014137+00:00 mtcdt lora-app-connect: MQTT connect mqtt://172.16.0.222:1883\n2023-03-05T19:55:59.985408+00:00 mtcdt lora-app-connect: Start client\n2023-03-05T19:56:00.039355+00:00 mtcdt lora-app..."}"
-        ```
+### API Requests
+  API Requests can get or change any configuration settings, restart services or reboot the gateway
+  * https://www.multitech.net/developer/software/mtr-software/mtr-api-reference/
+  * lorawan/\<APP-EUI>/\<GW-UUID>/api_req - send request for log file
+    * method - GET, PUT, POST or DELETE
+    * path - API path to call
+    * body - JSON object to pass to the API
+    ```
+    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/api_req -m '{"method":"GET","path":"/api/loraNetwork","body":""}'
+    ```
+    * response
+    ```
+    lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/api_res
+    ```
+    ```json
+    {
+        "code" : 200,
+        "result" :
+        {
+          "__v" : 1,
+          "addressRange" :
+          {
+                  "end" : "FF:FF:FF:FE",
+                  …
+          },
+          …
+        }
+    }
+    ```
+    •	Change LoRa Network Settings
+    ```json
+    {
+      "method": "PUT",
+      "path": "/api/loraNetwork/lora",
+      "body": "{\"channelPlan\":\"US915\"}"
+    }
+    ```
+    •	List device DevEUI and AppKey
+    ```json
+    {
+      "method": "GET",
+      "path": "/api/loraNetwork/whitelist/devices",
+      "body": ""
+    }
+    ```
+    •	Create device DevEUI and AppKey record
+    ```json
+    {
+      "method": "POST",
+      "path": "/api/loraNetwork/whitelist/devices",
+      "body": "{\"deveui\": \"00800000FFFF0001\",\"appeui\": \"0080000000000017\",\"appkey\": \"00800000FFFF000100800000FFFF0001\",\"class\": \"A\"}"
+    }
+    ```
+    •	Remove device DevEUI and AppKey, provide index or DEVEUI to record to delete
+    ```json
+    {
+      "method": "DELETE",
+      "path": "/api/loraNetwork/whitelist/devices/0",
+    "body": ""
+    }
+    ```
+    Or
+    ```json
+    {
+      "method": "DELETE",
+      "path": "/api/loraNetwork/whitelist/devices/00800000FFFF0001",
+      "body": ""
+    }
+    ```
 
 ### Test brokers
 

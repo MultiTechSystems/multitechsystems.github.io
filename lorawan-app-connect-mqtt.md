@@ -2,13 +2,34 @@
 
 ## Application configuration
     url: mqtts://test.mosquitto.org:8883
+    eui: filter end-devices joined to AppNet EUI
+    encodeHex: encode payloads to and from hex instead of default base64
     options:
+      check_hostname: enable hostname check for tls connection
+      client_id: client id
       server_cert: server certificate
-      clent_cert: client certicate
+      client_cert: client certicate
       apikey: client private key
       username: MQTT username
       password: MQTT password
+      uplinkTopic: override topic for uplinks to publish to
+      downlinkTopic: override topic to subscribe to for downlinks
+      overrideTopicsForAllApps: use custom topics for all apps
+    requestOptions:
+      api: enable api requests
+      log: enable log requests
+      lora: enable lora query requests
+    backhaulDetect:
+      enabled: turn backhaul detect messages on/off
+      payload: hex payload of downlink packet to send to end-device when backhaul is down
+      port: port to send downlink packet to end-device
+      timeout: scheduling timeout limit the number of downlinks scheduled, default one per 5 minutes
 
+## Azure
+Azure MQTT messages are expected to use the following topics where {device-id} is the id of the gateway in the Azure cloud.
+Messages on these topics will match the those shown in the MQTT protocol for uplinks and downlinks.
+  * uplinkTopic: "devices/{device-id}/messages/events/"
+  * downlinkTopic: "devices/{device-id}/messages/devicebound/#"
 ## MQTT Protocol
 ### Publishes
   * lorawan/\<APP-EUI>/\<GW-UUID>/init

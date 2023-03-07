@@ -130,7 +130,9 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
       ```
       $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/00-80-00-ff-ff-00-00-03/clear -m ""
       ```
-### Topics to request gateway info
+
+
+## Topics to request gateway info
 ### LoRa Query
   * lorawan/\<APP-EUI>/\<GW-UUID>/lora_req - send request for lora-query utility
     * [Multitech LNS LoRa Query](https://www.multitech.net/developer/software/lora/lora-network-server/)
@@ -177,6 +179,7 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
       "tags" : ""
     }]
     ```
+
 ### Log Requests
   * lorawan/\<APP-EUI>/\<GW-UUID>/log_req - send request for log file
     * lines - number of lines to returned
@@ -191,6 +194,7 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
     ```json
     {"result": "2023-03-05T19:55:56.913366+00:00 mtcdt lora-app-connect: Call setup MQTT App\n2023-03-05T19:55:56.934340+00:00 mtcdt lora-app-connect: Setup MQTT App\n2023-03-05T19:55:57.014137+00:00 mtcdt lora-app-connect: MQTT connect mqtt://172.16.0.222:1883\n2023-03-05T19:55:59.985408+00:00 mtcdt lora-app-connect: Start client\n2023-03-05T19:56:00.039355+00:00 mtcdt lora-app..."}"
       ```
+
 ### API Requests
   API Requests can get or change any configuration settings, restart services or reboot the gateway
   * [Multitech mPower API](https://www.multitech.net/developer/software/mtr-software/mtr-api-reference/)

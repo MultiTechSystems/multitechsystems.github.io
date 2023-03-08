@@ -313,3 +313,32 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
     * url: mqtt://mqtt.flespi.io
     * options:
       * username: \<FLESPI-TOKEN>
+
+
+# Gateway Settings
+
+
+![mPower Network Configuration](/images/default-app-settings.png)
+
+## Fields
+Enable - enable/disable the local app settings
+
+* Check server hostname - enable checking the certificate hostname for TLS connections
+* Server URL - server to connect to using HTTP,HTTPS,MQTT or MQTTS
+* App EUI - appeui to filter device uplinks and downlinks
+* MQTTS
+  * Client ID - mqtt client id
+  * Server Cert - server TLS certificate
+  * Client Cert - client TLS certificate
+  * Client Key - client TLS key
+  * Username - mqtt username
+  * Password - mqtt password
+* Encode Payload as HEX - change payload format from Base64 (default) to HEX string, used for uplink and downlink payloads
+* Override Topics for All Apps - apps connections defined by LENS will also use the overriden topic values for publishing uplinks and subscribing for downlinks if enabled
+* Enable LoraQuery Requests - allow the server to make lora-query requests through MQTT
+* Enable Log Requests - allow the server to make log file requests through MQTT
+* Enable API Requests - allow the server to make API requests through MQTT
+* Backhaul Detect - enable/disable downlink messages to end-device is the backhaul connection to MQTT is disconnected
+* Backhaul Port - port to send downlink messages
+* Payload - payload to send downlink messages
+* Timeout - timeout to wait before sending another downlink message to the end-device since last backhaul down message

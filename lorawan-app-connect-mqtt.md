@@ -30,6 +30,8 @@ Azure MQTT messages are expected to use the following topics where {device-id} i
 Messages on these topics will match the those shown in the MQTT protocol for uplinks and downlinks.
   * uplinkTopic: "devices/{device-id}/messages/events/"
   * downlinkTopic: "devices/{device-id}/messages/devicebound/#"
+
+
 ## MQTT Protocol
 ### Publishes
   * lorawan/\<APP-EUI>/\<GW-UUID>/init
@@ -317,8 +319,7 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
 
 # Gateway Settings
 
-
-![mPower Network Configuration](/images/default-app-settings.png)
+![mPower Default App Settings](/images/default-app-settings.png)
 
 ## Fields
 Enable - enable/disable the local app settings
@@ -342,3 +343,15 @@ Enable - enable/disable the local app settings
 * Backhaul Port - port to send downlink messages
 * Payload - payload to send downlink messages
 * Timeout - timeout to wait before sending another downlink message to the end-device since last backhaul down message
+
+## Local Device Key Settings
+
+![mPower Device Credentials](/images/local-key-settings.png)
+
+
+### Settings
+* DevEUI - End-Device EUI
+* AppEUI - AppEUI to assign device record on Join, must match Default App EUI setting to forward to application
+* AppKey - AppKey of end-device to authenticate join and create session keys
+* Device Profile - default settings to assign device on join
+* Network Profile - Class and RF settings to use for device session, MAC commands are sent to update the end-device

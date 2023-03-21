@@ -48,21 +48,32 @@ More info on SAS tokens can be found here [Azure IoT Hub SAS](https://learn.micr
   Azure direct methods can be used to access gateway configuration and status info. The AppEUI and GwUUID need to be provided in the request. The payload for method requests and responses is a JSON document up to 128 KB.
 
   * LoRa Query Request
-    * lora_req
+    * Direct method name "lora_req"
+    * Direct method payload
     ```json
     { "command":"device list json" }
     ```
 
   * Log Request
-    * log_req
+    * Direct method name "log_req"
+    * Direct method payload
     ```json
     { "file":"/var/log/messages", "filter": "lora-net", "lines":10 }
     ```
 
   * API Request
-    * api_req
+    * Direct method name "api_req"
+    * Direct method payload
     ```json
     { "method":"GET", "path":"/api/system", "body":"" }
+    ```
+
+  * Downlink
+    * Queue a downlink to a device, see details in downlinks section of subscribed MQTT messages for optional parameters.
+    * Direct method name "downlink"
+    * Direct method payload
+    ```json
+    { "deveui": "00-80-00-ff-ff-00-00-03", "data": "QA==" }
     ```
 
 ## AWS or MQTT Broker

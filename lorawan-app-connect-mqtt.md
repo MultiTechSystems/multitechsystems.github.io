@@ -26,11 +26,39 @@
       timeout: scheduling timeout limit the number of downlinks scheduled, default one per 5 minutes
 
 ## Azure
-Azure MQTT messages are expected to use the following topics where {device-id} is the id of the gateway in the Azure cloud.
-Messages on these topics will match the those shown in the MQTT protocol for uplinks and downlinks.
-  * uplinkTopic: "devices/{device-id}/messages/events/"
-  * downlinkTopic: "devices/{device-id}/messages/devicebound/#"
+Azure MQTT messages are expected to use the following topics where '%(client_id)s' is the id of the gateway in the Azure cloud.
+Messages on these topics will match the those shown in the MQTT protocol for uplinks and downlinks. Azure SAS tokens can be used as shown below, SAS tokens can be created using Azure CLI, VS Code Extension or Azure IoT Explorer. TLS Certificates and Keys can also be used instead of SAS tokens. TLS security is recommended for production systems.
 
+  * username: HUBNAME.azure-devices.net/DEVICEID/?api-version=2021-04-12
+  * password: SharedAccessSignature sr=HUBNAME.azure-devices.net%2Fdevices%2FDEVICEID3&sig=6qNZSUClW0dv...BFn%2BdQ%3D&se=1710875213
+  * uplinkTopic: devices/%(client_id)s/messages/events/"
+  * downlinkTopic: devices/%(client_id)s/messages/devicebound/#"
+
+More info on SAS tokens can be found here [Azure IoT Hub SAS](https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-dev-guide-sas?tabs=node).
+  ### Direct Methods
+
+  Azure direct methods can be used to access gateway configuration and status info. The AppEUI and GwUUID need to be provided in the request. The payload for method requests and responses is a JSON document up to 128 KB.
+
+  * LoRa Query Request
+    * lora_req
+    ```json
+    { "command":"device list json" }
+    ```
+
+  * Log Request
+    * log_req
+    ```json
+    { "file":"/var/log/messages", "filter": "lora-net", "lines":10 }
+    ```
+
+  * API Request
+    * api_req
+    ```json
+    { "method":"GET", "path":"/api/system", "body":"" }
+    ```
+
+## AWS or MQTT Broker
+AWS provides configuration for MQTT connections and topic based security and routing. The following MQTT topics can be configured in AWS policies. TLS Certificates and Keys are used to authenticate the AWS connection.
 
 ## MQTT Protocol
 ### Publishes
@@ -176,6 +204,21 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
       "count" : 9
     }
     ```
+    * Example: queue a downlink
+    ```
+    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m "packet queue add '{\"deveui\": \"00-80-00-ff-00-00-00-03\", \"data\": \"QA==\" }'"
+    ```
+    * response
+    ```
+    lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_res
+    ```
+    ```json
+    {
+      "id":470,
+      "status":"success"
+    }
+    ```
+
     * Example: request pages of up to 500 records
     ```
     $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m '{"command":"device list json page 0"}'
@@ -210,6 +253,7 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
   * lorawan/\<APP-EUI>/\<GW-UUID>/log_req - send request for log file
     * lines - number of lines to returned
     * file - name of file to read from /var/log folder, only paths to /var/log are allowed.
+    * filter - regex string to pass to grep -Ei '(REGEX)' as a filter
     ```
     $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/log_req -m '{"file":"/var/log/messages","lines":100}'
     ```

@@ -34,6 +34,7 @@ Messages on these topics will match the those shown in the MQTT protocol for upl
   * uplinkTopic: devices/%(client_id)s/messages/events/"
   * downlinkTopic: devices/%(client_id)s/messages/devicebound/#"
 
+See [Azure IoT Hub MQTT Support](https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-mqtt-support) for protocol connection details.
 More info on SAS tokens can be found here [Azure IoT Hub SAS](https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-dev-guide-sas?tabs=node).
   ### Direct Methods
 

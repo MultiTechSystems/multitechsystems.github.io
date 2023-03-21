@@ -36,6 +36,13 @@ Messages on these topics will match the those shown in the MQTT protocol for upl
 
 See [Azure IoT Hub MQTT Support](https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-mqtt-support) for protocol connection details.
 More info on SAS tokens can be found here [Azure IoT Hub SAS](https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-dev-guide-sas?tabs=node).
+
+  ### Downlinks using Cloud-to-device messages
+  Send a C2D message containing the appeui, deveui and data to send in a downlink. Optional fields: port, rx_wnd, ack, ack_retries see details in downlinks section of subscribed MQTT messages.
+  ```json
+  { "appeui": "8b-6c-f0-8e-ee-df-1b-b6", "deveui": "00-80-00-ff-ff-00-00-03", "data": "QA==" }
+  ```
+
   ### Direct Methods
 
   Azure direct methods can be used to access gateway configuration and status info. The AppEUI and GwUUID need to be provided in the request. The payload for method requests and responses is a JSON document up to 128 KB.

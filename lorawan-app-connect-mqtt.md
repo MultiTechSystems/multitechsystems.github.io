@@ -29,10 +29,16 @@
 Azure MQTT messages are expected to use the following topics where '%(client_id)s' is the id of the gateway in the Azure cloud.
 Messages on these topics will match the those shown in the MQTT protocol for uplinks and downlinks. Azure SAS tokens can be used as shown below, SAS tokens can be created using Azure CLI, VS Code Extension or Azure IoT Explorer. TLS Certificates and Keys can also be used instead of SAS tokens. TLS security is recommended for production systems.
 
+![mPower Default App Settings](/images/DEFAULT-APP-TOP.png)
+
+
   * username: HUBNAME.azure-devices.net/DEVICEID/?api-version=2021-04-12
   * password: SharedAccessSignature sr=HUBNAME.azure-devices.net%2Fdevices%2FDEVICEID3&sig=6qNZSUClW0dv...BFn%2BdQ%3D&se=1710875213
   * uplinkTopic: devices/%(client_id)s/messages/events/"
   * downlinkTopic: devices/%(client_id)s/messages/devicebound/#"
+
+![mPower Default App Settings](/images/DEFAULT-APP-BOTTOM.png)
+
 
 See [Azure IoT Hub MQTT Support](https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-mqtt-support) for protocol connection details.
 More info on SAS tokens can be found here [Azure IoT Hub SAS](https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-dev-guide-sas?tabs=node).
@@ -382,7 +388,9 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
 
 # Gateway Settings
 
-![mPower Default App Settings](/images/default-app-settings.png)
+![mPower Default App Settings](/images/DEFAULT-APP-TOP.png)
+
+![mPower Default App Settings](/images/DEFAULT-APP-BOTTOM.png)
 
 ## Fields
 Enable - enable/disable the local app settings

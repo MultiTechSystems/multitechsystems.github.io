@@ -212,6 +212,11 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
 
 
 ## Topics to request gateway info
+
+Request ID
+
+The "rid" field can be added to app-connnect lora_query, api_query and log_query requests and will be added to the response json to correlate the response to the request message in releases after mPower 6.3.0.
+
 ### LoRa Query
   * lorawan/\<APP-EUI>/\<GW-UUID>/lora_req - send request for lora-query utility
     * [Multitech LNS LoRa Query](https://www.multitech.net/developer/software/lora/lora-network-server/)
@@ -219,6 +224,10 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
     * Example: retrieve count of device records
     ```
     $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m '{"command":"device count"}'
+    ```
+    or in releases after mPower 6.3.0 "rid" is an optional field
+    ```
+    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m '{"command":"device count","rid":1}'
     ```
     * response
     ```
@@ -229,6 +238,18 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
       "count" : 9
     }
     ```
+    or in releases after mPower 6.3.0
+    ```json
+    {
+      "rid": 1,
+      "result":
+      {
+        "count" : 9
+      }
+    }
+    ```
+    or
+
     * Example: queue a downlink
     ```
     $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m "packet queue add '{\"deveui\": \"00-80-00-ff-00-00-00-03\", \"data\": \"QA==\" }'"
@@ -243,7 +264,17 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
       "status":"success"
     }
     ```
-
+    or in releases after mPower 6.3.0 with optional "rid" field, command is moved to "result" field to be consistent with other message responses.
+    ```json
+    {
+      "rid": 1,
+      "result":
+          {
+        "id":470,
+        "status":"success"
+      }
+    }
+    ```
     * Example: request pages of up to 500 records
     ```
     $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m '{"command":"device list json page 0"}'
@@ -273,7 +304,32 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
       "tags" : ""
     }]
     ```
-
+    or in releases after mPower 6.3.0 with optional "rid" field, response is moved to "result" field to be consistent with other message responses.
+    ```json
+    {
+      "rid": 1,
+      "result":
+        [{
+          "class" : "A",
+          "created_at" : "2022-12-27T19:40:37Z",
+          "deveui" : "00-80-00-00-04-00-59-04",
+          "device_profile_id" : 0,
+          "device_profile_updated_at" : "2022-12-27T19:40:37Z",
+          "firmware_version" : "",
+          "hardware_version" : "",
+          "last_app_nonce" : 9,
+          "last_nonce" : 14,
+          "last_seen" : "",
+          "name" : "",
+          "network_profile_id" : 1,
+          "network_profile_updated_at" : "2022-12-27T19:40:37Z",
+          "product_id" : "",
+          "rejoin_count" : 0,
+          "serial_number" : "",
+          "tags" : ""
+        }]
+    }
+    ```
 ### Log Requests
   * lorawan/\<APP-EUI>/\<GW-UUID>/log_req - send request for log file
     * lines - number of lines to returned
@@ -282,14 +338,25 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
     ```
     $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/log_req -m '{"file":"/var/log/messages","lines":100}'
     ```
+    or in releases after mPower 6.3.0 "rid" is an optional field
+    ```
+        $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/log_req -m '{"file":"/var/log/messages","lines":100,"rid":1}'
+    ```
     * response
     ```
     lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/log_res
     ```
     ```json
-    {"result": "2023-03-05T19:55:56.913366+00:00 mtcdt lora-app-connect: Call setup MQTT App\n2023-03-05T19:55:56.934340+00:00 mtcdt lora-app-connect: Setup MQTT App\n2023-03-05T19:55:57.014137+00:00 mtcdt lora-app-connect: MQTT connect mqtt://172.16.0.222:1883\n2023-03-05T19:55:59.985408+00:00 mtcdt lora-app-connect: Start client\n2023-03-05T19:56:00.039355+00:00 mtcdt lora-app..."}"
+    {"result": "2023-03-05T19:55:56.913366+00:00 mtcdt lora-app-connect: Call setup MQTT App\n2023-03-05T19:55:56.934340+00:00 mtcdt lora-app-connect: Setup MQTT App\n2023-03-05T19:55:57.014137+00:00 mtcdt lora-app-connect: MQTT connect mqtt://172.16.0.222:1883\n2023-03-05T19:55:59.985408+00:00 mtcdt lora-app-connect: Start client\n2023-03-05T19:56:00.039355+00:00 mtcdt lora-app..."
+    }
       ```
-
+    or in releases after mPower 6.3.0 with optional "rid" field
+    ```json
+        {
+          "rid": 1,
+          "result": "2023-03-05T19:55:56.913366+00:00 mtcdt lora-app-connect: Call setup MQTT App\n2023-03-05T19:55:56.934340+00:00 mtcdt lora-app-connect: Setup MQTT App\n2023-03-05T19:55:57.014137+00:00 mtcdt lora-app-connect: MQTT connect mqtt://172.16.0.222:1883\n2023-03-05T19:55:59.985408+00:00 mtcdt lora-app-connect: Start client\n2023-03-05T19:56:00.039355+00:00 mtcdt lora-app..."
+        }
+    ```
 ### API Requests
   API Requests can get or change any configuration settings, restart services or reboot the gateway
   * [Multitech mPower API](https://www.multitech.net/developer/software/mtr-software/mtr-api-reference/)
@@ -300,12 +367,33 @@ Subscribed topics allow communication to the gateway to issue downlinks, clear a
     ```
     $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/api_req -m '{"method":"GET","path":"/api/loraNetwork","body":""}'
     ```
+    or in releases after mPower 6.3.0 "rid" is an optional field
+    ```
+    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/api_req -m '{"method":"GET","path":"/api/loraNetwork","body":"","rid":1}'
+    ```
     * response
     ```
     lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/api_res
     ```
     ```json
     {
+        "code" : 200,
+        "result" :
+        {
+          "__v" : 1,
+          "addressRange" :
+          {
+                  "end" : "FF:FF:FF:FE",
+                  …
+          },
+          …
+        }
+    }
+    ```
+    or in releases after mPower 6.3.0 with optional "rid" field
+    ```json
+    {
+        "rid": 1,
         "code" : 200,
         "result" :
         {
@@ -405,6 +493,7 @@ Enable - enable/disable the local app settings
   * Client Key - client TLS key
   * Username - mqtt username
   * Password - mqtt password
+  * Clean Session - start with a clean MQTT session
 * Encode Payload as HEX - change payload format from Base64 (default) to HEX string, used for uplink and downlink payloads
 * Override Topics for All Apps - apps connections defined by LENS will also use the overriden topic values for publishing uplinks and subscribing for downlinks if enabled
 * Enable LoraQuery Requests - allow the server to make lora-query requests through MQTT

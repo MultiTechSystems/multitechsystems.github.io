@@ -4,14 +4,29 @@ Questions or issues can be posted at [Multitech Systems Github](https://github.c
 
 ## Articles
 
-[LoRaWAN App Connect HTTP](lorawan-app-connect) Protocol and sample applications for connecting a LoRaWAN network to back-end services.
+Protocol and sample applications for connecting a LoRaWAN network to back-end services.
+  * [LoRaWAN App Connect HTTP](lorawan-app-connect)
 
-[LoRaWAN App Connect MQTT](lorawan-app-connect-mqtt) Protocol and sample applications for connecting a LoRaWAN network to back-end services.
+v1.0 Protocol and sample applications for connecting a LoRaWAN network to back-end services.
+  * [LoRaWAN App Connect MQTT v1.0](lorawan-app-connect-mqtt)
 
-[Multicast Protocol](multicast) Protocol for creating multicast sessions between a LoRaWAN network and multiple end-devices.
+v1.1 Protocol and sample applications for connecting a LoRaWAN network to back-end services.
+  * [LoRaWAN App Connect MQTT v1.1](lorawan-app-connect-mqtt-v1_1)
 
-[Fragmented Data Transfer Protocol](fragmentation) Protocol for efficient transmission of files to end-devices used for firmware updates.
+Azure Protocol and sample applications for connecting a LoRaWAN network to back-end services.
+  * [LoRaWAN App Connect MQTT Azure](lorawan-app-connect-mqtt-azure)
 
-[Dot Development](dot-development) Developing with mDot and xDot.
+LoRaWAN walkthrough to setup local device credentials and connect to a public MQTT Broker.
+  * [LoRaWAN App Connect MQTT Walkthrough](lorawan-app-connect-walkthrough)
 
-[XDot DAPLink](xdot-daplink) XDot DK debug interface.
+Protocol for creating multicast sessions between a LoRaWAN network and multiple end-devices.
+  * [Multicast Protocol](multicast)
+
+Protocol for efficient transmission of files to end-devices used for firmware updates.
+  * [Fragmented Data Transfer Protocol](fragmentation)
+
+Developing with mDot and xDot.
+  * [Dot Development](dot-development)
+
+XDot DK debug interface.
+  * [XDot DAPLink](xdot-daplink)

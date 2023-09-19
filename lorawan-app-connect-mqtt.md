@@ -25,72 +25,25 @@
       port: port to send downlink packet to end-device
       timeout: scheduling timeout limit the number of downlinks scheduled, default one per 5 minutes
 
-## Azure
-Azure MQTT messages are expected to use the following topics where '%(client_id)s' is the id of the gateway in the Azure cloud.
-Messages on these topics will match the those shown in the MQTT protocol for uplinks and downlinks. Azure SAS tokens can be used as shown below, SAS tokens can be created using Azure CLI, VS Code Extension or Azure IoT Explorer. TLS Certificates and Keys can also be used instead of SAS tokens. TLS security is recommended for production systems.
-
-![mPower Default App Settings](/images/DEFAULT-APP-TOP.png)
-
-
-  * username: HUBNAME.azure-devices.net/DEVICEID/?api-version=2021-04-12
-  * password: SharedAccessSignature sr=HUBNAME.azure-devices.net%2Fdevices%2FDEVICEID3&sig=6qNZSUClW0dv...BFn%2BdQ%3D&se=1710875213
-  * uplinkTopic: devices/%(client_id)s/messages/events/"
-  * downlinkTopic: devices/%(client_id)s/messages/devicebound/#"
-
-![mPower Default App Settings](/images/DEFAULT-APP-BOTTOM.png)
-
-
-See [Azure IoT Hub MQTT Support](https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-mqtt-support) for protocol connection details.
-More info on SAS tokens can be found here [Azure IoT Hub SAS](https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-dev-guide-sas?tabs=node).
-
-  ### Downlinks using Cloud-to-device messages
-  Send a C2D message containing the appeui, deveui and data to send in a downlink. Optional fields: port, rx_wnd, ack, ack_retries see details in downlinks section of subscribed MQTT messages.
-  ```json
-  { "appeui": "8b-6c-f0-8e-ee-df-1b-b6", "deveui": "00-80-00-ff-ff-00-00-03", "data": "QA==" }
-  ```
-
-  ### Direct Methods
-
-  Azure direct methods can be used to access gateway configuration and status info. The AppEUI and GwUUID need to be provided in the request. The payload for method requests and responses is a JSON document up to 128 KB.
-
-  * LoRa Query Request
-    * Direct method name "lora_req"
-    * Direct method payload
-    ```json
-    { "command":"device list json" }
-    ```
-
-  * Log Request
-    * Direct method name "log_req"
-    * Direct method payload
-    ```json
-    { "file":"/var/log/messages", "filter": "lora-net", "lines":10 }
-    ```
-
-  * API Request
-    * Direct method name "api_req"
-    * Direct method payload
-    ```json
-    { "method":"GET", "path":"/api/system", "body":"" }
-    ```
-
-  * Downlink
-    * Queue a downlink to a device, see details in downlinks section of subscribed MQTT messages for optional parameters.
-    * Direct method name "downlink"
-    * Direct method payload
-    ```json
-    { "deveui": "00-80-00-ff-ff-00-00-03", "data": "QA==" }
-    ```
 
 ## AWS or MQTT Broker
 AWS provides configuration for MQTT connections and topic based security and routing. The following MQTT topics can be configured in AWS policies. TLS Certificates and Keys are used to authenticate the AWS connection.
 
-## MQTT Protocol
+
+## MQTT Protocol v1.0
 ### Publishes
   * lorawan/\<APP-EUI>/\<GW-UUID>/init
     ```
     lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/init
     ```
+    ```json
+    {
+      "gateways_euis": ["00-80-00-00-d0-00-01-1a", "00-80-00-00-d0-00-01-ff"],
+      "time": "2023-03-04T23:08:26.021832Z",
+      "api_version": "1.0"
+    }
+    ```
+    or
     ```json
     {
       "gateways_euis": ["00-80-00-00-d0-00-01-1a", "00-80-00-00-d0-00-01-ff"],
@@ -136,6 +89,7 @@ AWS provides configuration for MQTT connections and topic based security and rou
       "data": "dGVzdGRhdGE=",
       "appeui": "8b-6c-f0-8e-ee-df-1b-b6",
       "deveui": "00-80-00-ff-ff-00-00-03",
+      "joineui": "16-ea-76-f6-ab-66-3d-80",
       "name": "JSR-DEBIAN-PC-DOT2",
       "devaddr": "00d080cb",
       "ack": false,
@@ -252,7 +206,7 @@ The "rid" field can be added to app-connnect lora_query, api_query and log_query
 
     * Example: queue a downlink
     ```
-    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m "packet queue add '{\"deveui\": \"00-80-00-ff-00-00-00-03\", \"data\": \"QA==\" }'"
+    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m  $'{"command": "packet queue add \'{\\\"deveui\\\":\\\"00-80-00-ff-00-00-00-03\\\",\\\"data\\\": \\\"QA==\\\"}\'", "rid": 4}'
     ```
     * response
     ```
@@ -267,7 +221,7 @@ The "rid" field can be added to app-connnect lora_query, api_query and log_query
     or in releases after mPower 6.3.0 with optional "rid" field, command is moved to "result" field to be consistent with other message responses.
     ```json
     {
-      "rid": 1,
+      "rid": 4,
       "result":
           {
         "id":470,
@@ -340,22 +294,23 @@ The "rid" field can be added to app-connnect lora_query, api_query and log_query
     ```
     or in releases after mPower 6.3.0 "rid" is an optional field
     ```
-        $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/log_req -m '{"file":"/var/log/messages","lines":100,"rid":1}'
+    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/log_req -m '{"file":"/var/log/messages","lines":100,"rid":1}'
     ```
     * response
     ```
     lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/log_res
     ```
     ```json
-    {"result": "2023-03-05T19:55:56.913366+00:00 mtcdt lora-app-connect: Call setup MQTT App\n2023-03-05T19:55:56.934340+00:00 mtcdt lora-app-connect: Setup MQTT App\n2023-03-05T19:55:57.014137+00:00 mtcdt lora-app-connect: MQTT connect mqtt://172.16.0.222:1883\n2023-03-05T19:55:59.985408+00:00 mtcdt lora-app-connect: Start client\n2023-03-05T19:56:00.039355+00:00 mtcdt lora-app..."
+    {
+      "result": "2023-03-05T19:55:56.913366+00:00 mtcdt lora-app-connect: Call setup MQTT App\n2023-03-05T19:55:56.934340+00:00 mtcdt lora-app-connect: Setup MQTT App\n2023-03-05T19:55:57.014137+00:00 mtcdt lora-app-connect: MQTT connect mqtt://172.16.0.222:1883\n2023-03-05T19:55:59.985408+00:00 mtcdt lora-app-connect: Start client\n2023-03-05T19:56:00.039355+00:00 mtcdt lora-app..."
     }
       ```
     or in releases after mPower 6.3.0 with optional "rid" field
     ```json
-        {
-          "rid": 1,
-          "result": "2023-03-05T19:55:56.913366+00:00 mtcdt lora-app-connect: Call setup MQTT App\n2023-03-05T19:55:56.934340+00:00 mtcdt lora-app-connect: Setup MQTT App\n2023-03-05T19:55:57.014137+00:00 mtcdt lora-app-connect: MQTT connect mqtt://172.16.0.222:1883\n2023-03-05T19:55:59.985408+00:00 mtcdt lora-app-connect: Start client\n2023-03-05T19:56:00.039355+00:00 mtcdt lora-app..."
-        }
+    {
+      "rid": 1,
+      "result": "2023-03-05T19:55:56.913366+00:00 mtcdt lora-app-connect: Call setup MQTT App\n2023-03-05T19:55:56.934340+00:00 mtcdt lora-app-connect: Setup MQTT App\n2023-03-05T19:55:57.014137+00:00 mtcdt lora-app-connect: MQTT connect mqtt://172.16.0.222:1883\n2023-03-05T19:55:59.985408+00:00 mtcdt lora-app-connect: Start client\n2023-03-05T19:56:00.039355+00:00 mtcdt lora-app..."
+    }
     ```
 ### API Requests
   API Requests can get or change any configuration settings, restart services or reboot the gateway
@@ -456,6 +411,8 @@ The "rid" field can be added to app-connnect lora_query, api_query and log_query
     }
     ```
 
+
+
 ### Test brokers
 
 * [Mosquitto Test Broker](https://test.mosquitto.org/)
@@ -476,9 +433,7 @@ The "rid" field can be added to app-connnect lora_query, api_query and log_query
 
 # Gateway Settings
 
-![mPower Default App Settings](/images/DEFAULT-APP-TOP.png)
-
-![mPower Default App Settings](/images/DEFAULT-APP-BOTTOM.png)
+![mPower Default App Settings](/images/Cloud-Connector-v1.0.png)
 
 ## Fields
 Enable - enable/disable the local app settings
@@ -511,7 +466,7 @@ Enable - enable/disable the local app settings
 
 ### Settings
 * DevEUI - End-Device EUI
-* AppEUI - AppEUI to assign device record on Join, must match Default App EUI setting to forward to application
+* AppEUI - AppEUI to assign device record on Join, must match Default App EUI setting to forward to application unless catch-all AppEUI FF-FF-FF-FF-FF-FF-FF-FF is used for the Default App (Cloud Connector) setting
 * AppKey - AppKey of end-device to authenticate join and create session keys
-* Device Profile - default settings to assign device on join
+* Device Profile - Default settings to assign device on join
 * Network Profile - Class and RF settings to use for device session, MAC commands are sent to update the end-device

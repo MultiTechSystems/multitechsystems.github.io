@@ -2,6 +2,7 @@
 Default mPower&trade; LoRaWAN&reg; application and server API implementation for a distributed LoRaWAN network. The application will communicate with the embedded LoRaWAN network server on a MultiTech Conduit&reg; and forward messages to the configured HTTP(S) or MQTT(S) servers. Configuration for a single server can be provided via the mPower WebUI or for multiple servers using the [MultiTech Lens&reg;](https://www.multitech.com/brands/lens) cloud service.
 
 The default application feature allows last mile bi-directional connectivity from the gateway to a cloud application without needing to deploy custom code on each gateway. An existing API can add compatible end-points allowing LoRaWAN uplinks and downlinks to be consumed and produced by the cloud application.
+MQTT and HTTP are able to push data to remote servers.
 
 It also provides a starting point for those wanting to bring intelligence to the edge by customizing the default application.
 

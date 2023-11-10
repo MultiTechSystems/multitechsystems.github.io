@@ -243,7 +243,7 @@ The "rid" field can be added to app-connnect lora_query, api_query and log_query
     }
     ```
 ### Log Requests
-  * lorawan/\<APP-EUI>/\<GW-UUID>/log_req - send request for log file
+  * lorawan/\<GW-UUID>/log_req - send request for log file
     * lines - number of lines to returned
     * file - name of file to read from /var/log folder, only paths to /var/log are allowed.
     * filter - regex string to pass to grep -Ei '(REGEX)' as a filter
@@ -263,7 +263,7 @@ The "rid" field can be added to app-connnect lora_query, api_query and log_query
 ### API Requests
   API Requests can get or change any configuration settings, restart services or reboot the gateway
   * [Multitech mPower API](https://www.multitech.net/developer/software/mtr-software/mtr-api-reference/)
-  * lorawan/\<APP-EUI>/\<GW-UUID>/api_req - send request for log file
+  * lorawan/\<GW-UUID>/api_req - send request for log file
     * method - GET, PUT, POST or DELETE
     * path - API path to call
     * body - JSON object to pass to the API

@@ -1,6 +1,6 @@
 # Multicast Messaging with Multitech Conduit and Dot
 
-The multicast implementation is based LoRa Alliance [Multicast Setup Protocol](https://lora-alliance.org/resource-hub/lorawanr-remote-multicast-setup-specification-v100)
+The multicast implementation is based LoRa Alliance [Multicast Setup Protocol](https://resources.lora-alliance.org/technical-specifications/lorawan-remote-multicast-setup-specification-v1-0-0)
 
 # Dot Configuration
 

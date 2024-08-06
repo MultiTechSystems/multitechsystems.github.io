@@ -103,7 +103,7 @@ MC ID Start Time   Timeout Freq   DR
 04 00 11a2a84c     0f      68e28c 0a
 ```
 
-Example session key derivation
+Example session key derivation, GenAppKey (00000000000000000000000000000000) is fixed for all devices. There is currently no setting for GenAppKey in the gateway.
 
 ```python
 from Crypto.Cipher import AES
@@ -111,9 +111,9 @@ from Crypto.Cipher import AES
 encrypted_key = bytearray.fromhex('1996988aa74237bf48b970a5d67e4317')
 
 nonce = bytearray.fromhex("00000000000000000000000000000000")
-appkey = bytearray.fromhex("00000000000000000000000000000000")
+genappkey = bytearray.fromhex("00000000000000000000000000000000")
 
-cipher = AES.new(appkey, AES.MODE_ECB)
+cipher = AES.new(genappkey, AES.MODE_ECB)
 rootkey = cipher.encrypt(nonce)
 
 cipher1 = AES.new(rootkey, AES.MODE_ECB)

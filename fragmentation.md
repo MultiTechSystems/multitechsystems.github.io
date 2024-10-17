@@ -218,3 +218,12 @@ RECV 01187950000c000000c98001
 Port CMD  Status
 c9   80  01
 ```
+
+## Session Complete
+
+After receiving the CRC valid response the device will send session complete and reset to install the firmware image.
+```
+Port CMD Index
+c9   90  00
+```
+

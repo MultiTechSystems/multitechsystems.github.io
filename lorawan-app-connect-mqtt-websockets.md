@@ -1,8 +1,7 @@
-# MQTT Application
+# MQTT WebSockets Application
 
 ## Application configuration
-    url: mqtts://test.mosquitto.org:8883
-    eui: filter end-devices joined to AppNet EUI
+    url: wss://test.mosquitto.org:8091
     encodeHex: encode payloads to and from hex instead of default base64
     options:
       check_hostname: enable hostname check for tls connection
@@ -28,13 +27,16 @@
 ## AWS or MQTT Broker
 AWS provides configuration for MQTT connections and topic based security and routing. The following MQTT topics can be configured in AWS policies. TLS Certificates and Keys are used to authenticate the AWS connection.
 
-## MQTT Protocol v1.1
+## MQTT Protocol v1.1.1
+
+WebSockets should use v1.1.1 to support connected message when the gateway is active on the broker. The WebSocket will frequently timeout when there is no communication.
 
 ### Overview
   * Gateaway Publish
     * lorawan/\<GW-UUID>/init
     * lorawan/\<GW-UUID>/close
-    * lorawan/\<GW-UUID>/disconnect
+    * lorawan/\<GW-UUID>/connected
+    * lorawan/\<GW-UUID>/disconnected
     * lorawan/\<GW-UUID>/\<APP-EUI>/\<DEV-EUI>/up
     * lorawan/\<GW-UUID>/\<APP-EUI>/\<DEV-EUI>/joined
     * lorawan/\<GW-UUID>/\<APP-EUI>/\<DEV-EUI>/moved
@@ -43,11 +45,17 @@ AWS provides configuration for MQTT connections and topic based security and rou
     * lorawan/\<GW-UUID>/log_res
   * Gateway Subscribe
     * lorawan/\<GW-UUID>/down
+    * lorawan/\<GW-UUID>/clear
     * lorawan/\<GW-UUID>/api_req
     * lorawan/\<GW-UUID>/lora_req
     * lorawan/\<GW-UUID>/log_req
 
+
 ### Gateway Publishes
+  * lorawan/\<GW-UUID>/connected
+
+    Published when the application connects or reconnects
+
   * lorawan/\<GW-UUID>/init
 
     Published when the application starts
@@ -116,6 +124,15 @@ AWS provides configuration for MQTT connections and topic based security and rou
       "data":"BASE64 payload to send"
     }
     ```
+  * lorawan/\<GW-UUID>/clear
+
+    Clear the downlink queue of a gateway for a known end-device
+    ```
+    lorawan/029998e0-6156-cdd4-4523-264b523115c1/clear
+    {
+      "deveui": "Device EUI queue to clear"
+    }
+    ```
   * lorawan/\<GW-UUID>/api_req
 
     Make an API call to a gateway
@@ -151,30 +168,6 @@ AWS provides configuration for MQTT connections and topic based security and rou
     }
     ```
 
-## MQTT Protocol v1.1.1
-
-API Version 1.1.1 supports all 1.1 functionality plus the additional messages below.
-
-  * Gateaway Publish
-    * lorawan/\<GW-UUID>/connected
-  * Gateway Subscribe
-    * lorawan/\<GW-UUID>/clear
-
-### Gateway Publishes
-  * lorawan/\<GW-UUID>/connected
-
-    Published when the application connects or reconnects
-
-### Gateway Subscribes
-  * lorawan/\<GW-UUID>/clear
-
-    Clear the downlink queue of a gateway for a known end-device
-    ```
-    lorawan/029998e0-6156-cdd4-4523-264b523115c1/clear
-    {
-      "deveui": "Device EUI queue to clear"
-    }
-    ```
 
 ## Topics to request gateway info
 
@@ -382,6 +375,7 @@ The "rid" field can be added to app-connnect lora_query, api_query and log_query
       "body": "{\"deveui\":\"0080000000000001\",\"dev_addr\":\"00112233\",\"joineui\":\"0080000000000001\",\"appeui\":\"0080000000000001\",\"net_id\":\"000000\",\"app_senc_key\":\"0123456789abcdef0123456789abcdef\",\"fnwk_sint_key\":\"0123456789abcdef0123456789abcdef\"}"
     }
     ```
+
 
 
 

@@ -11,7 +11,10 @@ v1.0 Protocol and sample applications for connecting a LoRaWAN network to back-e
   * [LoRaWAN App Connect MQTT v1.0](lorawan-app-connect-mqtt)
 
 v1.1 Protocol and sample applications for connecting a LoRaWAN network to back-end services.
-  * [LoRaWAN App Connect MQTT v1.1](lorawan-app-connect-mqtt-v1_1)
+  * [LoRaWAN App Connect MQTT v1.1.x](lorawan-app-connect-mqtt-v1_1)
+
+WebSockets Protocol and sample applications for connecting a LoRaWAN network to back-end services.
+  * [LoRaWAN App Connect MQTT WebSockets](lorawan-app-connect-mqtt-websockets)
 
 Azure Protocol and sample applications for connecting a LoRaWAN network to back-end services.
   * [LoRaWAN App Connect MQTT Azure](lorawan-app-connect-mqtt-azure)

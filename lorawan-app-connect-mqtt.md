@@ -411,6 +411,82 @@ The "rid" field can be added to app-connnect lora_query, api_query and log_query
     }
     ```
 
+    * Multicast Session Setup and Downlinking
+
+      * Group setup
+
+        ```json
+          {
+            "method":"POST",
+            "path":"/api/lora/groups",
+            "body":"<SEE-BELOW>"
+          }
+        ```
+
+        Group EUI is autoassigned
+        ```json
+          {"groupname":"my-group","deveuis":["00-80-00-ff-ff-00-00-02","00-80-00-ff-00-00-00-03"]}
+        ```
+
+        Custom Group EUI
+        ```json
+          {"groupname":"group-2","groupeui":"00-11-22-33-11-22-33-44","deveuis":["00-80-00-ff-ff-00-00-02","00-80-00-ff-00-00-00-03"]}
+        ```
+
+      * OTA Multicast Session Setup
+
+        ```json
+          {
+            "method":"POST",
+            "path":"/api/lora/mcm",
+            "body":"<SEE-BELOW>"
+          }
+        ```
+        JSON body for multicast session setup
+        ```json
+          {
+            "scheduledTimeSinceUnixEpoch": 1748014851,
+            "keep_log": false,
+            "ssleep_time": 1000,
+            "sleep_time": 1500,
+            "multicastMessage": {
+                "messagePort": 1,
+                "messageFormat": "Hexadecimal",
+                "messagePayload": "1221",
+                "messagePayloadFile": "",
+                "multicastSessionTimeout": 15
+            },
+            "schedule_filename": "mcm_1748014851_0",
+            "setupTimeFromScheduledTime": 0,
+            "launchTimeFromSetupTime": 60,
+            "browserTimeBias": 0,
+            "transmission_type": "Message",
+            "multicastDeveui": "00-80-00-87-33-c0-03-e1",
+            "endDeviceDeveuis": [
+                "00-80-00-ff-ff-00-00-02",
+                "00-80-00-ff-00-00-00-03"
+            ],
+            "schedule_source": "Conduit",
+            "fotaFile": "N/A"
+        }
+        ```
+      Listing sessions, the multicast session EUI will appear after the scheduled start time
+      ```json
+      {
+        "method": "GET",
+        "path": "/api/lora/sessions",
+        "body": ""
+      }
+      ```
+
+      Schedule additional downlinks using the multicast session EUI
+      ```json
+      {
+        "method": "POST",
+        "path": "/api/lora/packets/queue",
+        "body": "{\"deveui\":\"00-80-00-87-33-c0-03-e1\",\"port\":1,\"data\":\"MkQ=\",\"ack_retries\":0,\"rx_wnd\":0,\"ack\":false}"
+      }
+      ```
 
 
 ### Test brokers

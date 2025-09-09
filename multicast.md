@@ -103,7 +103,10 @@ MC ID Start Time   Timeout Freq   DR
 04 00 11a2a84c     0f      68e28c 0a
 ```
 
-Example session key derivation, GenAppKey (00000000000000000000000000000000) is fixed for all devices. There is currently no setting for GenAppKey in the gateway.
+Example session key derivation, GenAppKey (00000000000000000000000000000000) is fixed for all devices. 
+
+In mPower 6.3.6 genappkey was added as an optional field for end-device key settings.
+See [LoRaWAN Device Provisioning](https://www.multitech.net/developer/software/aep/lora-configuration/lorawan-device-provisioning/)
 
 ```python
 from Crypto.Cipher import AES

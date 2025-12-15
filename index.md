@@ -28,6 +28,9 @@ Bridge MQTT messages from local gateway to multiple remote brokers with filterin
 Best practices for developing custom Python applications for MultiTech Conduit gateways.
   * [Conduit Custom App Development](conduit-custom-app-development)
 
+Cursor AI Agent prompts and commands for rapid gateway application development.
+  * [Conduit Cursor Development](conduit-cursor-development)
+
 Protocol for creating multicast sessions between a LoRaWAN network and multiple end-devices.
   * [Multicast Protocol](multicast)
 

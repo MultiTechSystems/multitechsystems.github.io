@@ -93,6 +93,44 @@ curl -k -s -b /tmp/cookies.txt -X POST "https://192.168.1.100/api/customApps/1/s
   -H "Content-Length: 0"
 ```
 
+### Install New Application via API
+
+**Prompt:**
+```
+Install a new custom app on gateway 192.168.1.100 using the API
+```
+
+**Commands:**
+```bash
+# 1. Login and get session cookie
+curl -k -s -c /tmp/cookies.txt -X POST "https://192.168.1.100/api/login" \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"yourpassword"}'
+
+# 2. Get file size for pre-upload
+FILESIZE=$(stat -c%s my_custom_app-1.0.1-mlinux7.tar.gz)
+
+# 3. Pre-upload notification
+curl -k -s -b /tmp/cookies.txt -X POST "https://192.168.1.100/api/command/app_pre_upload" \
+  -H "Content-Type: application/json" \
+  -d "{\"info\":{\"fileName\":\"my_custom_app-1.0.1-mlinux7.tar.gz\",\"fileSize\":$FILESIZE}}"
+
+# 4. Upload the tarball
+curl -k -s -b /tmp/cookies.txt -X POST "https://192.168.1.100/api/command/app_upload" \
+  -F "archivo=@my_custom_app-1.0.1-mlinux7.tar.gz;filename=my_custom_app-1.0.1-mlinux7.tar.gz;type=application/x-gzip"
+
+# 5. Install the app (appId must be numeric or hex with hyphens)
+curl -k -s -b /tmp/cookies.txt -X POST "https://192.168.1.100/api/command/app_install" \
+  -H "Content-Type: application/json" \
+  -d '{"info":{"appId":"1","appFile":"my_custom_app-1.0.1-mlinux7.tar.gz"}}'
+
+# 6. Start the app
+curl -k -s -b /tmp/cookies.txt -X POST "https://192.168.1.100/api/customApps/1/start" \
+  -H "Content-Length: 0"
+```
+
+**Note**: The `appId` in `app_install` must be numeric (e.g., "1", "14") or hexadecimal with hyphens. App names like "my_app" are not valid for this field.
+
 ### Upload and Deploy New Version
 
 **Prompt:**
@@ -339,6 +377,9 @@ tar shows "Permission denied" and "Cannot change mode" warnings when extracting.
 | API login | `curl -k -c cookies.txt -X POST "https://{IP}/api/login" -H "Content-Type: application/json" -d '{"username":"admin","password":"pass"}'` |
 | Stop app | `curl -k -b cookies.txt -X POST "https://{IP}/api/customApps/{ID}/stop" -H "Content-Length: 0"` |
 | Start app | `curl -k -b cookies.txt -X POST "https://{IP}/api/customApps/{ID}/start" -H "Content-Length: 0"` |
+| Pre-upload | `curl -k -b cookies.txt -X POST "https://{IP}/api/command/app_pre_upload" -H "Content-Type: application/json" -d '{"info":{"fileName":"app.tar.gz","fileSize":12345}}'` |
+| Upload app | `curl -k -b cookies.txt -X POST "https://{IP}/api/command/app_upload" -F "archivo=@app.tar.gz;type=application/x-gzip"` |
+| Install app | `curl -k -b cookies.txt -X POST "https://{IP}/api/command/app_install" -H "Content-Type: application/json" -d '{"info":{"appId":"1","appFile":"app.tar.gz"}}'` |
 
 ## Related Documentation
 

@@ -146,70 +146,78 @@ def get_gateway_uuid() -> str:
 
 Create a status writer that outputs `status.json` for mLinux app-manager:
 
+**Requirements:**
+- Write to `$APP_DIR/status.json` (use APP_DIR environment variable)
+- Include fields: `pid` (integer), `AppInfo` (string, max 160 chars)
+- Update periodically in background thread (e.g., every 10 seconds)
+- Thread-safe status updates
+- Write atomically (write to .tmp file, then rename)
+- Graceful shutdown with final status write
+
+**Important**: The `pid` field must be an integer (not a string) for app-manager to correctly track the process.
+
 ```python
 import json
 import os
 import threading
 import time
-from typing import Any, Dict
+from typing import Optional
 
 class StatusWriter:
-    def __init__(self, status_file: str = None):
-        if status_file is None:
-            app_dir = os.environ.get("APP_DIR", ".")
-            status_file = os.path.join(app_dir, "status.json")
-        self.status_file = status_file
-        self._status: Dict[str, Any] = {}
+    def __init__(self, app_dir: Optional[str] = None, update_interval: float = 10.0):
+        self.app_dir = app_dir if app_dir else (os.getenv("APP_DIR") or ".")
+        self.status_file = os.path.join(self.app_dir, "status.json")
+        self.update_interval = update_interval
+        self._app_info = "Starting..."
         self._lock = threading.Lock()
         self._running = False
-        self._thread: threading.Thread = None
+        self._thread: Optional[threading.Thread] = None
     
-    def update(self, app_info: str, extra_info: Dict[str, Any] = None):
+    def update(self, app_info: str):
+        """Update the status message (thread-safe)."""
         with self._lock:
-            self._status = {
-                "appInfo": app_info,
-                "extraInfo": extra_info or {}
-            }
+            self._app_info = app_info[:160]  # Max 160 chars
     
     def _write_status(self):
+        """Write status.json atomically."""
         with self._lock:
-            status = self._status.copy()
+            app_info = self._app_info
+        status_data = {"pid": os.getpid(), "AppInfo": app_info}
+        temp_file = self.status_file + ".tmp"
         try:
-            with open(self.status_file, "w") as f:
-                json.dump(status, f, indent=2)
+            with open(temp_file, "w") as f:
+                json.dump(status_data, f)
+            os.replace(temp_file, self.status_file)
         except IOError:
             pass
     
-    def start(self, interval: float = 5.0):
+    def _update_loop(self):
+        """Background thread loop."""
+        while self._running:
+            self._write_status()
+            time.sleep(self.update_interval)
+    
+    def start(self):
+        """Start background status update thread."""
         self._running = True
-        def run():
-            while self._running:
-                self._write_status()
-                time.sleep(interval)
-        self._thread = threading.Thread(target=run, daemon=True)
+        self._thread = threading.Thread(target=self._update_loop, daemon=True)
         self._thread.start()
     
     def stop(self):
+        """Stop the background thread and write final status."""
         self._running = False
         if self._thread:
             self._thread.join(timeout=2)
+        self._write_status()  # Final write
 ```
 
 Example status.json format:
 
 ```json
-{
-  "appInfo": "Running - Connected to 2 brokers",
-  "extraInfo": {
-    "local_broker": "connected",
-    "remote_brokers": {
-      "cloud": "connected",
-      "backup": "disconnected"
-    },
-    "messages_forwarded": 1234
-  }
-}
+{"pid": 12345, "AppInfo": "Local:OK | Remote:1/1 | Msgs:42 @ 14:30:00"}
 ```
+
+**Status format recommendation:** `Local:{OK|DISC} | Remote:{connected}/{total} [| Msgs:{count}] @ {time}`
 
 ### Syslog Logging
 

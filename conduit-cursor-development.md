@@ -160,7 +160,7 @@ curl -k -s -b /tmp/cookies.txt -X POST "https://192.168.1.100/api/customApps/1/s
   -H "Content-Length: 0"
 ```
 
-### Update Configuration Only
+### Update Configuration Only (via SSH)
 
 **Prompt:**
 ```
@@ -197,6 +197,28 @@ curl -k -s -b /tmp/cookies.txt -X POST "https://192.168.1.100/api/customApps/1/s
 sleep 2
 curl -k -s -b /tmp/cookies.txt -X POST "https://192.168.1.100/api/customApps/1/start" -H "Content-Length: 0"
 ```
+
+### Update Configuration via API
+
+**Prompt:**
+```
+Update app configuration file via API without SSH access
+```
+
+**Commands:**
+```bash
+# Upload config file via API
+curl -k -s -b /tmp/cookies.txt -X POST "https://192.168.1.100/api/command/app_config_install" \
+  -F "appId=1" \
+  -F "appConfigFile=@config.json;filename=config.json;type=application/json"
+
+# Restart app to apply new config
+curl -k -s -b /tmp/cookies.txt -X POST "https://192.168.1.100/api/customApps/1/stop" -H "Content-Length: 0"
+sleep 2
+curl -k -s -b /tmp/cookies.txt -X POST "https://192.168.1.100/api/customApps/1/start" -H "Content-Length: 0"
+```
+
+**Note**: The config file is uploaded to the app's config directory. The filename in the form determines the target filename. Use `config.json` for the main configuration file.
 
 ### Check Application Status and Logs
 
@@ -380,6 +402,7 @@ tar shows "Permission denied" and "Cannot change mode" warnings when extracting.
 | Pre-upload | `curl -k -b cookies.txt -X POST "https://{IP}/api/command/app_pre_upload" -H "Content-Type: application/json" -d '{"info":{"fileName":"app.tar.gz","fileSize":12345}}'` |
 | Upload app | `curl -k -b cookies.txt -X POST "https://{IP}/api/command/app_upload" -F "archivo=@app.tar.gz;type=application/x-gzip"` |
 | Install app | `curl -k -b cookies.txt -X POST "https://{IP}/api/command/app_install" -H "Content-Type: application/json" -d '{"info":{"appId":"1","appFile":"app.tar.gz"}}'` |
+| Upload config | `curl -k -b cookies.txt -X POST "https://{IP}/api/command/app_config_install" -F "appId=1" -F "appConfigFile=@config.json;type=application/json"` |
 
 ## Related Documentation
 

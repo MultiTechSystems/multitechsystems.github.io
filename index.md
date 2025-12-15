@@ -22,6 +22,9 @@ Azure Protocol and sample applications for connecting a LoRaWAN network to back-
 LoRaWAN walkthrough to setup local device credentials and connect to a public MQTT Broker.
   * [LoRaWAN App Connect MQTT Walkthrough](lorawan-app-connect-walkthrough)
 
+Bridge MQTT messages from local gateway to multiple remote brokers with filtering support.
+  * [LoRa MQTT Bridge](lora-mqtt-bridge)
+
 Protocol for creating multicast sessions between a LoRaWAN network and multiple end-devices.
   * [Multicast Protocol](multicast)
 

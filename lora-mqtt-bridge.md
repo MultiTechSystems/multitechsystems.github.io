@@ -39,7 +39,7 @@ The LoRa MQTT Bridge is a Python application designed to bridge MQTT messages fr
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/lora-mqtt-bridge.git
+git clone https://github.com/MultiTechSystems/lora-mqtt-bridge.git
 cd lora-mqtt-bridge
 
 # Create virtual environment

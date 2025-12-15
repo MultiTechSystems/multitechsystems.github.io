@@ -252,10 +252,10 @@ Standard topic format used by Multitech gateways:
 Alternative topic format for SCADA systems:
 
 **Local Subscriptions:**
-- `scada/+/up` - Device uplinks
+- `scada/lorawan/+/up` - Device uplinks
 
 **Local Publishes:**
-- `scada/{deveui}/down` - Downlinks to devices
+- `scada/lorawan/{deveui}/down` - Downlinks to devices
 
 ### Topic Pattern Variables
 

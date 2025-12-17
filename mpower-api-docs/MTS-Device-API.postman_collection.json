@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "MTS Device API",
-    "description": "Complete API collection for Multi-Tech Systems IoT device management platform",
+    "name": "MTS Device API (Updated Dec 2025)",
+    "description": "Complete API collection for Multi-Tech Systems IoT device management platform\n\nUpdated December 2025 with 50+ newly discovered endpoints including WAN management, security, monitoring, and notifications.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "1"
   },
@@ -37,7 +37,7 @@
               "script": {
                 "exec": [
                   "if (pm.response.code === 200) {",
-                  "    pm.environment.set('tokenCookie', pm.cookies.get('token'));",
+                  "    pm.environment.set('sessionCookie', pm.cookies.get('session'));",
                   "}"
                 ],
                 "type": "text/javascript"
@@ -421,56 +421,6 @@
     {
       "name": "Network",
       "item": [
-        {
-          "name": "Get Network Interfaces",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api?fields=ni",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api"
-              ],
-              "query": [
-                {
-                  "key": "fields",
-                  "value": "ni"
-                }
-              ]
-            },
-            "description": "Retrieve all network interface configurations (IPv4, IPv6, VLAN, 802.1X)"
-          }
-        },
-        {
-          "name": "Update Network Interfaces",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nis\": [\n    {\n      \"name\": \"eth0\",\n      \"type\": \"LAN\",\n      \"nitype\": \"ETHER\",\n      \"available\": true,\n      \"bridge\": \"--\",\n      \"vlanId\": -1,\n      \"ipv4\": {\n        \"mode\": \"STATIC\",\n        \"ip\": \"192.168.1.1\",\n        \"mask\": \"255.255.255.0\",\n        \"gateway\": \"0.0.0.0\",\n        \"dns1\": \"8.8.8.8\",\n        \"dns2\": \"8.8.4.4\",\n        \"wanMasquerade\": false\n      },\n      \"ipv6\": {\n        \"enabled\": false,\n        \"mode\": \"STATIC\",\n        \"ip\": [],\n        \"fixedIp\": [],\n        \"linkLocalIp\": [],\n        \"prefixDelegationEnabled\": false,\n        \"delegatedPrefixLength\": 64,\n        \"gateway\": \"\",\n        \"dns1\": \"\",\n        \"dns2\": \"\"\n      }\n    }\n  ]\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/ni",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "ni"
-              ]
-            },
-            "description": "Update network interface configurations"
-          }
-        },
         {
           "name": "Get DNS Config",
           "request": {
@@ -903,50 +853,50 @@
           "response": []
         },
         {
-          "name": "Get LoRa Server Config",
+          "name": "Get LoRa Service Status (NEW)",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/lora/config",
+              "raw": "{{baseUrl}}/api/lora/status",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "lora",
-                "config"
+                "status"
               ]
             },
-            "description": "Retrieve LoRa network server runtime configuration"
+            "description": "Get LoRa service process status"
           }
         },
         {
-          "name": "Get LoRa Server Stats",
+          "name": "Get LoRa Gateways (NEW)",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/lora/stats",
+              "raw": "{{baseUrl}}/api/lora/gateways",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "lora",
-                "stats"
+                "gateways"
               ]
             },
-            "description": "Retrieve LoRa network server statistics"
+            "description": "Get registered LoRa gateways with statistics"
           }
         },
         {
-          "name": "List LoRa Devices",
+          "name": "Get LoRa Devices (NEW)",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/lora/devices?limit=100&offset=0",
+              "raw": "{{baseUrl}}/api/lora/devices",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -954,322 +904,9 @@
                 "api",
                 "lora",
                 "devices"
-              ],
-              "query": [
-                {
-                  "key": "limit",
-                  "value": "100"
-                },
-                {
-                  "key": "offset",
-                  "value": "0"
-                }
               ]
             },
-            "description": "Retrieve list of registered LoRa end devices"
-          }
-        },
-        {
-          "name": "Get Device Statistics",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/lora/devices/stats",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "lora",
-                "devices",
-                "stats"
-              ]
-            },
-            "description": "Retrieve statistics for all LoRa devices"
-          }
-        },
-        {
-          "name": "List Active Sessions",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/lora/sessions",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "lora",
-                "sessions"
-              ]
-            },
-            "description": "Retrieve list of active device sessions"
-          }
-        },
-        {
-          "name": "List Join Requests",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/lora/joinRequests",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "lora",
-                "joinRequests"
-              ]
-            },
-            "description": "Retrieve list of device join requests"
-          }
-        },
-        {
-          "name": "List All Packets",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/lora/packets?limit=100&offset=0",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "lora",
-                "packets"
-              ],
-              "query": [
-                {
-                  "key": "limit",
-                  "value": "100"
-                },
-                {
-                  "key": "offset",
-                  "value": "0"
-                }
-              ]
-            },
-            "description": "Retrieve list of all LoRa packets"
-          }
-        },
-        {
-          "name": "List Join Packets",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/lora/packets/join",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "lora",
-                "packets",
-                "join"
-              ]
-            },
-            "description": "Retrieve list of join request/accept packets"
-          }
-        },
-        {
-          "name": "List Uplink Packets",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/lora/packets/up",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "lora",
-                "packets",
-                "up"
-              ]
-            },
-            "description": "Retrieve list of uplink data packets"
-          }
-        },
-        {
-          "name": "List Downlink Packets",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/lora/packets/down",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "lora",
-                "packets",
-                "down"
-              ]
-            },
-            "description": "Retrieve list of downlink data packets"
-          }
-        },
-        {
-          "name": "Get Downlink Queue",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/lora/packets/queue",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "lora",
-                "packets",
-                "queue"
-              ]
-            },
-            "description": "Retrieve pending downlink packets in queue"
-          }
-        },
-        {
-          "name": "Get Recent Packets",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/lora/packets/recent",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "lora",
-                "packets",
-                "recent"
-              ]
-            },
-            "description": "Retrieve most recent packets (uplink and downlink)"
-          }
-        },
-        {
-          "name": "List Device Profiles",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/lora/profiles/device",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "lora",
-                "profiles",
-                "device"
-              ]
-            },
-            "description": "Retrieve list of device profiles"
-          }
-        },
-        {
-          "name": "List Network Profiles",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/lora/profiles/network",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "lora",
-                "profiles",
-                "network"
-              ]
-            },
-            "description": "Retrieve list of network profiles"
-          }
-        },
-        {
-          "name": "List Multicast Groups",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/lora/groups",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "lora",
-                "groups"
-              ]
-            },
-            "description": "Retrieve list of multicast groups"
-          }
-        },
-        {
-          "name": "Get FOTA Progress",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/lora/fotaprogress",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "lora",
-                "fotaprogress"
-              ]
-            },
-            "description": "Retrieve firmware over-the-air update progress"
-          }
-        },
-        {
-          "name": "Get FOTA Schedule",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/lora/fotaschedule",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "lora",
-                "fotaschedule"
-              ]
-            },
-            "description": "Retrieve scheduled FOTA updates"
-          }
-        },
-        {
-          "name": "Get FOTA Results",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/lora/fotaresults",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "lora",
-                "fotaresults"
-              ]
-            },
-            "description": "Retrieve results of FOTA updates"
+            "description": "Get registered LoRa end devices"
           }
         }
       ]
@@ -1385,16 +1022,15 @@
       ]
     },
     {
-      "name": "SNMP",
-      "description": "SNMP agent and trap configuration",
+      "name": "WAN Management (NEW)",
       "item": [
         {
-          "name": "Get SNMP Configuration",
+          "name": "Get WAN Manager Config",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api?fields=snmp",
+              "raw": "{{baseUrl}}/api?fields=wanmngr",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1404,15 +1040,14 @@
               "query": [
                 {
                   "key": "fields",
-                  "value": "snmp"
+                  "value": "wanmngr"
                 }
               ]
-            },
-            "description": "Retrieve SNMP agent and trap configuration"
+            }
           }
         },
         {
-          "name": "Update SNMP Configuration",
+          "name": "Update WAN Manager Config",
           "request": {
             "method": "PUT",
             "header": [
@@ -1423,470 +1058,71 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"server\": {\n    \"enabled\": true,\n    \"sysName\": \"MyDevice\",\n    \"sysLocation\": \"Office\",\n    \"sysContact\": \"admin@example.com\",\n    \"users\": [],\n    \"allowedAddresses\": []\n  },\n  \"traps\": {\n    \"enabled\": false,\n    \"engineId\": \"\",\n    \"receivers\": []\n  }\n}"
+              "raw": "{\n  \"mode\": \"FAILOVER\",\n  \"wans\": [\n    {\n      \"interface\": \"eth0\",\n      \"priority\": 1,\n      \"monitor\": {\n        \"mode\": \"ACTIVE\",\n        \"checkInterval\": 60,\n        \"active\": {\n          \"type\": \"ICMP\",\n          \"hostname\": \"8.8.8.8\",\n          \"icmpCount\": 5\n        }\n      }\n    }\n  ]\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/snmp",
+              "raw": "{{baseUrl}}/api/wanmngr",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
-                "snmp"
+                "wanmngr"
               ]
-            },
-            "description": "Update SNMP agent and trap settings"
+            }
+          }
+        },
+        {
+          "name": "Get WAN Info (Status)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=waninfo",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "waninfo"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get IP Passthrough Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=ipPassthrough",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "ipPassthrough"
+                }
+              ]
+            }
           }
         }
       ]
     },
     {
-      "name": "Alerts",
-      "description": "Alert and notification configuration",
+      "name": "Security (NEW)",
       "item": [
         {
-          "name": "Get Alert Configuration",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api?fields=alert",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api"
-              ],
-              "query": [
-                {
-                  "key": "fields",
-                  "value": "alert"
-                }
-              ]
-            },
-            "description": "Retrieve alert and notification settings"
-          }
-        },
-        {
-          "name": "Update Alert Configuration",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"alerts\": [],\n  \"groups\": []\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/alert",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "alert"
-              ]
-            },
-            "description": "Update alert and notification settings"
-          }
-        }
-      ]
-    },
-    {
-      "name": "VPN Tunnels",
-      "description": "IPsec, GRE, and OpenVPN tunnel configuration",
-      "item": [
-        {
-          "name": "Get IPsec Tunnels",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api?fields=ipsecTunnels",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api"
-              ],
-              "query": [
-                {
-                  "key": "fields",
-                  "value": "ipsecTunnels"
-                }
-              ]
-            },
-            "description": "Retrieve IPsec VPN tunnel configurations"
-          }
-        },
-        {
-          "name": "Create IPsec Tunnel",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"enabled\": true,\n  \"name\": \"tunnel1\",\n  \"description\": \"Site-to-site VPN\",\n  \"remoteWanIp\": \"203.0.113.50\",\n  \"type\": \"IKEv2\",\n  \"authMethod\": \"secret\",\n  \"psk\": \"MySecretKey\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/ipsecTunnels",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "ipsecTunnels"
-              ]
-            },
-            "description": "Create a new IPsec VPN tunnel"
-          }
-        },
-        {
-          "name": "Get GRE Tunnels",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api?fields=greTunnels",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api"
-              ],
-              "query": [
-                {
-                  "key": "fields",
-                  "value": "greTunnels"
-                }
-              ]
-            },
-            "description": "Retrieve GRE tunnel configurations"
-          }
-        },
-        {
-          "name": "Create GRE Tunnel",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"enabled\": true,\n  \"name\": \"gre1\",\n  \"description\": \"GRE to HQ\",\n  \"remoteIp\": \"203.0.113.100\",\n  \"ttl\": 64,\n  \"tunnelIp\": \"10.255.255.1\",\n  \"tunnelMask\": \"255.255.255.252\",\n  \"routes\": []\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/greTunnels",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "greTunnels"
-              ]
-            },
-            "description": "Create a new GRE tunnel"
-          }
-        },
-        {
-          "name": "Get OpenVPN Tunnels",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api?fields=ovpnTunnels",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api"
-              ],
-              "query": [
-                {
-                  "key": "fields",
-                  "value": "ovpnTunnels"
-                }
-              ]
-            },
-            "description": "Retrieve OpenVPN tunnel configurations"
-          }
-        },
-        {
-          "name": "Create OpenVPN Tunnel",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"enabled\": true,\n  \"name\": \"ovpn1\",\n  \"description\": \"OpenVPN client\",\n  \"type\": \"CLIENT\",\n  \"config\": \"client\\ndev tun\\nproto udp\\n...\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/ovpnTunnels",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "ovpnTunnels"
-              ]
-            },
-            "description": "Create a new OpenVPN tunnel"
-          }
-        }
-      ]
-    },
-    {
-      "name": "Firewall & NAT",
-      "description": "NAT rules, firewall settings, and filter rules",
-      "item": [
-        {
-          "name": "Get NAT Rules",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api?fields=nat",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api"
-              ],
-              "query": [
-                {
-                  "key": "fields",
-                  "value": "nat"
-                }
-              ]
-            },
-            "description": "Retrieve NAT rule configurations"
-          }
-        },
-        {
-          "name": "Create NAT Rule",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Port Forward\",\n  \"enabled\": true,\n  \"protocol\": \"TCP\",\n  \"chain\": \"PREROUTING\",\n  \"target\": \"DNAT\",\n  \"dstPort\": \"8080\",\n  \"toAddr\": \"192.168.1.100\",\n  \"toPort\": \"80\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/nat",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "nat"
-              ]
-            },
-            "description": "Create a new NAT rule"
-          }
-        },
-        {
-          "name": "Get Firewall Settings",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api?fields=firewall",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api"
-              ],
-              "query": [
-                {
-                  "key": "fields",
-                  "value": "firewall"
-                }
-              ]
-            },
-            "description": "Retrieve global firewall settings"
-          }
-        },
-        {
-          "name": "Update Firewall Settings",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"pptp\": false,\n  \"l2tp\": false,\n  \"connTrackHelpers\": false\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/firewall",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "firewall"
-              ]
-            },
-            "description": "Update global firewall settings"
-          }
-        },
-        {
-          "name": "Get Filter Rules",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api?fields=filters",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api"
-              ],
-              "query": [
-                {
-                  "key": "fields",
-                  "value": "filters"
-                }
-              ]
-            },
-            "description": "Retrieve firewall filter rules"
-          }
-        },
-        {
-          "name": "Create Filter Rule",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Allow SSH\",\n  \"enabled\": true,\n  \"protocol\": \"TCP\",\n  \"chain\": \"INPUT\",\n  \"target\": \"ACCEPT\",\n  \"dstPort\": \"22\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/filters",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "filters"
-              ]
-            },
-            "description": "Create a new firewall filter rule"
-          }
-        },
-        {
-          "name": "Get Static Routes",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api?fields=routes",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api"
-              ],
-              "query": [
-                {
-                  "key": "fields",
-                  "value": "routes"
-                }
-              ]
-            },
-            "description": "Retrieve static route configurations"
-          }
-        },
-        {
-          "name": "Create Static Route",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"Remote Network\",\n  \"ip\": \"10.0.0.0\",\n  \"mask\": 16,\n  \"gateway\": \"192.168.1.254\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/routes",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "routes"
-              ]
-            },
-            "description": "Create a new static route"
-          }
-        }
-      ]
-    },
-    {
-      "name": "Security",
-      "description": "Security configuration including TLS, SSH, remote access, and RADIUS",
-      "item": [
-        {
-          "name": "Get Secure Protocols",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api?fields=secureProtocols",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api"
-              ],
-              "query": [
-                {
-                  "key": "fields",
-                  "value": "secureProtocols"
-                }
-              ]
-            },
-            "description": "Retrieve TLS/SSH cipher suite configurations"
-          }
-        },
-        {
-          "name": "Get Remote Access",
+          "name": "Get Remote Access Config",
           "request": {
             "method": "GET",
             "header": [],
@@ -1904,89 +1140,11 @@
                   "value": "remoteAccess"
                 }
               ]
-            },
-            "description": "Retrieve remote access and security settings"
+            }
           }
         },
         {
-          "name": "Update Remote Access",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"timeoutSeconds\": 600,\n  \"http\": {\n    \"enabled\": true,\n    \"port\": 80,\n    \"lan\": true,\n    \"wan\": false\n  },\n  \"https\": {\n    \"enabled\": true,\n    \"port\": 443,\n    \"lan\": true,\n    \"wan\": true\n  },\n  \"ssh\": {\n    \"enabled\": true,\n    \"port\": 22,\n    \"lan\": true,\n    \"wan\": false\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/remoteAccess",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "remoteAccess"
-              ]
-            },
-            "description": "Update remote access and security settings"
-          }
-        },
-        {
-          "name": "Get Trusted IP",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api?fields=trustedIp",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api"
-              ],
-              "query": [
-                {
-                  "key": "fields",
-                  "value": "trustedIp"
-                }
-              ]
-            },
-            "description": "Retrieve IP whitelist/blacklist configuration"
-          }
-        },
-        {
-          "name": "Update Trusted IP",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"enabled\": true,\n  \"mode\": \"whitelist\",\n  \"rules\": []\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/api/trustedIp",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "trustedIp"
-              ]
-            },
-            "description": "Update IP whitelist/blacklist configuration"
-          }
-        },
-        {
-          "name": "Get RADIUS Configuration",
+          "name": "Get RADIUS Config",
           "request": {
             "method": "GET",
             "header": [],
@@ -2004,12 +1162,11 @@
                   "value": "radius"
                 }
               ]
-            },
-            "description": "Retrieve RADIUS authentication configuration"
+            }
           }
         },
         {
-          "name": "Update RADIUS Configuration",
+          "name": "Update RADIUS Config",
           "request": {
             "method": "PUT",
             "header": [
@@ -2020,7 +1177,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"authEnabled\": true,\n  \"acctEnabled\": false,\n  \"host\": \"radius.example.com\",\n  \"authPort\": 1812,\n  \"secret\": \"MySecret\",\n  \"authType\": \"PAP\"\n}"
+              "raw": "{\n  \"authEnabled\": true,\n  \"authPort\": 1812,\n  \"authType\": \"PAP\",\n  \"host\": \"radius.example.com\",\n  \"secret\": \"shared-secret\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/radius",
@@ -2031,8 +1188,461 @@
                 "api",
                 "radius"
               ]
+            }
+          }
+        },
+        {
+          "name": "Get Bootloader Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=bootloader",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "bootloader"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Reset Button Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=resetButton",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "resetButton"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Monitoring & Stats (NEW)",
+      "item": [
+        {
+          "name": "Get Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=stats/dashboard",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "stats/dashboard"
+                }
+              ]
             },
-            "description": "Update RADIUS authentication configuration"
+            "description": "Comprehensive system overview with all critical stats"
+          }
+        },
+        {
+          "name": "Get Radio Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=stats/radio&inactivity=true",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "stats/radio"
+                },
+                {
+                  "key": "inactivity",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Cellular radio statistics (with inactivity flag for continuous monitoring)"
+          }
+        },
+        {
+          "name": "Get Memory Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=stats/memory",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "stats/memory"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get CPU Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=stats/cpu",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "stats/cpu"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Interface Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=stats/iface_ppp0",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "stats/iface_ppp0"
+                }
+              ]
+            },
+            "description": "Cellular interface statistics"
+          }
+        },
+        {
+          "name": "Get LoRa Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=stats/lora",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "stats/lora"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications (NEW)",
+      "item": [
+        {
+          "name": "Get SMTP Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=smtp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "smtp"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update SMTP Config",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enabled\": true,\n  \"serverAddress\": \"smtp.gmail.com\",\n  \"serverPort\": 587,\n  \"sourceEmailAddress\": \"device@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/smtp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "smtp"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get SNTP Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=sntp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "sntp"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Notification Event Groups",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=notificationEventGroup",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "notificationEventGroup"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "System Management (NEW)",
+      "item": [
+        {
+          "name": "Get Auto-Reboot Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=autoReboot",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "autoReboot"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Auto-Reboot Config",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mode\": \"DAILY\",\n  \"hour\": 3,\n  \"minute\": 0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/autoReboot",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "autoReboot"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Remote Management Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=remoteMgmt",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "remoteMgmt"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Branding Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=brand",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "brand"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Custom Apps Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=customAppsConfig",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "customAppsConfig"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cellular Optimization (NEW)",
+      "item": [
+        {
+          "name": "Get Backoff Timers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=backOffTimers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "backOffTimers"
+                }
+              ]
+            },
+            "description": "Carrier-specific retry backoff timers"
+          }
+        },
+        {
+          "name": "Get Cell Time Sync Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=cellTimeSync",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "cellTimeSync"
+                }
+              ]
+            }
           }
         }
       ]

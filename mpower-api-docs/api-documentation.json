@@ -98,6 +98,26 @@
     {
       "name": "Certificates",
       "description": "Certificate management"
+    },
+    {
+      "name": "WAN Management",
+      "description": "WAN failover, load balancing, and interface management"
+    },
+    {
+      "name": "Security",
+      "description": "Security configuration (Remote access, RADIUS, bootloader)"
+    },
+    {
+      "name": "Monitoring",
+      "description": "Stats and monitoring endpoints"
+    },
+    {
+      "name": "Notifications",
+      "description": "Email, SMS, and event notifications"
+    },
+    {
+      "name": "Time Sync",
+      "description": "Time synchronization (NTP, cellular)"
     }
   ],
   "paths": {
@@ -143,7 +163,7 @@
               "Set-Cookie": {
                 "schema": {
                   "type": "string",
-                  "example": "token=8D6BB3C6C977084DCBC9F26FBAA9C22; Path=/; HttpOnly"
+                  "example": "session=abc123; Path=/; HttpOnly"
                 }
               }
             },
@@ -1283,23 +1303,28 @@
         "tags": [
           "LoRa"
         ],
-        "summary": "List LoRa gateways",
-        "description": "Retrieve list of registered LoRa gateways",
-        "operationId": "listLoraGateways",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
+        "summary": "Get LoRa gateways",
+        "description": "Retrieve registered LoRa gateways with statistics",
         "responses": {
           "200": {
-            "description": "List of LoRa gateways",
+            "description": "LoRa gateways list",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/LoraGateway"
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
                   }
                 }
               }
@@ -1369,446 +1394,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/lora/config": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "Get LoRa server configuration",
-        "description": "Retrieve LoRa network server runtime configuration",
-        "operationId": "getLoraConfig",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "LoRa server configuration"
-          }
-        }
-      }
-    },
-    "/api/lora/stats": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "Get LoRa server statistics",
-        "description": "Retrieve LoRa network server statistics",
-        "operationId": "getLoraStats",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "LoRa server statistics"
-          }
-        }
-      }
-    },
-    "/api/lora/devices": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "List LoRa devices",
-        "description": "Retrieve list of registered LoRa end devices",
-        "operationId": "listLoraDevices",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            },
-            "description": "Maximum number of devices to return"
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            },
-            "description": "Offset for pagination"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of LoRa devices",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "devices": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "devEui": {
-                            "type": "string",
-                            "description": "Device EUI"
-                          },
-                          "name": {
-                            "type": "string"
-                          },
-                          "appEui": {
-                            "type": "string",
-                            "description": "Application EUI"
-                          },
-                          "devAddr": {
-                            "type": "string",
-                            "description": "Device address"
-                          },
-                          "class": {
-                            "type": "string",
-                            "enum": [
-                              "A",
-                              "B",
-                              "C"
-                            ]
-                          },
-                          "lastSeen": {
-                            "type": "string",
-                            "format": "date-time"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/lora/devices/stats": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "Get device statistics",
-        "description": "Retrieve statistics for all LoRa devices",
-        "operationId": "getLoraDeviceStats",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Device statistics"
-          }
-        }
-      }
-    },
-    "/api/lora/sessions": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "List active sessions",
-        "description": "Retrieve list of active device sessions",
-        "operationId": "listLoraSessions",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of active sessions"
-          }
-        }
-      }
-    },
-    "/api/lora/joinRequests": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "List join requests",
-        "description": "Retrieve list of device join requests",
-        "operationId": "listLoraJoinRequests",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of join requests"
-          }
-        }
-      }
-    },
-    "/api/lora/packets": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "List all packets",
-        "description": "Retrieve list of all LoRa packets",
-        "operationId": "listLoraPackets",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            },
-            "description": "Maximum number of packets to return"
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            },
-            "description": "Offset for pagination"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of packets"
-          }
-        }
-      }
-    },
-    "/api/lora/packets/join": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "List join packets",
-        "description": "Retrieve list of join request/accept packets",
-        "operationId": "listLoraJoinPackets",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of join packets"
-          }
-        }
-      }
-    },
-    "/api/lora/packets/up": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "List uplink packets",
-        "description": "Retrieve list of uplink data packets",
-        "operationId": "listLoraUplinkPackets",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of uplink packets"
-          }
-        }
-      }
-    },
-    "/api/lora/packets/down": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "List downlink packets",
-        "description": "Retrieve list of downlink data packets",
-        "operationId": "listLoraDownlinkPackets",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of downlink packets"
-          }
-        }
-      }
-    },
-    "/api/lora/packets/queue": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "Get downlink queue",
-        "description": "Retrieve pending downlink packets in queue",
-        "operationId": "getLoraDownlinkQueue",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Downlink queue"
-          }
-        }
-      }
-    },
-    "/api/lora/packets/recent": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "Get recent packets",
-        "description": "Retrieve most recent packets (uplink and downlink)",
-        "operationId": "getLoraRecentPackets",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Recent packets"
-          }
-        }
-      }
-    },
-    "/api/lora/profiles/device": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "List device profiles",
-        "description": "Retrieve list of device profiles",
-        "operationId": "listLoraDeviceProfiles",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of device profiles"
-          }
-        }
-      }
-    },
-    "/api/lora/profiles/network": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "List network profiles",
-        "description": "Retrieve list of network profiles",
-        "operationId": "listLoraNetworkProfiles",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of network profiles"
-          }
-        }
-      }
-    },
-    "/api/lora/groups": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "List multicast groups",
-        "description": "Retrieve list of multicast groups",
-        "operationId": "listLoraGroups",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of multicast groups"
-          }
-        }
-      }
-    },
-    "/api/lora/fotaprogress": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "Get FOTA progress",
-        "description": "Retrieve firmware over-the-air update progress",
-        "operationId": "getLoraFotaProgress",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "FOTA progress"
-          }
-        }
-      }
-    },
-    "/api/lora/fotaschedule": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "Get FOTA schedule",
-        "description": "Retrieve scheduled FOTA updates",
-        "operationId": "getLoraFotaSchedule",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "FOTA schedule"
-          }
-        }
-      }
-    },
-    "/api/lora/fotaresults": {
-      "get": {
-        "tags": [
-          "LoRa"
-        ],
-        "summary": "Get FOTA results",
-        "description": "Retrieve results of FOTA updates",
-        "operationId": "getLoraFotaResults",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "FOTA results"
           }
         }
       }
@@ -1961,66 +1546,65 @@
         }
       }
     },
-    "/api/ni": {
+    "/api?fields=wanmngr": {
       "get": {
         "tags": [
-          "Network"
+          "WAN Management"
         ],
-        "summary": "Get network interfaces",
-        "description": "Retrieve all network interface configurations including IPv4, IPv6, VLAN, and 802.1X settings.\nSee [NETWORK-INTERFACES-SCHEMA](NETWORK-INTERFACES-SCHEMA.md) for complete documentation.\n",
-        "operationId": "getNetworkInterfaces",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
+        "summary": "Get WAN manager configuration",
+        "description": "Retrieve WAN failover and load balancing configuration",
         "responses": {
           "200": {
-            "description": "Network interfaces configuration",
+            "description": "WAN manager configuration",
             "content": {
               "application/json": {
                 "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/SuccessResponse"
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
                     },
-                    {
+                    "status": {
+                      "type": "string"
+                    },
+                    "result": {
                       "type": "object",
                       "properties": {
-                        "result": {
+                        "wanmngr": {
                           "type": "object",
                           "properties": {
-                            "nis": {
+                            "mode": {
+                              "type": "string",
+                              "enum": [
+                                "FAILOVER",
+                                "LOAD_BALANCE"
+                              ]
+                            },
+                            "wans": {
                               "type": "array",
-                              "description": "Array of network interface configurations",
                               "items": {
-                                "type": "object",
-                                "description": "See NETWORK-INTERFACES-SCHEMA.md for complete properties"
+                                "type": "object"
                               }
                             }
                           }
                         }
                       }
                     }
-                  ]
+                  }
                 }
               }
             }
           }
         }
-      },
+      }
+    },
+    "/api/wanmngr": {
       "put": {
         "tags": [
-          "Network"
+          "WAN Management"
         ],
-        "summary": "Update network interfaces",
-        "description": "Update network interface configurations",
-        "operationId": "updateNetworkInterfaces",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
+        "summary": "Update WAN manager configuration",
+        "description": "Configure WAN failover and load balancing",
         "requestBody": {
           "required": true,
           "content": {
@@ -2028,7 +1612,14 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "nis": {
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "FAILOVER",
+                      "LOAD_BALANCE"
+                    ]
+                  },
+                  "wans": {
                     "type": "array",
                     "items": {
                       "type": "object"
@@ -2041,482 +1632,113 @@
         },
         "responses": {
           "200": {
-            "description": "Network interfaces updated"
+            "description": "WAN manager configuration updated"
           }
         }
       }
     },
-    "/api/snmp": {
+    "/api?fields=waninfo": {
       "get": {
         "tags": [
-          "Network"
+          "WAN Management"
         ],
-        "summary": "Get SNMP configuration",
-        "description": "Retrieve SNMP agent and trap configuration.\nSee [SNMP-SCHEMA](SNMP-SCHEMA.md) for complete documentation.\n",
-        "operationId": "getSnmp",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
+        "summary": "Get WAN interface status",
+        "description": "Retrieve real-time WAN interface status (read-only)",
         "responses": {
           "200": {
-            "description": "SNMP configuration"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Network"
-        ],
-        "summary": "Update SNMP configuration",
-        "description": "Update SNMP agent and trap settings",
-        "operationId": "updateSnmp",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "SNMP configuration updated"
-          }
-        }
-      }
-    },
-    "/api/alert": {
-      "get": {
-        "tags": [
-          "Status"
-        ],
-        "summary": "Get alert configuration",
-        "description": "Retrieve alert and notification settings.\nSee [ALERT-SCHEMA](ALERT-SCHEMA.md) for complete documentation.\n",
-        "operationId": "getAlert",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Alert configuration"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Status"
-        ],
-        "summary": "Update alert configuration",
-        "description": "Update alert and notification settings",
-        "operationId": "updateAlert",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Alert configuration updated"
-          }
-        }
-      }
-    },
-    "/api/ipsecTunnels": {
-      "get": {
-        "tags": [
-          "VPN"
-        ],
-        "summary": "Get IPsec tunnels",
-        "description": "Retrieve IPsec VPN tunnel configurations.\nSee [VPN-SCHEMAS](VPN-SCHEMAS.md) for complete documentation.\n",
-        "operationId": "getIpsecTunnels",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "IPsec tunnels configuration"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "VPN"
-        ],
-        "summary": "Create IPsec tunnel",
-        "description": "Create a new IPsec VPN tunnel",
-        "operationId": "createIpsecTunnel",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "IPsec tunnel created"
-          }
-        }
-      }
-    },
-    "/api/greTunnels": {
-      "get": {
-        "tags": [
-          "VPN"
-        ],
-        "summary": "Get GRE tunnels",
-        "description": "Retrieve GRE tunnel configurations.\nSee [VPN-SCHEMAS](VPN-SCHEMAS.md) for complete documentation.\n",
-        "operationId": "getGreTunnels",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "GRE tunnels configuration"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "VPN"
-        ],
-        "summary": "Create GRE tunnel",
-        "description": "Create a new GRE tunnel",
-        "operationId": "createGreTunnel",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "GRE tunnel created"
-          }
-        }
-      }
-    },
-    "/api/ovpnTunnels": {
-      "get": {
-        "tags": [
-          "VPN"
-        ],
-        "summary": "Get OpenVPN tunnels",
-        "description": "Retrieve OpenVPN tunnel configurations.\nSee [VPN-SCHEMAS](VPN-SCHEMAS.md) for complete documentation.\n",
-        "operationId": "getOvpnTunnels",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OpenVPN tunnels configuration"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "VPN"
-        ],
-        "summary": "Create OpenVPN tunnel",
-        "description": "Create a new OpenVPN tunnel",
-        "operationId": "createOvpnTunnel",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OpenVPN tunnel created"
-          }
-        }
-      }
-    },
-    "/api/nat": {
-      "get": {
-        "tags": [
-          "Firewall"
-        ],
-        "summary": "Get NAT rules",
-        "description": "Retrieve NAT rule configurations.\nSee [NAT-FIREWALL-SCHEMAS](NAT-FIREWALL-SCHEMAS.md) for complete documentation.\n",
-        "operationId": "getNat",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "NAT rules configuration"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Firewall"
-        ],
-        "summary": "Create NAT rule",
-        "description": "Create a new NAT rule",
-        "operationId": "createNatRule",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "NAT rule created"
-          }
-        }
-      }
-    },
-    "/api/firewall": {
-      "get": {
-        "tags": [
-          "Firewall"
-        ],
-        "summary": "Get firewall settings",
-        "description": "Retrieve global firewall settings.\nSee [NAT-FIREWALL-SCHEMAS](NAT-FIREWALL-SCHEMAS.md) for complete documentation.\n",
-        "operationId": "getFirewall",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Firewall settings"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Firewall"
-        ],
-        "summary": "Update firewall settings",
-        "description": "Update global firewall settings",
-        "operationId": "updateFirewall",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Firewall settings updated"
-          }
-        }
-      }
-    },
-    "/api/filters": {
-      "get": {
-        "tags": [
-          "Firewall"
-        ],
-        "summary": "Get filter rules",
-        "description": "Retrieve firewall filter rules.\nSee [NAT-FIREWALL-SCHEMAS](NAT-FIREWALL-SCHEMAS.md) for complete documentation.\n",
-        "operationId": "getFilters",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Filter rules configuration"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Firewall"
-        ],
-        "summary": "Create filter rule",
-        "description": "Create a new firewall filter rule",
-        "operationId": "createFilterRule",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Filter rule created"
-          }
-        }
-      }
-    },
-    "/api/routes": {
-      "get": {
-        "tags": [
-          "Network"
-        ],
-        "summary": "Get static routes",
-        "description": "Retrieve static route configurations.\nSee [NAT-FIREWALL-SCHEMAS](NAT-FIREWALL-SCHEMAS.md) for complete documentation.\n",
-        "operationId": "getRoutes",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Static routes configuration"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Network"
-        ],
-        "summary": "Create static route",
-        "description": "Create a new static route",
-        "operationId": "createRoute",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Static route created"
-          }
-        }
-      }
-    },
-    "/api/secureProtocols": {
-      "get": {
-        "tags": [
-          "System"
-        ],
-        "summary": "Get secure protocols configuration",
-        "description": "Retrieve TLS/SSH cipher suite configurations.\nSee [SECURITY-SCHEMAS](SECURITY-SCHEMAS.md) for complete documentation.\n",
-        "operationId": "getSecureProtocols",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Secure protocols configuration"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "System"
-        ],
-        "summary": "Update secure protocols",
-        "description": "Update TLS/SSH cipher suite configurations",
-        "operationId": "updateSecureProtocols",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
+            "description": "WAN interface status",
+            "content": {
+              "application/json": {
+                "schema": {
                   "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api?fields=ipPassthrough": {
+      "get": {
+        "tags": [
+          "WAN Management"
+        ],
+        "summary": "Get IP passthrough configuration",
+        "description": "Retrieve IP passthrough/bridge mode configuration",
+        "responses": {
+          "200": {
+            "description": "IP passthrough configuration"
+          }
+        }
+      }
+    },
+    "/api/ipPassthrough": {
+      "put": {
+        "tags": [
+          "WAN Management"
+        ],
+        "summary": "Update IP passthrough configuration",
+        "description": "Configure IP passthrough/bridge mode",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "IP passthrough configuration updated"
+          }
+        }
+      }
+    },
+    "/api?fields=lldp": {
+      "get": {
+        "tags": [
+          "Network"
+        ],
+        "summary": "Get LLDP configuration",
+        "description": "Retrieve Link Layer Discovery Protocol configuration",
+        "responses": {
+          "200": {
+            "description": "LLDP configuration"
+          }
+        }
+      }
+    },
+    "/api/lldp": {
+      "put": {
+        "tags": [
+          "Network"
+        ],
+        "summary": "Update LLDP configuration",
+        "description": "Configure Link Layer Discovery Protocol",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "sysName": {
+                    "type": "string"
+                  },
+                  "sysDescr": {
+                    "type": "string"
+                  },
+                  "txInterval": {
+                    "type": "integer"
+                  },
+                  "txHold": {
+                    "type": "integer"
+                  }
                 }
               }
             }
@@ -2524,42 +1746,137 @@
         },
         "responses": {
           "200": {
-            "description": "Secure protocols updated"
+            "description": "LLDP configuration updated"
           }
         }
       }
     },
-    "/api/remoteAccess": {
+    "/api?fields=mdns": {
       "get": {
         "tags": [
-          "System"
+          "Network"
         ],
-        "summary": "Get remote access configuration",
-        "description": "Retrieve remote access and security settings.\nSee [SECURITY-SCHEMAS](SECURITY-SCHEMAS.md) for complete documentation.\n",
-        "operationId": "getRemoteAccess",
-        "security": [
-          {
-            "cookieAuth": []
+        "summary": "Get mDNS configuration",
+        "description": "Retrieve Multicast DNS (Bonjour) configuration",
+        "responses": {
+          "200": {
+            "description": "mDNS configuration"
           }
+        }
+      }
+    },
+    "/api/mdns": {
+      "put": {
+        "tags": [
+          "Network"
         ],
+        "summary": "Update mDNS configuration",
+        "description": "Configure Multicast DNS (Bonjour)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "allowInterfaces": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "mDNS configuration updated"
+          }
+        }
+      }
+    },
+    "/api?fields=ddns": {
+      "get": {
+        "tags": [
+          "Network"
+        ],
+        "summary": "Get Dynamic DNS configuration",
+        "description": "Retrieve Dynamic DNS configuration",
+        "responses": {
+          "200": {
+            "description": "Dynamic DNS configuration"
+          }
+        }
+      }
+    },
+    "/api/ddns": {
+      "put": {
+        "tags": [
+          "Network"
+        ],
+        "summary": "Update Dynamic DNS configuration",
+        "description": "Configure Dynamic DNS",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "PROVIDER",
+                      "CUSTOM"
+                    ]
+                  },
+                  "server": {
+                    "type": "string"
+                  },
+                  "domain": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dynamic DNS configuration updated"
+          }
+        }
+      }
+    },
+    "/api?fields=remoteAccess": {
+      "get": {
+        "tags": [
+          "Security"
+        ],
+        "summary": "Get remote access security configuration",
+        "description": "Retrieve HTTP/HTTPS/SSH/SNMP security settings",
         "responses": {
           "200": {
             "description": "Remote access configuration"
           }
         }
-      },
+      }
+    },
+    "/api/remoteAccess": {
       "put": {
         "tags": [
-          "System"
+          "Security"
         ],
-        "summary": "Update remote access configuration",
-        "description": "Update remote access and security settings",
-        "operationId": "updateRemoteAccess",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
+        "summary": "Update remote access security configuration",
+        "description": "Configure HTTP/HTTPS/SSH/SNMP security settings, brute force protection, DoS prevention",
         "requestBody": {
           "required": true,
           "content": {
@@ -2577,91 +1894,56 @@
         }
       }
     },
-    "/api/trustedIp": {
+    "/api?fields=radius": {
       "get": {
         "tags": [
-          "Firewall"
-        ],
-        "summary": "Get trusted IP configuration",
-        "description": "Retrieve IP whitelist/blacklist configuration.\nSee [SECURITY-SCHEMAS](SECURITY-SCHEMAS.md) for complete documentation.\n",
-        "operationId": "getTrustedIp",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Trusted IP configuration"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Firewall"
-        ],
-        "summary": "Update trusted IP configuration",
-        "description": "Update IP whitelist/blacklist configuration",
-        "operationId": "updateTrustedIp",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Trusted IP configuration updated"
-          }
-        }
-      }
-    },
-    "/api/radius": {
-      "get": {
-        "tags": [
-          "System"
+          "Security"
         ],
         "summary": "Get RADIUS configuration",
-        "description": "Retrieve RADIUS authentication configuration.\nSee [SECURITY-SCHEMAS](SECURITY-SCHEMAS.md) for complete documentation.\n",
-        "operationId": "getRadius",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
+        "description": "Retrieve RADIUS authentication server configuration",
         "responses": {
           "200": {
             "description": "RADIUS configuration"
           }
         }
-      },
+      }
+    },
+    "/api/radius": {
       "put": {
         "tags": [
-          "System"
+          "Security"
         ],
         "summary": "Update RADIUS configuration",
-        "description": "Update RADIUS authentication configuration",
-        "operationId": "updateRadius",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
+        "description": "Configure RADIUS authentication server",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object"
+                "type": "object",
+                "properties": {
+                  "authEnabled": {
+                    "type": "boolean"
+                  },
+                  "authPort": {
+                    "type": "integer"
+                  },
+                  "authType": {
+                    "type": "string",
+                    "enum": [
+                      "PAP",
+                      "CHAP",
+                      "MSCHAP",
+                      "MSCHAPv2"
+                    ]
+                  },
+                  "host": {
+                    "type": "string"
+                  },
+                  "secret": {
+                    "type": "string"
+                  }
+                }
               }
             }
           }
@@ -2672,6 +1954,684 @@
           }
         }
       }
+    },
+    "/api?fields=bootloader": {
+      "get": {
+        "tags": [
+          "Security"
+        ],
+        "summary": "Get bootloader configuration",
+        "description": "Retrieve bootloader console and security settings",
+        "responses": {
+          "200": {
+            "description": "Bootloader configuration"
+          }
+        }
+      }
+    },
+    "/api/bootloader": {
+      "put": {
+        "tags": [
+          "Security"
+        ],
+        "summary": "Update bootloader configuration",
+        "description": "Configure bootloader console access and security",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Bootloader configuration updated"
+          }
+        }
+      }
+    },
+    "/api?fields=resetButton": {
+      "get": {
+        "tags": [
+          "Security"
+        ],
+        "summary": "Get reset button configuration",
+        "description": "Retrieve physical reset button configuration",
+        "responses": {
+          "200": {
+            "description": "Reset button configuration"
+          }
+        }
+      }
+    },
+    "/api/resetButton": {
+      "put": {
+        "tags": [
+          "Security"
+        ],
+        "summary": "Update reset button configuration",
+        "description": "Configure physical reset button behavior",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "resetToFactoryDefault": {
+                    "type": "boolean"
+                  },
+                  "resetToUserDefinedDefault": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reset button configuration updated"
+          }
+        }
+      }
+    },
+    "/api?fields=backOffTimers": {
+      "get": {
+        "tags": [
+          "Cellular"
+        ],
+        "summary": "Get cellular backoff timers",
+        "description": "Retrieve carrier-specific retry backoff timers",
+        "responses": {
+          "200": {
+            "description": "Backoff timers configuration"
+          }
+        }
+      }
+    },
+    "/api/backOffTimers": {
+      "put": {
+        "tags": [
+          "Cellular"
+        ],
+        "summary": "Update cellular backoff timers",
+        "description": "Configure carrier-specific retry backoff timers",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Backoff timers configuration updated"
+          }
+        }
+      }
+    },
+    "/api?fields=cellTimeSync": {
+      "get": {
+        "tags": [
+          "Time Sync"
+        ],
+        "summary": "Get cellular time sync configuration",
+        "description": "Retrieve cellular network time synchronization settings",
+        "responses": {
+          "200": {
+            "description": "Cellular time sync configuration"
+          }
+        }
+      }
+    },
+    "/api/cellTimeSync": {
+      "put": {
+        "tags": [
+          "Time Sync"
+        ],
+        "summary": "Update cellular time sync configuration",
+        "description": "Configure cellular network time synchronization",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "pollingTime": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cellular time sync configuration updated"
+          }
+        }
+      }
+    },
+    "/api?fields=autoReboot": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Get auto-reboot configuration",
+        "description": "Retrieve automatic reboot scheduler configuration",
+        "responses": {
+          "200": {
+            "description": "Auto-reboot configuration"
+          }
+        }
+      }
+    },
+    "/api/autoReboot": {
+      "put": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Update auto-reboot configuration",
+        "description": "Configure automatic reboot scheduler",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "DISABLED",
+                      "DAILY",
+                      "WEEKLY",
+                      "INTERVAL"
+                    ]
+                  },
+                  "hour": {
+                    "type": "integer"
+                  },
+                  "minute": {
+                    "type": "integer"
+                  },
+                  "interval": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Auto-reboot configuration updated"
+          }
+        }
+      }
+    },
+    "/api?fields=remoteMgmt": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Get remote management configuration",
+        "description": "Retrieve Multi-Tech cloud management integration settings",
+        "responses": {
+          "200": {
+            "description": "Remote management configuration"
+          }
+        }
+      }
+    },
+    "/api/remoteMgmt": {
+      "put": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Update remote management configuration",
+        "description": "Configure Multi-Tech cloud management integration",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "serverName": {
+                    "type": "string"
+                  },
+                  "allowFirmwareUpgrade": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Remote management configuration updated"
+          }
+        }
+      }
+    },
+    "/api?fields=brand": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Get branding configuration",
+        "description": "Retrieve white-label branding configuration",
+        "responses": {
+          "200": {
+            "description": "Branding configuration"
+          }
+        }
+      }
+    },
+    "/api/brand": {
+      "put": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Update branding configuration",
+        "description": "Configure white-label branding",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Branding configuration updated"
+          }
+        }
+      }
+    },
+    "/api?fields=customAppsConfig": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Get custom apps configuration",
+        "description": "Retrieve custom application settings",
+        "responses": {
+          "200": {
+            "description": "Custom apps configuration"
+          }
+        }
+      }
+    },
+    "/api/customAppsConfig": {
+      "put": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Update custom apps configuration",
+        "description": "Configure custom application settings",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "allowed": {
+                    "type": "boolean"
+                  },
+                  "backupOnInstall": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Custom apps configuration updated"
+          }
+        }
+      }
+    },
+    "/api?fields=smtp": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Get SMTP configuration",
+        "description": "Retrieve SMTP email server configuration",
+        "responses": {
+          "200": {
+            "description": "SMTP configuration"
+          }
+        }
+      }
+    },
+    "/api/smtp": {
+      "put": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Update SMTP configuration",
+        "description": "Configure SMTP email server",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "serverAddress": {
+                    "type": "string"
+                  },
+                  "serverPort": {
+                    "type": "integer"
+                  },
+                  "sourceEmailAddress": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SMTP configuration updated"
+          }
+        }
+      }
+    },
+    "/api?fields=sntp": {
+      "get": {
+        "tags": [
+          "Time Sync"
+        ],
+        "summary": "Get SNTP configuration",
+        "description": "Retrieve NTP time synchronization configuration",
+        "responses": {
+          "200": {
+            "description": "SNTP configuration"
+          }
+        }
+      }
+    },
+    "/api/sntp": {
+      "put": {
+        "tags": [
+          "Time Sync"
+        ],
+        "summary": "Update SNTP configuration",
+        "description": "Configure NTP time synchronization",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "servers": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "timeZone": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SNTP configuration updated"
+          }
+        }
+      }
+    },
+    "/api?fields=notificationEventGroup": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Get notification event groups",
+        "description": "Retrieve event notification configuration",
+        "responses": {
+          "200": {
+            "description": "Notification event groups"
+          }
+        }
+      }
+    },
+    "/api/notificationEventGroup": {
+      "put": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Update notification event groups",
+        "description": "Configure event notifications (email, SMS, SNMP)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Notification event groups updated"
+          }
+        }
+      }
+    },
+    "/api?fields=stats/dashboard": {
+      "get": {
+        "tags": [
+          "Monitoring"
+        ],
+        "summary": "Get comprehensive dashboard stats",
+        "description": "Retrieve comprehensive system overview with all critical stats in a single call",
+        "parameters": [
+          {
+            "name": "inactivity",
+            "in": "query",
+            "description": "Don't update session timeout (for continuous monitoring)",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dashboard statistics"
+          }
+        }
+      }
+    },
+    "/api?fields=stats/radio": {
+      "get": {
+        "tags": [
+          "Monitoring"
+        ],
+        "summary": "Get cellular radio statistics",
+        "description": "Retrieve real-time cellular radio statistics",
+        "parameters": [
+          {
+            "name": "inactivity",
+            "in": "query",
+            "description": "Don't update session timeout",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Radio statistics"
+          }
+        }
+      }
+    },
+    "/api?fields=stats/memory": {
+      "get": {
+        "tags": [
+          "Monitoring"
+        ],
+        "summary": "Get memory statistics",
+        "description": "Retrieve system memory usage statistics",
+        "responses": {
+          "200": {
+            "description": "Memory statistics"
+          }
+        }
+      }
+    },
+    "/api?fields=stats/cpu": {
+      "get": {
+        "tags": [
+          "Monitoring"
+        ],
+        "summary": "Get CPU statistics",
+        "description": "Retrieve CPU usage and load statistics",
+        "responses": {
+          "200": {
+            "description": "CPU statistics"
+          }
+        }
+      }
+    },
+    "/api?fields=stats/iface": {
+      "get": {
+        "tags": [
+          "Monitoring"
+        ],
+        "summary": "Get interface statistics",
+        "description": "Retrieve network interface statistics",
+        "responses": {
+          "200": {
+            "description": "Interface statistics"
+          }
+        }
+      }
+    },
+    "/api?fields=stats/lora": {
+      "get": {
+        "tags": [
+          "Monitoring"
+        ],
+        "summary": "Get LoRa statistics",
+        "description": "Retrieve LoRa gateway statistics",
+        "responses": {
+          "200": {
+            "description": "LoRa statistics"
+          }
+        }
+      }
+    },
+    "/api/lora/status": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "Get LoRa service status",
+        "description": "Retrieve LoRa service process status",
+        "responses": {
+          "200": {
+            "description": "LoRa service status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/lora/devices": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "Get LoRa devices",
+        "description": "Retrieve registered LoRa end devices",
+        "responses": {
+          "200": {
+            "description": "LoRa devices list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2679,8 +2639,8 @@
       "cookieAuth": {
         "type": "apiKey",
         "in": "cookie",
-        "name": "token",
-        "description": "Authentication token cookie obtained from /api/login"
+        "name": "session",
+        "description": "Session cookie obtained from /api/login"
       }
     },
     "schemas": {
@@ -3259,253 +3219,29 @@
       },
       "LoraNetwork": {
         "type": "object",
-        "description": "Complete LoRa Network configuration supporting multiple operational modes.\nSee [LORA-NETWORK-SCHEMA](LORA-NETWORK-SCHEMA.md) for comprehensive documentation.\n\nThe configuration is flat with top-level objects for each mode:\n- `lora` - Network Server mode settings\n- `packetForwarder` - Packet Forwarder mode settings\n- `basicStation` - Basic Station mode settings  \n- `chirpstack` - ChirpStack mode settings\n- `defaultApp` - Default application configuration\n- `network` - Network-wide settings\n- `udp` - UDP configuration\n- `mqtt` - MQTT broker settings\n- Plus database, logging, and other common settings\n",
         "properties": {
-          "db": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "mode": {
             "type": "string",
-            "description": "Database file path"
-          },
-          "backupInterval": {
-            "type": "integer",
-            "description": "Database backup interval in seconds"
-          },
-          "trimInterval": {
-            "type": "integer",
-            "description": "Database trim interval in seconds"
-          },
-          "trimRows": {
-            "type": "integer",
-            "description": "Number of rows to trim"
-          },
-          "lora": {
-            "type": "object",
-            "description": "LoRa Network Server mode configuration.\nContains 100+ properties for network server operation.\nSee LORA-NETWORK-SCHEMA.md section 1 for complete details.\n",
-            "properties": {
-              "enabled": {
-                "type": "boolean",
-                "description": "Enable/disable LoRa network server"
-              },
-              "enableAdr": {
-                "type": "boolean",
-                "description": "Enable Adaptive Data Rate"
-              },
-              "basicStationMode": {
-                "type": "boolean",
-                "description": "Enable Basic Station mode"
-              },
-              "packetForwarderMode": {
-                "type": "boolean",
-                "description": "Enable Packet Forwarder mode"
-              },
-              "channelPlan": {
-                "type": "string",
-                "description": "Channel plan (US915, EU868, AS923, etc.)"
-              },
-              "frequencySubBand": {
-                "type": "integer",
-                "description": "Frequency sub-band (US915/AU915)"
-              },
-              "netID": {
-                "type": "string",
-                "description": "Network ID"
-              },
-              "maxTxPower": {
-                "type": "integer",
-                "description": "Maximum transmit power in dBm"
-              },
-              "antennaGain": {
-                "type": "integer",
-                "description": "Antenna gain in dBi"
-              },
-              "rx1Delay": {
-                "type": "integer",
-                "description": "RX1 delay in seconds"
-              },
-              "rx2Datarate": {
-                "type": "integer",
-                "description": "RX2 datarate"
-              }
-            }
+            "enum": [
+              "PACKET_FORWARDER",
+              "BASIC_STATION",
+              "NETWORK_SERVER"
+            ]
           },
           "packetForwarder": {
             "type": "object",
-            "description": "Packet Forwarder mode configuration.\nForwards packets to external network server.\nSee LORA-NETWORK-SCHEMA.md section 2 for complete details.\n",
-            "properties": {
-              "serverAddress": {
-                "type": "string",
-                "description": "Network server address (IP or domain)"
-              },
-              "serverAddress2": {
-                "type": "string",
-                "description": "Secondary server address"
-              },
-              "upstreamPort": {
-                "type": "integer",
-                "description": "Upstream UDP port"
-              },
-              "downstreamPort": {
-                "type": "integer",
-                "description": "Downstream UDP port"
-              },
-              "gwID": {
-                "type": "string",
-                "description": "Gateway ID (16-char hex)"
-              },
-              "channelPlan": {
-                "type": "string",
-                "description": "Channel plan"
-              },
-              "antennaGain": {
-                "type": "integer",
-                "description": "Antenna gain in dBi"
-              },
-              "keepAliveInterval": {
-                "type": "integer",
-                "description": "Keep-alive interval in seconds"
-              },
-              "statInterval": {
-                "type": "integer",
-                "description": "Statistics interval in seconds"
-              }
-            }
+            "description": "Packet forwarder configuration"
           },
           "basicStation": {
             "type": "object",
-            "description": "Basic Station mode configuration (Semtech protocol).\nSee LORA-NETWORK-SCHEMA.md section 3 for complete details.\n",
-            "properties": {
-              "uri": {
-                "type": "string",
-                "description": "LNS server URI"
-              },
-              "trust": {
-                "type": "string",
-                "description": "Trust store (CA certificates)"
-              },
-              "cert": {
-                "type": "string",
-                "description": "Client certificate"
-              },
-              "key": {
-                "type": "string",
-                "description": "Client private key"
-              },
-              "credentials": {
-                "type": "string",
-                "description": "Credentials configuration"
-              },
-              "persistance": {
-                "type": "boolean",
-                "description": "Enable persistence"
-              }
-            }
+            "description": "Basic station configuration"
           },
-          "chirpstack": {
+          "networkServer": {
             "type": "object",
-            "description": "ChirpStack Network Server integration.\nSee LORA-NETWORK-SCHEMA.md section 4 for complete details.\n",
-            "properties": {
-              "configs": {
-                "type": "array",
-                "description": "ChirpStack configuration array",
-                "items": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "defaultApp": {
-            "type": "object",
-            "description": "Default application server configuration.\nSee LORA-NETWORK-SCHEMA.md section 5 for complete details.\n",
-            "properties": {
-              "enabled": {
-                "type": "boolean"
-              },
-              "url": {
-                "type": "string",
-                "description": "Application server URL"
-              },
-              "eui": {
-                "type": "string",
-                "description": "Application EUI"
-              },
-              "encodeHex": {
-                "type": "boolean",
-                "description": "Encode payload as hex"
-              }
-            }
-          },
-          "network": {
-            "type": "object",
-            "description": "Network-wide configuration settings.\nSee LORA-NETWORK-SCHEMA.md section 6 for complete details.\n",
-            "properties": {
-              "public": {
-                "type": "boolean",
-                "description": "Public or private network"
-              }
-            }
-          },
-          "udp": {
-            "type": "object",
-            "description": "UDP protocol configuration.\nSee LORA-NETWORK-SCHEMA.md section 7 for complete details.\n",
-            "properties": {
-              "port": {
-                "type": "integer",
-                "description": "UDP port"
-              }
-            }
-          },
-          "mqtt": {
-            "type": "object",
-            "description": "Local MQTT broker configuration.\nSee LORA-NETWORK-SCHEMA.md section 11 for complete details.\n",
-            "properties": {
-              "enabled": {
-                "type": "boolean"
-              },
-              "port": {
-                "type": "integer",
-                "description": "MQTT broker port"
-              }
-            }
-          },
-          "trafficManager": {
-            "type": "object",
-            "description": "Traffic management configuration"
-          },
-          "whitelist": {
-            "type": "object",
-            "description": "Device whitelist configuration"
-          },
-          "addressRange": {
-            "type": "object",
-            "description": "Address range configuration"
-          },
-          "redundancy": {
-            "type": "object",
-            "description": "Gateway redundancy configuration"
-          },
-          "spectralScan": {
-            "type": "object",
-            "description": "Spectral scan configuration"
-          },
-          "log": {
-            "type": "object",
-            "properties": {
-              "level": {
-                "type": "integer",
-                "description": "Log level (0-5)"
-              },
-              "destination": {
-                "type": "string",
-                "enum": [
-                  "STDOUT",
-                  "FILE",
-                  "SYSLOG"
-                ]
-              },
-              "path": {
-                "type": "string",
-                "description": "Log file path"
-              }
-            }
+            "description": "Network server configuration"
           }
         }
       },

@@ -58,8 +58,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/login",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "login"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
             },
             "description": "Authenticate user and create session"
           },
@@ -72,8 +77,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/logout",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "logout"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "logout"
+              ]
             },
             "description": "Terminate current session"
           },
@@ -95,8 +105,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/commissioning",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "commissioning"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "commissioning"
+              ]
             },
             "description": "Initial device setup"
           },
@@ -109,8 +124,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/policy",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "policy"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "policy"
+              ]
             },
             "description": "Check device availability"
           },
@@ -128,8 +148,12 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api?fields=system",
-              "host": ["{{baseUrl}}"],
-              "path": ["api"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
               "query": [
                 {
                   "key": "fields",
@@ -148,8 +172,12 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api?fields=system/capabilities",
-              "host": ["{{baseUrl}}"],
-              "path": ["api"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
               "query": [
                 {
                   "key": "fields",
@@ -168,8 +196,12 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api?fields=system/dbDirty",
-              "host": ["{{baseUrl}}"],
-              "path": ["api"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
               "query": [
                 {
                   "key": "fields",
@@ -197,8 +229,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/system",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "system"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "system"
+              ]
             },
             "description": "Update system configuration"
           },
@@ -216,8 +253,12 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api?fields=cellular",
-              "host": ["{{baseUrl}}"],
-              "path": ["api"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
               "query": [
                 {
                   "key": "fields",
@@ -245,8 +286,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/cellular",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "cellular"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cellular"
+              ]
             },
             "description": "Update cellular configuration"
           },
@@ -264,8 +310,12 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api?fields=users",
-              "host": ["{{baseUrl}}"],
-              "path": ["api"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
               "query": [
                 {
                   "key": "fields",
@@ -293,8 +343,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/users",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "users"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users"
+              ]
             },
             "description": "Create new user"
           },
@@ -316,8 +371,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/users/:username",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "users", ":username"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                ":username"
+              ],
               "variable": [
                 {
                   "key": "username",
@@ -336,8 +397,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/users/:username",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "users", ":username"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "users",
+                ":username"
+              ],
               "variable": [
                 {
                   "key": "username",
@@ -355,14 +422,68 @@
       "name": "Network",
       "item": [
         {
+          "name": "Get Network Interfaces",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=ni",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "ni"
+                }
+              ]
+            },
+            "description": "Retrieve all network interface configurations (IPv4, IPv6, VLAN, 802.1X)"
+          }
+        },
+        {
+          "name": "Update Network Interfaces",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nis\": [\n    {\n      \"name\": \"eth0\",\n      \"type\": \"LAN\",\n      \"nitype\": \"ETHER\",\n      \"available\": true,\n      \"bridge\": \"--\",\n      \"vlanId\": -1,\n      \"ipv4\": {\n        \"mode\": \"STATIC\",\n        \"ip\": \"192.168.1.1\",\n        \"mask\": \"255.255.255.0\",\n        \"gateway\": \"0.0.0.0\",\n        \"dns1\": \"8.8.8.8\",\n        \"dns2\": \"8.8.4.4\",\n        \"wanMasquerade\": false\n      },\n      \"ipv6\": {\n        \"enabled\": false,\n        \"mode\": \"STATIC\",\n        \"ip\": [],\n        \"fixedIp\": [],\n        \"linkLocalIp\": [],\n        \"prefixDelegationEnabled\": false,\n        \"delegatedPrefixLength\": 64,\n        \"gateway\": \"\",\n        \"dns1\": \"\",\n        \"dns2\": \"\"\n      }\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ni",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ni"
+              ]
+            },
+            "description": "Update network interface configurations"
+          }
+        },
+        {
           "name": "Get DNS Config",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api?fields=dns",
-              "host": ["{{baseUrl}}"],
-              "path": ["api"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
               "query": [
                 {
                   "key": "fields",
@@ -389,8 +510,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/dns",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "dns"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "dns"
+              ]
             }
           },
           "response": []
@@ -402,8 +528,12 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api?fields=wifi",
-              "host": ["{{baseUrl}}"],
-              "path": ["api"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
               "query": [
                 {
                   "key": "fields",
@@ -430,8 +560,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/wifi",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "wifi"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "wifi"
+              ]
             }
           },
           "response": []
@@ -448,8 +583,12 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api?fields=status",
-              "host": ["{{baseUrl}}"],
-              "path": ["api"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
               "query": [
                 {
                   "key": "fields",
@@ -467,8 +606,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/status/:guid",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "status", ":guid"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "status",
+                ":guid"
+              ],
               "variable": [
                 {
                   "key": "guid",
@@ -491,8 +636,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/command/save",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "command", "save"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "command",
+                "save"
+              ]
             },
             "description": "Save configuration to persistent storage"
           },
@@ -505,8 +656,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/command/revert",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "command", "revert"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "command",
+                "revert"
+              ]
             },
             "description": "Revert to last saved configuration"
           },
@@ -519,8 +676,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/command/restart",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "command", "restart"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "command",
+                "restart"
+              ]
             },
             "description": "Restart the device"
           },
@@ -542,8 +705,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/command/passwd",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "command", "passwd"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "command",
+                "passwd"
+              ]
             }
           },
           "response": []
@@ -564,8 +733,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/command/ping",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "command", "ping"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "command",
+                "ping"
+              ]
             }
           },
           "response": []
@@ -577,8 +752,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/command/reset_modem",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "command", "reset_modem"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "command",
+                "reset_modem"
+              ]
             }
           },
           "response": []
@@ -590,8 +771,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/command/reset_wifi",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "command", "reset_wifi"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "command",
+                "reset_wifi"
+              ]
             }
           },
           "response": []
@@ -608,8 +795,12 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api?fields=loraNetwork",
-              "host": ["{{baseUrl}}"],
-              "path": ["api"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
               "query": [
                 {
                   "key": "fields",
@@ -636,8 +827,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/loraNetwork",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "loraNetwork"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "loraNetwork"
+              ]
             }
           },
           "response": []
@@ -649,8 +845,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/lora/gateways",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "lora", "gateways"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "gateways"
+              ]
             }
           },
           "response": []
@@ -662,8 +864,15 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/lora/gateways/:gwEui",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "lora", "gateways", ":gwEui"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "gateways",
+                ":gwEui"
+              ],
               "variable": [
                 {
                   "key": "gwEui",
@@ -681,8 +890,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/lora/restart",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "lora", "restart"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "restart"
+              ]
             }
           },
           "response": []
@@ -699,8 +914,12 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api?fields=gps",
-              "host": ["{{baseUrl}}"],
-              "path": ["api"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
               "query": [
                 {
                   "key": "fields",
@@ -727,8 +946,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/gps",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "gps"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "gps"
+              ]
             }
           },
           "response": []
@@ -745,8 +969,12 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api?fields=docker",
-              "host": ["{{baseUrl}}"],
-              "path": ["api"],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
               "query": [
                 {
                   "key": "fields",
@@ -773,11 +1001,669 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/docker",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "docker"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "docker"
+              ]
             }
           },
           "response": []
+        }
+      ]
+    },
+    {
+      "name": "SNMP",
+      "description": "SNMP agent and trap configuration",
+      "item": [
+        {
+          "name": "Get SNMP Configuration",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=snmp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "snmp"
+                }
+              ]
+            },
+            "description": "Retrieve SNMP agent and trap configuration"
+          }
+        },
+        {
+          "name": "Update SNMP Configuration",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"server\": {\n    \"enabled\": true,\n    \"sysName\": \"MyDevice\",\n    \"sysLocation\": \"Office\",\n    \"sysContact\": \"admin@example.com\",\n    \"users\": [],\n    \"allowedAddresses\": []\n  },\n  \"traps\": {\n    \"enabled\": false,\n    \"engineId\": \"\",\n    \"receivers\": []\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/snmp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "snmp"
+              ]
+            },
+            "description": "Update SNMP agent and trap settings"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Alerts",
+      "description": "Alert and notification configuration",
+      "item": [
+        {
+          "name": "Get Alert Configuration",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=alert",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "alert"
+                }
+              ]
+            },
+            "description": "Retrieve alert and notification settings"
+          }
+        },
+        {
+          "name": "Update Alert Configuration",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"alerts\": [],\n  \"groups\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/alert",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "alert"
+              ]
+            },
+            "description": "Update alert and notification settings"
+          }
+        }
+      ]
+    },
+    {
+      "name": "VPN Tunnels",
+      "description": "IPsec, GRE, and OpenVPN tunnel configuration",
+      "item": [
+        {
+          "name": "Get IPsec Tunnels",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=ipsecTunnels",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "ipsecTunnels"
+                }
+              ]
+            },
+            "description": "Retrieve IPsec VPN tunnel configurations"
+          }
+        },
+        {
+          "name": "Create IPsec Tunnel",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enabled\": true,\n  \"name\": \"tunnel1\",\n  \"description\": \"Site-to-site VPN\",\n  \"remoteWanIp\": \"203.0.113.50\",\n  \"type\": \"IKEv2\",\n  \"authMethod\": \"secret\",\n  \"psk\": \"MySecretKey\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ipsecTunnels",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ipsecTunnels"
+              ]
+            },
+            "description": "Create a new IPsec VPN tunnel"
+          }
+        },
+        {
+          "name": "Get GRE Tunnels",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=greTunnels",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "greTunnels"
+                }
+              ]
+            },
+            "description": "Retrieve GRE tunnel configurations"
+          }
+        },
+        {
+          "name": "Create GRE Tunnel",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enabled\": true,\n  \"name\": \"gre1\",\n  \"description\": \"GRE to HQ\",\n  \"remoteIp\": \"203.0.113.100\",\n  \"ttl\": 64,\n  \"tunnelIp\": \"10.255.255.1\",\n  \"tunnelMask\": \"255.255.255.252\",\n  \"routes\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/greTunnels",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "greTunnels"
+              ]
+            },
+            "description": "Create a new GRE tunnel"
+          }
+        },
+        {
+          "name": "Get OpenVPN Tunnels",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=ovpnTunnels",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "ovpnTunnels"
+                }
+              ]
+            },
+            "description": "Retrieve OpenVPN tunnel configurations"
+          }
+        },
+        {
+          "name": "Create OpenVPN Tunnel",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enabled\": true,\n  \"name\": \"ovpn1\",\n  \"description\": \"OpenVPN client\",\n  \"type\": \"CLIENT\",\n  \"config\": \"client\\ndev tun\\nproto udp\\n...\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ovpnTunnels",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ovpnTunnels"
+              ]
+            },
+            "description": "Create a new OpenVPN tunnel"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Firewall & NAT",
+      "description": "NAT rules, firewall settings, and filter rules",
+      "item": [
+        {
+          "name": "Get NAT Rules",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=nat",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "nat"
+                }
+              ]
+            },
+            "description": "Retrieve NAT rule configurations"
+          }
+        },
+        {
+          "name": "Create NAT Rule",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Port Forward\",\n  \"enabled\": true,\n  \"protocol\": \"TCP\",\n  \"chain\": \"PREROUTING\",\n  \"target\": \"DNAT\",\n  \"dstPort\": \"8080\",\n  \"toAddr\": \"192.168.1.100\",\n  \"toPort\": \"80\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/nat",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "nat"
+              ]
+            },
+            "description": "Create a new NAT rule"
+          }
+        },
+        {
+          "name": "Get Firewall Settings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=firewall",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "firewall"
+                }
+              ]
+            },
+            "description": "Retrieve global firewall settings"
+          }
+        },
+        {
+          "name": "Update Firewall Settings",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pptp\": false,\n  \"l2tp\": false,\n  \"connTrackHelpers\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/firewall",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "firewall"
+              ]
+            },
+            "description": "Update global firewall settings"
+          }
+        },
+        {
+          "name": "Get Filter Rules",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=filters",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "filters"
+                }
+              ]
+            },
+            "description": "Retrieve firewall filter rules"
+          }
+        },
+        {
+          "name": "Create Filter Rule",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Allow SSH\",\n  \"enabled\": true,\n  \"protocol\": \"TCP\",\n  \"chain\": \"INPUT\",\n  \"target\": \"ACCEPT\",\n  \"dstPort\": \"22\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/filters",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "filters"
+              ]
+            },
+            "description": "Create a new firewall filter rule"
+          }
+        },
+        {
+          "name": "Get Static Routes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=routes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "routes"
+                }
+              ]
+            },
+            "description": "Retrieve static route configurations"
+          }
+        },
+        {
+          "name": "Create Static Route",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Remote Network\",\n  \"ip\": \"10.0.0.0\",\n  \"mask\": 16,\n  \"gateway\": \"192.168.1.254\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/routes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "routes"
+              ]
+            },
+            "description": "Create a new static route"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Security",
+      "description": "Security configuration including TLS, SSH, remote access, and RADIUS",
+      "item": [
+        {
+          "name": "Get Secure Protocols",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=secureProtocols",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "secureProtocols"
+                }
+              ]
+            },
+            "description": "Retrieve TLS/SSH cipher suite configurations"
+          }
+        },
+        {
+          "name": "Get Remote Access",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=remoteAccess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "remoteAccess"
+                }
+              ]
+            },
+            "description": "Retrieve remote access and security settings"
+          }
+        },
+        {
+          "name": "Update Remote Access",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"timeoutSeconds\": 600,\n  \"http\": {\n    \"enabled\": true,\n    \"port\": 80,\n    \"lan\": true,\n    \"wan\": false\n  },\n  \"https\": {\n    \"enabled\": true,\n    \"port\": 443,\n    \"lan\": true,\n    \"wan\": true\n  },\n  \"ssh\": {\n    \"enabled\": true,\n    \"port\": 22,\n    \"lan\": true,\n    \"wan\": false\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/remoteAccess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "remoteAccess"
+              ]
+            },
+            "description": "Update remote access and security settings"
+          }
+        },
+        {
+          "name": "Get Trusted IP",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=trustedIp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "trustedIp"
+                }
+              ]
+            },
+            "description": "Retrieve IP whitelist/blacklist configuration"
+          }
+        },
+        {
+          "name": "Update Trusted IP",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enabled\": true,\n  \"mode\": \"whitelist\",\n  \"rules\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/trustedIp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "trustedIp"
+              ]
+            },
+            "description": "Update IP whitelist/blacklist configuration"
+          }
+        },
+        {
+          "name": "Get RADIUS Configuration",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api?fields=radius",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api"
+              ],
+              "query": [
+                {
+                  "key": "fields",
+                  "value": "radius"
+                }
+              ]
+            },
+            "description": "Retrieve RADIUS authentication configuration"
+          }
+        },
+        {
+          "name": "Update RADIUS Configuration",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"authEnabled\": true,\n  \"acctEnabled\": false,\n  \"host\": \"radius.example.com\",\n  \"authPort\": 1812,\n  \"secret\": \"MySecret\",\n  \"authType\": \"PAP\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/radius",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "radius"
+              ]
+            },
+            "description": "Update RADIUS authentication configuration"
+          }
         }
       ]
     }

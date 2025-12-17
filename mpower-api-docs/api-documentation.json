@@ -1520,6 +1520,718 @@
           }
         }
       }
+    },
+    "/api/ni": {
+      "get": {
+        "tags": [
+          "Network"
+        ],
+        "summary": "Get network interfaces",
+        "description": "Retrieve all network interface configurations including IPv4, IPv6, VLAN, and 802.1X settings.\nSee [NETWORK-INTERFACES-SCHEMA](NETWORK-INTERFACES-SCHEMA.md) for complete documentation.\n",
+        "operationId": "getNetworkInterfaces",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Network interfaces configuration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "type": "object",
+                          "properties": {
+                            "nis": {
+                              "type": "array",
+                              "description": "Array of network interface configurations",
+                              "items": {
+                                "type": "object",
+                                "description": "See NETWORK-INTERFACES-SCHEMA.md for complete properties"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Network"
+        ],
+        "summary": "Update network interfaces",
+        "description": "Update network interface configurations",
+        "operationId": "updateNetworkInterfaces",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nis": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Network interfaces updated"
+          }
+        }
+      }
+    },
+    "/api/snmp": {
+      "get": {
+        "tags": [
+          "Network"
+        ],
+        "summary": "Get SNMP configuration",
+        "description": "Retrieve SNMP agent and trap configuration.\nSee [SNMP-SCHEMA](SNMP-SCHEMA.md) for complete documentation.\n",
+        "operationId": "getSnmp",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SNMP configuration"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Network"
+        ],
+        "summary": "Update SNMP configuration",
+        "description": "Update SNMP agent and trap settings",
+        "operationId": "updateSnmp",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SNMP configuration updated"
+          }
+        }
+      }
+    },
+    "/api/alert": {
+      "get": {
+        "tags": [
+          "Status"
+        ],
+        "summary": "Get alert configuration",
+        "description": "Retrieve alert and notification settings.\nSee [ALERT-SCHEMA](ALERT-SCHEMA.md) for complete documentation.\n",
+        "operationId": "getAlert",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alert configuration"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Status"
+        ],
+        "summary": "Update alert configuration",
+        "description": "Update alert and notification settings",
+        "operationId": "updateAlert",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Alert configuration updated"
+          }
+        }
+      }
+    },
+    "/api/ipsecTunnels": {
+      "get": {
+        "tags": [
+          "VPN"
+        ],
+        "summary": "Get IPsec tunnels",
+        "description": "Retrieve IPsec VPN tunnel configurations.\nSee [VPN-SCHEMAS](VPN-SCHEMAS.md) for complete documentation.\n",
+        "operationId": "getIpsecTunnels",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "IPsec tunnels configuration"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "VPN"
+        ],
+        "summary": "Create IPsec tunnel",
+        "description": "Create a new IPsec VPN tunnel",
+        "operationId": "createIpsecTunnel",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "IPsec tunnel created"
+          }
+        }
+      }
+    },
+    "/api/greTunnels": {
+      "get": {
+        "tags": [
+          "VPN"
+        ],
+        "summary": "Get GRE tunnels",
+        "description": "Retrieve GRE tunnel configurations.\nSee [VPN-SCHEMAS](VPN-SCHEMAS.md) for complete documentation.\n",
+        "operationId": "getGreTunnels",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "GRE tunnels configuration"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "VPN"
+        ],
+        "summary": "Create GRE tunnel",
+        "description": "Create a new GRE tunnel",
+        "operationId": "createGreTunnel",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "GRE tunnel created"
+          }
+        }
+      }
+    },
+    "/api/ovpnTunnels": {
+      "get": {
+        "tags": [
+          "VPN"
+        ],
+        "summary": "Get OpenVPN tunnels",
+        "description": "Retrieve OpenVPN tunnel configurations.\nSee [VPN-SCHEMAS](VPN-SCHEMAS.md) for complete documentation.\n",
+        "operationId": "getOvpnTunnels",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OpenVPN tunnels configuration"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "VPN"
+        ],
+        "summary": "Create OpenVPN tunnel",
+        "description": "Create a new OpenVPN tunnel",
+        "operationId": "createOvpnTunnel",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OpenVPN tunnel created"
+          }
+        }
+      }
+    },
+    "/api/nat": {
+      "get": {
+        "tags": [
+          "Firewall"
+        ],
+        "summary": "Get NAT rules",
+        "description": "Retrieve NAT rule configurations.\nSee [NAT-FIREWALL-SCHEMAS](NAT-FIREWALL-SCHEMAS.md) for complete documentation.\n",
+        "operationId": "getNat",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "NAT rules configuration"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Firewall"
+        ],
+        "summary": "Create NAT rule",
+        "description": "Create a new NAT rule",
+        "operationId": "createNatRule",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "NAT rule created"
+          }
+        }
+      }
+    },
+    "/api/firewall": {
+      "get": {
+        "tags": [
+          "Firewall"
+        ],
+        "summary": "Get firewall settings",
+        "description": "Retrieve global firewall settings.\nSee [NAT-FIREWALL-SCHEMAS](NAT-FIREWALL-SCHEMAS.md) for complete documentation.\n",
+        "operationId": "getFirewall",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Firewall settings"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Firewall"
+        ],
+        "summary": "Update firewall settings",
+        "description": "Update global firewall settings",
+        "operationId": "updateFirewall",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Firewall settings updated"
+          }
+        }
+      }
+    },
+    "/api/filters": {
+      "get": {
+        "tags": [
+          "Firewall"
+        ],
+        "summary": "Get filter rules",
+        "description": "Retrieve firewall filter rules.\nSee [NAT-FIREWALL-SCHEMAS](NAT-FIREWALL-SCHEMAS.md) for complete documentation.\n",
+        "operationId": "getFilters",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Filter rules configuration"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Firewall"
+        ],
+        "summary": "Create filter rule",
+        "description": "Create a new firewall filter rule",
+        "operationId": "createFilterRule",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Filter rule created"
+          }
+        }
+      }
+    },
+    "/api/routes": {
+      "get": {
+        "tags": [
+          "Network"
+        ],
+        "summary": "Get static routes",
+        "description": "Retrieve static route configurations.\nSee [NAT-FIREWALL-SCHEMAS](NAT-FIREWALL-SCHEMAS.md) for complete documentation.\n",
+        "operationId": "getRoutes",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Static routes configuration"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Network"
+        ],
+        "summary": "Create static route",
+        "description": "Create a new static route",
+        "operationId": "createRoute",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Static route created"
+          }
+        }
+      }
+    },
+    "/api/secureProtocols": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Get secure protocols configuration",
+        "description": "Retrieve TLS/SSH cipher suite configurations.\nSee [SECURITY-SCHEMAS](SECURITY-SCHEMAS.md) for complete documentation.\n",
+        "operationId": "getSecureProtocols",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Secure protocols configuration"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Update secure protocols",
+        "description": "Update TLS/SSH cipher suite configurations",
+        "operationId": "updateSecureProtocols",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Secure protocols updated"
+          }
+        }
+      }
+    },
+    "/api/remoteAccess": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Get remote access configuration",
+        "description": "Retrieve remote access and security settings.\nSee [SECURITY-SCHEMAS](SECURITY-SCHEMAS.md) for complete documentation.\n",
+        "operationId": "getRemoteAccess",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Remote access configuration"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Update remote access configuration",
+        "description": "Update remote access and security settings",
+        "operationId": "updateRemoteAccess",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Remote access configuration updated"
+          }
+        }
+      }
+    },
+    "/api/trustedIp": {
+      "get": {
+        "tags": [
+          "Firewall"
+        ],
+        "summary": "Get trusted IP configuration",
+        "description": "Retrieve IP whitelist/blacklist configuration.\nSee [SECURITY-SCHEMAS](SECURITY-SCHEMAS.md) for complete documentation.\n",
+        "operationId": "getTrustedIp",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trusted IP configuration"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Firewall"
+        ],
+        "summary": "Update trusted IP configuration",
+        "description": "Update IP whitelist/blacklist configuration",
+        "operationId": "updateTrustedIp",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Trusted IP configuration updated"
+          }
+        }
+      }
+    },
+    "/api/radius": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Get RADIUS configuration",
+        "description": "Retrieve RADIUS authentication configuration.\nSee [SECURITY-SCHEMAS](SECURITY-SCHEMAS.md) for complete documentation.\n",
+        "operationId": "getRadius",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "RADIUS configuration"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Update RADIUS configuration",
+        "description": "Update RADIUS authentication configuration",
+        "operationId": "updateRadius",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "RADIUS configuration updated"
+          }
+        }
+      }
     }
   },
   "components": {

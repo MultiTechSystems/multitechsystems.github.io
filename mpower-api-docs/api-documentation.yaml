@@ -1,0 +1,1452 @@
+openapi: 3.0.3
+info:
+  title: MTS Device API
+  description: |
+    RESTful API for managing MTS IoT devices (mPower Edge Intelligence platform).
+    
+    This API provides comprehensive device management capabilities including:
+    - System configuration and monitoring
+    - Cellular connectivity management
+    - Network configuration (WiFi, Ethernet, VPN)
+    - User authentication and authorization
+    - LoRa network management
+    - SCADA protocols
+    - Docker container management
+    - Firmware updates and diagnostics
+    
+    ## Authentication
+    
+    The API uses session-based authentication with cookies. Users must first authenticate
+    via the `/api/login` endpoint to obtain a session cookie, which is then used for
+    subsequent API requests.
+    
+    ## API Structure
+    
+    The API follows a resource-based structure where most endpoints follow the pattern:
+    - `GET /api?fields=<resource>` - Retrieve resource data
+    - `PUT /api/<resource>` - Update resource configuration
+    - `POST /api/command/<action>` - Execute commands
+    - `DELETE /api/<resource>/<id>` - Delete resource items
+    
+    ## Permissions
+    
+    The API supports role-based access control (RBAC) with three built-in roles:
+    - **Admin**: Full access to all endpoints and operations
+    - **Engineer** (User): Read and modify access to most configuration
+    - **Monitor** (Guest): Read-only access to status and monitoring data
+    
+  version: 1.0.0
+  contact:
+    name: Multi-Tech Systems
+    url: https://www.multitech.com
+  license:
+    name: Proprietary
+
+servers:
+  - url: http://{device-ip}
+    description: Device local network access
+    variables:
+      device-ip:
+        default: 192.168.2.1
+        description: IP address of the MTS device
+  - url: https://{device-ip}
+    description: Secure device local network access
+    variables:
+      device-ip:
+        default: 192.168.2.1
+        description: IP address of the MTS device
+
+tags:
+  - name: Authentication
+    description: User authentication and session management
+  - name: System
+    description: System information and configuration
+  - name: Cellular
+    description: Cellular connectivity configuration
+  - name: Users
+    description: User account management
+  - name: Network
+    description: Network interface configuration (WiFi, DNS, DHCP, Routes)
+  - name: Status
+    description: Device status and monitoring
+  - name: Commands
+    description: Device command execution
+  - name: LoRa
+    description: LoRa network server and gateway management
+  - name: VPN
+    description: VPN tunnel configuration (OpenVPN, IPsec, GRE)
+  - name: Firewall
+    description: Firewall and security configuration
+  - name: SCADA
+    description: SCADA protocol configuration
+  - name: Docker
+    description: Docker container management
+  - name: GPS
+    description: GPS configuration and location data
+  - name: Serial
+    description: Serial port configuration
+  - name: SMS
+    description: SMS messaging
+  - name: Certificates
+    description: Certificate management
+
+paths:
+  # Authentication Endpoints
+  /api/login:
+    post:
+      tags:
+        - Authentication
+      summary: User login
+      description: Authenticate a user and create a session
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                  description: User login name
+                  example: admin
+                password:
+                  type: string
+                  format: password
+                  description: User password
+                  example: admin
+      responses:
+        '200':
+          description: Login successful
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: session=abc123; Path=/; HttpOnly
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Device in commissioning mode
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/logout:
+    post:
+      tags:
+        - Authentication
+      summary: User logout
+      description: Terminate the current user session
+      operationId: logout
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/commissioning:
+    post:
+      tags:
+        - Authentication
+      summary: Device commissioning
+      description: Initial device setup and password configuration
+      operationId: commissioning
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - password
+              properties:
+                password:
+                  type: string
+                  format: password
+                  description: New admin password
+      responses:
+        '200':
+          description: Commissioning successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/policy:
+    get:
+      tags:
+        - System
+      summary: Get device policy
+      description: Retrieve device availability and policy information
+      operationId: getPolicy
+      responses:
+        '200':
+          description: Policy information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  available:
+                    type: boolean
+                    description: Device availability status
+
+  # Resource Query Endpoint
+  /api:
+    get:
+      tags:
+        - System
+      summary: Query resources
+      description: |
+        Generic endpoint to query one or more resources. Resources are specified
+        via the `fields` query parameter as a comma-separated list.
+        
+        Examples:
+        - `/api?fields=system` - Get system information
+        - `/api?fields=system,cellular,users` - Get multiple resources
+        - `/api?fields=system/capabilities` - Get specific nested field
+      operationId: queryResources
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: fields
+          in: query
+          required: true
+          description: Comma-separated list of resource paths to retrieve
+          schema:
+            type: string
+          examples:
+            single:
+              value: system
+              summary: Single resource
+            multiple:
+              value: system,cellular,users
+              summary: Multiple resources
+            nested:
+              value: system/capabilities
+              summary: Nested field
+        - name: inactivity
+          in: query
+          required: false
+          description: If true, don't update session cookie lifetime
+          schema:
+            type: boolean
+            default: false
+        - name: default
+          in: query
+          required: false
+          description: If true, return default values instead of configured values
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Resource data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  result:
+                    type: object
+                    description: Requested resource data
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # System Endpoints
+  /api/system:
+    get:
+      tags:
+        - System
+      summary: Get system information
+      description: Retrieve device system information and capabilities
+      operationId: getSystem
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: System information
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/System'
+    put:
+      tags:
+        - System
+      summary: Update system configuration
+      description: Update device system settings
+      operationId: updateSystem
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SystemUpdate'
+      responses:
+        '200':
+          description: System updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # Cellular Endpoints
+  /api/cellular:
+    get:
+      tags:
+        - Cellular
+      summary: Get cellular configuration
+      description: Retrieve cellular connectivity configuration
+      operationId: getCellular
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Cellular configuration
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/Cellular'
+    put:
+      tags:
+        - Cellular
+      summary: Update cellular configuration
+      description: Update cellular connectivity settings
+      operationId: updateCellular
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cellular'
+      responses:
+        '200':
+          description: Cellular configuration updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  # Users Endpoints
+  /api/users:
+    get:
+      tags:
+        - Users
+      summary: List users
+      description: Retrieve list of user accounts (admin only, or current user for non-admin)
+      operationId: listUsers
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/User'
+    post:
+      tags:
+        - Users
+      summary: Create user
+      description: Create a new user account (admin only)
+      operationId: createUser
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '200':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/users/{username}:
+    get:
+      tags:
+        - Users
+      summary: Get user
+      description: Retrieve user account details
+      operationId: getUser
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User details
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/User'
+    put:
+      tags:
+        - Users
+      summary: Update user
+      description: Update user account details
+      operationId: updateUser
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+    delete:
+      tags:
+        - Users
+      summary: Delete user
+      description: Delete a user account (admin only)
+      operationId: deleteUser
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  # Status Endpoints
+  /api/status:
+    get:
+      tags:
+        - Status
+      summary: Get status notifications
+      description: Retrieve system status notifications and alerts
+      operationId: getStatus
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Status notifications
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      result:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/StatusNotification'
+
+  /api/status/{guid}:
+    delete:
+      tags:
+        - Status
+      summary: Clear status notification
+      description: Remove a status notification by GUID
+      operationId: clearStatus
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: guid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Status notification cleared
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  # DNS Endpoints
+  /api/dns:
+    get:
+      tags:
+        - Network
+      summary: Get DNS configuration
+      description: Retrieve DNS server configuration
+      operationId: getDns
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: DNS configuration
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/Dns'
+    put:
+      tags:
+        - Network
+      summary: Update DNS configuration
+      description: Update DNS server settings
+      operationId: updateDns
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dns'
+      responses:
+        '200':
+          description: DNS configuration updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  # WiFi Endpoints
+  /api/wifi:
+    get:
+      tags:
+        - Network
+      summary: Get WiFi configuration
+      description: Retrieve WiFi access point and client configuration
+      operationId: getWifi
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: WiFi configuration
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/Wifi'
+    put:
+      tags:
+        - Network
+      summary: Update WiFi configuration
+      description: Update WiFi settings
+      operationId: updateWifi
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Wifi'
+      responses:
+        '200':
+          description: WiFi configuration updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  # Command Endpoints
+  /api/command/save:
+    post:
+      tags:
+        - Commands
+      summary: Save configuration
+      description: Save current configuration to persistent storage
+      operationId: saveConfig
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Configuration saved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/command/revert:
+    post:
+      tags:
+        - Commands
+      summary: Revert configuration
+      description: Revert to last saved configuration
+      operationId: revertConfig
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Configuration reverted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/command/restart:
+    post:
+      tags:
+        - Commands
+      summary: Restart device
+      description: Restart the device
+      operationId: restartDevice
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Device restart initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/command/passwd:
+    post:
+      tags:
+        - Commands
+      summary: Change password
+      description: Change user password
+      operationId: changePassword
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - oldPassword
+                - newPassword
+              properties:
+                oldPassword:
+                  type: string
+                  format: password
+                newPassword:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Password changed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/command/ping:
+    post:
+      tags:
+        - Commands
+      summary: Execute ping
+      description: Execute a ping command to test network connectivity
+      operationId: ping
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - host
+              properties:
+                host:
+                  type: string
+                  description: Hostname or IP address to ping
+                count:
+                  type: integer
+                  description: Number of ping packets to send
+                  default: 4
+      responses:
+        '200':
+          description: Ping results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/command/firmware_upgrade:
+    post:
+      tags:
+        - Commands
+      summary: Upgrade firmware
+      description: Initiate firmware upgrade
+      operationId: firmwareUpgrade
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Firmware file
+      responses:
+        '200':
+          description: Firmware upgrade initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  # LoRa Endpoints
+  /api/loraNetwork:
+    get:
+      tags:
+        - LoRa
+      summary: Get LoRa network configuration
+      description: Retrieve LoRa network server configuration
+      operationId: getLoraNetwork
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: LoRa network configuration
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/LoraNetwork'
+    put:
+      tags:
+        - LoRa
+      summary: Update LoRa network configuration
+      description: Update LoRa network server settings
+      operationId: updateLoraNetwork
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoraNetwork'
+      responses:
+        '200':
+          description: LoRa network configuration updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/lora/gateways:
+    get:
+      tags:
+        - LoRa
+      summary: List LoRa gateways
+      description: Retrieve list of registered LoRa gateways
+      operationId: listLoraGateways
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: List of LoRa gateways
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LoraGateway'
+
+  /api/lora/gateways/{gwEui}:
+    delete:
+      tags:
+        - LoRa
+      summary: Delete LoRa gateway
+      description: Remove a LoRa gateway registration
+      operationId: deleteLoraGateway
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: gwEui
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Gateway EUI
+      responses:
+        '200':
+          description: Gateway deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  /api/lora/restart:
+    post:
+      tags:
+        - LoRa
+      summary: Restart LoRa service
+      description: Restart the LoRa network server service
+      operationId: restartLora
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: LoRa service restart initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  # Docker Endpoints
+  /api/docker:
+    get:
+      tags:
+        - Docker
+      summary: Get Docker configuration
+      description: Retrieve Docker service configuration
+      operationId: getDocker
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Docker configuration
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/Docker'
+    put:
+      tags:
+        - Docker
+      summary: Update Docker configuration
+      description: Update Docker service settings
+      operationId: updateDocker
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Docker'
+      responses:
+        '200':
+          description: Docker configuration updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+  # GPS Endpoints
+  /api/gps:
+    get:
+      tags:
+        - GPS
+      summary: Get GPS configuration
+      description: Retrieve GPS configuration and location data
+      operationId: getGps
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: GPS configuration and data
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/Gps'
+    put:
+      tags:
+        - GPS
+      summary: Update GPS configuration
+      description: Update GPS settings
+      operationId: updateGps
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GpsConfig'
+      responses:
+        '200':
+          description: GPS configuration updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: session
+      description: Session cookie obtained from /api/login
+
+  schemas:
+    # Common Response Schemas
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        result:
+          type: object
+          description: Response data (varies by endpoint)
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: string
+          description: Error message
+        code:
+          type: integer
+          description: Error code
+
+    LoginResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        result:
+          type: object
+          properties:
+            username:
+              type: string
+            permission:
+              type: string
+              enum: [admin, user, guest]
+            token:
+              type: string
+              description: Session token
+
+    # System Schema
+    System:
+      type: object
+      properties:
+        capabilities:
+          type: object
+          description: Hardware capabilities
+          properties:
+            wifi:
+              type: boolean
+            bluetooth:
+              type: boolean
+            cell:
+              type: boolean
+            gps:
+              type: boolean
+            lora:
+              type: boolean
+            gpio:
+              type: boolean
+            serial:
+              type: boolean
+            battery:
+              type: boolean
+            docker:
+              type: boolean
+            tpm:
+              type: boolean
+        datetime:
+          type: string
+          description: Current system date and time
+          example: "12/17/2025 10:30:45"
+        deviceName:
+          type: string
+          description: Configured device name
+        deviceHostname:
+          type: string
+          description: Device hostname
+        uuid:
+          type: string
+          description: Device UUID
+        productId:
+          type: string
+          description: Product ID
+        deviceId:
+          type: string
+          description: Device ID
+        imei:
+          type: string
+          description: IMEI (for cellular devices)
+        imsi:
+          type: string
+          description: IMSI (for cellular devices)
+        firmware:
+          type: string
+          description: Firmware version
+        firmwareRelease:
+          type: string
+          description: Firmware release
+        macAddress:
+          type: string
+          description: MAC address of Ethernet port
+        macWifi:
+          type: string
+          description: MAC address of WiFi module
+        macBluetooth:
+          type: string
+          description: MAC address of Bluetooth module
+        mode:
+          type: string
+          enum: [ROUTER, CELL-IP-PT]
+          description: System mode
+        dbDirty:
+          type: boolean
+          description: Whether configuration has unsaved changes
+
+    SystemUpdate:
+      type: object
+      properties:
+        deviceName:
+          type: string
+        deviceHostname:
+          type: string
+        mode:
+          type: string
+          enum: [ROUTER, CELL-IP-PT]
+        firstTimeSetup:
+          type: boolean
+
+    # Cellular Schema
+    Cellular:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: Enable/disable cellular connection
+        providerProfiles:
+          type: array
+          description: List of cellular provider profiles
+          items:
+            $ref: '#/components/schemas/CellularProviderProfile'
+        simProfiles:
+          type: array
+          description: List of SIM profiles
+          items:
+            $ref: '#/components/schemas/CellularSimProfile'
+        dualSim:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+            mainSlot:
+              type: string
+              enum: [SIM1, SIM2]
+            backupSimTimeout:
+              type: integer
+              minimum: 10
+              maximum: 1440
+        connMonitors:
+          type: object
+          description: Connection monitoring configuration
+        connRecovery:
+          type: object
+          description: Connection recovery configuration
+
+    CellularProviderProfile:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+          description: Profile UUID
+        profileName:
+          type: string
+          description: Profile name
+        cellularMode:
+          type: string
+          enum: [auto, 2g-only, 2g-preferred, 3g-only, 3g-preferred, 4g-only, 4g-preferred, 5g-only, 5g-preferred]
+        dataCtx:
+          type: object
+          properties:
+            apnString:
+              type: string
+            contextIpMode:
+              type: string
+              enum: [AUTO, IP, IPV4V6, IPV6]
+            authentication:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum: [NONE, PAP, CHAP, PAP-CHAP, CHAP-PAP]
+                username:
+                  type: string
+                password:
+                  type: string
+
+    CellularSimProfile:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        profileName:
+          type: string
+        providerProfileId:
+          type: string
+          description: UUID of provider profile or "auto"
+        simIccid:
+          type: string
+          description: SIM ICCID or "ANY"
+        simPin:
+          type: string
+          description: SIM PIN
+
+    # User Schema
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Username
+        permission:
+          type: string
+          description: User role/permission level
+        enabled:
+          type: boolean
+          description: Whether account is enabled
+        firstName:
+          type: string
+        lastName:
+          type: string
+        title:
+          type: string
+        division:
+          type: string
+        employeeId:
+          type: string
+        email:
+          type: string
+          format: email
+        workPhone:
+          type: string
+        mobilePhone:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        creationDate:
+          type: string
+          description: Account creation date
+        lastLoginDate:
+          type: string
+          description: Last login date
+        passwordChangedDate:
+          type: string
+          description: Last password change date
+
+    UserCreate:
+      type: object
+      required:
+        - name
+        - password
+        - permission
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+          format: password
+        permission:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+
+    UserUpdate:
+      type: object
+      properties:
+        permission:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        enabled:
+          type: boolean
+
+    # Status Schema
+    StatusNotification:
+      type: object
+      properties:
+        guid:
+          type: string
+          description: Unique identifier
+        type:
+          type: string
+          enum: [INFO, WARNING, ERROR]
+        msg:
+          type: string
+          description: Status message
+        timestamp:
+          type: string
+          description: Timestamp (UTC)
+
+    # DNS Schema
+    Dns:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        primary:
+          type: string
+          format: ipv4
+          description: Primary DNS server
+        secondary:
+          type: string
+          format: ipv4
+          description: Secondary DNS server
+        ipv6:
+          type: object
+          properties:
+            primary:
+              type: string
+              format: ipv6
+            secondary:
+              type: string
+              format: ipv6
+
+    # WiFi Schema
+    Wifi:
+      type: object
+      properties:
+        ap:
+          type: object
+          description: Access Point configuration
+          properties:
+            enabled:
+              type: boolean
+            ssid:
+              type: string
+            region:
+              type: string
+            networkMode:
+              type: string
+              enum: [b, g, n, bg, ng, bgn, a, an, ac, ax]
+            channel:
+              type: integer
+            security:
+              type: object
+              properties:
+                mode:
+                  type: string
+                  enum: [NONE, WPA-PSK, WPA2-PSK, WPA/WPA2-PSK, WPA3-SAE, WPA2-PSK/WPA3-SAE, WPA2-ENTERPRISE]
+                algorithm:
+                  type: string
+                  enum: [TKIP, AES, TKIP+AES]
+                psk:
+                  type: string
+        client:
+          type: object
+          description: WiFi client configuration
+
+    # LoRa Schema
+    LoraNetwork:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        mode:
+          type: string
+          enum: [PACKET_FORWARDER, BASIC_STATION, NETWORK_SERVER]
+        packetForwarder:
+          type: object
+          description: Packet forwarder configuration
+        basicStation:
+          type: object
+          description: Basic station configuration
+        networkServer:
+          type: object
+          description: Network server configuration
+
+    LoraGateway:
+      type: object
+      properties:
+        gwEui:
+          type: string
+          description: Gateway EUI
+        name:
+          type: string
+        description:
+          type: string
+        lastSeen:
+          type: string
+          format: date-time
+
+    # Docker Schema
+    Docker:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        registries:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+              username:
+                type: string
+              password:
+                type: string
+
+    # GPS Schema
+    Gps:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        altitude:
+          type: number
+          format: double
+        fix:
+          type: string
+          enum: [NO_FIX, 2D, 3D]
+        satellites:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+
+    GpsConfig:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        mode:
+          type: string
+
+security:
+  - cookieAuth: []

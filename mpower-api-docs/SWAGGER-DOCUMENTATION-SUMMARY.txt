@@ -1,0 +1,187 @@
+================================================================================
+MTS DEVICE API - SWAGGER/OPENAPI DOCUMENTATION GENERATION COMPLETE
+================================================================================
+
+Generated: December 17, 2025
+Based on: mtsDeviceAPI (C++ Backend) and mtsDeviceUI (Vue.js Frontend)
+
+================================================================================
+GENERATED FILES
+================================================================================
+
+1. api-documentation.yaml (38K)
+   - Complete OpenAPI 3.0 specification in YAML format
+   - 70+ resource endpoints documented
+   - 50+ command endpoints documented
+   - Full schema definitions
+   - Authentication flows
+   - Role-based access control documentation
+
+2. api-documentation.json (57K)
+   - Same content as YAML but in JSON format
+   - Better tool compatibility
+   - Programmatically parseable
+
+3. API-README.md (15K)
+   - Comprehensive API documentation guide
+   - Authentication and authorization
+   - Complete endpoint reference
+   - Code examples (curl)
+   - Configuration workflows
+   - Troubleshooting guide
+   - Best practices
+
+4. API-QUICK-REFERENCE.md (8.6K)
+   - Concise command reference
+   - All endpoints at a glance
+   - Common usage patterns
+   - Quick copy-paste examples
+
+5. MTS-Device-API.postman_collection.json (21K)
+   - Ready-to-import Postman collection
+   - Pre-configured requests
+   - Variables for easy configuration
+   - Organized by functional area
+
+6. API-DOCUMENTATION-INDEX.md (10K)
+   - Master index of all documentation
+   - How-to guides
+   - Quick start instructions
+   - Tool integration guides
+
+================================================================================
+QUICK START
+================================================================================
+
+VIEW DOCUMENTATION:
+  1. Swagger UI (Online): https://editor.swagger.io/
+     - Import api-documentation.yaml
+  
+  2. Postman:
+     - Import MTS-Device-API.postman_collection.json
+     - Set baseUrl variable to your device IP
+  
+  3. VS Code:
+     - Install "OpenAPI (Swagger) Editor" extension
+     - Open api-documentation.yaml
+
+GENERATE CLIENT CODE:
+  npm install @openapitools/openapi-generator-cli -g
+  
+  # Python
+  openapi-generator-cli generate -i api-documentation.yaml -g python -o ./python-client
+  
+  # TypeScript
+  openapi-generator-cli generate -i api-documentation.yaml -g typescript-axios -o ./ts-client
+  
+  # Java
+  openapi-generator-cli generate -i api-documentation.yaml -g java -o ./java-client
+
+================================================================================
+API OVERVIEW
+================================================================================
+
+Base URL: http://192.168.2.1 (default device IP)
+
+Authentication: Session-based with cookies
+
+Main Patterns:
+  GET  /api?fields=<resource>     - Query resource data
+  PUT  /api/<resource>            - Update configuration
+  POST /api/command/<action>      - Execute commands
+  DELETE /api/<resource>/<id>     - Delete items
+
+Key Resources:
+  - system, users, status         - System & configuration
+  - cellular, wifi, dns, dhcp     - Network
+  - loraNetwork, scada, mqtt      - IoT protocols
+  - docker, gps, serial, sms      - Device management
+
+Roles:
+  - Admin: Full access
+  - User (Engineer): Read/write most config
+  - Guest (Monitor): Read-only
+
+================================================================================
+EXAMPLE USAGE
+================================================================================
+
+# Login
+curl -X POST http://192.168.2.1/api/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"admin"}' \
+  -c cookies.txt
+
+# Get system info
+curl -X GET "http://192.168.2.1/api?fields=system" -b cookies.txt
+
+# Update configuration
+curl -X PUT http://192.168.2.1/api/cellular \
+  -H "Content-Type: application/json" \
+  -d '{"enabled":true}' \
+  -b cookies.txt
+
+# Save changes
+curl -X POST http://192.168.2.1/api/command/save -b cookies.txt
+
+# Logout
+curl -X POST http://192.168.2.1/api/logout -b cookies.txt
+
+================================================================================
+DOCUMENTED ENDPOINTS
+================================================================================
+
+Authentication:
+  - POST /api/login
+  - POST /api/logout
+  - POST /api/commissioning
+  - GET  /api/policy
+
+Resources (via GET /api?fields=<resource>):
+  - system, cellular, users, status
+  - wifi, dns, dhcp, routes, firewall
+  - loraNetwork, lora, scada, docker
+  - gps, serial, sms, bluetooth
+  - certificate, cacertificates
+  - stats, eventlog, syslog, alert
+  - and 50+ more...
+
+Commands (via POST /api/command/<action>):
+  - save, revert, restart
+  - firmware_upgrade, reset_modem
+  - ping, passwd, sms_send
+  - and 40+ more...
+
+================================================================================
+DOCUMENTATION FEATURES
+================================================================================
+
+✓ Complete OpenAPI 3.0 specification
+✓ All endpoints documented with examples
+✓ Request/response schemas defined
+✓ Authentication flows documented
+✓ Role-based permissions documented
+✓ Error responses documented
+✓ Postman collection included
+✓ Code generation ready
+✓ Interactive documentation support
+
+================================================================================
+NEXT STEPS
+================================================================================
+
+1. Review API-README.md for comprehensive documentation
+2. Import Postman collection for testing
+3. View in Swagger UI for interactive exploration
+4. Generate client code for your preferred language
+5. Refer to API-QUICK-REFERENCE.md for daily use
+
+================================================================================
+SUPPORT
+================================================================================
+
+Documentation: See API-DOCUMENTATION-INDEX.md
+Multi-Tech Support: https://www.multitech.com/support
+Email: support@multitech.com
+
+================================================================================

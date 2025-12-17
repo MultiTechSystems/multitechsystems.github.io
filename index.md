@@ -4,6 +4,9 @@ Questions or issues can be posted at [Multitech Systems Github](https://github.c
 
 ## Articles
 
+Complete REST API documentation for mPower Edge Intelligence devices.
+  * [mPower Device API Documentation](mpower-api)
+
 Protocol and sample applications for connecting a LoRaWAN network to back-end services.
   * [LoRaWAN App Connect HTTP](lorawan-app-connect)
 

@@ -10,11 +10,11 @@ Current status of mPower Device API schema documentation.
 
 | Category | Schemas | Documented | Percentage |
 |----------|---------|------------|------------|
-| **High Priority** | 3 | 2 | 67% |
-| **Medium Priority** | 14 | 0 | 0% |
+| **High Priority** | 3 | 3 | 100% ✅ |
+| **Medium Priority** | 14 | 7 | 50% |
 | **Low Priority** | 33 | 0 | 0% |
 | **Partial (OpenAPI)** | 7 | 7 | 100% |
-| **TOTAL** | 57 | 9 | 16% |
+| **TOTAL** | 57 | 17 | 30% |
 
 ## Completed Documentation
 
@@ -32,6 +32,31 @@ Current status of mPower Device API schema documentation.
    - VLAN support
    - 802.1X authentication
    - 7 configuration examples
+
+3. **`snmp`** (SNMP Agent) - [SNMP-SCHEMA.md](SNMP-SCHEMA.md)
+   - SNMPv1/v2c/v3 configuration
+   - Trap receivers
+   - Authentication and encryption
+   - 5 configuration examples
+
+4. **`alert`** (Alerting System) - [ALERT-SCHEMA.md](ALERT-SCHEMA.md)
+   - 12 alert event types
+   - Email, SMS, SNMP notifications
+   - Recipient groups
+   - 7 configuration examples
+
+5. **`ipsecTunnels`, `greTunnels`, `ovpnTunnels`** - [VPN-SCHEMAS.md](VPN-SCHEMAS.md)
+   - IPsec (IKEv1/IKEv2) configuration
+   - GRE tunnel configuration
+   - OpenVPN (server/client/custom)
+   - Complete examples for each type
+
+6. **`nat`, `firewall`, `filters`, `routes`** - [NAT-FIREWALL-SCHEMAS.md](NAT-FIREWALL-SCHEMAS.md)
+   - NAT rules (DNAT, SNAT, MASQUERADE)
+   - Firewall settings
+   - Filter rules (INPUT, OUTPUT, FORWARD)
+   - Static routes
+   - Port forwarding examples
 
 ### 🟡 Partially Documented (OpenAPI Only)
 
@@ -51,41 +76,34 @@ None - awaiting prioritization
 
 ## Remaining High Priority
 
-### ❌ Not Yet Documented (Critical)
-
-1. **`snmp`** (SNMP Agent) - 451 lines, 28 properties
-   - SNMPv1/v2c/v3 configuration
-   - Trap configuration
-   - User management
-   - **Estimated effort**: 12-16 hours
-
-2. **`alert`** (Alerting System) - 419 lines, 22 properties
-   - Email, SMS, webhook alerts
-   - Alert rules and conditions
-   - **Estimated effort**: 10-14 hours
+### ✅ All High Priority Schemas Completed!
 
 ## Remaining Medium Priority
 
 ### Security & VPN (14 schemas)
 
-| Schema | Lines | Properties | Estimated Effort |
-|--------|-------|------------|------------------|
-| `nat` | 252 | 16 | 6-8 hours |
-| `ipsecTunnels` | 280 | 8 | 6-8 hours |
-| `greTunnels` | 180 | 8 | 5-7 hours |
-| `ovpnTunnels` | 320 | 6 | 6-8 hours |
-| `secureProtocols` | 180 | 15 | 5-7 hours |
-| `remoteAccess` | 165 | 12 | 5-7 hours |
-| `ddns` | 195 | 18 | 5-7 hours |
-| `mqttBroker` | 145 | 13 | 4-6 hours |
-| `scada` | 161 | 9 | 4-6 hours |
-| `remoteMgmt` | 125 | 9 | 4-6 hours |
-| `sms` | 110 | 10 | 3-5 hours |
-| `smtp` | 95 | 7 | 3-5 hours |
-| `radius` | 135 | 8 | 4-6 hours |
-| `filters` | 142 | 11 | 4-6 hours |
+| Schema | Lines | Properties | Status | Estimated Effort |
+|--------|-------|------------|--------|------------------|
+| `nat` | 252 | 16 | ✅ Done | - |
+| `ipsecTunnels` | 280 | 8 | ✅ Done | - |
+| `greTunnels` | 180 | 8 | ✅ Done | - |
+| `ovpnTunnels` | 320 | 6 | ✅ Done | - |
+| `firewall` | 125 | 3 | ✅ Done | - |
+| `filters` | 142 | 11 | ✅ Done | - |
+| `routes` | 95 | 4 | ✅ Done | - |
+| `secureProtocols` | 180 | 15 | ⏳ Pending | 5-7 hours |
+| `remoteAccess` | 165 | 12 | ⏳ Pending | 5-7 hours |
+| `radius` | 135 | 8 | ⏳ Pending | 4-6 hours |
+| `trustedIp` | 65 | 10 | ⏳ Pending | 3-4 hours |
+| `ddns` | 195 | 18 | ⏳ Pending | 5-7 hours |
+| `mqttBroker` | 145 | 13 | ⏳ Pending | 4-6 hours |
+| `scada` | 161 | 9 | ⏳ Pending | 4-6 hours |
+| `remoteMgmt` | 125 | 9 | ⏳ Pending | 4-6 hours |
+| `sms` | 110 | 10 | ⏳ Pending | 3-5 hours |
+| `smtp` | 95 | 7 | ⏳ Pending | 3-5 hours |
 
-**Total Medium Priority Effort**: 60-90 hours
+**Medium Priority Completed**: 7/17 (41%)
+**Remaining Medium Priority Effort**: 40-59 hours
 
 ## Remaining Low Priority
 

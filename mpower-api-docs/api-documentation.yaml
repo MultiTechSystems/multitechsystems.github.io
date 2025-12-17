@@ -2131,301 +2131,227 @@ components:
       description: |
         Complete LoRa Network configuration supporting multiple operational modes.
         See [LORA-NETWORK-SCHEMA](LORA-NETWORK-SCHEMA.md) for comprehensive documentation.
+        
+        The configuration is flat with top-level objects for each mode:
+        - `lora` - Network Server mode settings
+        - `packetForwarder` - Packet Forwarder mode settings
+        - `basicStation` - Basic Station mode settings  
+        - `chirpstack` - ChirpStack mode settings
+        - `defaultApp` - Default application configuration
+        - `network` - Network-wide settings
+        - `udp` - UDP configuration
+        - `mqtt` - MQTT broker settings
+        - Plus database, logging, and other common settings
       properties:
-        enabled:
-          type: boolean
-          description: Enable/disable LoRa network interface
-        mode:
-          type: string
-          description: Operational mode
-          enum: [PACKET_FORWARDER, BASIC_STATION, NETWORK_SERVER, CHIRPSTACK]
-        
-        # Packet Forwarder Mode
-        packetForwarder:
-          type: object
-          description: Packet forwarder configuration (forwards packets to remote server)
-          properties:
-            serverUrl:
-              type: string
-              description: Remote server URL
-              example: "wss://lns.example.com"
-            serverPort:
-              type: integer
-              description: Remote server port
-              example: 1700
-            gatewayId:
-              type: string
-              description: Gateway identifier
-            keepaliveInterval:
-              type: integer
-              description: Keepalive interval in seconds
-            statInterval:
-              type: integer
-              description: Statistics reporting interval
-            pushTimeoutMs:
-              type: integer
-              description: Push timeout in milliseconds
-            forwardCrcValid:
-              type: boolean
-              description: Forward packets with valid CRC
-            forwardCrcError:
-              type: boolean
-              description: Forward packets with CRC errors
-            forwardCrcDisabled:
-              type: boolean
-              description: Forward packets with CRC disabled
-        
-        # Basic Station Mode
-        basicStation:
-          type: object
-          description: Basic Station configuration (Semtech protocol)
-          properties:
-            serverUrl:
-              type: string
-              description: LNS server URL
-              example: "wss://lns.example.com:8887"
-            trustStore:
-              type: string
-              description: Path to trust store (CA certificates)
-            clientCert:
-              type: string
-              description: Path to client certificate
-            clientKey:
-              type: string
-              description: Path to client private key
-            routerId:
-              type: string
-              description: Router identifier
-            tcUri:
-              type: string
-              description: CUPS server URI for configuration
-            cupsUri:
-              type: string
-              description: CUPS server URI
-            cupsKey:
-              type: string
-              description: CUPS authentication key
-            cupsKeyFile:
-              type: string
-              description: Path to CUPS key file
-        
-        # Network Server Mode
-        networkServer:
-          type: object
-          description: Built-in LoRa Network Server configuration
-          properties:
-            name:
-              type: string
-              description: Network server name
-            netId:
-              type: string
-              description: Network ID (3 bytes hex)
-              pattern: "^[0-9A-Fa-f]{6}$"
-            
-            # Network Settings
-            network:
-              type: object
-              properties:
-                public:
-                  type: boolean
-                  description: Public or private network
-                region:
-                  type: string
-                  description: Frequency plan region
-                  enum: [US915, EU868, AS923, AU915, CN470, IN865, KR920, RU864]
-                subband:
-                  type: integer
-                  description: Sub-band selection (US915, AU915)
-                  minimum: 0
-                  maximum: 8
-                rxWindow:
-                  type: integer
-                  description: RX window delay (ms)
-                rx1Delay:
-                  type: integer
-                  description: RX1 delay (seconds)
-                rx2Frequency:
-                  type: number
-                  description: RX2 frequency (MHz)
-                rx2DataRate:
-                  type: integer
-                  description: RX2 data rate
-                maxEirp:
-                  type: number
-                  description: Maximum EIRP (dBm)
-            
-            # ADR Settings
-            adr:
-              type: object
-              description: Adaptive Data Rate configuration
-              properties:
-                enabled:
-                  type: boolean
-                margin:
-                  type: number
-                  description: Link margin (dB)
-                minDataRate:
-                  type: integer
-                minTxPower:
-                  type: integer
-                maxTxPower:
-                  type: integer
-            
-            # Join Server
-            joinServer:
-              type: object
-              properties:
-                enabled:
-                  type: boolean
-                url:
-                  type: string
-                caCert:
-                  type: string
-                tlsCert:
-                  type: string
-                tlsKey:
-                  type: string
-            
-            # Application Server
-            applicationServer:
-              type: object
-              properties:
-                enabled:
-                  type: boolean
-                url:
-                  type: string
-                  description: Application server URL
-                  example: "http://localhost:8080"
-                token:
-                  type: string
-                  description: Authentication token
-                caCert:
-                  type: string
-                tlsCert:
-                  type: string
-                tlsKey:
-                  type: string
-            
-            # Geolocation
-            geolocation:
-              type: object
-              properties:
-                enabled:
-                  type: boolean
-                type:
-                  type: string
-                  enum: [TDOA, RSSI, GNSS, WIFI]
-                minGateways:
-                  type: integer
-                  description: Minimum gateways for geolocation
-            
-            # Class B
-            classB:
-              type: object
-              properties:
-                enabled:
-                  type: boolean
-                pingSlotPeriod:
-                  type: integer
-                  description: Ping slot period (seconds)
-                pingSlotDataRate:
-                  type: integer
-                pingSlotFrequency:
-                  type: number
-                  description: Ping slot frequency (MHz)
-            
-            # Class C
-            classC:
-              type: object
-              properties:
-                enabled:
-                  type: boolean
-                downlinkTimeout:
-                  type: integer
-                  description: Downlink timeout (seconds)
-            
-            # Multicast Groups
-            multicastGroups:
-              type: array
-              items:
-                type: object
-                properties:
-                  name:
-                    type: string
-                  mcAddr:
-                    type: string
-                    description: Multicast address
-                  mcNwkSKey:
-                    type: string
-                    description: Multicast network session key
-                  mcAppSKey:
-                    type: string
-                    description: Multicast application session key
-                  fcnt:
-                    type: integer
-                    description: Frame counter
-                  dr:
-                    type: integer
-                    description: Data rate
-                  frequency:
-                    type: number
-                    description: Frequency (MHz)
-                  classB:
-                    type: boolean
-                  classC:
-                    type: boolean
-        
-        # ChirpStack Mode
-        chirpstack:
-          type: object
-          description: ChirpStack Network Server integration
-          properties:
-            serverUrl:
-              type: string
-              description: ChirpStack server URL
-            apiToken:
-              type: string
-              description: ChirpStack API token
-            caCert:
-              type: string
-            tlsCert:
-              type: string
-            tlsKey:
-              type: string
-        
-        # Common Settings
-        gateway:
-          type: object
-          description: Gateway hardware configuration
-          properties:
-            model:
-              type: string
-              description: Gateway model
-            antennaGain:
-              type: number
-              description: Antenna gain (dBi)
-            gpsEnabled:
-              type: boolean
-            latitude:
-              type: number
-            longitude:
-              type: number
-            altitude:
-              type: number
-        
         # Database Settings
         db:
           type: string
           description: Database file path
         backupInterval:
           type: integer
-          description: Database backup interval (seconds)
+          description: Database backup interval in seconds
         trimInterval:
           type: integer
-          description: Database trim interval (seconds)
+          description: Database trim interval in seconds
         trimRows:
           type: integer
-          description: Maximum rows before trimming
+          description: Number of rows to trim
+        
+        # LoRa Network Server Mode Configuration
+        lora:
+          type: object
+          description: |
+            LoRa Network Server mode configuration.
+            Contains 100+ properties for network server operation.
+            See LORA-NETWORK-SCHEMA.md section 1 for complete details.
+          properties:
+            enabled:
+              type: boolean
+              description: Enable/disable LoRa network server
+            enableAdr:
+              type: boolean
+              description: Enable Adaptive Data Rate
+            basicStationMode:
+              type: boolean
+              description: Enable Basic Station mode
+            packetForwarderMode:
+              type: boolean
+              description: Enable Packet Forwarder mode
+            channelPlan:
+              type: string
+              description: Channel plan (US915, EU868, AS923, etc.)
+            frequencySubBand:
+              type: integer
+              description: Frequency sub-band (US915/AU915)
+            netID:
+              type: string
+              description: Network ID
+            maxTxPower:
+              type: integer
+              description: Maximum transmit power in dBm
+            antennaGain:
+              type: integer
+              description: Antenna gain in dBi
+            rx1Delay:
+              type: integer
+              description: RX1 delay in seconds
+            rx2Datarate:
+              type: integer
+              description: RX2 datarate
+        
+        # Packet Forwarder Mode Configuration
+        packetForwarder:
+          type: object
+          description: |
+            Packet Forwarder mode configuration.
+            Forwards packets to external network server.
+            See LORA-NETWORK-SCHEMA.md section 2 for complete details.
+          properties:
+            serverAddress:
+              type: string
+              description: Network server address (IP or domain)
+            serverAddress2:
+              type: string
+              description: Secondary server address
+            upstreamPort:
+              type: integer
+              description: Upstream UDP port
+            downstreamPort:
+              type: integer
+              description: Downstream UDP port
+            gwID:
+              type: string
+              description: Gateway ID (16-char hex)
+            channelPlan:
+              type: string
+              description: Channel plan
+            antennaGain:
+              type: integer
+              description: Antenna gain in dBi
+            keepAliveInterval:
+              type: integer
+              description: Keep-alive interval in seconds
+            statInterval:
+              type: integer
+              description: Statistics interval in seconds
+        
+        # Basic Station Mode Configuration
+        basicStation:
+          type: object
+          description: |
+            Basic Station mode configuration (Semtech protocol).
+            See LORA-NETWORK-SCHEMA.md section 3 for complete details.
+          properties:
+            uri:
+              type: string
+              description: LNS server URI
+            trust:
+              type: string
+              description: Trust store (CA certificates)
+            cert:
+              type: string
+              description: Client certificate
+            key:
+              type: string
+              description: Client private key
+            credentials:
+              type: string
+              description: Credentials configuration
+            persistance:
+              type: boolean
+              description: Enable persistence
+        
+        # ChirpStack Mode Configuration
+        chirpstack:
+          type: object
+          description: |
+            ChirpStack Network Server integration.
+            See LORA-NETWORK-SCHEMA.md section 4 for complete details.
+          properties:
+            configs:
+              type: array
+              description: ChirpStack configuration array
+              items:
+                type: object
+        
+        # Default Application Configuration
+        defaultApp:
+          type: object
+          description: |
+            Default application server configuration.
+            See LORA-NETWORK-SCHEMA.md section 5 for complete details.
+          properties:
+            enabled:
+              type: boolean
+            url:
+              type: string
+              description: Application server URL
+            eui:
+              type: string
+              description: Application EUI
+            encodeHex:
+              type: boolean
+              description: Encode payload as hex
+        
+        # Network-wide Settings
+        network:
+          type: object
+          description: |
+            Network-wide configuration settings.
+            See LORA-NETWORK-SCHEMA.md section 6 for complete details.
+          properties:
+            public:
+              type: boolean
+              description: Public or private network
+        
+        # UDP Configuration
+        udp:
+          type: object
+          description: |
+            UDP protocol configuration.
+            See LORA-NETWORK-SCHEMA.md section 7 for complete details.
+          properties:
+            port:
+              type: integer
+              description: UDP port
+        
+        # MQTT Broker Configuration
+        mqtt:
+          type: object
+          description: |
+            Local MQTT broker configuration.
+            See LORA-NETWORK-SCHEMA.md section 11 for complete details.
+          properties:
+            enabled:
+              type: boolean
+            port:
+              type: integer
+              description: MQTT broker port
+        
+        # Traffic Manager
+        trafficManager:
+          type: object
+          description: Traffic management configuration
+        
+        # Whitelist Configuration
+        whitelist:
+          type: object
+          description: Device whitelist configuration
+        
+        # Address Range
+        addressRange:
+          type: object
+          description: Address range configuration
+        
+        # Redundancy Configuration
+        redundancy:
+          type: object
+          description: Gateway redundancy configuration
+        
+        # Spectral Scan
+        spectralScan:
+          type: object
+          description: Spectral scan configuration
         
         # Logging
         log:

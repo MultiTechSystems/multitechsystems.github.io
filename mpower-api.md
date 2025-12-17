@@ -35,8 +35,18 @@ Master index with overview of all documentation, how-to guides, tool integration
 ### 📦 [Postman Collection](mpower-api-docs/MTS-Device-API.postman_collection.json)
 Ready-to-import Postman collection with pre-configured requests for all major endpoints.
 
-### 📡 [Complete LoRa Network Schema](mpower-api-docs/LORA-NETWORK-SCHEMA.md)
-Comprehensive documentation of all `loraNetwork` configuration fields covering Network Server, Packet Forwarder, Basic Station, and ChirpStack modes with 200+ documented properties.
+### 📐 Detailed Schema Documentation
+
+Comprehensive field-by-field documentation for complex configuration objects:
+
+- **[LoRa Network Schema](mpower-api-docs/LORA-NETWORK-SCHEMA.md)** - Complete `loraNetwork` configuration with 200+ properties covering Network Server, Packet Forwarder, Basic Station, and ChirpStack modes
+- **[Security Schemas](mpower-api-docs/SECURITY-SCHEMAS.md)** - Authentication, certificates, and security configuration
+- **[NAT & Firewall Schemas](mpower-api-docs/NAT-FIREWALL-SCHEMAS.md)** - NAT rules, port forwarding, and firewall configuration
+- **[VPN Schemas](mpower-api-docs/VPN-SCHEMAS.md)** - OpenVPN, IPsec, and GRE tunnel configuration
+- **[Network Interfaces Schema](mpower-api-docs/NETWORK-INTERFACES-SCHEMA.md)** - Ethernet, cellular, WiFi, and network interface configuration
+- **[Alert Schema](mpower-api-docs/ALERT-SCHEMA.md)** - Alert and notification configuration
+- **[SNMP Schema](mpower-api-docs/SNMP-SCHEMA.md)** - SNMP agent and trap configuration
+- **[Schema Coverage Analysis](mpower-api-docs/SCHEMA-COVERAGE-ANALYSIS.md)** - Overview of all documented schemas and coverage status
 
 ### 🔍 New Discovery Documentation (December 2025)
 
@@ -62,6 +72,22 @@ Complete report of the December 2025 discovery session with testing methodology,
 
 #### [Quick Discovery Reference](mpower-api-docs/DISCOVERY-SUMMARY.txt)
 Visual ASCII summary of all discoveries with quick reference tables.
+
+### 📚 Implementation Guides
+
+Production-ready guides for common use cases:
+
+- **[Monitoring Best Practices](mpower-api-docs/MONITORING-BEST-PRACTICES.md)** - Complete monitoring strategies with polling intervals, alert thresholds, Python/Bash scripts, and Prometheus exporter examples
+- **[WAN Failover Configuration](mpower-api-docs/WAN-FAILOVER-GUIDE.md)** - Complete guide to WAN failover and load balancing with FAILOVER vs LOADBALANCE modes, health check strategies, and configuration examples
+- **[API Client Examples](mpower-api-docs/CLIENT-EXAMPLES.md)** - Production-ready client implementations in Python, Node.js, and Bash with authentication, error handling, and common use cases
+- **[LoRa Operations Workflow](mpower-api-docs/LORA-OPERATIONS-WORKFLOW.md)** - Complete FOTA and multicast messaging workflows with step-by-step API call sequences, file upload procedures, and code examples
+
+### 🧪 Testing & Validation Reports
+
+Comprehensive testing documentation:
+
+- **[PUT Operations Test Report](mpower-api-docs/PUT-OPERATIONS-TEST-REPORT.md)** - Results from testing 17 PUT endpoints (76% success rate) with detailed error analysis, workarounds, and recommendations
+- **[User Role Permissions Report](mpower-api-docs/USER-ROLE-PERMISSIONS-REPORT.md)** - Admin role permissions documented (100% access), permission matrix, RBAC patterns, and security guidelines
 
 ## Quick Start
 

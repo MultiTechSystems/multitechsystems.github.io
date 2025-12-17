@@ -3833,6 +3833,466 @@ paths:
                   uplink_channels: ''
                   uplink_dwell_time: 1
                 status: success
+  /api/lora/fota:
+    post:
+      tags:
+      - LoRa
+      summary: Schedule FOTA (Firmware Over-The-Air) operation
+      description: 'Schedule a firmware upgrade operation for LoRa devices using multicast.
+
+
+        This endpoint creates a FOTA session that:
+
+        - Uploads firmware to selected devices
+
+        - Uses multicast for efficient distribution
+
+        - Supports fragmented data transfer
+
+        - Allows scheduling for future execution
+
+        - Provides progress tracking
+
+
+        The operation is queued and executed by the LoRa network server.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - transmission_type
+              - endDeviceDeveuis
+              - multicastGroupID
+              properties:
+                transmission_type:
+                  type: string
+                  enum:
+                  - FOTA
+                  description: Type of transmission (must be FOTA for firmware updates)
+                endDeviceDeveuis:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of device EUIs to receive the firmware
+                  example:
+                  - 00-80-00-ff-00-00-00-02
+                  - 00-80-00-00-0a-00-11-ba
+                multicastGroupID:
+                  type: integer
+                  description: Multicast group ID (0-3)
+                  minimum: 0
+                  maximum: 3
+                  example: 0
+                scheduledTimeSinceUnixEpoch:
+                  type: integer
+                  description: Unix timestamp for scheduled start time (optional,
+                    defaults to immediate)
+                  example: 1734480000
+                setupTimeFromScheduledTime:
+                  type: integer
+                  description: 'Setup time before transmission starts in seconds (default:
+                    0)'
+                  example: 300
+                fragmentDesc:
+                  type: string
+                  description: Fragment descriptor in hexadecimal format
+                  example: '0001020304'
+                parity_fragments_per_session:
+                  type: integer
+                  description: Number of parity fragments per session for error correction
+                  example: 2
+                max_packet_size:
+                  type: integer
+                  description: Maximum packet size in bytes
+                  example: 200
+                sleep_time:
+                  type: integer
+                  description: Sleep time between transmissions in milliseconds
+                  example: 1000
+                ssleep_time:
+                  type: integer
+                  description: Short sleep time in milliseconds
+                  example: 100
+                psleep_time:
+                  type: integer
+                  description: Parity sleep time in milliseconds
+                  example: 500
+                keep_log:
+                  type: boolean
+                  description: Keep operation logs after completion
+                  example: true
+            example:
+              transmission_type: FOTA
+              endDeviceDeveuis:
+              - 00-80-00-ff-00-00-00-02
+              - 00-80-00-00-0a-00-11-ba
+              multicastGroupID: 0
+              scheduledTimeSinceUnixEpoch: 1734480000
+              setupTimeFromScheduledTime: 300
+              fragmentDesc: '0001020304'
+              parity_fragments_per_session: 2
+              max_packet_size: 200
+              sleep_time: 1000
+              keep_log: true
+      responses:
+        '200':
+          description: FOTA operation scheduled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        enum:
+                        - success
+                        - failure
+                        example: success
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 400
+                  status:
+                    type: string
+                    example: fail
+                  error:
+                    type: string
+                    example: Invalid parameters
+  /api/lora/mcm:
+    post:
+      tags:
+      - LoRa
+      summary: Schedule multicast message operation
+      description: 'Schedule a multicast message to be sent to multiple LoRa devices.
+
+
+        This endpoint creates a multicast messaging session that:
+
+        - Sends custom payloads to selected devices
+
+        - Uses multicast for efficient distribution
+
+        - Supports multiple payload formats (Hexadecimal, Base64, Binary)
+
+        - Allows scheduling for future execution
+
+        - Configurable port and session timeout
+
+
+        The operation is queued and executed by the LoRa network server.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - transmission_type
+              - endDeviceDeveuis
+              - multicastGroupID
+              - multicastMessage
+              properties:
+                transmission_type:
+                  type: string
+                  enum:
+                  - Message
+                  description: Type of transmission (must be Message for multicast
+                    messaging)
+                endDeviceDeveuis:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of device EUIs to receive the message
+                  example:
+                  - 00-80-00-ff-00-00-00-02
+                  - 00-80-00-00-0a-00-11-ba
+                multicastGroupID:
+                  type: integer
+                  description: Multicast group ID (0-3)
+                  minimum: 0
+                  maximum: 3
+                  example: 0
+                multicastMessage:
+                  type: object
+                  required:
+                  - messagePort
+                  - messageFormat
+                  - messagePayload
+                  properties:
+                    messagePort:
+                      type: integer
+                      description: LoRaWAN port number (1-220)
+                      minimum: 1
+                      maximum: 220
+                      example: 10
+                    messageFormat:
+                      type: string
+                      enum:
+                      - Hexadecimal
+                      - Base64
+                      - Binary
+                      description: Format of the message payload
+                      example: Hexadecimal
+                    messagePayload:
+                      type: string
+                      description: Message payload in the specified format
+                      example: 48656C6C6F
+                    multicastSessionTimeout:
+                      type: integer
+                      description: Session timeout in minutes (0-15)
+                      minimum: 0
+                      maximum: 15
+                      example: 5
+                scheduledTimeSinceUnixEpoch:
+                  type: integer
+                  description: Unix timestamp for scheduled start time (optional,
+                    defaults to immediate)
+                  example: 1734480000
+                setupTimeFromScheduledTime:
+                  type: integer
+                  description: 'Setup time before transmission starts in seconds (default:
+                    0)'
+                  example: 60
+                keep_log:
+                  type: boolean
+                  description: Keep operation logs after completion
+                  example: true
+            example:
+              transmission_type: Message
+              endDeviceDeveuis:
+              - 00-80-00-ff-00-00-00-02
+              multicastGroupID: 0
+              multicastMessage:
+                messagePort: 10
+                messageFormat: Hexadecimal
+                messagePayload: 48656C6C6F
+                multicastSessionTimeout: 5
+              scheduledTimeSinceUnixEpoch: 1734480000
+              setupTimeFromScheduledTime: 60
+              keep_log: true
+      responses:
+        '200':
+          description: Multicast message scheduled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        enum:
+                        - success
+                        - failure
+                        example: success
+        '400':
+          description: Invalid request parameters
+  /api/lora/fotaprogress:
+    get:
+      tags:
+      - LoRa
+      summary: Get FOTA operation progress
+      description: 'Retrieve the progress of ongoing FOTA operations.
+
+
+        Returns information about:
+
+        - Current phase of the operation
+
+        - Overall completion percentage
+
+        - Multicast EUI
+
+        - Input filename
+
+        - Transmission type'
+      responses:
+        '200':
+          description: List of FOTA operations in progress
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        multicast_eui:
+                          type: string
+                          description: Multicast group EUI
+                          example: 70-b3-d5-7e-d0-00-42-6e
+                        transmission_type:
+                          type: string
+                          description: Type of operation
+                          example: FOTA
+                        input_filename:
+                          type: string
+                          description: Firmware filename
+                          example: firmware_v1.2.3.bin
+                        current_phase:
+                          type: string
+                          description: Current operation phase
+                          example: Transmitting
+                        overall_percent_complete:
+                          type: number
+                          description: Completion percentage
+                          example: 45.5
+  /api/lora/fotaschedule:
+    get:
+      tags:
+      - LoRa
+      summary: Get scheduled FOTA operations
+      description: 'Retrieve list of scheduled FOTA and multicast message operations.
+
+
+        Returns information about:
+
+        - Scheduled operations waiting to execute
+
+        - Operation parameters
+
+        - Schedule filenames
+
+        - Device lists'
+      responses:
+        '200':
+          description: List of scheduled operations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: array
+                    items:
+                      type: object
+                      description: Scheduled operation details
+  /api/lora/fotaschedule/{filename}:
+    delete:
+      tags:
+      - LoRa
+      summary: Cancel scheduled FOTA operation
+      description: Cancel a scheduled FOTA or multicast message operation before it
+        executes.
+      parameters:
+      - name: filename
+        in: path
+        required: true
+        description: Schedule filename to cancel
+        schema:
+          type: string
+        example: fota_12345678_1734480000_300
+      responses:
+        '200':
+          description: Operation cancelled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: success
+  /api/lora/fotaresults:
+    get:
+      tags:
+      - LoRa
+      summary: Get FOTA operation results
+      description: 'Retrieve results of completed FOTA operations.
+
+
+        Returns information about:
+
+        - Completion status
+
+        - Success/failure counts
+
+        - Completion time
+
+        - Result files'
+      responses:
+        '200':
+          description: List of completed FOTA operations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        multicast_eui:
+                          type: string
+                        transmission_type:
+                          type: string
+                        input_filename:
+                          type: string
+                        schedule_source:
+                          type: string
+                        complete_time:
+                          type: string
+                          format: date-time
+                        result_filename:
+                          type: string
+                        success:
+                          type: string
+                          description: Number of successful devices
+                        failed:
+                          type: string
+                          description: Number of failed devices
+                        skipped:
+                          type: string
+                          description: Number of skipped devices
 components:
   securitySchemes:
     cookieAuth:

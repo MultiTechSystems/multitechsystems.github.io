@@ -1069,6 +1069,162 @@
               "body": "{\n  \"code\": 200,\n  \"result\": [\n    {\n      \"adr_ack_delay\": 32,\n      \"adr_ack_limit\": 64,\n      \"app_down_counter\": 0,\n      \"app_senc_key\": \"88225921cc7f1f279d8482542c18b9cf\",\n      \"appeui\": \"16-ea-76-f6-ab-66-3d-80\",\n      \"beacon_frequency\": 923.4000244140625,\n      \"channel_mask\": \"\",\n      \"created_at\": \"2025-09-30T15:56:29Z\",\n      \"dev_addr\": \"0164458c\",\n      \"deveui\": \"00-80-00-ff-00-00-00-02\",\n      \"downlink_channels\": \"\",\n      \"downlink_dwell_time\": 1,\n      \"fnwk_sint_key\": \"c2b6c4edfc5b91698597fc45a2c1eb6f\",\n      \"is_class_b\": 0,\n      \"joineui\": \"16-ea-76-f6-ab-66-3d-80\",\n      \"js_enc_key\": \"00000000000000000000000000000000\",\n      \"js_int_key\": \"00000000000000000000000000000000\",\n      \"last_seen\": \"\",\n      \"max_duty_cycle\": 0,\n      \"max_eirp\": 16,\n      \"multicast\": 0,\n      \"net_id\": \"000000\",\n      \"nwk_down_counter\": 1,\n      \"nwk_senc_key\": \"00000000000000000000000000000000\",\n      \"ping_slot_datarate\": 3,\n      \"ping_slot_frequency\": 923.4000244140625,\n      \"ping_slot_periodicity\": 0,\n      \"redundancy\": 0,\n      \"remote_join\": false,\n      \"rx1_datarate_offset\": 0,\n      \"rx1_delay\": 1,\n      \"rx2_datarate_index\": 2,\n      \"rx2_frequency\": 923.2000122070312,\n      \"snwk_sint_key\": \"00000000000000000000000000000000\",\n      \"status_battery\": 0,\n      \"status_snr\": 0,\n      \"tx_datarate\": 0,\n      \"tx_power\": 0,\n      \"up_counter\": 0,\n      \"uplink_channels\": \"0080de8c500150e68c500220ee8c500370b78c500440bf8c500510c78c5006e0ce8c50\",\n      \"uplink_dwell_time\": 1\n    },\n    {\n      \"adr_ack_delay\": 32,\n      \"adr_ack_limit\": 64,\n      \"app_down_counter\": 0,\n      \"app_senc_key\": \"f14312ca3aa4b2b273b78c1725b72497\",\n      \"appeui\": \"16-ea-76-f6-ab-66-3d-80\",\n      \"beacon_frequency\": 0.0,\n      \"channel_mask\": \"\",\n      \"created_at\": \"2025-12-15T15:43:12Z\",\n      \"dev_addr\": \"015a6146\",\n      \"deveui\": \"00-80-00-00-0a-00-11-ba\",\n      \"downlink_channels\": \"\",\n      \"downlink_dwell_time\": 1,\n      \"fnwk_sint_key\": \"d94022bd1dd640b5ba88d7083ff5293d\",\n      \"is_class_b\": 0,\n      \"joineui\": \"16-ea-76-f6-ab-66-3d-80\",\n      \"js_enc_key\": \"00000000000000000000000000000000\",\n      \"js_int_key\": \"00000000000000000000000000000000\",\n      \"last_seen\": \"2025-12-15T22:18:21Z\",\n      \"max_duty_cycle\": 0,\n      \"max_eirp\": 30,\n      \"multicast\": 0,\n      \"net_id\": \"000000\",\n      \"nwk_down_counter\": 10,\n      \"nwk_senc_key\": \"00000000000000000000000000000000\",\n      \"ping_slot_datarate\": 8,\n      \"ping_slot_frequency\": 0.0,\n      \"ping_slot_periodicity\": 0,\n      \"redundancy\": 0,\n      \"remote_join\": false,\n      \"rx1_datarate_offset\": 0,\n      \"rx1_delay\": 1,\n      \"rx2_datarate_index\": 10,\n      \"rx2_frequency\": 923.2999877929688,\n      \"snwk_sint_key\": \"00000000000000000000000000000000\",\n      \"status_battery\": 0,\n      \"status_snr\": 0,\n      \"tx_datarate\": 3,\n      \"tx_power\": 10,\n      \"up_counter\": 141,\n      \"uplink_channels\": \"\",\n      \"uplink_dwell_time\": 1\n    }\n  ],\n  \"status\": \"success\"\n}"
             }
           ]
+        },
+        {
+          "name": "Schedule FOTA Operation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transmission_type\": \"FOTA\",\n  \"endDeviceDeveuis\": [\n    \"00-80-00-ff-00-00-00-02\",\n    \"00-80-00-00-0a-00-11-ba\"\n  ],\n  \"multicastGroupID\": 0,\n  \"scheduledTimeSinceUnixEpoch\": 1734480000,\n  \"setupTimeFromScheduledTime\": 300,\n  \"fragmentDesc\": \"0001020304\",\n  \"parity_fragments_per_session\": 2,\n  \"max_packet_size\": 200,\n  \"sleep_time\": 1000,\n  \"keep_log\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/lora/fota",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "fota"
+              ]
+            },
+            "description": "Schedule a firmware upgrade (FOTA) operation for LoRa devices using multicast. The firmware file must be uploaded separately using the upload_lora_fota_file command."
+          },
+          "response": []
+        },
+        {
+          "name": "Schedule Multicast Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transmission_type\": \"Message\",\n  \"endDeviceDeveuis\": [\n    \"00-80-00-ff-00-00-00-02\"\n  ],\n  \"multicastGroupID\": 0,\n  \"multicastMessage\": {\n    \"messagePort\": 10,\n    \"messageFormat\": \"Hexadecimal\",\n    \"messagePayload\": \"48656C6C6F\",\n    \"multicastSessionTimeout\": 5\n  },\n  \"scheduledTimeSinceUnixEpoch\": 1734480000,\n  \"setupTimeFromScheduledTime\": 60,\n  \"keep_log\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/lora/mcm",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "mcm"
+              ]
+            },
+            "description": "Schedule a multicast message to be sent to multiple LoRa devices. Supports Hexadecimal, Base64, and Binary payload formats."
+          },
+          "response": []
+        },
+        {
+          "name": "Get FOTA Progress",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/lora/fotaprogress",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "fotaprogress"
+              ]
+            },
+            "description": "Retrieve the progress of ongoing FOTA operations including current phase and completion percentage."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Scheduled Operations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/lora/fotaschedule",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "fotaschedule"
+              ]
+            },
+            "description": "Retrieve list of scheduled FOTA and multicast message operations waiting to execute."
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Scheduled Operation",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/lora/fotaschedule/:filename",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "fotaschedule",
+                ":filename"
+              ],
+              "variable": [
+                {
+                  "key": "filename",
+                  "value": "fota_12345678_1734480000_300",
+                  "description": "Schedule filename to cancel"
+                }
+              ]
+            },
+            "description": "Cancel a scheduled FOTA or multicast message operation before it executes."
+          },
+          "response": []
+        },
+        {
+          "name": "Get FOTA Results",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/lora/fotaresults",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "fotaresults"
+              ]
+            },
+            "description": "Retrieve results of completed FOTA operations including success/failure counts and completion time."
+          },
+          "response": []
         }
       ]
     },

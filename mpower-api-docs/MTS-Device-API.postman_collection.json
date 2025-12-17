@@ -1151,7 +1151,12 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"mode\": \"FAILOVER\",\n  \"wans\": [\n    {\n      \"interface\": \"eth0\",\n      \"priority\": 1,\n      \"monitor\": {\n        \"mode\": \"ACTIVE\",\n        \"checkInterval\": 60,\n        \"active\": {\n          \"type\": \"ICMP\",\n          \"hostname\": \"8.8.8.8\",\n          \"icmpCount\": 5\n        }\n      }\n    }\n  ]\n}"
+              "raw": "{\n  \"mode\": \"FAILOVER\",\n  \"wans\": [\n    {\n      \"interface\": \"eth0\",\n      \"monitor\": {\n        \"active\": {\n          \"hostname\": \"www.google.com\",\n          \"icmpCount\": 5,\n          \"tcpPort\": 80,\n          \"type\": \"ICMP\"\n        },\n        \"checkInterval\": 60,\n        \"mode\": \"ACTIVE\"\n      },\n      \"priority\": 1,\n      \"weight\": 1\n    },\n    {\n      \"interface\": \"eth1\",\n      \"monitor\": {\n        \"active\": {\n          \"hostname\": \"www.google.com\",\n          \"icmpCount\": 5,\n          \"tcpPort\": 80,\n          \"type\": \"ICMP\"\n        },\n        \"checkInterval\": 60,\n        \"mode\": \"ACTIVE\"\n      },\n      \"priority\": 2,\n      \"weight\": 1\n    },\n    {\n      \"interface\": \"eth2\",\n      \"monitor\": {\n        \"active\": {\n          \"hostname\": \"www.google.com\",\n          \"icmpCount\": 5,\n          \"tcpPort\": 80,\n          \"type\": \"ICMP\"\n        },\n        \"checkInterval\": 60,\n        \"mode\": \"ACTIVE\"\n      },\n      \"priority\": 3,\n      \"weight\": 1\n    },\n    {\n      \"interface\": \"wlan0\",\n      \"monitor\": {\n        \"active\": {\n          \"hostname\": \"www.google.com\",\n          \"icmpCount\": 5,\n          \"tcpPort\": 80,\n          \"type\": \"ICMP\"\n        },\n        \"checkInterval\": 60,\n        \"mode\": \"ACTIVE\"\n      },\n      \"priority\": 4,\n      \"weight\": 1\n    },\n    {\n      \"interface\": \"ppp0\",\n      \"monitor\": {\n        \"active\": {\n          \"hostname\": \"www.google.com\",\n          \"icmpCount\": 10,\n          \"tcpPort\": 80,\n          \"type\": \"ICMP\"\n        },\n        \"checkInterval\": 60,\n        \"mode\": \"ACTIVE\"\n      },\n      \"priority\": 5,\n      \"weight\": 1\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
               "raw": "{{baseUrl}}/api/wanmngr",
@@ -1162,8 +1167,65 @@
                 "api",
                 "wanmngr"
               ]
+            },
+            "description": "Update wanmngr configuration"
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"mode\": \"FAILOVER\",\n  \"wans\": [\n    {\n      \"interface\": \"eth0\",\n      \"monitor\": {\n        \"active\": {\n          \"hostname\": \"www.google.com\",\n          \"icmpCount\": 5,\n          \"tcpPort\": 80,\n          \"type\": \"ICMP\"\n        },\n        \"checkInterval\": 60,\n        \"mode\": \"ACTIVE\"\n      },\n      \"priority\": 1,\n      \"weight\": 1\n    },\n    {\n      \"interface\": \"eth1\",\n      \"monitor\": {\n        \"active\": {\n          \"hostname\": \"www.google.com\",\n          \"icmpCount\": 5,\n          \"tcpPort\": 80,\n          \"type\": \"ICMP\"\n        },\n        \"checkInterval\": 60,\n        \"mode\": \"ACTIVE\"\n      },\n      \"priority\": 2,\n      \"weight\": 1\n    },\n    {\n      \"interface\": \"eth2\",\n      \"monitor\": {\n        \"active\": {\n          \"hostname\": \"www.google.com\",\n          \"icmpCount\": 5,\n          \"tcpPort\": 80,\n          \"type\": \"ICMP\"\n        },\n        \"checkInterval\": 60,\n        \"mode\": \"ACTIVE\"\n      },\n      \"priority\": 3,\n      \"weight\": 1\n    },\n    {\n      \"interface\": \"wlan0\",\n      \"monitor\": {\n        \"active\": {\n          \"hostname\": \"www.google.com\",\n          \"icmpCount\": 5,\n          \"tcpPort\": 80,\n          \"type\": \"ICMP\"\n        },\n        \"checkInterval\": 60,\n        \"mode\": \"ACTIVE\"\n      },\n      \"priority\": 4,\n      \"weight\": 1\n    },\n    {\n      \"interface\": \"ppp0\",\n      \"monitor\": {\n        \"active\": {\n          \"hostname\": \"www.google.com\",\n          \"icmpCount\": 10,\n          \"tcpPort\": 80,\n          \"type\": \"ICMP\"\n        },\n        \"checkInterval\": 60,\n        \"mode\": \"ACTIVE\"\n      },\n      \"priority\": 5,\n      \"weight\": 1\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/wanmngr",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "wanmngr"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"result\": {\n    \"mode\": \"FAILOVER\",\n    \"wans\": [\n      {\n        \"interface\": \"eth0\",\n        \"monitor\": {\n          \"active\": {\n            \"hostname\": \"www.google.com\",\n            \"icmpCount\": 5,\n            \"tcpPort\": 80,\n            \"type\": \"ICMP\"\n          },\n          \"checkInterval\": 60,\n          \"mode\": \"ACTIVE\"\n        },\n        \"priority\": 1,\n        \"weight\": 1\n      },\n      {\n        \"interface\": \"eth1\",\n        \"monitor\": {\n          \"active\": {\n            \"hostname\": \"www.google.com\",\n            \"icmpCount\": 5,\n            \"tcpPort\": 80,\n            \"type\": \"ICMP\"\n          },\n          \"checkInterval\": 60,\n          \"mode\": \"ACTIVE\"\n        },\n        \"priority\": 2,\n        \"weight\": 1\n      },\n      {\n        \"interface\": \"eth2\",\n        \"monitor\": {\n          \"active\": {\n            \"hostname\": \"www.google.com\",\n            \"icmpCount\": 5,\n            \"tcpPort\": 80,\n            \"type\": \"ICMP\"\n          },\n          \"checkInterval\": 60,\n          \"mode\": \"ACTIVE\"\n        },\n        \"priority\": 3,\n        \"weight\": 1\n      },\n      {\n        \"interface\": \"wlan0\",\n        \"monitor\": {\n          \"active\": {\n            \"hostname\": \"www.google.com\",\n            \"icmpCount\": 5,\n            \"tcpPort\": 80,\n            \"type\": \"ICMP\"\n          },\n          \"checkInterval\": 60,\n          \"mode\": \"ACTIVE\"\n        },\n        \"priority\": 4,\n        \"weight\": 1\n      },\n      {\n        \"interface\": \"ppp0\",\n        \"monitor\": {\n          \"active\": {\n            \"hostname\": \"www.google.com\",\n            \"icmpCount\": 10,\n            \"tcpPort\": 80,\n            \"type\": \"ICMP\"\n          },\n          \"checkInterval\": 60,\n          \"mode\": \"ACTIVE\"\n        },\n        \"priority\": 5,\n        \"weight\": 1\n      }\n    ]\n  }\n}"
+            },
+            {
+              "name": "Success Response",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"result\": {\n    \"mode\": \"FAILOVER\",\n    \"wans\": [\n      {\n        \"interface\": \"eth0\",\n        \"monitor\": {\n          \"active\": {\n            \"hostname\": \"www.google.com\",\n            \"icmpCount\": 5,\n            \"tcpPort\": 80,\n            \"type\": \"ICMP\"\n          },\n          \"checkInterval\": 60,\n          \"mode\": \"ACTIVE\"\n        },\n        \"priority\": 1,\n        \"weight\": 1\n      },\n      {\n        \"interface\": \"eth1\",\n        \"monitor\": {\n          \"active\": {\n            \"hostname\": \"www.google.com\",\n            \"icmpCount\": 5,\n            \"tcpPort\": 80,\n            \"type\": \"ICMP\"\n          },\n          \"checkInterval\": 60,\n          \"mode\": \"ACTIVE\"\n        },\n        \"priority\": 2,\n        \"weight\": 1\n      },\n      {\n        \"interface\": \"eth2\",\n        \"monitor\": {\n          \"active\": {\n            \"hostname\": \"www.google.com\",\n            \"icmpCount\": 5,\n            \"tcpPort\": 80,\n            \"type\": \"ICMP\"\n          },\n          \"checkInterval\": 60,\n          \"mode\": \"ACTIVE\"\n        },\n        \"priority\": 3,\n        \"weight\": 1\n      },\n      {\n        \"interface\": \"wlan0\",\n        \"monitor\": {\n          \"active\": {\n            \"hostname\": \"www.google.com\",\n            \"icmpCount\": 5,\n            \"tcpPort\": 80,\n            \"type\": \"ICMP\"\n          },\n          \"checkInterval\": 60,\n          \"mode\": \"ACTIVE\"\n        },\n        \"priority\": 4,\n        \"weight\": 1\n      },\n      {\n        \"interface\": \"ppp0\",\n        \"monitor\": {\n          \"active\": {\n            \"hostname\": \"www.google.com\",\n            \"icmpCount\": 10,\n            \"tcpPort\": 80,\n            \"type\": \"ICMP\"\n          },\n          \"checkInterval\": 60,\n          \"mode\": \"ACTIVE\"\n        },\n        \"priority\": 5,\n        \"weight\": 1\n      }\n    ]\n  }\n}"
             }
-          }
+          ]
         },
         {
           "name": "Get WAN Info (Status)",
@@ -1270,7 +1332,12 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"authEnabled\": true,\n  \"authPort\": 1812,\n  \"authType\": \"PAP\",\n  \"host\": \"radius.example.com\",\n  \"secret\": \"shared-secret\"\n}"
+              "raw": "{\n  \"acctEnabled\": false,\n  \"acctPort\": 1813,\n  \"anonymousEnabled\": false,\n  \"anonymousId\": \"anonymous\",\n  \"authEnabled\": false,\n  \"authPort\": 1812,\n  \"authType\": \"PAP\",\n  \"checkServer\": true,\n  \"host\": \"\",\n  \"retries\": 3,\n  \"secondaryAcctPort\": 1813,\n  \"secondaryAuthPort\": 1812,\n  \"secondaryHost\": \"\",\n  \"secret\": \"\",\n  \"timeout\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
               "raw": "{{baseUrl}}/api/radius",
@@ -1281,8 +1348,65 @@
                 "api",
                 "radius"
               ]
+            },
+            "description": "Update radius configuration"
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"acctEnabled\": false,\n  \"acctPort\": 1813,\n  \"anonymousEnabled\": false,\n  \"anonymousId\": \"anonymous\",\n  \"authEnabled\": false,\n  \"authPort\": 1812,\n  \"authType\": \"PAP\",\n  \"checkServer\": true,\n  \"host\": \"\",\n  \"retries\": 3,\n  \"secondaryAcctPort\": 1813,\n  \"secondaryAuthPort\": 1812,\n  \"secondaryHost\": \"\",\n  \"secret\": \"\",\n  \"timeout\": 2\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/radius",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "radius"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"result\": {\n    \"acctEnabled\": false,\n    \"acctPort\": 1813,\n    \"anonymousEnabled\": false,\n    \"anonymousId\": \"anonymous\",\n    \"authEnabled\": false,\n    \"authPort\": 1812,\n    \"authType\": \"PAP\",\n    \"checkServer\": true,\n    \"host\": \"\",\n    \"retries\": 3,\n    \"secondaryAcctPort\": 1813,\n    \"secondaryAuthPort\": 1812,\n    \"secondaryHost\": \"\",\n    \"secret\": \"\",\n    \"timeout\": 2\n  }\n}"
+            },
+            {
+              "name": "Success Response",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"result\": {\n    \"acctEnabled\": false,\n    \"acctPort\": 1813,\n    \"anonymousEnabled\": false,\n    \"anonymousId\": \"anonymous\",\n    \"authEnabled\": false,\n    \"authPort\": 1812,\n    \"authType\": \"PAP\",\n    \"checkServer\": true,\n    \"host\": \"\",\n    \"retries\": 3,\n    \"secondaryAcctPort\": 1813,\n    \"secondaryAuthPort\": 1812,\n    \"secondaryHost\": \"\",\n    \"secret\": \"\",\n    \"timeout\": 2\n  }\n}"
             }
-          }
+          ]
         },
         {
           "name": "Get Bootloader Config",
@@ -1511,7 +1635,12 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"enabled\": true,\n  \"serverAddress\": \"smtp.gmail.com\",\n  \"serverPort\": 587,\n  \"sourceEmailAddress\": \"device@example.com\"\n}"
+              "raw": "{\n  \"authEnabled\": false,\n  \"enabled\": false,\n  \"maxNumberOfEntries\": 50,\n  \"password\": \"\",\n  \"serverAddress\": \"\",\n  \"serverPort\": 465,\n  \"sourceEmailAddress\": \"\",\n  \"tls\": {\n    \"certCheck\": false,\n    \"enabled\": true,\n    \"startTls\": false\n  },\n  \"username\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
               "raw": "{{baseUrl}}/api/smtp",
@@ -1522,8 +1651,65 @@
                 "api",
                 "smtp"
               ]
+            },
+            "description": "Update smtp configuration"
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"authEnabled\": false,\n  \"enabled\": false,\n  \"maxNumberOfEntries\": 50,\n  \"password\": \"\",\n  \"serverAddress\": \"\",\n  \"serverPort\": 465,\n  \"sourceEmailAddress\": \"\",\n  \"tls\": {\n    \"certCheck\": false,\n    \"enabled\": true,\n    \"startTls\": false\n  },\n  \"username\": \"\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/smtp",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "smtp"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"result\": {\n    \"authEnabled\": false,\n    \"enabled\": false,\n    \"maxNumberOfEntries\": 50,\n    \"password\": \"\",\n    \"serverAddress\": \"\",\n    \"serverPort\": 465,\n    \"sourceEmailAddress\": \"\",\n    \"tls\": {\n      \"certCheck\": false,\n      \"enabled\": true,\n      \"startTls\": false\n    },\n    \"username\": \"\"\n  }\n}"
+            },
+            {
+              "name": "Success Response",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"result\": {\n    \"authEnabled\": false,\n    \"enabled\": false,\n    \"maxNumberOfEntries\": 50,\n    \"password\": \"\",\n    \"serverAddress\": \"\",\n    \"serverPort\": 465,\n    \"sourceEmailAddress\": \"\",\n    \"tls\": {\n      \"certCheck\": false,\n      \"enabled\": true,\n      \"startTls\": false\n    },\n    \"username\": \"\"\n  }\n}"
             }
-          }
+          ]
         },
         {
           "name": "Get SNTP Config",
@@ -1608,7 +1794,12 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"mode\": \"DAILY\",\n  \"hour\": 3,\n  \"minute\": 0\n}"
+              "raw": "{\n  \"hour\": 0,\n  \"interval\": 0,\n  \"minute\": 0,\n  \"mode\": \"DISABLED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
               "raw": "{{baseUrl}}/api/autoReboot",
@@ -1619,8 +1810,65 @@
                 "api",
                 "autoReboot"
               ]
+            },
+            "description": "Update autoReboot configuration"
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"hour\": 0,\n  \"interval\": 0,\n  \"minute\": 0,\n  \"mode\": \"DISABLED\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/autoReboot",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "autoReboot"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"result\": {\n    \"hour\": 0,\n    \"interval\": 0,\n    \"minute\": 0,\n    \"mode\": \"DISABLED\"\n  }\n}"
+            },
+            {
+              "name": "Success Response",
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"result\": {\n    \"hour\": 0,\n    \"interval\": 0,\n    \"minute\": 0,\n    \"mode\": \"DISABLED\"\n  }\n}"
             }
-          }
+          ]
         },
         {
           "name": "Get Remote Management Config",

@@ -110,6 +110,18 @@ This directory contains comprehensive API documentation for the Multi-Tech Syste
     - Security and access control guidelines
     - Future testing recommendations
 
+### 📡 LoRa Operations (NEW!)
+
+15. **`LORA-OPERATIONS-WORKFLOW.md`** - FOTA & Multicast Workflow Guide
+    - Complete API call sequences for FOTA and multicast operations
+    - Step-by-step workflows with code examples
+    - File upload procedures (firmware and message payloads)
+    - Scheduling and timing parameters
+    - Progress monitoring and result checking
+    - Error handling and troubleshooting
+    - Best practices for device management
+    - Examples in Bash, Python, and JavaScript
+
 ## How to Use
 
 ### View Documentation

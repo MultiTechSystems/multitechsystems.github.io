@@ -393,18 +393,41 @@ curl -X POST http://192.168.2.1/api/command/save -b cookies.txt
 # Get LoRa configuration
 curl -X GET "http://192.168.2.1/api?fields=loraNetwork" -b cookies.txt
 
-# Update LoRa network server name (example - must include full config object)
-# Note: loraNetwork requires the complete configuration object
-# Get current config first, modify desired fields, then PUT back
-curl -X GET "http://192.168.2.1/api?fields=loraNetwork" -b cookies.txt > lora_config.json
-
-# Edit lora_config.json to modify .result.loraNetwork.network.name or other fields
-
-# PUT the complete modified config back
+# Update single field - network server name
 curl -X PUT http://192.168.2.1/api/loraNetwork \
   -H "Content-Type: application/json" \
   -b cookies.txt \
-  -d @lora_config_modified.json
+  -d '{
+    "network": {
+      "name": "My Gateway"
+    }
+  }'
+
+# Update top-level field - backup interval
+curl -X PUT http://192.168.2.1/api/loraNetwork \
+  -H "Content-Type: application/json" \
+  -b cookies.txt \
+  -d '{"backupInterval": 7200}'
+
+# Update nested field - MQTT enabled
+curl -X PUT http://192.168.2.1/api/loraNetwork \
+  -H "Content-Type: application/json" \
+  -b cookies.txt \
+  -d '{
+    "mqtt": {
+      "enabled": true
+    }
+  }'
+
+# Update packet forwarder channel plan
+curl -X PUT http://192.168.2.1/api/loraNetwork \
+  -H "Content-Type: application/json" \
+  -b cookies.txt \
+  -d '{
+    "packetForwarder": {
+      "channelPlan": "US915"
+    }
+  }'
 
 # Restart LoRa service to apply changes
 curl -X POST http://192.168.2.1/api/lora/restart -b cookies.txt

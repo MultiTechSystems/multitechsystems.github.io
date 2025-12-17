@@ -35,6 +35,9 @@ Master index with overview of all documentation, how-to guides, tool integration
 ### 📦 [Postman Collection](mpower-api-docs/MTS-Device-API.postman_collection.json)
 Ready-to-import Postman collection with pre-configured requests for all major endpoints.
 
+### 📡 [Complete LoRa Network Schema](mpower-api-docs/LORA-NETWORK-SCHEMA.md)
+Comprehensive documentation of all `loraNetwork` configuration fields covering Network Server, Packet Forwarder, Basic Station, and ChirpStack modes with 200+ documented properties.
+
 ## Quick Start
 
 ### Authentication

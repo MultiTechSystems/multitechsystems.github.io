@@ -39,6 +39,13 @@ This directory contains comprehensive API documentation for the Multi-Tech Syste
    - Variables for easy configuration
    - Organized by functional area
 
+6. **`LORA-NETWORK-SCHEMA.md`** - Complete LoRa Network Schema
+   - Comprehensive documentation of all loraNetwork configuration fields
+   - Covers all operational modes (Network Server, Packet Forwarder, Basic Station, ChirpStack)
+   - Detailed property descriptions with types and constraints
+   - Configuration examples for each mode
+   - Over 200+ documented configuration properties
+
 ## How to Use
 
 ### View Documentation

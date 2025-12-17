@@ -459,7 +459,7 @@ curl -X PUT http://192.168.2.1/api/loraNetwork \
 curl -X POST http://192.168.2.1/api/lora/restart -b cookies.txt
 ```
 
-### System Monitoring (New!)
+### System Monitoring
 
 ```bash
 # Get comprehensive dashboard view (most useful!)
@@ -484,7 +484,7 @@ curl -X GET "http://192.168.2.1/api/lora/gateways" -b cookies.txt
 curl -X GET "http://192.168.2.1/api/lora/devices" -b cookies.txt
 ```
 
-### WAN Failover Configuration (New!)
+### WAN Failover Configuration
 
 ```bash
 # Get WAN manager configuration

@@ -39,12 +39,32 @@ This directory contains comprehensive API documentation for the Multi-Tech Syste
    - Variables for easy configuration
    - Organized by functional area
 
-6. **`LORA-NETWORK-SCHEMA.md`** - Complete LoRa Network Schema
-   - Comprehensive documentation of all loraNetwork configuration fields
-   - Covers all operational modes (Network Server, Packet Forwarder, Basic Station, ChirpStack)
-   - Detailed property descriptions with types and constraints
-   - Configuration examples for each mode
-   - Over 200+ documented configuration properties
+### 🔍 Discovery Documentation (NEW!)
+
+6. **`UNDOCUMENTED-ENDPOINTS-FINDINGS.md`** - Newly Discovered Endpoints
+   - 19+ previously undocumented configuration endpoints
+   - Detailed field descriptions and use cases
+   - Real-world examples from live gateway testing
+   - Includes: WAN management, security, cellular, notifications, branding
+
+7. **`STATS-ENDPOINTS-DISCOVERY.md`** - Stats Monitoring System
+   - Complete guide to 33+ stats categories
+   - Real-time monitoring endpoints
+   - Dashboard endpoint documentation
+   - LoRa-specific endpoints
+   - Monitoring best practices and polling recommendations
+
+8. **`SESSION-SUMMARY-2025-12-17.md`** - Discovery Session Report
+   - Detailed session report with all findings
+   - Testing methodology and results
+   - API patterns and insights
+   - Next steps and recommendations
+
+9. **`DISCOVERY-SUMMARY.txt`** - Quick Discovery Reference
+   - Visual summary of all discoveries
+   - Quick reference for new endpoints
+   - Key insights and patterns
+   - ASCII-formatted for easy viewing
 
 ## How to Use
 

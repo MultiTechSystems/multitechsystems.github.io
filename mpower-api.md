@@ -38,6 +38,31 @@ Ready-to-import Postman collection with pre-configured requests for all major en
 ### 📡 [Complete LoRa Network Schema](mpower-api-docs/LORA-NETWORK-SCHEMA.md)
 Comprehensive documentation of all `loraNetwork` configuration fields covering Network Server, Packet Forwarder, Basic Station, and ChirpStack modes with 200+ documented properties.
 
+### 🔍 New Discovery Documentation (December 2025)
+
+#### [Undocumented Endpoints Findings](mpower-api-docs/UNDOCUMENTED-ENDPOINTS-FINDINGS.md)
+**19+ newly discovered configuration endpoints** including:
+- **Network Management**: WAN failover, load balancing, DDNS, IP passthrough, LLDP, mDNS
+- **Security**: Remote access controls, RADIUS, bootloader security, reset button config
+- **Cellular**: Carrier-specific backoff timers, cellular time sync
+- **System**: Auto-reboot scheduler, cloud management, branding, custom apps
+- **Notifications**: SMTP, event groups, NTP time sync
+
+#### [Stats Monitoring System](mpower-api-docs/STATS-ENDPOINTS-DISCOVERY.md)
+**33+ stats categories** for comprehensive device monitoring:
+- System stats (CPU, memory, storage, services)
+- Network stats (interfaces, DNS, connectivity)
+- Cellular stats (radio, signal, SIM status, PDP config)
+- IoT stats (LoRa, Modbus, GPS, Bluetooth)
+- VPN stats (OpenVPN, IPsec, GRE)
+- **Dashboard endpoint** - Single-call comprehensive system overview
+
+#### [Discovery Session Summary](mpower-api-docs/SESSION-SUMMARY-2025-12-17.md)
+Complete report of the December 2025 discovery session with testing methodology, results, and insights from live gateway testing.
+
+#### [Quick Discovery Reference](mpower-api-docs/DISCOVERY-SUMMARY.txt)
+Visual ASCII summary of all discoveries with quick reference tables.
+
 ## Quick Start
 
 ### Authentication
@@ -117,6 +142,11 @@ curl -X POST http://192.168.2.1/api/command/ping \
 - `status` - System status notifications
 - `users` - User account management
 - `customRoles` - Custom role definitions
+- `autoReboot` - 🆕 Automatic reboot scheduler
+- `brand` - 🆕 White-label branding configuration
+- `customAppsConfig` - 🆕 Custom application settings
+- `resetButton` - 🆕 Physical reset button configuration
+- `bootloader` - 🆕 Bootloader security settings
 
 #### Network
 - `cellular` - Cellular connectivity
@@ -126,6 +156,17 @@ curl -X POST http://192.168.2.1/api/command/ping \
 - `routes` - Static routes
 - `firewall` - Firewall rules
 - `nat` - NAT configuration
+- `wanmngr` - 🆕 WAN failover and load balancing
+- `waninfo` - 🆕 Real-time WAN interface status
+- `ipPassthrough` - 🆕 IP passthrough/bridge mode
+- `ipPipes` - 🆕 IP pipe tunnels
+- `lldp` - 🆕 Link Layer Discovery Protocol
+- `mdns` - 🆕 Multicast DNS (Bonjour)
+- `ddns` - 🆕 Dynamic DNS configuration
+
+#### Cellular
+- `backOffTimers` - 🆕 Carrier-specific retry timers
+- `cellTimeSync` - 🆕 Cellular time synchronization
 
 #### VPN
 - `ovpnTunnels` - OpenVPN tunnels
@@ -143,11 +184,28 @@ curl -X POST http://192.168.2.1/api/command/ping \
 - `gps` - GPS configuration and data
 - `serial` - Serial port configuration
 - `sms` - SMS messaging
+- `remoteMgmt` - 🆕 Multi-Tech cloud management
 
 #### Security
 - `certificate` - Device certificates
 - `cacertificates` - CA certificates
 - `secureProtocols` - TLS/SSL protocols
+- `remoteAccess` - 🆕 HTTP/HTTPS/SSH/SNMP security
+- `radius` - 🆕 RADIUS authentication
+
+#### Notifications
+- `smtp` - 🆕 SMTP email configuration
+- `sntp` - 🆕 NTP time synchronization
+- `notificationEventGroup` - 🆕 Event notification groups
+
+#### Monitoring (Stats)
+- `stats/dashboard` - 🆕 Comprehensive system overview
+- `stats/radio` - 🆕 Cellular radio statistics
+- `stats/memory` - 🆕 Memory usage
+- `stats/cpu` - 🆕 CPU usage
+- `stats/iface` - 🆕 Network interface statistics
+- `stats/lora` - 🆕 LoRa gateway statistics
+- ...and 28+ more stats categories
 
 ### Command Endpoints
 
@@ -346,6 +404,80 @@ curl -X PUT http://192.168.2.1/api/loraNetwork \
 
 # Restart LoRa service
 curl -X POST http://192.168.2.1/api/lora/restart -b cookies.txt
+```
+
+### System Monitoring (New!)
+
+```bash
+# Get comprehensive dashboard view (most useful!)
+curl -X GET "http://192.168.2.1/api?fields=stats/dashboard" -b cookies.txt
+
+# Get cellular radio statistics
+curl -X GET "http://192.168.2.1/api?fields=stats/radio" -b cookies.txt
+
+# Get memory usage
+curl -X GET "http://192.168.2.1/api?fields=stats/memory" -b cookies.txt
+
+# Get interface statistics
+curl -X GET "http://192.168.2.1/api?fields=stats/iface_ppp0" -b cookies.txt
+
+# Monitor without session timeout (for continuous monitoring)
+curl -X GET "http://192.168.2.1/api?fields=stats/radio&inactivity=true" -b cookies.txt
+
+# Get LoRa gateway statistics
+curl -X GET "http://192.168.2.1/api/lora/gateways" -b cookies.txt
+
+# Get LoRa devices
+curl -X GET "http://192.168.2.1/api/lora/devices" -b cookies.txt
+```
+
+### WAN Failover Configuration (New!)
+
+```bash
+# Get WAN manager configuration
+curl -X GET "http://192.168.2.1/api?fields=wanmngr" -b cookies.txt
+
+# Configure WAN failover
+curl -X PUT http://192.168.2.1/api/wanmngr \
+  -H "Content-Type: application/json" \
+  -b cookies.txt \
+  -d '{
+    "mode": "FAILOVER",
+    "wans": [
+      {
+        "interface": "eth0",
+        "priority": 1,
+        "monitor": {
+          "mode": "ACTIVE",
+          "checkInterval": 60,
+          "active": {
+            "type": "ICMP",
+            "hostname": "8.8.8.8",
+            "icmpCount": 5
+          }
+        }
+      },
+      {
+        "interface": "ppp0",
+        "priority": 2,
+        "monitor": {
+          "mode": "ACTIVE",
+          "checkInterval": 60,
+          "active": {
+            "type": "ICMP",
+            "hostname": "8.8.8.8",
+            "icmpCount": 10
+          }
+        }
+      }
+    ]
+  }'
+
+# Get real-time WAN status
+curl -X GET "http://192.168.2.1/api?fields=waninfo" -b cookies.txt
+
+# Save configuration
+curl -X POST http://192.168.2.1/api/command/save -b cookies.txt
 ```
 
 ## Troubleshooting

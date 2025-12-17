@@ -25,12 +25,12 @@
   </head>
   <body>
 
-      <header style="text-align: right;">
-        <h1 style="text-align: right;">{{ page.title | default: site.title | default: site.github.repository_name }}</h1>
-        <p style="text-align: right;">{{ page.description | default: site.description | default: site.github.project_tagline }}</p>
+      <header style="text-align: left;">
+        <h1 style="text-align: left;">{{ page.title | default: site.title | default: site.github.repository_name }}</h1>
+        <p style="text-align: left;">{{ page.description | default: site.description | default: site.github.project_tagline }}</p>
         
         <!-- Search Box in Header -->
-        <div style="margin: 15px 0 0 0; max-width: 500px; position: relative; margin-left: auto;">
+        <div style="margin: 15px 0 0 0; max-width: 500px; position: relative;">
           <input type="search" id="search-input" placeholder="Search documentation..." 
                  style="width: 100%; padding: 10px; border: 2px solid #fff; border-radius: 4px; font-size: 14px; background: rgba(255,255,255,0.9); box-sizing: border-box;">
           <div id="results-container" style="position: absolute; left: 0; right: 0; top: calc(100% + 5px); z-index: 1000; background: white; border: 1px solid #ccc; border-radius: 4px; max-height: 400px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: none;"></div>
@@ -38,8 +38,8 @@
       </header>
 
     <div class="wrapper">
-      <nav style="text-align: right;">
-        <ul style="text-align: right;"><li><a href="/">Home</a></li></ul>
+      <nav style="text-align: left;">
+        <ul style="text-align: left;"><li><a href="/">Home</a></li></ul>
       </nav>
       <section>
         {{ content }}

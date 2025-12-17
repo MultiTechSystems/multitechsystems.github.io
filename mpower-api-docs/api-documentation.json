@@ -1799,18 +1799,144 @@
                 "properties": {
                   "mode": {
                     "type": "string",
-                    "enum": [
-                      "FAILOVER",
-                      "LOAD_BALANCE"
-                    ]
+                    "example": "FAILOVER"
                   },
                   "wans": {
                     "type": "array",
                     "items": {
-                      "type": "object"
+                      "type": "object",
+                      "properties": {
+                        "interface": {
+                          "type": "string",
+                          "example": "eth0"
+                        },
+                        "monitor": {
+                          "type": "object",
+                          "properties": {
+                            "active": {
+                              "type": "object",
+                              "properties": {
+                                "hostname": {
+                                  "type": "string",
+                                  "example": "www.google.com"
+                                },
+                                "icmpCount": {
+                                  "type": "integer",
+                                  "example": 5
+                                },
+                                "tcpPort": {
+                                  "type": "integer",
+                                  "example": 80
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "example": "ICMP"
+                                }
+                              }
+                            },
+                            "checkInterval": {
+                              "type": "integer",
+                              "example": 60
+                            },
+                            "mode": {
+                              "type": "string",
+                              "example": "ACTIVE"
+                            }
+                          }
+                        },
+                        "priority": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "weight": {
+                          "type": "integer",
+                          "example": 1
+                        }
+                      }
                     }
                   }
-                }
+                },
+                "description": "WAN failover and load balancing configuration"
+              },
+              "example": {
+                "mode": "FAILOVER",
+                "wans": [
+                  {
+                    "interface": "eth0",
+                    "monitor": {
+                      "active": {
+                        "hostname": "www.google.com",
+                        "icmpCount": 5,
+                        "tcpPort": 80,
+                        "type": "ICMP"
+                      },
+                      "checkInterval": 60,
+                      "mode": "ACTIVE"
+                    },
+                    "priority": 1,
+                    "weight": 1
+                  },
+                  {
+                    "interface": "eth1",
+                    "monitor": {
+                      "active": {
+                        "hostname": "www.google.com",
+                        "icmpCount": 5,
+                        "tcpPort": 80,
+                        "type": "ICMP"
+                      },
+                      "checkInterval": 60,
+                      "mode": "ACTIVE"
+                    },
+                    "priority": 2,
+                    "weight": 1
+                  },
+                  {
+                    "interface": "eth2",
+                    "monitor": {
+                      "active": {
+                        "hostname": "www.google.com",
+                        "icmpCount": 5,
+                        "tcpPort": 80,
+                        "type": "ICMP"
+                      },
+                      "checkInterval": 60,
+                      "mode": "ACTIVE"
+                    },
+                    "priority": 3,
+                    "weight": 1
+                  },
+                  {
+                    "interface": "wlan0",
+                    "monitor": {
+                      "active": {
+                        "hostname": "www.google.com",
+                        "icmpCount": 5,
+                        "tcpPort": 80,
+                        "type": "ICMP"
+                      },
+                      "checkInterval": 60,
+                      "mode": "ACTIVE"
+                    },
+                    "priority": 4,
+                    "weight": 1
+                  },
+                  {
+                    "interface": "ppp0",
+                    "monitor": {
+                      "active": {
+                        "hostname": "www.google.com",
+                        "icmpCount": 10,
+                        "tcpPort": 80,
+                        "type": "ICMP"
+                      },
+                      "checkInterval": 60,
+                      "mode": "ACTIVE"
+                    },
+                    "priority": 5,
+                    "weight": 1
+                  }
+                ]
               }
             }
           }
@@ -1834,7 +1960,61 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object"
+                "type": "object",
+                "properties": {
+                  "gateway": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "ip": {
+                    "type": "string",
+                    "example": "192.168.2.1"
+                  },
+                  "ipMode": {
+                    "type": "string",
+                    "example": "IPv4"
+                  },
+                  "ipv6": {
+                    "type": "object",
+                    "properties": {
+                      "ip": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "prefixlen": {
+                        "type": "string",
+                        "example": ""
+                      }
+                    }
+                  },
+                  "mask": {
+                    "type": "string",
+                    "example": "255.255.255.0"
+                  },
+                  "publicIpMask": {
+                    "type": "string",
+                    "example": "255.255.255.255"
+                  }
+                },
+                "required": [
+                  "ip",
+                  "ipMode",
+                  "ipv6",
+                  "mask",
+                  "publicIpMask"
+                ],
+                "description": "IP Passthrough configuration"
+              },
+              "example": {
+                "gateway": "",
+                "ip": "192.168.2.1",
+                "ipMode": "IPv4",
+                "ipv6": {
+                  "ip": "",
+                  "prefixlen": ""
+                },
+                "mask": "255.255.255.0",
+                "publicIpMask": "255.255.255.255"
               }
             }
           }
@@ -1861,21 +2041,34 @@
                 "type": "object",
                 "properties": {
                   "enabled": {
-                    "type": "boolean"
-                  },
-                  "sysName": {
-                    "type": "string"
+                    "type": "boolean",
+                    "example": false
                   },
                   "sysDescr": {
-                    "type": "string"
+                    "type": "string",
+                    "example": ""
                   },
-                  "txInterval": {
-                    "type": "integer"
+                  "sysName": {
+                    "type": "string",
+                    "example": ""
                   },
                   "txHold": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 4
+                  },
+                  "txInterval": {
+                    "type": "integer",
+                    "example": 30
                   }
-                }
+                },
+                "description": "Link Layer Discovery Protocol configuration"
+              },
+              "example": {
+                "enabled": false,
+                "sysDescr": "",
+                "sysName": "",
+                "txHold": 4,
+                "txInterval": 30
               }
             }
           }
@@ -1901,16 +2094,22 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "enabled": {
-                    "type": "boolean"
-                  },
                   "allowInterfaces": {
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "object"
                     }
+                  },
+                  "enabled": {
+                    "type": "boolean",
+                    "example": false
                   }
-                }
+                },
+                "description": "Multicast DNS configuration"
+              },
+              "example": {
+                "allowInterfaces": [],
+                "enabled": false
               }
             }
           }
@@ -1936,23 +2135,128 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "authentication": {
+                    "type": "object",
+                    "properties": {
+                      "password": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "username": {
+                        "type": "string",
+                        "example": ""
+                      }
+                    }
+                  },
+                  "checkIp": {
+                    "type": "object",
+                    "properties": {
+                      "custom": {
+                        "type": "object",
+                        "properties": {
+                          "path": {
+                            "type": "string",
+                            "example": "/"
+                          },
+                          "port": {
+                            "type": "integer",
+                            "example": 80
+                          },
+                          "server": {
+                            "type": "string",
+                            "example": "checkip.dyndns.org"
+                          },
+                          "ssl": {
+                            "type": "boolean",
+                            "example": false
+                          }
+                        }
+                      },
+                      "enabled": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "mode": {
+                        "type": "string",
+                        "example": "DEFAULT"
+                      }
+                    }
+                  },
+                  "checkIpPeriod": {
+                    "type": "integer",
+                    "example": 15
+                  },
+                  "custom": {
+                    "type": "object",
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "example": "/nic/update?hostname=%h"
+                      },
+                      "port": {
+                        "type": "integer",
+                        "example": 443
+                      },
+                      "server": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "ssl": {
+                        "type": "boolean",
+                        "example": true
+                      }
+                    }
+                  },
+                  "domain": {
+                    "type": "string",
+                    "example": ""
+                  },
                   "enabled": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": false
                   },
                   "mode": {
                     "type": "string",
-                    "enum": [
-                      "PROVIDER",
-                      "CUSTOM"
-                    ]
+                    "example": "PROVIDER"
                   },
                   "server": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "dyndns.org"
                   },
-                  "domain": {
-                    "type": "string"
+                  "updateInterval": {
+                    "type": "integer",
+                    "example": 5
                   }
-                }
+                },
+                "description": "Dynamic DNS configuration"
+              },
+              "example": {
+                "authentication": {
+                  "password": "",
+                  "username": ""
+                },
+                "checkIp": {
+                  "custom": {
+                    "path": "/",
+                    "port": 80,
+                    "server": "checkip.dyndns.org",
+                    "ssl": false
+                  },
+                  "enabled": true,
+                  "mode": "DEFAULT"
+                },
+                "checkIpPeriod": 15,
+                "custom": {
+                  "path": "/nic/update?hostname=%h",
+                  "port": 443,
+                  "server": "",
+                  "ssl": true
+                },
+                "domain": "",
+                "enabled": false,
+                "mode": "PROVIDER",
+                "server": "dyndns.org",
+                "updateInterval": 5
               }
             }
           }
@@ -1976,7 +2280,402 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object"
+                "type": "object",
+                "properties": {
+                  "__v": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "bruteForcePrevention": {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "failAttempts": {
+                        "type": "integer",
+                        "example": 3
+                      },
+                      "lockoutSeconds": {
+                        "type": "integer",
+                        "example": 300
+                      }
+                    },
+                    "required": [
+                      "enabled",
+                      "failAttempts",
+                      "lockoutSeconds"
+                    ]
+                  },
+                  "dosAttackPrevention": {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "limitBurst": {
+                        "type": "integer",
+                        "example": 100
+                      },
+                      "limitPerMinute": {
+                        "type": "integer",
+                        "example": 60
+                      }
+                    },
+                    "required": [
+                      "enabled",
+                      "limitBurst",
+                      "limitPerMinute"
+                    ]
+                  },
+                  "http": {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "lan": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "port": {
+                        "type": "integer",
+                        "example": 80
+                      },
+                      "redirectToHttps": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "wan": {
+                        "type": "boolean",
+                        "example": true
+                      }
+                    },
+                    "required": [
+                      "enabled",
+                      "lan",
+                      "port",
+                      "redirectToHttps",
+                      "wan"
+                    ]
+                  },
+                  "https": {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "lan": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "port": {
+                        "type": "integer",
+                        "example": 443
+                      },
+                      "wan": {
+                        "type": "boolean",
+                        "example": true
+                      }
+                    },
+                    "required": [
+                      "enabled",
+                      "lan",
+                      "port",
+                      "wan"
+                    ]
+                  },
+                  "icmp": {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "respondToLan": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "respondToWan": {
+                        "type": "boolean",
+                        "example": false
+                      }
+                    },
+                    "required": [
+                      "enabled",
+                      "respondToLan",
+                      "respondToWan"
+                    ]
+                  },
+                  "modbusSlave": {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "lan": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "port": {
+                        "type": "integer",
+                        "example": 1502
+                      }
+                    },
+                    "required": [
+                      "enabled",
+                      "lan",
+                      "port"
+                    ]
+                  },
+                  "pingLimit": {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "limitBurst": {
+                        "type": "integer",
+                        "example": 30
+                      },
+                      "limitPerSecond": {
+                        "type": "integer",
+                        "example": 10
+                      }
+                    },
+                    "required": [
+                      "enabled",
+                      "limitBurst",
+                      "limitPerSecond"
+                    ]
+                  },
+                  "privateWan": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "reverseSsh": {
+                    "type": "object",
+                    "properties": {
+                      "authMode": {
+                        "type": "string",
+                        "example": "PASSWORD"
+                      },
+                      "enabled": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "password": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "privateKey": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "remotePort": {
+                        "type": "integer",
+                        "example": 2222
+                      },
+                      "serverAddress": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "serverPort": {
+                        "type": "integer",
+                        "example": 22
+                      },
+                      "username": {
+                        "type": "string",
+                        "example": ""
+                      }
+                    },
+                    "required": [
+                      "authMode",
+                      "enabled",
+                      "remotePort",
+                      "serverPort"
+                    ]
+                  },
+                  "snmp": {
+                    "type": "object",
+                    "properties": {
+                      "lan": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "wan": {
+                        "type": "boolean",
+                        "example": false
+                      }
+                    },
+                    "required": [
+                      "lan",
+                      "wan"
+                    ]
+                  },
+                  "ssh": {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "idleTimeoutSeconds": {
+                        "type": "integer",
+                        "example": 3600
+                      },
+                      "lan": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "passwordAuthentication": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "port": {
+                        "type": "integer",
+                        "example": 22
+                      },
+                      "publicKeyAuthentication": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "userLockout": {
+                        "type": "object",
+                        "properties": {
+                          "enabled": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "failAttempts": {
+                            "type": "integer",
+                            "example": 3
+                          },
+                          "lockoutSeconds": {
+                            "type": "integer",
+                            "example": 300
+                          }
+                        },
+                        "required": [
+                          "enabled",
+                          "failAttempts",
+                          "lockoutSeconds"
+                        ]
+                      },
+                      "wan": {
+                        "type": "boolean",
+                        "example": true
+                      }
+                    },
+                    "required": [
+                      "enabled",
+                      "idleTimeoutSeconds",
+                      "lan",
+                      "passwordAuthentication",
+                      "port",
+                      "publicKeyAuthentication",
+                      "userLockout",
+                      "wan"
+                    ]
+                  },
+                  "timeoutSeconds": {
+                    "type": "integer",
+                    "example": 3000
+                  }
+                },
+                "required": [
+                  "__v",
+                  "bruteForcePrevention",
+                  "dosAttackPrevention",
+                  "http",
+                  "https",
+                  "icmp",
+                  "modbusSlave",
+                  "pingLimit",
+                  "privateWan",
+                  "reverseSsh",
+                  "snmp",
+                  "ssh",
+                  "timeoutSeconds"
+                ],
+                "description": "Remote access security configuration"
+              },
+              "example": {
+                "__v": 1,
+                "bruteForcePrevention": {
+                  "enabled": true,
+                  "failAttempts": 3,
+                  "lockoutSeconds": 300
+                },
+                "dosAttackPrevention": {
+                  "enabled": true,
+                  "limitBurst": 100,
+                  "limitPerMinute": 60
+                },
+                "http": {
+                  "enabled": true,
+                  "lan": true,
+                  "port": 80,
+                  "redirectToHttps": true,
+                  "wan": true
+                },
+                "https": {
+                  "enabled": true,
+                  "lan": true,
+                  "port": 443,
+                  "wan": true
+                },
+                "icmp": {
+                  "enabled": true,
+                  "respondToLan": true,
+                  "respondToWan": false
+                },
+                "modbusSlave": {
+                  "enabled": false,
+                  "lan": true,
+                  "port": 1502
+                },
+                "pingLimit": {
+                  "enabled": true,
+                  "limitBurst": 30,
+                  "limitPerSecond": 10
+                },
+                "privateWan": false,
+                "reverseSsh": {
+                  "authMode": "PASSWORD",
+                  "enabled": false,
+                  "password": "",
+                  "privateKey": "",
+                  "remotePort": 2222,
+                  "serverAddress": "",
+                  "serverPort": 22,
+                  "username": ""
+                },
+                "snmp": {
+                  "lan": true,
+                  "wan": false
+                },
+                "ssh": {
+                  "enabled": true,
+                  "idleTimeoutSeconds": 3600,
+                  "lan": true,
+                  "passwordAuthentication": true,
+                  "port": 22,
+                  "publicKeyAuthentication": true,
+                  "userLockout": {
+                    "enabled": true,
+                    "failAttempts": 3,
+                    "lockoutSeconds": 300
+                  },
+                  "wan": true
+                },
+                "timeoutSeconds": 3000
               }
             }
           }
@@ -2002,28 +2701,85 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "acctEnabled": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "acctPort": {
+                    "type": "integer",
+                    "example": 1813
+                  },
+                  "anonymousEnabled": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "anonymousId": {
+                    "type": "string",
+                    "example": "anonymous"
+                  },
                   "authEnabled": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": false
                   },
                   "authPort": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1812
                   },
                   "authType": {
                     "type": "string",
-                    "enum": [
-                      "PAP",
-                      "CHAP",
-                      "MSCHAP",
-                      "MSCHAPv2"
-                    ]
+                    "example": "PAP"
+                  },
+                  "checkServer": {
+                    "type": "boolean",
+                    "example": true
                   },
                   "host": {
-                    "type": "string"
+                    "type": "string",
+                    "example": ""
+                  },
+                  "retries": {
+                    "type": "integer",
+                    "example": 3
+                  },
+                  "secondaryAcctPort": {
+                    "type": "integer",
+                    "example": 1813
+                  },
+                  "secondaryAuthPort": {
+                    "type": "integer",
+                    "example": 1812
+                  },
+                  "secondaryHost": {
+                    "type": "string",
+                    "example": ""
                   },
                   "secret": {
-                    "type": "string"
+                    "type": "string",
+                    "example": ""
+                  },
+                  "timeout": {
+                    "type": "integer",
+                    "example": 2
                   }
-                }
+                },
+                "description": "RADIUS authentication configuration"
+              },
+              "example": {
+                "acctEnabled": false,
+                "acctPort": 1813,
+                "anonymousEnabled": false,
+                "anonymousId": "anonymous",
+                "authEnabled": false,
+                "authPort": 1812,
+                "authType": "PAP",
+                "checkServer": true,
+                "host": "",
+                "retries": 3,
+                "secondaryAcctPort": 1813,
+                "secondaryAuthPort": 1812,
+                "secondaryHost": "",
+                "secret": "",
+                "timeout": 2
               }
             }
           }
@@ -2047,7 +2803,58 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object"
+                "type": "object",
+                "properties": {
+                  "console": {
+                    "type": "object",
+                    "properties": {
+                      "access": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "silent": {
+                        "type": "boolean",
+                        "example": false
+                      }
+                    },
+                    "required": [
+                      "access",
+                      "silent"
+                    ]
+                  },
+                  "lock": {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "supported": {
+                        "type": "boolean",
+                        "example": false
+                      }
+                    },
+                    "required": [
+                      "enabled",
+                      "supported"
+                    ]
+                  }
+                },
+                "required": [
+                  "console",
+                  "lock"
+                ],
+                "description": "Bootloader security configuration"
+              },
+              "example": {
+                "console": {
+                  "access": true,
+                  "silent": false
+                },
+                "lock": {
+                  "enabled": false,
+                  "supported": false
+                }
               }
             }
           }
@@ -2074,15 +2881,24 @@
                 "type": "object",
                 "properties": {
                   "enabled": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": true
                   },
                   "resetToFactoryDefault": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": true
                   },
                   "resetToUserDefinedDefault": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": false
                   }
-                }
+                },
+                "description": "Physical reset button behavior configuration"
+              },
+              "example": {
+                "enabled": true,
+                "resetToFactoryDefault": true,
+                "resetToUserDefinedDefault": false
               }
             }
           }
@@ -2106,7 +2922,247 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object"
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "timers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "carrierName": {
+                          "type": "string",
+                          "example": "AT&T"
+                        },
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer",
+                            "example": 60
+                          }
+                        },
+                        "dataReset": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer",
+                            "example": 60
+                          }
+                        },
+                        "modemReset": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer",
+                            "example": 300
+                          }
+                        },
+                        "readOnly": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "sms": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer",
+                            "example": 30
+                          }
+                        }
+                      },
+                      "required": [
+                        "carrierName",
+                        "data",
+                        "dataReset",
+                        "modemReset",
+                        "readOnly",
+                        "sms"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "timers"
+                ],
+                "description": "Cellular reconnection back-off timers"
+              },
+              "example": {
+                "enabled": true,
+                "timers": [
+                  {
+                    "carrierName": "AT&T",
+                    "data": [
+                      60,
+                      60,
+                      60,
+                      60,
+                      600,
+                      900,
+                      1800,
+                      3600
+                    ],
+                    "dataReset": [
+                      60,
+                      60,
+                      60,
+                      60,
+                      600,
+                      900,
+                      1800,
+                      3600
+                    ],
+                    "modemReset": [
+                      300,
+                      300,
+                      300,
+                      300,
+                      600,
+                      1800,
+                      3600
+                    ],
+                    "readOnly": true,
+                    "sms": [
+                      30,
+                      30,
+                      30,
+                      30,
+                      900,
+                      900,
+                      1800,
+                      3600
+                    ]
+                  },
+                  {
+                    "carrierName": "default",
+                    "data": [
+                      60,
+                      60,
+                      60,
+                      60,
+                      600,
+                      900,
+                      1800,
+                      3600
+                    ],
+                    "dataReset": [
+                      60,
+                      60,
+                      60,
+                      60,
+                      600,
+                      900,
+                      1800,
+                      3600
+                    ],
+                    "modemReset": [
+                      300,
+                      300,
+                      300,
+                      300,
+                      600,
+                      1800,
+                      3600
+                    ],
+                    "readOnly": true,
+                    "sms": [
+                      30,
+                      30,
+                      30,
+                      30,
+                      900,
+                      900,
+                      1800,
+                      3600
+                    ]
+                  },
+                  {
+                    "carrierName": "Rogers",
+                    "data": [
+                      60,
+                      60,
+                      60,
+                      60,
+                      600,
+                      900,
+                      1800,
+                      3600
+                    ],
+                    "dataReset": [
+                      60,
+                      60,
+                      60,
+                      60,
+                      600,
+                      900,
+                      1800,
+                      3600
+                    ],
+                    "modemReset": [
+                      300,
+                      300,
+                      300,
+                      300,
+                      600,
+                      1800,
+                      3600
+                    ],
+                    "readOnly": true,
+                    "sms": [
+                      30,
+                      30,
+                      30,
+                      30,
+                      900,
+                      900,
+                      1800,
+                      3600
+                    ]
+                  },
+                  {
+                    "carrierName": "Verizon",
+                    "data": [
+                      60,
+                      60,
+                      60,
+                      60,
+                      600,
+                      900,
+                      1800,
+                      3600
+                    ],
+                    "dataReset": [
+                      60,
+                      60,
+                      60,
+                      60,
+                      600,
+                      900,
+                      1800,
+                      3600
+                    ],
+                    "modemReset": [
+                      300,
+                      300,
+                      300,
+                      300,
+                      600,
+                      1800,
+                      3600
+                    ],
+                    "readOnly": true,
+                    "sms": [
+                      30,
+                      30,
+                      30,
+                      30,
+                      900,
+                      900,
+                      1800,
+                      3600
+                    ]
+                  }
+                ]
               }
             }
           }
@@ -2133,12 +3189,19 @@
                 "type": "object",
                 "properties": {
                   "enabled": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": false
                   },
                   "pollingTime": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 120
                   }
-                }
+                },
+                "description": "Cellular network time synchronization"
+              },
+              "example": {
+                "enabled": false,
+                "pollingTime": 120
               }
             }
           }
@@ -2164,25 +3227,30 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "mode": {
-                    "type": "string",
-                    "enum": [
-                      "DISABLED",
-                      "DAILY",
-                      "WEEKLY",
-                      "INTERVAL"
-                    ]
-                  },
                   "hour": {
-                    "type": "integer"
-                  },
-                  "minute": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 0
                   },
                   "interval": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 0
+                  },
+                  "minute": {
+                    "type": "integer",
+                    "example": 0
+                  },
+                  "mode": {
+                    "type": "string",
+                    "example": "DISABLED"
                   }
-                }
+                },
+                "description": "Automatic reboot schedule configuration"
+              },
+              "example": {
+                "hour": 0,
+                "interval": 0,
+                "minute": 0,
+                "mode": "DISABLED"
               }
             }
           }
@@ -2208,16 +3276,91 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "enabled": {
-                    "type": "boolean"
+                  "allowConfigurationUpgrade": {
+                    "type": "boolean",
+                    "example": true
                   },
-                  "serverName": {
-                    "type": "string"
+                  "allowConfigurationUpload": {
+                    "type": "boolean",
+                    "example": true
                   },
                   "allowFirmwareUpgrade": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "allowRadioFirmwareUpgrade": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "checkInDayTime": {
+                    "type": "object",
+                    "properties": {
+                      "customDays": {
+                        "type": "array",
+                        "items": {
+                          "type": "object"
+                        }
+                      },
+                      "customTime": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "dailyTime": {
+                        "type": "string",
+                        "example": ""
+                      },
+                      "enabled": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "mode": {
+                        "type": "string",
+                        "example": "DAILY"
+                      }
+                    }
+                  },
+                  "checkInIntervals": {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "interval": {
+                        "type": "integer",
+                        "example": 14400
+                      }
+                    }
+                  },
+                  "enabled": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "serverName": {
+                    "type": "string",
+                    "example": "api.multitech.com"
                   }
-                }
+                },
+                "description": "Remote management configuration"
+              },
+              "example": {
+                "allowConfigurationUpgrade": true,
+                "allowConfigurationUpload": true,
+                "allowFirmwareUpgrade": true,
+                "allowRadioFirmwareUpgrade": true,
+                "checkInDayTime": {
+                  "customDays": [],
+                  "customTime": "",
+                  "dailyTime": "",
+                  "enabled": false,
+                  "mode": "DAILY"
+                },
+                "checkInIntervals": {
+                  "enabled": true,
+                  "interval": 14400
+                },
+                "enabled": true,
+                "serverName": "api.multitech.com"
               }
             }
           }
@@ -2241,7 +3384,120 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object"
+                "type": "object",
+                "properties": {
+                  "__v": {
+                    "type": "integer",
+                    "example": 2
+                  },
+                  "address1": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "address2": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "buttonColor": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "buttonFontColor": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "buttonHighlightColor": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "buttonHighlightFontColor": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "city": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "companyName": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "country": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "fax": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "icon": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "image": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "links": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "logo": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "phoneNumbers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "showOnDashboard": {
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "state": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "website": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "zipCode": {
+                    "type": "string",
+                    "example": ""
+                  }
+                },
+                "required": [
+                  "__v",
+                  "showOnDashboard"
+                ],
+                "description": "Custom branding configuration"
+              },
+              "example": {
+                "__v": 2,
+                "address1": "",
+                "address2": "",
+                "buttonColor": "",
+                "buttonFontColor": "",
+                "buttonHighlightColor": "",
+                "buttonHighlightFontColor": "",
+                "city": "",
+                "companyName": "",
+                "country": "",
+                "fax": "",
+                "icon": "",
+                "image": "",
+                "links": [],
+                "logo": "",
+                "phoneNumbers": [],
+                "showOnDashboard": false,
+                "state": "",
+                "website": "",
+                "zipCode": ""
               }
             }
           }
@@ -2267,16 +3523,25 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "enabled": {
-                    "type": "boolean"
-                  },
                   "allowed": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": true
                   },
                   "backupOnInstall": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "enabled": {
+                    "type": "boolean",
+                    "example": true
                   }
-                }
+                },
+                "description": "Custom applications configuration"
+              },
+              "example": {
+                "allowed": true,
+                "backupOnInstall": true,
+                "enabled": true
               }
             }
           }
@@ -2302,19 +3567,72 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "authEnabled": {
+                    "type": "boolean",
+                    "example": false
+                  },
                   "enabled": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "maxNumberOfEntries": {
+                    "type": "integer",
+                    "example": 50
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": ""
                   },
                   "serverAddress": {
-                    "type": "string"
+                    "type": "string",
+                    "example": ""
                   },
                   "serverPort": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 465
                   },
                   "sourceEmailAddress": {
-                    "type": "string"
+                    "type": "string",
+                    "example": ""
+                  },
+                  "tls": {
+                    "type": "object",
+                    "properties": {
+                      "certCheck": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "enabled": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "startTls": {
+                        "type": "boolean",
+                        "example": false
+                      }
+                    }
+                  },
+                  "username": {
+                    "type": "string",
+                    "example": ""
                   }
-                }
+                },
+                "description": "SMTP email notification configuration"
+              },
+              "example": {
+                "authEnabled": false,
+                "enabled": false,
+                "maxNumberOfEntries": 50,
+                "password": "",
+                "serverAddress": "",
+                "serverPort": 465,
+                "sourceEmailAddress": "",
+                "tls": {
+                  "certCheck": false,
+                  "enabled": true,
+                  "startTls": false
+                },
+                "username": ""
               }
             }
           }
@@ -2341,18 +3659,663 @@
                 "type": "object",
                 "properties": {
                   "enabled": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "maxpoll": {
+                    "type": "integer",
+                    "example": 10
+                  },
+                  "minpoll": {
+                    "type": "integer",
+                    "example": 6
+                  },
+                  "pool": {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "server": {
+                        "type": "string",
+                        "example": "north-america.pool.ntp.org"
+                      }
+                    }
                   },
                   "servers": {
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "time.nist.gov"
                     }
                   },
                   "timeZone": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "UTC"
+                  },
+                  "timeZones": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "Africa/Abidjan"
+                    }
                   }
-                }
+                },
+                "description": "Simple Network Time Protocol configuration"
+              },
+              "example": {
+                "enabled": true,
+                "maxpoll": 10,
+                "minpoll": 6,
+                "pool": {
+                  "enabled": true,
+                  "server": "north-america.pool.ntp.org"
+                },
+                "servers": [
+                  "time.nist.gov"
+                ],
+                "timeZone": "UTC",
+                "timeZones": [
+                  "Africa/Abidjan",
+                  "Africa/Accra",
+                  "Africa/Addis_Ababa",
+                  "Africa/Algiers",
+                  "Africa/Asmara",
+                  "Africa/Asmera",
+                  "Africa/Bamako",
+                  "Africa/Bangui",
+                  "Africa/Banjul",
+                  "Africa/Bissau",
+                  "Africa/Blantyre",
+                  "Africa/Brazzaville",
+                  "Africa/Bujumbura",
+                  "Africa/Cairo",
+                  "Africa/Casablanca",
+                  "Africa/Ceuta",
+                  "Africa/Conakry",
+                  "Africa/Dakar",
+                  "Africa/Dar_es_Salaam",
+                  "Africa/Djibouti",
+                  "Africa/Douala",
+                  "Africa/El_Aaiun",
+                  "Africa/Freetown",
+                  "Africa/Gaborone",
+                  "Africa/Harare",
+                  "Africa/Johannesburg",
+                  "Africa/Juba",
+                  "Africa/Kampala",
+                  "Africa/Khartoum",
+                  "Africa/Kigali",
+                  "Africa/Kinshasa",
+                  "Africa/Lagos",
+                  "Africa/Libreville",
+                  "Africa/Lome",
+                  "Africa/Luanda",
+                  "Africa/Lubumbashi",
+                  "Africa/Lusaka",
+                  "Africa/Malabo",
+                  "Africa/Maputo",
+                  "Africa/Maseru",
+                  "Africa/Mbabane",
+                  "Africa/Mogadishu",
+                  "Africa/Monrovia",
+                  "Africa/Nairobi",
+                  "Africa/Ndjamena",
+                  "Africa/Niamey",
+                  "Africa/Nouakchott",
+                  "Africa/Ouagadougou",
+                  "Africa/Porto-Novo",
+                  "Africa/Sao_Tome",
+                  "Africa/Timbuktu",
+                  "Africa/Tripoli",
+                  "Africa/Tunis",
+                  "Africa/Windhoek",
+                  "America/Adak",
+                  "America/Anchorage",
+                  "America/Anguilla",
+                  "America/Antigua",
+                  "America/Araguaina",
+                  "America/Argentina/Buenos_Aires",
+                  "America/Argentina/Catamarca",
+                  "America/Argentina/ComodRivadavia",
+                  "America/Argentina/Cordoba",
+                  "America/Argentina/Jujuy",
+                  "America/Argentina/La_Rioja",
+                  "America/Argentina/Mendoza",
+                  "America/Argentina/Rio_Gallegos",
+                  "America/Argentina/Salta",
+                  "America/Argentina/San_Juan",
+                  "America/Argentina/San_Luis",
+                  "America/Argentina/Tucuman",
+                  "America/Argentina/Ushuaia",
+                  "America/Aruba",
+                  "America/Asuncion",
+                  "America/Atikokan",
+                  "America/Atka",
+                  "America/Bahia",
+                  "America/Bahia_Banderas",
+                  "America/Barbados",
+                  "America/Belem",
+                  "America/Belize",
+                  "America/Blanc-Sablon",
+                  "America/Boa_Vista",
+                  "America/Bogota",
+                  "America/Boise",
+                  "America/Buenos_Aires",
+                  "America/Cambridge_Bay",
+                  "America/Campo_Grande",
+                  "America/Cancun",
+                  "America/Caracas",
+                  "America/Catamarca",
+                  "America/Cayenne",
+                  "America/Cayman",
+                  "America/Chicago",
+                  "America/Chihuahua",
+                  "America/Ciudad_Juarez",
+                  "America/Coral_Harbour",
+                  "America/Cordoba",
+                  "America/Costa_Rica",
+                  "America/Coyhaique",
+                  "America/Creston",
+                  "America/Cuiaba",
+                  "America/Curacao",
+                  "America/Danmarkshavn",
+                  "America/Dawson",
+                  "America/Dawson_Creek",
+                  "America/Denver",
+                  "America/Detroit",
+                  "America/Dominica",
+                  "America/Edmonton",
+                  "America/Eirunepe",
+                  "America/El_Salvador",
+                  "America/Ensenada",
+                  "America/Fort_Nelson",
+                  "America/Fort_Wayne",
+                  "America/Fortaleza",
+                  "America/Glace_Bay",
+                  "America/Godthab",
+                  "America/Goose_Bay",
+                  "America/Grand_Turk",
+                  "America/Grenada",
+                  "America/Guadeloupe",
+                  "America/Guatemala",
+                  "America/Guayaquil",
+                  "America/Guyana",
+                  "America/Halifax",
+                  "America/Havana",
+                  "America/Hermosillo",
+                  "America/Indiana/Indianapolis",
+                  "America/Indiana/Knox",
+                  "America/Indiana/Marengo",
+                  "America/Indiana/Petersburg",
+                  "America/Indiana/Tell_City",
+                  "America/Indiana/Vevay",
+                  "America/Indiana/Vincennes",
+                  "America/Indiana/Winamac",
+                  "America/Indianapolis",
+                  "America/Inuvik",
+                  "America/Iqaluit",
+                  "America/Jamaica",
+                  "America/Jujuy",
+                  "America/Juneau",
+                  "America/Kentucky/Louisville",
+                  "America/Kentucky/Monticello",
+                  "America/Knox_IN",
+                  "America/Kralendijk",
+                  "America/La_Paz",
+                  "America/Lima",
+                  "America/Los_Angeles",
+                  "America/Louisville",
+                  "America/Lower_Princes",
+                  "America/Maceio",
+                  "America/Managua",
+                  "America/Manaus",
+                  "America/Marigot",
+                  "America/Martinique",
+                  "America/Matamoros",
+                  "America/Mazatlan",
+                  "America/Mendoza",
+                  "America/Menominee",
+                  "America/Merida",
+                  "America/Metlakatla",
+                  "America/Mexico_City",
+                  "America/Miquelon",
+                  "America/Moncton",
+                  "America/Monterrey",
+                  "America/Montevideo",
+                  "America/Montreal",
+                  "America/Montserrat",
+                  "America/Nassau",
+                  "America/New_York",
+                  "America/Nipigon",
+                  "America/Nome",
+                  "America/Noronha",
+                  "America/North_Dakota/Beulah",
+                  "America/North_Dakota/Center",
+                  "America/North_Dakota/New_Salem",
+                  "America/Nuuk",
+                  "America/Ojinaga",
+                  "America/Panama",
+                  "America/Pangnirtung",
+                  "America/Paramaribo",
+                  "America/Phoenix",
+                  "America/Port-au-Prince",
+                  "America/Port_of_Spain",
+                  "America/Porto_Acre",
+                  "America/Porto_Velho",
+                  "America/Puerto_Rico",
+                  "America/Punta_Arenas",
+                  "America/Rainy_River",
+                  "America/Rankin_Inlet",
+                  "America/Recife",
+                  "America/Regina",
+                  "America/Resolute",
+                  "America/Rio_Branco",
+                  "America/Rosario",
+                  "America/Santa_Isabel",
+                  "America/Santarem",
+                  "America/Santiago",
+                  "America/Santo_Domingo",
+                  "America/Sao_Paulo",
+                  "America/Scoresbysund",
+                  "America/Shiprock",
+                  "America/Sitka",
+                  "America/St_Barthelemy",
+                  "America/St_Johns",
+                  "America/St_Kitts",
+                  "America/St_Lucia",
+                  "America/St_Thomas",
+                  "America/St_Vincent",
+                  "America/Swift_Current",
+                  "America/Tegucigalpa",
+                  "America/Thule",
+                  "America/Thunder_Bay",
+                  "America/Tijuana",
+                  "America/Toronto",
+                  "America/Tortola",
+                  "America/Vancouver",
+                  "America/Virgin",
+                  "America/Whitehorse",
+                  "America/Winnipeg",
+                  "America/Yakutat",
+                  "America/Yellowknife",
+                  "Antarctica/Casey",
+                  "Antarctica/Davis",
+                  "Antarctica/DumontDUrville",
+                  "Antarctica/Macquarie",
+                  "Antarctica/Mawson",
+                  "Antarctica/McMurdo",
+                  "Antarctica/Palmer",
+                  "Antarctica/Rothera",
+                  "Antarctica/South_Pole",
+                  "Antarctica/Syowa",
+                  "Antarctica/Troll",
+                  "Antarctica/Vostok",
+                  "Arctic/Longyearbyen",
+                  "Asia/Aden",
+                  "Asia/Almaty",
+                  "Asia/Amman",
+                  "Asia/Anadyr",
+                  "Asia/Aqtau",
+                  "Asia/Aqtobe",
+                  "Asia/Ashgabat",
+                  "Asia/Ashkhabad",
+                  "Asia/Atyrau",
+                  "Asia/Baghdad",
+                  "Asia/Bahrain",
+                  "Asia/Baku",
+                  "Asia/Bangkok",
+                  "Asia/Barnaul",
+                  "Asia/Beirut",
+                  "Asia/Bishkek",
+                  "Asia/Brunei",
+                  "Asia/Calcutta",
+                  "Asia/Chita",
+                  "Asia/Choibalsan",
+                  "Asia/Chongqing",
+                  "Asia/Chungking",
+                  "Asia/Colombo",
+                  "Asia/Dacca",
+                  "Asia/Damascus",
+                  "Asia/Dhaka",
+                  "Asia/Dili",
+                  "Asia/Dubai",
+                  "Asia/Dushanbe",
+                  "Asia/Famagusta",
+                  "Asia/Gaza",
+                  "Asia/Harbin",
+                  "Asia/Hebron",
+                  "Asia/Ho_Chi_Minh",
+                  "Asia/Hong_Kong",
+                  "Asia/Hovd",
+                  "Asia/Irkutsk",
+                  "Asia/Istanbul",
+                  "Asia/Jakarta",
+                  "Asia/Jayapura",
+                  "Asia/Jerusalem",
+                  "Asia/Kabul",
+                  "Asia/Kamchatka",
+                  "Asia/Karachi",
+                  "Asia/Kashgar",
+                  "Asia/Kathmandu",
+                  "Asia/Katmandu",
+                  "Asia/Khandyga",
+                  "Asia/Kolkata",
+                  "Asia/Krasnoyarsk",
+                  "Asia/Kuala_Lumpur",
+                  "Asia/Kuching",
+                  "Asia/Kuwait",
+                  "Asia/Macao",
+                  "Asia/Macau",
+                  "Asia/Magadan",
+                  "Asia/Makassar",
+                  "Asia/Manila",
+                  "Asia/Muscat",
+                  "Asia/Nicosia",
+                  "Asia/Novokuznetsk",
+                  "Asia/Novosibirsk",
+                  "Asia/Omsk",
+                  "Asia/Oral",
+                  "Asia/Phnom_Penh",
+                  "Asia/Pontianak",
+                  "Asia/Pyongyang",
+                  "Asia/Qatar",
+                  "Asia/Qostanay",
+                  "Asia/Qyzylorda",
+                  "Asia/Rangoon",
+                  "Asia/Riyadh",
+                  "Asia/Saigon",
+                  "Asia/Sakhalin",
+                  "Asia/Samarkand",
+                  "Asia/Seoul",
+                  "Asia/Shanghai",
+                  "Asia/Singapore",
+                  "Asia/Srednekolymsk",
+                  "Asia/Taipei",
+                  "Asia/Tashkent",
+                  "Asia/Tbilisi",
+                  "Asia/Tehran",
+                  "Asia/Tel_Aviv",
+                  "Asia/Thimbu",
+                  "Asia/Thimphu",
+                  "Asia/Tokyo",
+                  "Asia/Tomsk",
+                  "Asia/Ujung_Pandang",
+                  "Asia/Ulaanbaatar",
+                  "Asia/Ulan_Bator",
+                  "Asia/Urumqi",
+                  "Asia/Ust-Nera",
+                  "Asia/Vientiane",
+                  "Asia/Vladivostok",
+                  "Asia/Yakutsk",
+                  "Asia/Yangon",
+                  "Asia/Yekaterinburg",
+                  "Asia/Yerevan",
+                  "Atlantic/Azores",
+                  "Atlantic/Bermuda",
+                  "Atlantic/Canary",
+                  "Atlantic/Cape_Verde",
+                  "Atlantic/Faeroe",
+                  "Atlantic/Faroe",
+                  "Atlantic/Jan_Mayen",
+                  "Atlantic/Madeira",
+                  "Atlantic/Reykjavik",
+                  "Atlantic/South_Georgia",
+                  "Atlantic/St_Helena",
+                  "Atlantic/Stanley",
+                  "Australia/ACT",
+                  "Australia/Adelaide",
+                  "Australia/Brisbane",
+                  "Australia/Broken_Hill",
+                  "Australia/Canberra",
+                  "Australia/Currie",
+                  "Australia/Darwin",
+                  "Australia/Eucla",
+                  "Australia/Hobart",
+                  "Australia/LHI",
+                  "Australia/Lindeman",
+                  "Australia/Lord_Howe",
+                  "Australia/Melbourne",
+                  "Australia/NSW",
+                  "Australia/North",
+                  "Australia/Perth",
+                  "Australia/Queensland",
+                  "Australia/South",
+                  "Australia/Sydney",
+                  "Australia/Tasmania",
+                  "Australia/Victoria",
+                  "Australia/West",
+                  "Australia/Yancowinna",
+                  "Brazil/Acre",
+                  "Brazil/DeNoronha",
+                  "Brazil/East",
+                  "Brazil/West",
+                  "CET",
+                  "CST6CDT",
+                  "Canada/Atlantic",
+                  "Canada/Central",
+                  "Canada/Eastern",
+                  "Canada/Mountain",
+                  "Canada/Newfoundland",
+                  "Canada/Pacific",
+                  "Canada/Saskatchewan",
+                  "Canada/Yukon",
+                  "Chile/Continental",
+                  "Chile/EasterIsland",
+                  "Cuba",
+                  "EET",
+                  "EST",
+                  "EST5EDT",
+                  "Egypt",
+                  "Eire",
+                  "Etc/GMT",
+                  "Etc/GMT+0",
+                  "Etc/GMT+1",
+                  "Etc/GMT+10",
+                  "Etc/GMT+11",
+                  "Etc/GMT+12",
+                  "Etc/GMT+2",
+                  "Etc/GMT+3",
+                  "Etc/GMT+4",
+                  "Etc/GMT+5",
+                  "Etc/GMT+6",
+                  "Etc/GMT+7",
+                  "Etc/GMT+8",
+                  "Etc/GMT+9",
+                  "Etc/GMT-0",
+                  "Etc/GMT-1",
+                  "Etc/GMT-10",
+                  "Etc/GMT-11",
+                  "Etc/GMT-12",
+                  "Etc/GMT-13",
+                  "Etc/GMT-14",
+                  "Etc/GMT-2",
+                  "Etc/GMT-3",
+                  "Etc/GMT-4",
+                  "Etc/GMT-5",
+                  "Etc/GMT-6",
+                  "Etc/GMT-7",
+                  "Etc/GMT-8",
+                  "Etc/GMT-9",
+                  "Etc/GMT0",
+                  "Etc/Greenwich",
+                  "Etc/UCT",
+                  "Etc/UTC",
+                  "Etc/Universal",
+                  "Etc/Zulu",
+                  "Europe/Amsterdam",
+                  "Europe/Andorra",
+                  "Europe/Astrakhan",
+                  "Europe/Athens",
+                  "Europe/Belfast",
+                  "Europe/Belgrade",
+                  "Europe/Berlin",
+                  "Europe/Bratislava",
+                  "Europe/Brussels",
+                  "Europe/Bucharest",
+                  "Europe/Budapest",
+                  "Europe/Busingen",
+                  "Europe/Chisinau",
+                  "Europe/Copenhagen",
+                  "Europe/Dublin",
+                  "Europe/Gibraltar",
+                  "Europe/Guernsey",
+                  "Europe/Helsinki",
+                  "Europe/Isle_of_Man",
+                  "Europe/Istanbul",
+                  "Europe/Jersey",
+                  "Europe/Kaliningrad",
+                  "Europe/Kiev",
+                  "Europe/Kirov",
+                  "Europe/Kyiv",
+                  "Europe/Lisbon",
+                  "Europe/Ljubljana",
+                  "Europe/London",
+                  "Europe/Luxembourg",
+                  "Europe/Madrid",
+                  "Europe/Malta",
+                  "Europe/Mariehamn",
+                  "Europe/Minsk",
+                  "Europe/Monaco",
+                  "Europe/Moscow",
+                  "Europe/Nicosia",
+                  "Europe/Oslo",
+                  "Europe/Paris",
+                  "Europe/Podgorica",
+                  "Europe/Prague",
+                  "Europe/Riga",
+                  "Europe/Rome",
+                  "Europe/Samara",
+                  "Europe/San_Marino",
+                  "Europe/Sarajevo",
+                  "Europe/Saratov",
+                  "Europe/Simferopol",
+                  "Europe/Skopje",
+                  "Europe/Sofia",
+                  "Europe/Stockholm",
+                  "Europe/Tallinn",
+                  "Europe/Tirane",
+                  "Europe/Tiraspol",
+                  "Europe/Ulyanovsk",
+                  "Europe/Uzhgorod",
+                  "Europe/Vaduz",
+                  "Europe/Vatican",
+                  "Europe/Vienna",
+                  "Europe/Vilnius",
+                  "Europe/Volgograd",
+                  "Europe/Warsaw",
+                  "Europe/Zagreb",
+                  "Europe/Zaporozhye",
+                  "Europe/Zurich",
+                  "Factory",
+                  "GB",
+                  "GB-Eire",
+                  "GMT",
+                  "GMT+0",
+                  "GMT-0",
+                  "GMT0",
+                  "Greenwich",
+                  "HST",
+                  "Hongkong",
+                  "Iceland",
+                  "Indian/Antananarivo",
+                  "Indian/Chagos",
+                  "Indian/Christmas",
+                  "Indian/Cocos",
+                  "Indian/Comoro",
+                  "Indian/Kerguelen",
+                  "Indian/Mahe",
+                  "Indian/Maldives",
+                  "Indian/Mauritius",
+                  "Indian/Mayotte",
+                  "Indian/Reunion",
+                  "Iran",
+                  "Israel",
+                  "Jamaica",
+                  "Japan",
+                  "Kwajalein",
+                  "Libya",
+                  "MET",
+                  "MST",
+                  "MST7MDT",
+                  "Mexico/BajaNorte",
+                  "Mexico/BajaSur",
+                  "Mexico/General",
+                  "NZ",
+                  "NZ-CHAT",
+                  "Navajo",
+                  "PRC",
+                  "PST8PDT",
+                  "Pacific/Apia",
+                  "Pacific/Auckland",
+                  "Pacific/Bougainville",
+                  "Pacific/Chatham",
+                  "Pacific/Chuuk",
+                  "Pacific/Easter",
+                  "Pacific/Efate",
+                  "Pacific/Enderbury",
+                  "Pacific/Fakaofo",
+                  "Pacific/Fiji",
+                  "Pacific/Funafuti",
+                  "Pacific/Galapagos",
+                  "Pacific/Gambier",
+                  "Pacific/Guadalcanal",
+                  "Pacific/Guam",
+                  "Pacific/Honolulu",
+                  "Pacific/Johnston",
+                  "Pacific/Kanton",
+                  "Pacific/Kiritimati",
+                  "Pacific/Kosrae",
+                  "Pacific/Kwajalein",
+                  "Pacific/Majuro",
+                  "Pacific/Marquesas",
+                  "Pacific/Midway",
+                  "Pacific/Nauru",
+                  "Pacific/Niue",
+                  "Pacific/Norfolk",
+                  "Pacific/Noumea",
+                  "Pacific/Pago_Pago",
+                  "Pacific/Palau",
+                  "Pacific/Pitcairn",
+                  "Pacific/Pohnpei",
+                  "Pacific/Ponape",
+                  "Pacific/Port_Moresby",
+                  "Pacific/Rarotonga",
+                  "Pacific/Saipan",
+                  "Pacific/Samoa",
+                  "Pacific/Tahiti",
+                  "Pacific/Tarawa",
+                  "Pacific/Tongatapu",
+                  "Pacific/Truk",
+                  "Pacific/Wake",
+                  "Pacific/Wallis",
+                  "Pacific/Yap",
+                  "Poland",
+                  "Portugal",
+                  "ROC",
+                  "ROK",
+                  "Singapore",
+                  "Turkey",
+                  "UCT",
+                  "US/Alaska",
+                  "US/Aleutian",
+                  "US/Arizona",
+                  "US/Central",
+                  "US/East-Indiana",
+                  "US/Eastern",
+                  "US/Hawaii",
+                  "US/Indiana-Starke",
+                  "US/Michigan",
+                  "US/Mountain",
+                  "US/Pacific",
+                  "US/Samoa",
+                  "UTC",
+                  "Universal",
+                  "W-SU",
+                  "WET",
+                  "Zulu"
+                ]
               }
             }
           }
@@ -2376,7 +4339,111 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object"
+                "type": "object",
+                "properties": {
+                  "eventsGroups": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "email": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "enabled": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "eventGroup": {
+                          "type": "string",
+                          "example": "Authentication"
+                        },
+                        "notifyGroup": {
+                          "type": "string",
+                          "example": ""
+                        },
+                        "sms": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "snmp": {
+                          "type": "boolean",
+                          "example": false
+                        }
+                      },
+                      "required": [
+                        "email",
+                        "enabled",
+                        "eventGroup",
+                        "sms",
+                        "snmp"
+                      ]
+                    }
+                  },
+                  "groups": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "required": [
+                  "eventsGroups"
+                ],
+                "description": "Notification event group configuration"
+              },
+              "example": {
+                "eventsGroups": [
+                  {
+                    "email": false,
+                    "enabled": false,
+                    "eventGroup": "Authentication",
+                    "notifyGroup": "",
+                    "sms": false,
+                    "snmp": false
+                  },
+                  {
+                    "email": false,
+                    "enabled": false,
+                    "eventGroup": "Chassis",
+                    "notifyGroup": "",
+                    "sms": false,
+                    "snmp": false
+                  },
+                  {
+                    "email": false,
+                    "enabled": false,
+                    "eventGroup": "Configuration",
+                    "notifyGroup": "",
+                    "sms": false,
+                    "snmp": false
+                  },
+                  {
+                    "email": false,
+                    "enabled": false,
+                    "eventGroup": "Link",
+                    "notifyGroup": "",
+                    "sms": false,
+                    "snmp": false
+                  },
+                  {
+                    "email": false,
+                    "enabled": false,
+                    "eventGroup": "Security",
+                    "notifyGroup": "",
+                    "sms": false,
+                    "snmp": false
+                  },
+                  {
+                    "email": false,
+                    "enabled": false,
+                    "eventGroup": "Wan",
+                    "notifyGroup": "",
+                    "sms": false,
+                    "snmp": false
+                  }
+                ],
+                "groups": []
               }
             }
           }

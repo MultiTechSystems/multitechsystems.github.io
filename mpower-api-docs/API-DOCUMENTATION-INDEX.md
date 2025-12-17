@@ -66,6 +66,32 @@ This directory contains comprehensive API documentation for the Multi-Tech Syste
    - Key insights and patterns
    - ASCII-formatted for easy viewing
 
+### 📚 Implementation Guides (NEW!)
+
+10. **`MONITORING-BEST-PRACTICES.md`** - Monitoring & Alerting Guide
+    - Comprehensive monitoring strategies
+    - Polling intervals and best practices
+    - Alert thresholds for all metrics
+    - Python/Bash monitoring scripts
+    - Prometheus exporter example
+    - Performance optimization tips
+
+11. **`WAN-FAILOVER-GUIDE.md`** - WAN Failover Configuration
+    - Complete WAN failover setup guide
+    - FAILOVER vs LOADBALANCE modes
+    - Health check strategies (ICMP, TCP)
+    - Configuration examples for all scenarios
+    - Monitoring and troubleshooting
+    - Best practices for high availability
+
+12. **`CLIENT-EXAMPLES.md`** - API Client Implementations
+    - Production-ready Python client class
+    - Complete Node.js client implementation
+    - Bash scripting examples
+    - Common use cases and patterns
+    - Error handling strategies
+    - Best practices for each language
+
 ## How to Use
 
 ### View Documentation

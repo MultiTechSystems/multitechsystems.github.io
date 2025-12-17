@@ -1,111 +1,132 @@
 openapi: 3.0.3
 info:
   title: MTS Device API
-  description: |
-    RESTful API for managing MTS IoT devices (mPower Edge Intelligence platform).
-    
+  description: 'RESTful API for managing MTS IoT devices (mPower Edge Intelligence
+    platform).
+
+
     This API provides comprehensive device management capabilities including:
+
     - System configuration and monitoring
+
     - Cellular connectivity management
+
     - Network configuration (WiFi, Ethernet, VPN)
+
     - User authentication and authorization
+
     - LoRa network management
+
     - SCADA protocols
+
     - Docker container management
+
     - Firmware updates and diagnostics
-    
+
+
     ## Authentication
-    
+
+
     The API uses session-based authentication with cookies. Users must first authenticate
+
     via the `/api/login` endpoint to obtain a session cookie, which is then used for
+
     subsequent API requests.
-    
+
+
     ## API Structure
-    
+
+
     The API follows a resource-based structure where most endpoints follow the pattern:
+
     - `GET /api?fields=<resource>` - Retrieve resource data
+
     - `PUT /api/<resource>` - Update resource configuration
+
     - `POST /api/command/<action>` - Execute commands
+
     - `DELETE /api/<resource>/<id>` - Delete resource items
-    
+
+
     ## Permissions
-    
+
+
     The API supports role-based access control (RBAC) with three built-in roles:
+
     - **Admin**: Full access to all endpoints and operations
+
     - **Engineer** (User): Read and modify access to most configuration
+
     - **Monitor** (Guest): Read-only access to status and monitoring data
-    
+
+    '
   version: 1.0.0
   contact:
     name: Multi-Tech Systems
     url: https://www.multitech.com
   license:
     name: Proprietary
-
 servers:
-  - url: http://{device-ip}
-    description: Device local network access
-    variables:
-      device-ip:
-        default: 192.168.2.1
-        description: IP address of the MTS device
-  - url: https://{device-ip}
-    description: Secure device local network access
-    variables:
-      device-ip:
-        default: 192.168.2.1
-        description: IP address of the MTS device
-
+- url: http://{device-ip}
+  description: Device local network access
+  variables:
+    device-ip:
+      default: 192.168.2.1
+      description: IP address of the MTS device
+- url: https://{device-ip}
+  description: Secure device local network access
+  variables:
+    device-ip:
+      default: 192.168.2.1
+      description: IP address of the MTS device
 tags:
-  - name: Authentication
-    description: User authentication and session management
-  - name: System
-    description: System information and configuration
-  - name: Cellular
-    description: Cellular connectivity configuration
-  - name: Users
-    description: User account management
-  - name: Network
-    description: Network interface configuration (WiFi, DNS, DHCP, Routes)
-  - name: Status
-    description: Device status and monitoring
-  - name: Commands
-    description: Device command execution
-  - name: LoRa
-    description: LoRa network server and gateway management
-  - name: VPN
-    description: VPN tunnel configuration (OpenVPN, IPsec, GRE)
-  - name: Firewall
-    description: Firewall and security configuration
-  - name: SCADA
-    description: SCADA protocol configuration
-  - name: Docker
-    description: Docker container management
-  - name: GPS
-    description: GPS configuration and location data
-  - name: Serial
-    description: Serial port configuration
-  - name: SMS
-    description: SMS messaging
-  - name: Certificates
-    description: Certificate management
-  - name: WAN Management
-    description: WAN failover, load balancing, and interface management
-  - name: Security
-    description: Security configuration (Remote access, RADIUS, bootloader)
-  - name: Monitoring
-    description: Stats and monitoring endpoints
-  - name: Notifications
-    description: Email, SMS, and event notifications
-  - name: Time Sync
-    description: Time synchronization (NTP, cellular)
-
+- name: Authentication
+  description: User authentication and session management
+- name: System
+  description: System information and configuration
+- name: Cellular
+  description: Cellular connectivity configuration
+- name: Users
+  description: User account management
+- name: Network
+  description: Network interface configuration (WiFi, DNS, DHCP, Routes)
+- name: Status
+  description: Device status and monitoring
+- name: Commands
+  description: Device command execution
+- name: LoRa
+  description: LoRa network server and gateway management
+- name: VPN
+  description: VPN tunnel configuration (OpenVPN, IPsec, GRE)
+- name: Firewall
+  description: Firewall and security configuration
+- name: SCADA
+  description: SCADA protocol configuration
+- name: Docker
+  description: Docker container management
+- name: GPS
+  description: GPS configuration and location data
+- name: Serial
+  description: Serial port configuration
+- name: SMS
+  description: SMS messaging
+- name: Certificates
+  description: Certificate management
+- name: WAN Management
+  description: WAN failover, load balancing, and interface management
+- name: Security
+  description: Security configuration (Remote access, RADIUS, bootloader)
+- name: Monitoring
+  description: Stats and monitoring endpoints
+- name: Notifications
+  description: Email, SMS, and event notifications
+- name: Time Sync
+  description: Time synchronization (NTP, cellular)
 paths:
-  # Authentication Endpoints
   /api/login:
     post:
       tags:
-        - Authentication
+      - Authentication
       summary: User login
       description: Authenticate a user and create a session
       operationId: login
@@ -116,8 +137,8 @@ paths:
             schema:
               type: object
               required:
-                - username
-                - password
+              - username
+              - password
               properties:
                 username:
                   type: string
@@ -152,16 +173,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
   /api/logout:
     post:
       tags:
-        - Authentication
+      - Authentication
       summary: User logout
       description: Terminate the current user session
       operationId: logout
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       responses:
         '200':
           description: Logout successful
@@ -169,11 +189,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
-
   /api/commissioning:
     post:
       tags:
-        - Authentication
+      - Authentication
       summary: Device commissioning
       description: Initial device setup and password configuration
       operationId: commissioning
@@ -184,7 +203,7 @@ paths:
             schema:
               type: object
               required:
-                - password
+              - password
               properties:
                 password:
                   type: string
@@ -203,11 +222,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
   /api/policy:
     get:
       tags:
-        - System
+      - System
       summary: Get device policy
       description: Retrieve device availability and policy information
       operationId: getPolicy
@@ -222,55 +240,60 @@ paths:
                   available:
                     type: boolean
                     description: Device availability status
-
-  # Resource Query Endpoint
   /api:
     get:
       tags:
-        - System
+      - System
       summary: Query resources
-      description: |
-        Generic endpoint to query one or more resources. Resources are specified
+      description: 'Generic endpoint to query one or more resources. Resources are
+        specified
+
         via the `fields` query parameter as a comma-separated list.
-        
+
+
         Examples:
+
         - `/api?fields=system` - Get system information
+
         - `/api?fields=system,cellular,users` - Get multiple resources
+
         - `/api?fields=system/capabilities` - Get specific nested field
+
+        '
       operationId: queryResources
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       parameters:
-        - name: fields
-          in: query
-          required: true
-          description: Comma-separated list of resource paths to retrieve
-          schema:
-            type: string
-          examples:
-            single:
-              value: system
-              summary: Single resource
-            multiple:
-              value: system,cellular,users
-              summary: Multiple resources
-            nested:
-              value: system/capabilities
-              summary: Nested field
-        - name: inactivity
-          in: query
-          required: false
-          description: If true, don't update session cookie lifetime
-          schema:
-            type: boolean
-            default: false
-        - name: default
-          in: query
-          required: false
-          description: If true, return default values instead of configured values
-          schema:
-            type: boolean
-            default: false
+      - name: fields
+        in: query
+        required: true
+        description: Comma-separated list of resource paths to retrieve
+        schema:
+          type: string
+        examples:
+          single:
+            value: system
+            summary: Single resource
+          multiple:
+            value: system,cellular,users
+            summary: Multiple resources
+          nested:
+            value: system/capabilities
+            summary: Nested field
+      - name: inactivity
+        in: query
+        required: false
+        description: If true, don't update session cookie lifetime
+        schema:
+          type: boolean
+          default: false
+      - name: default
+        in: query
+        required: false
+        description: If true, return default values instead of configured values
+        schema:
+          type: boolean
+          default: false
       responses:
         '200':
           description: Resource data
@@ -296,17 +319,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
-  # System Endpoints
   /api/system:
     get:
       tags:
-        - System
+      - System
       summary: Get system information
       description: Retrieve device system information and capabilities
       operationId: getSystem
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       responses:
         '200':
           description: System information
@@ -314,19 +335,19 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/SuccessResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/System'
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  properties:
+                    result:
+                      $ref: '#/components/schemas/System'
     put:
       tags:
-        - System
+      - System
       summary: Update system configuration
       description: Update device system settings
       operationId: updateSystem
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -346,17 +367,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
-  # Cellular Endpoints
   /api/cellular:
     get:
       tags:
-        - Cellular
+      - Cellular
       summary: Get cellular configuration
       description: Retrieve cellular connectivity configuration
       operationId: getCellular
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       responses:
         '200':
           description: Cellular configuration
@@ -364,19 +383,19 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/SuccessResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/Cellular'
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  properties:
+                    result:
+                      $ref: '#/components/schemas/Cellular'
     put:
       tags:
-        - Cellular
+      - Cellular
       summary: Update cellular configuration
       description: Update cellular connectivity settings
       operationId: updateCellular
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -390,17 +409,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
-
-  # Users Endpoints
   /api/users:
     get:
       tags:
-        - Users
+      - Users
       summary: List users
-      description: Retrieve list of user accounts (admin only, or current user for non-admin)
+      description: Retrieve list of user accounts (admin only, or current user for
+        non-admin)
       operationId: listUsers
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       responses:
         '200':
           description: List of users
@@ -408,21 +426,21 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/SuccessResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/User'
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  properties:
+                    result:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/User'
     post:
       tags:
-        - Users
+      - Users
       summary: Create user
       description: Create a new user account (admin only)
       operationId: createUser
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -436,22 +454,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
-
   /api/users/{username}:
     get:
       tags:
-        - Users
+      - Users
       summary: Get user
       description: Retrieve user account details
       operationId: getUser
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       parameters:
-        - name: username
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: User details
@@ -459,25 +476,25 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/SuccessResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/User'
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  properties:
+                    result:
+                      $ref: '#/components/schemas/User'
     put:
       tags:
-        - Users
+      - Users
       summary: Update user
       description: Update user account details
       operationId: updateUser
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       parameters:
-        - name: username
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
       requestBody:
         required: true
         content:
@@ -493,18 +510,18 @@ paths:
                 $ref: '#/components/schemas/SuccessResponse'
     delete:
       tags:
-        - Users
+      - Users
       summary: Delete user
       description: Delete a user account (admin only)
       operationId: deleteUser
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       parameters:
-        - name: username
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: User deleted successfully
@@ -512,17 +529,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
-
-  # Status Endpoints
   /api/status:
     get:
       tags:
-        - Status
+      - Status
       summary: Get status notifications
       description: Retrieve system status notifications and alerts
       operationId: getStatus
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       responses:
         '200':
           description: Status notifications
@@ -530,29 +545,28 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/SuccessResponse'
-                  - type: object
-                    properties:
-                      result:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/StatusNotification'
-
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  properties:
+                    result:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/StatusNotification'
   /api/status/{guid}:
     delete:
       tags:
-        - Status
+      - Status
       summary: Clear status notification
       description: Remove a status notification by GUID
       operationId: clearStatus
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       parameters:
-        - name: guid
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: guid
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Status notification cleared
@@ -560,17 +574,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
-
-  # DNS Endpoints
   /api/dns:
     get:
       tags:
-        - Network
+      - Network
       summary: Get DNS configuration
       description: Retrieve DNS server configuration
       operationId: getDns
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       responses:
         '200':
           description: DNS configuration
@@ -578,19 +590,19 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/SuccessResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/Dns'
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  properties:
+                    result:
+                      $ref: '#/components/schemas/Dns'
     put:
       tags:
-        - Network
+      - Network
       summary: Update DNS configuration
       description: Update DNS server settings
       operationId: updateDns
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -604,17 +616,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
-
-  # WiFi Endpoints
   /api/wifi:
     get:
       tags:
-        - Network
+      - Network
       summary: Get WiFi configuration
       description: Retrieve WiFi access point and client configuration
       operationId: getWifi
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       responses:
         '200':
           description: WiFi configuration
@@ -622,19 +632,19 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/SuccessResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/Wifi'
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  properties:
+                    result:
+                      $ref: '#/components/schemas/Wifi'
     put:
       tags:
-        - Network
+      - Network
       summary: Update WiFi configuration
       description: Update WiFi settings
       operationId: updateWifi
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -648,17 +658,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
-
-  # Command Endpoints
   /api/command/save:
     post:
       tags:
-        - Commands
+      - Commands
       summary: Save configuration
       description: Save current configuration to persistent storage
       operationId: saveConfig
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       responses:
         '200':
           description: Configuration saved
@@ -666,16 +674,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
-
   /api/command/revert:
     post:
       tags:
-        - Commands
+      - Commands
       summary: Revert configuration
       description: Revert to last saved configuration
       operationId: revertConfig
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       responses:
         '200':
           description: Configuration reverted
@@ -683,16 +690,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
-
   /api/command/restart:
     post:
       tags:
-        - Commands
+      - Commands
       summary: Restart device
       description: Restart the device
       operationId: restartDevice
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       responses:
         '200':
           description: Device restart initiated
@@ -700,16 +706,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
-
   /api/command/passwd:
     post:
       tags:
-        - Commands
+      - Commands
       summary: Change password
       description: Change user password
       operationId: changePassword
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -717,8 +722,8 @@ paths:
             schema:
               type: object
               required:
-                - oldPassword
-                - newPassword
+              - oldPassword
+              - newPassword
               properties:
                 oldPassword:
                   type: string
@@ -733,16 +738,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
-
   /api/command/ping:
     post:
       tags:
-        - Commands
+      - Commands
       summary: Execute ping
       description: Execute a ping command to test network connectivity
       operationId: ping
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -750,7 +754,7 @@ paths:
             schema:
               type: object
               required:
-                - host
+              - host
               properties:
                 host:
                   type: string
@@ -766,16 +770,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
-
   /api/command/firmware_upgrade:
     post:
       tags:
-        - Commands
+      - Commands
       summary: Upgrade firmware
       description: Initiate firmware upgrade
       operationId: firmwareUpgrade
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -794,17 +797,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
-
-  # LoRa Endpoints
   /api/loraNetwork:
     get:
       tags:
-        - LoRa
+      - LoRa
       summary: Get LoRa network configuration
       description: Retrieve LoRa network server configuration
       operationId: getLoraNetwork
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       responses:
         '200':
           description: LoRa network configuration
@@ -812,19 +813,19 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/SuccessResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/LoraNetwork'
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  properties:
+                    result:
+                      $ref: '#/components/schemas/LoraNetwork'
     put:
       tags:
-        - LoRa
+      - LoRa
       summary: Update LoRa network configuration
       description: Update LoRa network server settings
       operationId: updateLoraNetwork
       security:
-        - cookieAuth: []
+      - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -838,909 +839,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
-
   /api/lora/gateways:
     get:
       tags:
-        - LoRa
-      summary: List LoRa gateways
-      description: Retrieve list of registered LoRa gateways
-      operationId: listLoraGateways
-      security:
-        - cookieAuth: []
-      responses:
-        '200':
-          description: List of LoRa gateways
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/LoraGateway'
-
-  /api/lora/gateways/{gwEui}:
-    delete:
-      tags:
-        - LoRa
-      summary: Delete LoRa gateway
-      description: Remove a LoRa gateway registration
-      operationId: deleteLoraGateway
-      security:
-        - cookieAuth: []
-      parameters:
-        - name: gwEui
-          in: path
-          required: true
-          schema:
-            type: string
-          description: Gateway EUI
-      responses:
-        '200':
-          description: Gateway deleted
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessResponse'
-
-  /api/lora/restart:
-    post:
-      tags:
-        - LoRa
-      summary: Restart LoRa service
-      description: Restart the LoRa network server service
-      operationId: restartLora
-      security:
-        - cookieAuth: []
-      responses:
-        '200':
-          description: LoRa service restart initiated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessResponse'
-
-  # Docker Endpoints
-  /api/docker:
-    get:
-      tags:
-        - Docker
-      summary: Get Docker configuration
-      description: Retrieve Docker service configuration
-      operationId: getDocker
-      security:
-        - cookieAuth: []
-      responses:
-        '200':
-          description: Docker configuration
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/Docker'
-    put:
-      tags:
-        - Docker
-      summary: Update Docker configuration
-      description: Update Docker service settings
-      operationId: updateDocker
-      security:
-        - cookieAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Docker'
-      responses:
-        '200':
-          description: Docker configuration updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessResponse'
-
-  # GPS Endpoints
-  /api/gps:
-    get:
-      tags:
-        - GPS
-      summary: Get GPS configuration
-      description: Retrieve GPS configuration and location data
-      operationId: getGps
-      security:
-        - cookieAuth: []
-      responses:
-        '200':
-          description: GPS configuration and data
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessResponse'
-                  - type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/Gps'
-    put:
-      tags:
-        - GPS
-      summary: Update GPS configuration
-      description: Update GPS settings
-      operationId: updateGps
-      security:
-        - cookieAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/GpsConfig'
-      responses:
-        '200':
-          description: GPS configuration updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuccessResponse'
-
-  # WAN Management Endpoints (NEW - December 2025)
-  /api?fields=wanmngr:
-    get:
-      tags:
-        - WAN Management
-      summary: Get WAN manager configuration
-      description: Retrieve WAN failover and load balancing configuration
-      responses:
-        '200':
-          description: WAN manager configuration
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                  status:
-                    type: string
-                  result:
-                    type: object
-                    properties:
-                      wanmngr:
-                        type: object
-                        properties:
-                          mode:
-                            type: string
-                            enum: [FAILOVER, LOAD_BALANCE]
-                          wans:
-                            type: array
-                            items:
-                              type: object
-
-  /api/wanmngr:
-    put:
-      tags:
-        - WAN Management
-      summary: Update WAN manager configuration
-      description: Configure WAN failover and load balancing
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                mode:
-                  type: string
-                  enum: [FAILOVER, LOAD_BALANCE]
-                wans:
-                  type: array
-                  items:
-                    type: object
-      responses:
-        '200':
-          description: WAN manager configuration updated
-
-  /api?fields=waninfo:
-    get:
-      tags:
-        - WAN Management
-      summary: Get WAN interface status
-      description: Retrieve real-time WAN interface status (read-only)
-      responses:
-        '200':
-          description: WAN interface status
-          content:
-            application/json:
-              schema:
-                type: object
-
-  /api?fields=ipPassthrough:
-    get:
-      tags:
-        - WAN Management
-      summary: Get IP passthrough configuration
-      description: Retrieve IP passthrough/bridge mode configuration
-      responses:
-        '200':
-          description: IP passthrough configuration
-
-  /api/ipPassthrough:
-    put:
-      tags:
-        - WAN Management
-      summary: Update IP passthrough configuration
-      description: Configure IP passthrough/bridge mode
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: IP passthrough configuration updated
-
-  /api?fields=lldp:
-    get:
-      tags:
-        - Network
-      summary: Get LLDP configuration
-      description: Retrieve Link Layer Discovery Protocol configuration
-      responses:
-        '200':
-          description: LLDP configuration
-
-  /api/lldp:
-    put:
-      tags:
-        - Network
-      summary: Update LLDP configuration
-      description: Configure Link Layer Discovery Protocol
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                enabled:
-                  type: boolean
-                sysName:
-                  type: string
-                sysDescr:
-                  type: string
-                txInterval:
-                  type: integer
-                txHold:
-                  type: integer
-      responses:
-        '200':
-          description: LLDP configuration updated
-
-  /api?fields=mdns:
-    get:
-      tags:
-        - Network
-      summary: Get mDNS configuration
-      description: Retrieve Multicast DNS (Bonjour) configuration
-      responses:
-        '200':
-          description: mDNS configuration
-
-  /api/mdns:
-    put:
-      tags:
-        - Network
-      summary: Update mDNS configuration
-      description: Configure Multicast DNS (Bonjour)
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                enabled:
-                  type: boolean
-                allowInterfaces:
-                  type: array
-                  items:
-                    type: string
-      responses:
-        '200':
-          description: mDNS configuration updated
-
-  /api?fields=ddns:
-    get:
-      tags:
-        - Network
-      summary: Get Dynamic DNS configuration
-      description: Retrieve Dynamic DNS configuration
-      responses:
-        '200':
-          description: Dynamic DNS configuration
-
-  /api/ddns:
-    put:
-      tags:
-        - Network
-      summary: Update Dynamic DNS configuration
-      description: Configure Dynamic DNS
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                enabled:
-                  type: boolean
-                mode:
-                  type: string
-                  enum: [PROVIDER, CUSTOM]
-                server:
-                  type: string
-                domain:
-                  type: string
-      responses:
-        '200':
-          description: Dynamic DNS configuration updated
-
-  # Security Endpoints (NEW - December 2025)
-  /api?fields=remoteAccess:
-    get:
-      tags:
-        - Security
-      summary: Get remote access security configuration
-      description: Retrieve HTTP/HTTPS/SSH/SNMP security settings
-      responses:
-        '200':
-          description: Remote access configuration
-
-  /api/remoteAccess:
-    put:
-      tags:
-        - Security
-      summary: Update remote access security configuration
-      description: Configure HTTP/HTTPS/SSH/SNMP security settings, brute force protection, DoS prevention
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: Remote access configuration updated
-
-  /api?fields=radius:
-    get:
-      tags:
-        - Security
-      summary: Get RADIUS configuration
-      description: Retrieve RADIUS authentication server configuration
-      responses:
-        '200':
-          description: RADIUS configuration
-
-  /api/radius:
-    put:
-      tags:
-        - Security
-      summary: Update RADIUS configuration
-      description: Configure RADIUS authentication server
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                authEnabled:
-                  type: boolean
-                authPort:
-                  type: integer
-                authType:
-                  type: string
-                  enum: [PAP, CHAP, MSCHAP, MSCHAPv2]
-                host:
-                  type: string
-                secret:
-                  type: string
-      responses:
-        '200':
-          description: RADIUS configuration updated
-
-  /api?fields=bootloader:
-    get:
-      tags:
-        - Security
-      summary: Get bootloader configuration
-      description: Retrieve bootloader console and security settings
-      responses:
-        '200':
-          description: Bootloader configuration
-
-  /api/bootloader:
-    put:
-      tags:
-        - Security
-      summary: Update bootloader configuration
-      description: Configure bootloader console access and security
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: Bootloader configuration updated
-
-  /api?fields=resetButton:
-    get:
-      tags:
-        - Security
-      summary: Get reset button configuration
-      description: Retrieve physical reset button configuration
-      responses:
-        '200':
-          description: Reset button configuration
-
-  /api/resetButton:
-    put:
-      tags:
-        - Security
-      summary: Update reset button configuration
-      description: Configure physical reset button behavior
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                enabled:
-                  type: boolean
-                resetToFactoryDefault:
-                  type: boolean
-                resetToUserDefinedDefault:
-                  type: boolean
-      responses:
-        '200':
-          description: Reset button configuration updated
-
-  # Cellular Optimization Endpoints (NEW - December 2025)
-  /api?fields=backOffTimers:
-    get:
-      tags:
-        - Cellular
-      summary: Get cellular backoff timers
-      description: Retrieve carrier-specific retry backoff timers
-      responses:
-        '200':
-          description: Backoff timers configuration
-
-  /api/backOffTimers:
-    put:
-      tags:
-        - Cellular
-      summary: Update cellular backoff timers
-      description: Configure carrier-specific retry backoff timers
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: Backoff timers configuration updated
-
-  /api?fields=cellTimeSync:
-    get:
-      tags:
-        - Time Sync
-      summary: Get cellular time sync configuration
-      description: Retrieve cellular network time synchronization settings
-      responses:
-        '200':
-          description: Cellular time sync configuration
-
-  /api/cellTimeSync:
-    put:
-      tags:
-        - Time Sync
-      summary: Update cellular time sync configuration
-      description: Configure cellular network time synchronization
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                enabled:
-                  type: boolean
-                pollingTime:
-                  type: integer
-      responses:
-        '200':
-          description: Cellular time sync configuration updated
-
-  # System Management Endpoints (NEW - December 2025)
-  /api?fields=autoReboot:
-    get:
-      tags:
-        - System
-      summary: Get auto-reboot configuration
-      description: Retrieve automatic reboot scheduler configuration
-      responses:
-        '200':
-          description: Auto-reboot configuration
-
-  /api/autoReboot:
-    put:
-      tags:
-        - System
-      summary: Update auto-reboot configuration
-      description: Configure automatic reboot scheduler
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                mode:
-                  type: string
-                  enum: [DISABLED, DAILY, WEEKLY, INTERVAL]
-                hour:
-                  type: integer
-                minute:
-                  type: integer
-                interval:
-                  type: integer
-      responses:
-        '200':
-          description: Auto-reboot configuration updated
-
-  /api?fields=remoteMgmt:
-    get:
-      tags:
-        - System
-      summary: Get remote management configuration
-      description: Retrieve Multi-Tech cloud management integration settings
-      responses:
-        '200':
-          description: Remote management configuration
-
-  /api/remoteMgmt:
-    put:
-      tags:
-        - System
-      summary: Update remote management configuration
-      description: Configure Multi-Tech cloud management integration
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                enabled:
-                  type: boolean
-                serverName:
-                  type: string
-                allowFirmwareUpgrade:
-                  type: boolean
-      responses:
-        '200':
-          description: Remote management configuration updated
-
-  /api?fields=brand:
-    get:
-      tags:
-        - System
-      summary: Get branding configuration
-      description: Retrieve white-label branding configuration
-      responses:
-        '200':
-          description: Branding configuration
-
-  /api/brand:
-    put:
-      tags:
-        - System
-      summary: Update branding configuration
-      description: Configure white-label branding
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: Branding configuration updated
-
-  /api?fields=customAppsConfig:
-    get:
-      tags:
-        - System
-      summary: Get custom apps configuration
-      description: Retrieve custom application settings
-      responses:
-        '200':
-          description: Custom apps configuration
-
-  /api/customAppsConfig:
-    put:
-      tags:
-        - System
-      summary: Update custom apps configuration
-      description: Configure custom application settings
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                enabled:
-                  type: boolean
-                allowed:
-                  type: boolean
-                backupOnInstall:
-                  type: boolean
-      responses:
-        '200':
-          description: Custom apps configuration updated
-
-  # Notification Endpoints (NEW - December 2025)
-  /api?fields=smtp:
-    get:
-      tags:
-        - Notifications
-      summary: Get SMTP configuration
-      description: Retrieve SMTP email server configuration
-      responses:
-        '200':
-          description: SMTP configuration
-
-  /api/smtp:
-    put:
-      tags:
-        - Notifications
-      summary: Update SMTP configuration
-      description: Configure SMTP email server
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                enabled:
-                  type: boolean
-                serverAddress:
-                  type: string
-                serverPort:
-                  type: integer
-                sourceEmailAddress:
-                  type: string
-      responses:
-        '200':
-          description: SMTP configuration updated
-
-  /api?fields=sntp:
-    get:
-      tags:
-        - Time Sync
-      summary: Get SNTP configuration
-      description: Retrieve NTP time synchronization configuration
-      responses:
-        '200':
-          description: SNTP configuration
-
-  /api/sntp:
-    put:
-      tags:
-        - Time Sync
-      summary: Update SNTP configuration
-      description: Configure NTP time synchronization
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                enabled:
-                  type: boolean
-                servers:
-                  type: array
-                  items:
-                    type: string
-                timeZone:
-                  type: string
-      responses:
-        '200':
-          description: SNTP configuration updated
-
-  /api?fields=notificationEventGroup:
-    get:
-      tags:
-        - Notifications
-      summary: Get notification event groups
-      description: Retrieve event notification configuration
-      responses:
-        '200':
-          description: Notification event groups
-
-  /api/notificationEventGroup:
-    put:
-      tags:
-        - Notifications
-      summary: Update notification event groups
-      description: Configure event notifications (email, SMS, SNMP)
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: Notification event groups updated
-
-  # Stats/Monitoring Endpoints (NEW - December 2025)
-  /api?fields=stats/dashboard:
-    get:
-      tags:
-        - Monitoring
-      summary: Get comprehensive dashboard stats
-      description: Retrieve comprehensive system overview with all critical stats in a single call
-      parameters:
-        - name: inactivity
-          in: query
-          description: Don't update session timeout (for continuous monitoring)
-          schema:
-            type: boolean
-      responses:
-        '200':
-          description: Dashboard statistics
-
-  /api?fields=stats/radio:
-    get:
-      tags:
-        - Monitoring
-      summary: Get cellular radio statistics
-      description: Retrieve real-time cellular radio statistics
-      parameters:
-        - name: inactivity
-          in: query
-          description: Don't update session timeout
-          schema:
-            type: boolean
-      responses:
-        '200':
-          description: Radio statistics
-
-  /api?fields=stats/memory:
-    get:
-      tags:
-        - Monitoring
-      summary: Get memory statistics
-      description: Retrieve system memory usage statistics
-      responses:
-        '200':
-          description: Memory statistics
-
-  /api?fields=stats/cpu:
-    get:
-      tags:
-        - Monitoring
-      summary: Get CPU statistics
-      description: Retrieve CPU usage and load statistics
-      responses:
-        '200':
-          description: CPU statistics
-
-  /api?fields=stats/iface:
-    get:
-      tags:
-        - Monitoring
-      summary: Get interface statistics
-      description: Retrieve network interface statistics
-      responses:
-        '200':
-          description: Interface statistics
-
-  /api?fields=stats/lora:
-    get:
-      tags:
-        - Monitoring
-      summary: Get LoRa statistics
-      description: Retrieve LoRa gateway statistics
-      responses:
-        '200':
-          description: LoRa statistics
-
-  # LoRa-Specific REST Endpoints (NEW - December 2025)
-  /api/lora/status:
-    get:
-      tags:
-        - LoRa
-      summary: Get LoRa service status
-      description: |
-        Retrieve LoRa service process status. Returns process IDs (PIDs) for running LoRa services.
-        A PID of 0 indicates the service is not running.
-      responses:
-        '200':
-          description: LoRa service status with process IDs
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    example: 200
-                  status:
-                    type: string
-                    example: "success"
-                  result:
-                    type: object
-                    properties:
-                      lora-network-server:
-                        type: integer
-                        description: Network Server process ID (0 if not running)
-                        example: 12811
-                      lora-packet-forwarder:
-                        type: array
-                        description: Packet Forwarder process IDs
-                        items:
-                          type: integer
-                        example: [12845]
-                      lora-cloud-connector:
-                        type: integer
-                        description: Cloud Connector process ID (0 if not running)
-                        example: 3332
-                      lora-basic-station:
-                        type: integer
-                        description: Basic Station process ID (0 if not running)
-                        example: 0
-                      lora-lens-server:
-                        type: integer
-                        description: Lens Server process ID (0 if not running)
-                        example: 0
-              example:
-                code: 200
-                status: "success"
-                result:
-                  lora-basic-station: 0
-                  lora-cloud-connector: 3332
-                  lora-lens-server: 0
-                  lora-network-server: 12811
-                  lora-packet-forwarder: [12845]
-
-  /api/lora/gateways:
-    get:
-      tags:
-        - LoRa
+      - LoRa
       summary: Get LoRa gateways
-      description: |
-        Retrieve registered LoRa gateways with detailed statistics including:
+      description: 'Retrieve registered LoRa gateways with detailed statistics including:
+
         - Packet counts (RX/TX)
+
         - Channel statistics
+
         - Error rates (CRC, MIC)
+
         - Last seen timestamp
+
         - ACK rate
+
+        '
       responses:
         '200':
           description: List of registered LoRa gateways with statistics
@@ -1754,7 +870,7 @@ paths:
                     example: 200
                   status:
                     type: string
-                    example: "success"
+                    example: success
                   result:
                     type: array
                     items:
@@ -1763,11 +879,11 @@ paths:
                         gweui:
                           type: string
                           description: Gateway EUI (MAC address format)
-                          example: "00-80-00-00-d0-00-42-6e"
+                          example: 00-80-00-00-d0-00-42-6e
                         ip_addr:
                           type: string
                           description: IP address of gateway
-                          example: "127.0.0.1"
+                          example: 127.0.0.1
                         ip_port:
                           type: integer
                           description: UDP port
@@ -1776,7 +892,7 @@ paths:
                           type: string
                           format: date-time
                           description: Last packet received timestamp
-                          example: "2025-12-17T21:05:42Z"
+                          example: '2025-12-17T21:05:42Z'
                         version:
                           type: integer
                           description: Protocol version
@@ -1907,61 +1023,635 @@ paths:
                           example: 0
               example:
                 code: 200
-                status: "success"
+                status: success
                 result:
-                  - gweui: "00-80-00-00-d0-00-42-6e"
-                    ip_addr: "127.0.0.1"
-                    ip_port: 56078
-                    last_seen: "2025-12-17T21:05:42Z"
-                    version: 2
-                    rx_count: 2836
-                    rx_ok: 2689
-                    rx_forwarded: 2831
-                    crc_errors: 143
-                    mic_fails: 0
-                    uplinks: 2694
-                    uplinks_ok: 0
-                    uplinks_nok_mic: 0
-                    uplinks_nok_unknown: 2398
-                    downlinks: 0
-                    downlinks_ack_requested: 0
-                    downlink_count: 0
-                    tx_count: 0
-                    ack_rate: 1.0
-                    total_channels: 10
-                    rx_ch_0: 377
-                    rx_ch_1: 345
-                    rx_ch_2: 344
-                    rx_ch_3: 377
-                    rx_ch_4: 340
-                    rx_ch_5: 357
-                    rx_ch_6: 339
-                    rx_ch_7: 322
-                    rx_ch_16: 0
-                    rx_ch_17: 0
-                    rx_ch_18: 0
-                    rx_ch_19: 0
-                    rx_ch_20: 0
-                    rx_ch_21: 0
-                    rx_ch_22: 0
-                    rx_ch_23: 0
-                    rx_ch_fsk: 0
-                    rx_ch_fsk_2: 0
-                    rx_ch_hbw: 36
-                    rx_ch_hbw_2: 0
+                - gweui: 00-80-00-00-d0-00-42-6e
+                  ip_addr: 127.0.0.1
+                  ip_port: 56078
+                  last_seen: '2025-12-17T21:05:42Z'
+                  version: 2
+                  rx_count: 2836
+                  rx_ok: 2689
+                  rx_forwarded: 2831
+                  crc_errors: 143
+                  mic_fails: 0
+                  uplinks: 2694
+                  uplinks_ok: 0
+                  uplinks_nok_mic: 0
+                  uplinks_nok_unknown: 2398
+                  downlinks: 0
+                  downlinks_ack_requested: 0
+                  downlink_count: 0
+                  tx_count: 0
+                  ack_rate: 1.0
+                  total_channels: 10
+                  rx_ch_0: 377
+                  rx_ch_1: 345
+                  rx_ch_2: 344
+                  rx_ch_3: 377
+                  rx_ch_4: 340
+                  rx_ch_5: 357
+                  rx_ch_6: 339
+                  rx_ch_7: 322
+                  rx_ch_16: 0
+                  rx_ch_17: 0
+                  rx_ch_18: 0
+                  rx_ch_19: 0
+                  rx_ch_20: 0
+                  rx_ch_21: 0
+                  rx_ch_22: 0
+                  rx_ch_23: 0
+                  rx_ch_fsk: 0
+                  rx_ch_fsk_2: 0
+                  rx_ch_hbw: 36
+                  rx_ch_hbw_2: 0
+  /api/lora/gateways/{gwEui}:
+    delete:
+      tags:
+      - LoRa
+      summary: Delete LoRa gateway
+      description: Remove a LoRa gateway registration
+      operationId: deleteLoraGateway
+      security:
+      - cookieAuth: []
+      parameters:
+      - name: gwEui
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Gateway EUI
+      responses:
+        '200':
+          description: Gateway deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+  /api/lora/restart:
+    post:
+      tags:
+      - LoRa
+      summary: Restart LoRa service
+      description: Restart the LoRa network server service
+      operationId: restartLora
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          description: LoRa service restart initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+  /api/docker:
+    get:
+      tags:
+      - Docker
+      summary: Get Docker configuration
+      description: Retrieve Docker service configuration
+      operationId: getDocker
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          description: Docker configuration
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  properties:
+                    result:
+                      $ref: '#/components/schemas/Docker'
+    put:
+      tags:
+      - Docker
+      summary: Update Docker configuration
+      description: Update Docker service settings
+      operationId: updateDocker
+      security:
+      - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Docker'
+      responses:
+        '200':
+          description: Docker configuration updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+  /api/gps:
+    get:
+      tags:
+      - GPS
+      summary: Get GPS configuration
+      description: Retrieve GPS configuration and location data
+      operationId: getGps
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          description: GPS configuration and data
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SuccessResponse'
+                - type: object
+                  properties:
+                    result:
+                      $ref: '#/components/schemas/Gps'
+    put:
+      tags:
+      - GPS
+      summary: Update GPS configuration
+      description: Update GPS settings
+      operationId: updateGps
+      security:
+      - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GpsConfig'
+      responses:
+        '200':
+          description: GPS configuration updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+  /api/wanmngr:
+    put:
+      tags:
+      - WAN Management
+      summary: Update WAN manager configuration
+      description: Configure WAN failover and load balancing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mode:
+                  type: string
+                  enum:
+                  - FAILOVER
+                  - LOAD_BALANCE
+                wans:
+                  type: array
+                  items:
+                    type: object
+      responses:
+        '200':
+          description: WAN manager configuration updated
+  /api/ipPassthrough:
+    put:
+      tags:
+      - WAN Management
+      summary: Update IP passthrough configuration
+      description: Configure IP passthrough/bridge mode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: IP passthrough configuration updated
+  /api/lldp:
+    put:
+      tags:
+      - Network
+      summary: Update LLDP configuration
+      description: Configure Link Layer Discovery Protocol
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                sysName:
+                  type: string
+                sysDescr:
+                  type: string
+                txInterval:
+                  type: integer
+                txHold:
+                  type: integer
+      responses:
+        '200':
+          description: LLDP configuration updated
+  /api/mdns:
+    put:
+      tags:
+      - Network
+      summary: Update mDNS configuration
+      description: Configure Multicast DNS (Bonjour)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                allowInterfaces:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: mDNS configuration updated
+  /api/ddns:
+    put:
+      tags:
+      - Network
+      summary: Update Dynamic DNS configuration
+      description: Configure Dynamic DNS
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                mode:
+                  type: string
+                  enum:
+                  - PROVIDER
+                  - CUSTOM
+                server:
+                  type: string
+                domain:
+                  type: string
+      responses:
+        '200':
+          description: Dynamic DNS configuration updated
+  /api/remoteAccess:
+    put:
+      tags:
+      - Security
+      summary: Update remote access security configuration
+      description: Configure HTTP/HTTPS/SSH/SNMP security settings, brute force protection,
+        DoS prevention
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Remote access configuration updated
+  /api/radius:
+    put:
+      tags:
+      - Security
+      summary: Update RADIUS configuration
+      description: Configure RADIUS authentication server
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authEnabled:
+                  type: boolean
+                authPort:
+                  type: integer
+                authType:
+                  type: string
+                  enum:
+                  - PAP
+                  - CHAP
+                  - MSCHAP
+                  - MSCHAPv2
+                host:
+                  type: string
+                secret:
+                  type: string
+      responses:
+        '200':
+          description: RADIUS configuration updated
+  /api/bootloader:
+    put:
+      tags:
+      - Security
+      summary: Update bootloader configuration
+      description: Configure bootloader console access and security
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Bootloader configuration updated
+  /api/resetButton:
+    put:
+      tags:
+      - Security
+      summary: Update reset button configuration
+      description: Configure physical reset button behavior
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                resetToFactoryDefault:
+                  type: boolean
+                resetToUserDefinedDefault:
+                  type: boolean
+      responses:
+        '200':
+          description: Reset button configuration updated
+  /api/backOffTimers:
+    put:
+      tags:
+      - Cellular
+      summary: Update cellular backoff timers
+      description: Configure carrier-specific retry backoff timers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Backoff timers configuration updated
+  /api/cellTimeSync:
+    put:
+      tags:
+      - Time Sync
+      summary: Update cellular time sync configuration
+      description: Configure cellular network time synchronization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                pollingTime:
+                  type: integer
+      responses:
+        '200':
+          description: Cellular time sync configuration updated
+  /api/autoReboot:
+    put:
+      tags:
+      - System
+      summary: Update auto-reboot configuration
+      description: Configure automatic reboot scheduler
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mode:
+                  type: string
+                  enum:
+                  - DISABLED
+                  - DAILY
+                  - WEEKLY
+                  - INTERVAL
+                hour:
+                  type: integer
+                minute:
+                  type: integer
+                interval:
+                  type: integer
+      responses:
+        '200':
+          description: Auto-reboot configuration updated
+  /api/remoteMgmt:
+    put:
+      tags:
+      - System
+      summary: Update remote management configuration
+      description: Configure Multi-Tech cloud management integration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                serverName:
+                  type: string
+                allowFirmwareUpgrade:
+                  type: boolean
+      responses:
+        '200':
+          description: Remote management configuration updated
+  /api/brand:
+    put:
+      tags:
+      - System
+      summary: Update branding configuration
+      description: Configure white-label branding
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Branding configuration updated
+  /api/customAppsConfig:
+    put:
+      tags:
+      - System
+      summary: Update custom apps configuration
+      description: Configure custom application settings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                allowed:
+                  type: boolean
+                backupOnInstall:
+                  type: boolean
+      responses:
+        '200':
+          description: Custom apps configuration updated
+  /api/smtp:
+    put:
+      tags:
+      - Notifications
+      summary: Update SMTP configuration
+      description: Configure SMTP email server
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                serverAddress:
+                  type: string
+                serverPort:
+                  type: integer
+                sourceEmailAddress:
+                  type: string
+      responses:
+        '200':
+          description: SMTP configuration updated
+  /api/sntp:
+    put:
+      tags:
+      - Time Sync
+      summary: Update SNTP configuration
+      description: Configure NTP time synchronization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                servers:
+                  type: array
+                  items:
+                    type: string
+                timeZone:
+                  type: string
+      responses:
+        '200':
+          description: SNTP configuration updated
+  /api/notificationEventGroup:
+    put:
+      tags:
+      - Notifications
+      summary: Update notification event groups
+      description: Configure event notifications (email, SMS, SNMP)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Notification event groups updated
+  /api/lora/status:
+    get:
+      tags:
+      - LoRa
+      summary: Get LoRa service status
+      description: 'Retrieve LoRa service process status. Returns process IDs (PIDs)
+        for running LoRa services.
 
+        A PID of 0 indicates the service is not running.
+
+        '
+      responses:
+        '200':
+          description: LoRa service status with process IDs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: object
+                    properties:
+                      lora-network-server:
+                        type: integer
+                        description: Network Server process ID (0 if not running)
+                        example: 12811
+                      lora-packet-forwarder:
+                        type: array
+                        description: Packet Forwarder process IDs
+                        items:
+                          type: integer
+                        example:
+                        - 12845
+                      lora-cloud-connector:
+                        type: integer
+                        description: Cloud Connector process ID (0 if not running)
+                        example: 3332
+                      lora-basic-station:
+                        type: integer
+                        description: Basic Station process ID (0 if not running)
+                        example: 0
+                      lora-lens-server:
+                        type: integer
+                        description: Lens Server process ID (0 if not running)
+                        example: 0
+              example:
+                code: 200
+                status: success
+                result:
+                  lora-basic-station: 0
+                  lora-cloud-connector: 3332
+                  lora-lens-server: 0
+                  lora-network-server: 12811
+                  lora-packet-forwarder:
+                  - 12845
   /api/lora/devices:
     get:
       tags:
-        - LoRa
+      - LoRa
       summary: Get LoRa devices
-      description: |
-        Retrieve registered LoRa end devices with information including:
+      description: 'Retrieve registered LoRa end devices with information including:
+
         - Device EUI
+
         - Device class (A, B, or C)
+
         - Profile IDs
+
         - Join counters
+
         - Last seen timestamp
+
+        '
       responses:
         '200':
           description: List of registered LoRa end devices
@@ -1975,7 +1665,7 @@ paths:
                     example: 200
                   status:
                     type: string
-                    example: "success"
+                    example: success
                   result:
                     type: array
                     items:
@@ -1984,16 +1674,19 @@ paths:
                         deveui:
                           type: string
                           description: Device EUI (MAC address format)
-                          example: "00-80-00-00-0a-00-11-ba"
+                          example: 00-80-00-00-0a-00-11-ba
                         name:
                           type: string
                           description: Device name
-                          example: ""
+                          example: ''
                         class:
                           type: string
                           description: LoRaWAN device class
-                          enum: [A, B, C]
-                          example: "A"
+                          enum:
+                          - A
+                          - B
+                          - C
+                          example: A
                         device_profile_id:
                           type: integer
                           description: Device profile ID
@@ -2002,7 +1695,7 @@ paths:
                           type: string
                           format: date-time
                           description: Last device profile update
-                          example: "2025-12-15T15:43:12Z"
+                          example: '2025-12-15T15:43:12Z'
                         network_profile_id:
                           type: integer
                           description: Network profile ID
@@ -2011,17 +1704,17 @@ paths:
                           type: string
                           format: date-time
                           description: Last network profile update
-                          example: "2025-12-15T15:43:12Z"
+                          example: '2025-12-15T15:43:12Z'
                         created_at:
                           type: string
                           format: date-time
                           description: Device registration timestamp
-                          example: "2025-12-15T15:43:12Z"
+                          example: '2025-12-15T15:43:12Z'
                         last_seen:
                           type: string
                           format: date-time
                           description: Last uplink timestamp
-                          example: "2025-12-15T22:18:21Z"
+                          example: '2025-12-15T22:18:21Z'
                         last_nonce:
                           type: integer
                           description: Last join nonce
@@ -2037,62 +1730,61 @@ paths:
                         firmware_version:
                           type: string
                           description: Device firmware version
-                          example: ""
+                          example: ''
                         hardware_version:
                           type: string
                           description: Device hardware version
-                          example: ""
+                          example: ''
                         product_id:
                           type: string
                           description: Product identifier
-                          example: ""
+                          example: ''
                         serial_number:
                           type: string
                           description: Device serial number
-                          example: ""
+                          example: ''
                         tags:
                           type: string
                           description: Device tags (comma-separated)
-                          example: ""
+                          example: ''
               example:
                 code: 200
-                status: "success"
+                status: success
                 result:
-                  - deveui: "00-80-00-ff-00-00-00-02"
-                    name: ""
-                    class: "A"
-                    device_profile_id: 16
-                    device_profile_updated_at: "2025-11-24T15:23:50Z"
-                    network_profile_id: 1
-                    network_profile_updated_at: "2025-09-30T15:56:29Z"
-                    created_at: "2025-09-30T15:56:29Z"
-                    last_seen: ""
-                    last_nonce: 443
-                    last_app_nonce: 20
-                    rejoin_count: 0
-                    firmware_version: ""
-                    hardware_version: ""
-                    product_id: ""
-                    serial_number: ""
-                    tags: ""
-                  - deveui: "00-80-00-00-0a-00-11-ba"
-                    name: ""
-                    class: "A"
-                    device_profile_id: 16
-                    device_profile_updated_at: "2025-12-15T15:43:12Z"
-                    network_profile_id: 1
-                    network_profile_updated_at: "2025-12-15T15:43:12Z"
-                    created_at: "2025-12-15T15:43:12Z"
-                    last_seen: "2025-12-15T22:18:21Z"
-                    last_nonce: 15
-                    last_app_nonce: 4
-                    rejoin_count: 0
-                    firmware_version: ""
-                    hardware_version: ""
-                    product_id: ""
-                    serial_number: ""
-                    tags: ""
-
+                - deveui: 00-80-00-ff-00-00-00-02
+                  name: ''
+                  class: A
+                  device_profile_id: 16
+                  device_profile_updated_at: '2025-11-24T15:23:50Z'
+                  network_profile_id: 1
+                  network_profile_updated_at: '2025-09-30T15:56:29Z'
+                  created_at: '2025-09-30T15:56:29Z'
+                  last_seen: ''
+                  last_nonce: 443
+                  last_app_nonce: 20
+                  rejoin_count: 0
+                  firmware_version: ''
+                  hardware_version: ''
+                  product_id: ''
+                  serial_number: ''
+                  tags: ''
+                - deveui: 00-80-00-00-0a-00-11-ba
+                  name: ''
+                  class: A
+                  device_profile_id: 16
+                  device_profile_updated_at: '2025-12-15T15:43:12Z'
+                  network_profile_id: 1
+                  network_profile_updated_at: '2025-12-15T15:43:12Z'
+                  created_at: '2025-12-15T15:43:12Z'
+                  last_seen: '2025-12-15T22:18:21Z'
+                  last_nonce: 15
+                  last_app_nonce: 4
+                  rejoin_count: 0
+                  firmware_version: ''
+                  hardware_version: ''
+                  product_id: ''
+                  serial_number: ''
+                  tags: ''
 components:
   securitySchemes:
     cookieAuth:
@@ -2100,9 +1792,7 @@ components:
       in: cookie
       name: session
       description: Session cookie obtained from /api/login
-
   schemas:
-    # Common Response Schemas
     SuccessResponse:
       type: object
       properties:
@@ -2112,7 +1802,6 @@ components:
         result:
           type: object
           description: Response data (varies by endpoint)
-
     ErrorResponse:
       type: object
       properties:
@@ -2125,7 +1814,6 @@ components:
         code:
           type: integer
           description: Error code
-
     LoginResponse:
       type: object
       properties:
@@ -2139,12 +1827,13 @@ components:
               type: string
             permission:
               type: string
-              enum: [admin, user, guest]
+              enum:
+              - admin
+              - user
+              - guest
             token:
               type: string
               description: Session token
-
-    # System Schema
     System:
       type: object
       properties:
@@ -2175,7 +1864,7 @@ components:
         datetime:
           type: string
           description: Current system date and time
-          example: "12/17/2025 10:30:45"
+          example: 12/17/2025 10:30:45
         deviceName:
           type: string
           description: Configured device name
@@ -2214,12 +1903,13 @@ components:
           description: MAC address of Bluetooth module
         mode:
           type: string
-          enum: [ROUTER, CELL-IP-PT]
+          enum:
+          - ROUTER
+          - CELL-IP-PT
           description: System mode
         dbDirty:
           type: boolean
           description: Whether configuration has unsaved changes
-
     SystemUpdate:
       type: object
       properties:
@@ -2229,11 +1919,11 @@ components:
           type: string
         mode:
           type: string
-          enum: [ROUTER, CELL-IP-PT]
+          enum:
+          - ROUTER
+          - CELL-IP-PT
         firstTimeSetup:
           type: boolean
-
-    # Cellular Schema
     Cellular:
       type: object
       properties:
@@ -2257,7 +1947,9 @@ components:
               type: boolean
             mainSlot:
               type: string
-              enum: [SIM1, SIM2]
+              enum:
+              - SIM1
+              - SIM2
             backupSimTimeout:
               type: integer
               minimum: 10
@@ -2268,7 +1960,6 @@ components:
         connRecovery:
           type: object
           description: Connection recovery configuration
-
     CellularProviderProfile:
       type: object
       properties:
@@ -2281,7 +1972,16 @@ components:
           description: Profile name
         cellularMode:
           type: string
-          enum: [auto, 2g-only, 2g-preferred, 3g-only, 3g-preferred, 4g-only, 4g-preferred, 5g-only, 5g-preferred]
+          enum:
+          - auto
+          - 2g-only
+          - 2g-preferred
+          - 3g-only
+          - 3g-preferred
+          - 4g-only
+          - 4g-preferred
+          - 5g-only
+          - 5g-preferred
         dataCtx:
           type: object
           properties:
@@ -2289,18 +1989,26 @@ components:
               type: string
             contextIpMode:
               type: string
-              enum: [AUTO, IP, IPV4V6, IPV6]
+              enum:
+              - AUTO
+              - IP
+              - IPV4V6
+              - IPV6
             authentication:
               type: object
               properties:
                 type:
                   type: string
-                  enum: [NONE, PAP, CHAP, PAP-CHAP, CHAP-PAP]
+                  enum:
+                  - NONE
+                  - PAP
+                  - CHAP
+                  - PAP-CHAP
+                  - CHAP-PAP
                 username:
                   type: string
                 password:
                   type: string
-
     CellularSimProfile:
       type: object
       properties:
@@ -2318,8 +2026,6 @@ components:
         simPin:
           type: string
           description: SIM PIN
-
-    # User Schema
     User:
       type: object
       properties:
@@ -2368,13 +2074,12 @@ components:
         passwordChangedDate:
           type: string
           description: Last password change date
-
     UserCreate:
       type: object
       required:
-        - name
-        - password
-        - permission
+      - name
+      - password
+      - permission
       properties:
         name:
           type: string
@@ -2390,7 +2095,6 @@ components:
         email:
           type: string
           format: email
-
     UserUpdate:
       type: object
       properties:
@@ -2405,8 +2109,6 @@ components:
           format: email
         enabled:
           type: boolean
-
-    # Status Schema
     StatusNotification:
       type: object
       properties:
@@ -2415,15 +2117,16 @@ components:
           description: Unique identifier
         type:
           type: string
-          enum: [INFO, WARNING, ERROR]
+          enum:
+          - INFO
+          - WARNING
+          - ERROR
         msg:
           type: string
           description: Status message
         timestamp:
           type: string
           description: Timestamp (UTC)
-
-    # DNS Schema
     Dns:
       type: object
       properties:
@@ -2446,8 +2149,6 @@ components:
             secondary:
               type: string
               format: ipv6
-
-    # WiFi Schema
     Wifi:
       type: object
       properties:
@@ -2463,7 +2164,17 @@ components:
               type: string
             networkMode:
               type: string
-              enum: [b, g, n, bg, ng, bgn, a, an, ac, ax]
+              enum:
+              - b
+              - g
+              - n
+              - bg
+              - ng
+              - bgn
+              - a
+              - an
+              - ac
+              - ax
             channel:
               type: integer
             security:
@@ -2471,17 +2182,25 @@ components:
               properties:
                 mode:
                   type: string
-                  enum: [NONE, WPA-PSK, WPA2-PSK, WPA/WPA2-PSK, WPA3-SAE, WPA2-PSK/WPA3-SAE, WPA2-ENTERPRISE]
+                  enum:
+                  - NONE
+                  - WPA-PSK
+                  - WPA2-PSK
+                  - WPA/WPA2-PSK
+                  - WPA3-SAE
+                  - WPA2-PSK/WPA3-SAE
+                  - WPA2-ENTERPRISE
                 algorithm:
                   type: string
-                  enum: [TKIP, AES, TKIP+AES]
+                  enum:
+                  - TKIP
+                  - AES
+                  - TKIP+AES
                 psk:
                   type: string
         client:
           type: object
           description: WiFi client configuration
-
-    # LoRa Schema
     LoraNetwork:
       type: object
       properties:
@@ -2489,7 +2208,10 @@ components:
           type: boolean
         mode:
           type: string
-          enum: [PACKET_FORWARDER, BASIC_STATION, NETWORK_SERVER]
+          enum:
+          - PACKET_FORWARDER
+          - BASIC_STATION
+          - NETWORK_SERVER
         packetForwarder:
           type: object
           description: Packet forwarder configuration
@@ -2499,7 +2221,6 @@ components:
         networkServer:
           type: object
           description: Network server configuration
-
     LoraGateway:
       type: object
       properties:
@@ -2513,8 +2234,6 @@ components:
         lastSeen:
           type: string
           format: date-time
-
-    # Docker Schema
     Docker:
       type: object
       properties:
@@ -2531,8 +2250,6 @@ components:
                 type: string
               password:
                 type: string
-
-    # GPS Schema
     Gps:
       type: object
       properties:
@@ -2549,13 +2266,15 @@ components:
           format: double
         fix:
           type: string
-          enum: [NO_FIX, 2D, 3D]
+          enum:
+          - NO_FIX
+          - 2D
+          - 3D
         satellites:
           type: integer
         timestamp:
           type: string
           format: date-time
-
     GpsConfig:
       type: object
       properties:
@@ -2563,6 +2282,5 @@ components:
           type: boolean
         mode:
           type: string
-
 security:
-  - cookieAuth: []
+- cookieAuth: []

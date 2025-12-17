@@ -1783,58 +1783,6 @@
         }
       }
     },
-    "/api?fields=wanmngr": {
-      "get": {
-        "tags": [
-          "WAN Management"
-        ],
-        "summary": "Get WAN manager configuration",
-        "description": "Retrieve WAN failover and load balancing configuration",
-        "responses": {
-          "200": {
-            "description": "WAN manager configuration",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer"
-                    },
-                    "status": {
-                      "type": "string"
-                    },
-                    "result": {
-                      "type": "object",
-                      "properties": {
-                        "wanmngr": {
-                          "type": "object",
-                          "properties": {
-                            "mode": {
-                              "type": "string",
-                              "enum": [
-                                "FAILOVER",
-                                "LOAD_BALANCE"
-                              ]
-                            },
-                            "wans": {
-                              "type": "array",
-                              "items": {
-                                "type": "object"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/wanmngr": {
       "put": {
         "tags": [
@@ -1874,41 +1822,6 @@
         }
       }
     },
-    "/api?fields=waninfo": {
-      "get": {
-        "tags": [
-          "WAN Management"
-        ],
-        "summary": "Get WAN interface status",
-        "description": "Retrieve real-time WAN interface status (read-only)",
-        "responses": {
-          "200": {
-            "description": "WAN interface status",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api?fields=ipPassthrough": {
-      "get": {
-        "tags": [
-          "WAN Management"
-        ],
-        "summary": "Get IP passthrough configuration",
-        "description": "Retrieve IP passthrough/bridge mode configuration",
-        "responses": {
-          "200": {
-            "description": "IP passthrough configuration"
-          }
-        }
-      }
-    },
     "/api/ipPassthrough": {
       "put": {
         "tags": [
@@ -1929,20 +1842,6 @@
         "responses": {
           "200": {
             "description": "IP passthrough configuration updated"
-          }
-        }
-      }
-    },
-    "/api?fields=lldp": {
-      "get": {
-        "tags": [
-          "Network"
-        ],
-        "summary": "Get LLDP configuration",
-        "description": "Retrieve Link Layer Discovery Protocol configuration",
-        "responses": {
-          "200": {
-            "description": "LLDP configuration"
           }
         }
       }
@@ -1988,20 +1887,6 @@
         }
       }
     },
-    "/api?fields=mdns": {
-      "get": {
-        "tags": [
-          "Network"
-        ],
-        "summary": "Get mDNS configuration",
-        "description": "Retrieve Multicast DNS (Bonjour) configuration",
-        "responses": {
-          "200": {
-            "description": "mDNS configuration"
-          }
-        }
-      }
-    },
     "/api/mdns": {
       "put": {
         "tags": [
@@ -2033,20 +1918,6 @@
         "responses": {
           "200": {
             "description": "mDNS configuration updated"
-          }
-        }
-      }
-    },
-    "/api?fields=ddns": {
-      "get": {
-        "tags": [
-          "Network"
-        ],
-        "summary": "Get Dynamic DNS configuration",
-        "description": "Retrieve Dynamic DNS configuration",
-        "responses": {
-          "200": {
-            "description": "Dynamic DNS configuration"
           }
         }
       }
@@ -2093,20 +1964,6 @@
         }
       }
     },
-    "/api?fields=remoteAccess": {
-      "get": {
-        "tags": [
-          "Security"
-        ],
-        "summary": "Get remote access security configuration",
-        "description": "Retrieve HTTP/HTTPS/SSH/SNMP security settings",
-        "responses": {
-          "200": {
-            "description": "Remote access configuration"
-          }
-        }
-      }
-    },
     "/api/remoteAccess": {
       "put": {
         "tags": [
@@ -2127,20 +1984,6 @@
         "responses": {
           "200": {
             "description": "Remote access configuration updated"
-          }
-        }
-      }
-    },
-    "/api?fields=radius": {
-      "get": {
-        "tags": [
-          "Security"
-        ],
-        "summary": "Get RADIUS configuration",
-        "description": "Retrieve RADIUS authentication server configuration",
-        "responses": {
-          "200": {
-            "description": "RADIUS configuration"
           }
         }
       }
@@ -2192,20 +2035,6 @@
         }
       }
     },
-    "/api?fields=bootloader": {
-      "get": {
-        "tags": [
-          "Security"
-        ],
-        "summary": "Get bootloader configuration",
-        "description": "Retrieve bootloader console and security settings",
-        "responses": {
-          "200": {
-            "description": "Bootloader configuration"
-          }
-        }
-      }
-    },
     "/api/bootloader": {
       "put": {
         "tags": [
@@ -2226,20 +2055,6 @@
         "responses": {
           "200": {
             "description": "Bootloader configuration updated"
-          }
-        }
-      }
-    },
-    "/api?fields=resetButton": {
-      "get": {
-        "tags": [
-          "Security"
-        ],
-        "summary": "Get reset button configuration",
-        "description": "Retrieve physical reset button configuration",
-        "responses": {
-          "200": {
-            "description": "Reset button configuration"
           }
         }
       }
@@ -2279,20 +2094,6 @@
         }
       }
     },
-    "/api?fields=backOffTimers": {
-      "get": {
-        "tags": [
-          "Cellular"
-        ],
-        "summary": "Get cellular backoff timers",
-        "description": "Retrieve carrier-specific retry backoff timers",
-        "responses": {
-          "200": {
-            "description": "Backoff timers configuration"
-          }
-        }
-      }
-    },
     "/api/backOffTimers": {
       "put": {
         "tags": [
@@ -2313,20 +2114,6 @@
         "responses": {
           "200": {
             "description": "Backoff timers configuration updated"
-          }
-        }
-      }
-    },
-    "/api?fields=cellTimeSync": {
-      "get": {
-        "tags": [
-          "Time Sync"
-        ],
-        "summary": "Get cellular time sync configuration",
-        "description": "Retrieve cellular network time synchronization settings",
-        "responses": {
-          "200": {
-            "description": "Cellular time sync configuration"
           }
         }
       }
@@ -2359,20 +2146,6 @@
         "responses": {
           "200": {
             "description": "Cellular time sync configuration updated"
-          }
-        }
-      }
-    },
-    "/api?fields=autoReboot": {
-      "get": {
-        "tags": [
-          "System"
-        ],
-        "summary": "Get auto-reboot configuration",
-        "description": "Retrieve automatic reboot scheduler configuration",
-        "responses": {
-          "200": {
-            "description": "Auto-reboot configuration"
           }
         }
       }
@@ -2421,20 +2194,6 @@
         }
       }
     },
-    "/api?fields=remoteMgmt": {
-      "get": {
-        "tags": [
-          "System"
-        ],
-        "summary": "Get remote management configuration",
-        "description": "Retrieve Multi-Tech cloud management integration settings",
-        "responses": {
-          "200": {
-            "description": "Remote management configuration"
-          }
-        }
-      }
-    },
     "/api/remoteMgmt": {
       "put": {
         "tags": [
@@ -2470,20 +2229,6 @@
         }
       }
     },
-    "/api?fields=brand": {
-      "get": {
-        "tags": [
-          "System"
-        ],
-        "summary": "Get branding configuration",
-        "description": "Retrieve white-label branding configuration",
-        "responses": {
-          "200": {
-            "description": "Branding configuration"
-          }
-        }
-      }
-    },
     "/api/brand": {
       "put": {
         "tags": [
@@ -2504,20 +2249,6 @@
         "responses": {
           "200": {
             "description": "Branding configuration updated"
-          }
-        }
-      }
-    },
-    "/api?fields=customAppsConfig": {
-      "get": {
-        "tags": [
-          "System"
-        ],
-        "summary": "Get custom apps configuration",
-        "description": "Retrieve custom application settings",
-        "responses": {
-          "200": {
-            "description": "Custom apps configuration"
           }
         }
       }
@@ -2553,20 +2284,6 @@
         "responses": {
           "200": {
             "description": "Custom apps configuration updated"
-          }
-        }
-      }
-    },
-    "/api?fields=smtp": {
-      "get": {
-        "tags": [
-          "Notifications"
-        ],
-        "summary": "Get SMTP configuration",
-        "description": "Retrieve SMTP email server configuration",
-        "responses": {
-          "200": {
-            "description": "SMTP configuration"
           }
         }
       }
@@ -2609,20 +2326,6 @@
         }
       }
     },
-    "/api?fields=sntp": {
-      "get": {
-        "tags": [
-          "Time Sync"
-        ],
-        "summary": "Get SNTP configuration",
-        "description": "Retrieve NTP time synchronization configuration",
-        "responses": {
-          "200": {
-            "description": "SNTP configuration"
-          }
-        }
-      }
-    },
     "/api/sntp": {
       "put": {
         "tags": [
@@ -2661,20 +2364,6 @@
         }
       }
     },
-    "/api?fields=notificationEventGroup": {
-      "get": {
-        "tags": [
-          "Notifications"
-        ],
-        "summary": "Get notification event groups",
-        "description": "Retrieve event notification configuration",
-        "responses": {
-          "200": {
-            "description": "Notification event groups"
-          }
-        }
-      }
-    },
     "/api/notificationEventGroup": {
       "put": {
         "tags": [
@@ -2695,110 +2384,6 @@
         "responses": {
           "200": {
             "description": "Notification event groups updated"
-          }
-        }
-      }
-    },
-    "/api?fields=stats/dashboard": {
-      "get": {
-        "tags": [
-          "Monitoring"
-        ],
-        "summary": "Get comprehensive dashboard stats",
-        "description": "Retrieve comprehensive system overview with all critical stats in a single call",
-        "parameters": [
-          {
-            "name": "inactivity",
-            "in": "query",
-            "description": "Don't update session timeout (for continuous monitoring)",
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Dashboard statistics"
-          }
-        }
-      }
-    },
-    "/api?fields=stats/radio": {
-      "get": {
-        "tags": [
-          "Monitoring"
-        ],
-        "summary": "Get cellular radio statistics",
-        "description": "Retrieve real-time cellular radio statistics",
-        "parameters": [
-          {
-            "name": "inactivity",
-            "in": "query",
-            "description": "Don't update session timeout",
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Radio statistics"
-          }
-        }
-      }
-    },
-    "/api?fields=stats/memory": {
-      "get": {
-        "tags": [
-          "Monitoring"
-        ],
-        "summary": "Get memory statistics",
-        "description": "Retrieve system memory usage statistics",
-        "responses": {
-          "200": {
-            "description": "Memory statistics"
-          }
-        }
-      }
-    },
-    "/api?fields=stats/cpu": {
-      "get": {
-        "tags": [
-          "Monitoring"
-        ],
-        "summary": "Get CPU statistics",
-        "description": "Retrieve CPU usage and load statistics",
-        "responses": {
-          "200": {
-            "description": "CPU statistics"
-          }
-        }
-      }
-    },
-    "/api?fields=stats/iface": {
-      "get": {
-        "tags": [
-          "Monitoring"
-        ],
-        "summary": "Get interface statistics",
-        "description": "Retrieve network interface statistics",
-        "responses": {
-          "200": {
-            "description": "Interface statistics"
-          }
-        }
-      }
-    },
-    "/api?fields=stats/lora": {
-      "get": {
-        "tags": [
-          "Monitoring"
-        ],
-        "summary": "Get LoRa statistics",
-        "description": "Retrieve LoRa gateway statistics",
-        "responses": {
-          "200": {
-            "description": "LoRa statistics"
           }
         }
       }

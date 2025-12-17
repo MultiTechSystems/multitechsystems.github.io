@@ -92,6 +92,24 @@ This directory contains comprehensive API documentation for the Multi-Tech Syste
     - Error handling strategies
     - Best practices for each language
 
+### 🧪 Testing Reports (NEW!)
+
+13. **`PUT-OPERATIONS-TEST-REPORT.md`** - PUT Endpoint Testing Results
+    - Tested 17 newly discovered PUT endpoints
+    - 76% success rate (13 passed, 4 failed)
+    - Detailed error analysis and workarounds
+    - API consistency issues identified
+    - Recommendations for improvements
+    - Complete test methodology documented
+
+14. **`USER-ROLE-PERMISSIONS-REPORT.md`** - Role-Based Access Control
+    - Admin role permissions documented (100% access)
+    - Permission matrix for all endpoints
+    - RBAC patterns identified
+    - Expected user/guest behavior documented
+    - Security and access control guidelines
+    - Future testing recommendations
+
 ## How to Use
 
 ### View Documentation

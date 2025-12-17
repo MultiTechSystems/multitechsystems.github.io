@@ -5,7 +5,16 @@ permalink: /search.json
 [
   {% assign pages_count = 0 %}
   {% for page in site.pages %}
-    {% unless page.url contains '/mpower-api-docs/' or page.url contains '/search.json' or page.url contains '/assets/' %}
+    {% assign exclude_page = false %}
+    {% if page.url contains '/search.json' or page.url contains '/assets/' %}
+      {% assign exclude_page = true %}
+    {% endif %}
+    {% if page.url contains '/mpower-api-docs/' %}
+      {% unless page.url contains 'LORA-OPERATIONS-WORKFLOW' or page.url contains 'PUT-OPERATIONS-TEST-REPORT' or page.url contains 'USER-ROLE-PERMISSIONS-REPORT' or page.url contains 'API-DOCUMENTATION-INDEX' %}
+        {% assign exclude_page = true %}
+      {% endunless %}
+    {% endif %}
+    {% unless exclude_page %}
       {% if pages_count > 0 %},{% endif %}
       {
         "title"    : "{{ page.title | escape }}",

@@ -33,6 +33,13 @@
     <div class="wrapper">
       <nav>
         <ul><li><a href="/">Home</a></li></ul>
+        
+        <!-- Search Box -->
+        <div style="margin: 20px 0;">
+          <input type="search" id="search-input" placeholder="Search documentation..." 
+                 style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+          <ul id="results-container" style="list-style: none; padding: 0; margin-top: 10px;"></ul>
+        </div>
       </nav>
       <section>
         {{ content }}
@@ -59,5 +66,19 @@
         ga('send', 'pageview');
       </script>
     {% endif %}
+
+    <!-- Simple Jekyll Search -->
+    <script src="https://unpkg.com/simple-jekyll-search@latest/dest/simple-jekyll-search.min.js"></script>
+    <script>
+      window.simpleJekyllSearch = new SimpleJekyllSearch({
+        searchInput: document.getElementById('search-input'),
+        resultsContainer: document.getElementById('results-container'),
+        json: '/search.json',
+        searchResultTemplate: '<li><a href="{url}" style="display: block; padding: 8px; margin: 4px 0; background: #f5f5f5; border-radius: 4px; text-decoration: none; color: #333;"><strong>{title}</strong><br><small style="color: #666;">{url}</small></a></li>',
+        noResultsText: '<li style="padding: 8px; color: #999;">No results found</li>',
+        limit: 10,
+        fuzzy: false
+      })
+    </script>
   </body>
 </html>

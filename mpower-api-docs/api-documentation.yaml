@@ -1677,10 +1677,12 @@ paths:
       tags:
         - LoRa
       summary: Get LoRa service status
-      description: Retrieve LoRa service process status
+      description: |
+        Retrieve LoRa service process status. Returns process IDs (PIDs) for running LoRa services.
+        A PID of 0 indicates the service is not running.
       responses:
         '200':
-          description: LoRa service status
+          description: LoRa service status with process IDs
           content:
             application/json:
               schema:
@@ -1688,20 +1690,60 @@ paths:
                 properties:
                   code:
                     type: integer
+                    example: 200
                   status:
                     type: string
+                    example: "success"
                   result:
                     type: object
+                    properties:
+                      lora-network-server:
+                        type: integer
+                        description: Network Server process ID (0 if not running)
+                        example: 12811
+                      lora-packet-forwarder:
+                        type: array
+                        description: Packet Forwarder process IDs
+                        items:
+                          type: integer
+                        example: [12845]
+                      lora-cloud-connector:
+                        type: integer
+                        description: Cloud Connector process ID (0 if not running)
+                        example: 3332
+                      lora-basic-station:
+                        type: integer
+                        description: Basic Station process ID (0 if not running)
+                        example: 0
+                      lora-lens-server:
+                        type: integer
+                        description: Lens Server process ID (0 if not running)
+                        example: 0
+              example:
+                code: 200
+                status: "success"
+                result:
+                  lora-basic-station: 0
+                  lora-cloud-connector: 3332
+                  lora-lens-server: 0
+                  lora-network-server: 12811
+                  lora-packet-forwarder: [12845]
 
   /api/lora/gateways:
     get:
       tags:
         - LoRa
       summary: Get LoRa gateways
-      description: Retrieve registered LoRa gateways with statistics
+      description: |
+        Retrieve registered LoRa gateways with detailed statistics including:
+        - Packet counts (RX/TX)
+        - Channel statistics
+        - Error rates (CRC, MIC)
+        - Last seen timestamp
+        - ACK rate
       responses:
         '200':
-          description: LoRa gateways list
+          description: List of registered LoRa gateways with statistics
           content:
             application/json:
               schema:
@@ -1709,22 +1751,220 @@ paths:
                 properties:
                   code:
                     type: integer
+                    example: 200
                   status:
                     type: string
+                    example: "success"
                   result:
                     type: array
                     items:
                       type: object
+                      properties:
+                        gweui:
+                          type: string
+                          description: Gateway EUI (MAC address format)
+                          example: "00-80-00-00-d0-00-42-6e"
+                        ip_addr:
+                          type: string
+                          description: IP address of gateway
+                          example: "127.0.0.1"
+                        ip_port:
+                          type: integer
+                          description: UDP port
+                          example: 56078
+                        last_seen:
+                          type: string
+                          format: date-time
+                          description: Last packet received timestamp
+                          example: "2025-12-17T21:05:42Z"
+                        version:
+                          type: integer
+                          description: Protocol version
+                          example: 2
+                        rx_count:
+                          type: integer
+                          description: Total packets received
+                          example: 2836
+                        rx_ok:
+                          type: integer
+                          description: Packets with valid CRC
+                          example: 2689
+                        rx_forwarded:
+                          type: integer
+                          description: Packets forwarded to network server
+                          example: 2831
+                        crc_errors:
+                          type: integer
+                          description: Packets with CRC errors
+                          example: 143
+                        mic_fails:
+                          type: integer
+                          description: Packets with MIC failures
+                          example: 0
+                        uplinks:
+                          type: integer
+                          description: Total uplink packets
+                          example: 2694
+                        uplinks_ok:
+                          type: integer
+                          description: Uplinks with valid MIC
+                          example: 0
+                        uplinks_nok_mic:
+                          type: integer
+                          description: Uplinks with invalid MIC
+                          example: 0
+                        uplinks_nok_unknown:
+                          type: integer
+                          description: Uplinks from unknown devices
+                          example: 2398
+                        downlinks:
+                          type: integer
+                          description: Total downlink packets
+                          example: 0
+                        downlinks_ack_requested:
+                          type: integer
+                          description: Downlinks requesting ACK
+                          example: 0
+                        downlink_count:
+                          type: integer
+                          description: Downlink count
+                          example: 0
+                        tx_count:
+                          type: integer
+                          description: Packets transmitted
+                          example: 0
+                        ack_rate:
+                          type: number
+                          format: float
+                          description: ACK rate (0.0-1.0)
+                          example: 1.0
+                        total_channels:
+                          type: integer
+                          description: Number of active channels
+                          example: 10
+                        rx_ch_0:
+                          type: integer
+                          description: Packets on channel 0
+                          example: 377
+                        rx_ch_1:
+                          type: integer
+                          example: 345
+                        rx_ch_2:
+                          type: integer
+                          example: 344
+                        rx_ch_3:
+                          type: integer
+                          example: 377
+                        rx_ch_4:
+                          type: integer
+                          example: 340
+                        rx_ch_5:
+                          type: integer
+                          example: 357
+                        rx_ch_6:
+                          type: integer
+                          example: 339
+                        rx_ch_7:
+                          type: integer
+                          example: 322
+                        rx_ch_16:
+                          type: integer
+                          example: 0
+                        rx_ch_17:
+                          type: integer
+                          example: 0
+                        rx_ch_18:
+                          type: integer
+                          example: 0
+                        rx_ch_19:
+                          type: integer
+                          example: 0
+                        rx_ch_20:
+                          type: integer
+                          example: 0
+                        rx_ch_21:
+                          type: integer
+                          example: 0
+                        rx_ch_22:
+                          type: integer
+                          example: 0
+                        rx_ch_23:
+                          type: integer
+                          example: 0
+                        rx_ch_fsk:
+                          type: integer
+                          description: FSK channel packets
+                          example: 0
+                        rx_ch_fsk_2:
+                          type: integer
+                          example: 0
+                        rx_ch_hbw:
+                          type: integer
+                          description: High bandwidth channel packets
+                          example: 36
+                        rx_ch_hbw_2:
+                          type: integer
+                          example: 0
+              example:
+                code: 200
+                status: "success"
+                result:
+                  - gweui: "00-80-00-00-d0-00-42-6e"
+                    ip_addr: "127.0.0.1"
+                    ip_port: 56078
+                    last_seen: "2025-12-17T21:05:42Z"
+                    version: 2
+                    rx_count: 2836
+                    rx_ok: 2689
+                    rx_forwarded: 2831
+                    crc_errors: 143
+                    mic_fails: 0
+                    uplinks: 2694
+                    uplinks_ok: 0
+                    uplinks_nok_mic: 0
+                    uplinks_nok_unknown: 2398
+                    downlinks: 0
+                    downlinks_ack_requested: 0
+                    downlink_count: 0
+                    tx_count: 0
+                    ack_rate: 1.0
+                    total_channels: 10
+                    rx_ch_0: 377
+                    rx_ch_1: 345
+                    rx_ch_2: 344
+                    rx_ch_3: 377
+                    rx_ch_4: 340
+                    rx_ch_5: 357
+                    rx_ch_6: 339
+                    rx_ch_7: 322
+                    rx_ch_16: 0
+                    rx_ch_17: 0
+                    rx_ch_18: 0
+                    rx_ch_19: 0
+                    rx_ch_20: 0
+                    rx_ch_21: 0
+                    rx_ch_22: 0
+                    rx_ch_23: 0
+                    rx_ch_fsk: 0
+                    rx_ch_fsk_2: 0
+                    rx_ch_hbw: 36
+                    rx_ch_hbw_2: 0
 
   /api/lora/devices:
     get:
       tags:
         - LoRa
       summary: Get LoRa devices
-      description: Retrieve registered LoRa end devices
+      description: |
+        Retrieve registered LoRa end devices with information including:
+        - Device EUI
+        - Device class (A, B, or C)
+        - Profile IDs
+        - Join counters
+        - Last seen timestamp
       responses:
         '200':
-          description: LoRa devices list
+          description: List of registered LoRa end devices
           content:
             application/json:
               schema:
@@ -1732,12 +1972,126 @@ paths:
                 properties:
                   code:
                     type: integer
+                    example: 200
                   status:
                     type: string
+                    example: "success"
                   result:
                     type: array
                     items:
                       type: object
+                      properties:
+                        deveui:
+                          type: string
+                          description: Device EUI (MAC address format)
+                          example: "00-80-00-00-0a-00-11-ba"
+                        name:
+                          type: string
+                          description: Device name
+                          example: ""
+                        class:
+                          type: string
+                          description: LoRaWAN device class
+                          enum: [A, B, C]
+                          example: "A"
+                        device_profile_id:
+                          type: integer
+                          description: Device profile ID
+                          example: 16
+                        device_profile_updated_at:
+                          type: string
+                          format: date-time
+                          description: Last device profile update
+                          example: "2025-12-15T15:43:12Z"
+                        network_profile_id:
+                          type: integer
+                          description: Network profile ID
+                          example: 1
+                        network_profile_updated_at:
+                          type: string
+                          format: date-time
+                          description: Last network profile update
+                          example: "2025-12-15T15:43:12Z"
+                        created_at:
+                          type: string
+                          format: date-time
+                          description: Device registration timestamp
+                          example: "2025-12-15T15:43:12Z"
+                        last_seen:
+                          type: string
+                          format: date-time
+                          description: Last uplink timestamp
+                          example: "2025-12-15T22:18:21Z"
+                        last_nonce:
+                          type: integer
+                          description: Last join nonce
+                          example: 15
+                        last_app_nonce:
+                          type: integer
+                          description: Last application nonce
+                          example: 4
+                        rejoin_count:
+                          type: integer
+                          description: Number of rejoins
+                          example: 0
+                        firmware_version:
+                          type: string
+                          description: Device firmware version
+                          example: ""
+                        hardware_version:
+                          type: string
+                          description: Device hardware version
+                          example: ""
+                        product_id:
+                          type: string
+                          description: Product identifier
+                          example: ""
+                        serial_number:
+                          type: string
+                          description: Device serial number
+                          example: ""
+                        tags:
+                          type: string
+                          description: Device tags (comma-separated)
+                          example: ""
+              example:
+                code: 200
+                status: "success"
+                result:
+                  - deveui: "00-80-00-ff-00-00-00-02"
+                    name: ""
+                    class: "A"
+                    device_profile_id: 16
+                    device_profile_updated_at: "2025-11-24T15:23:50Z"
+                    network_profile_id: 1
+                    network_profile_updated_at: "2025-09-30T15:56:29Z"
+                    created_at: "2025-09-30T15:56:29Z"
+                    last_seen: ""
+                    last_nonce: 443
+                    last_app_nonce: 20
+                    rejoin_count: 0
+                    firmware_version: ""
+                    hardware_version: ""
+                    product_id: ""
+                    serial_number: ""
+                    tags: ""
+                  - deveui: "00-80-00-00-0a-00-11-ba"
+                    name: ""
+                    class: "A"
+                    device_profile_id: 16
+                    device_profile_updated_at: "2025-12-15T15:43:12Z"
+                    network_profile_id: 1
+                    network_profile_updated_at: "2025-12-15T15:43:12Z"
+                    created_at: "2025-12-15T15:43:12Z"
+                    last_seen: "2025-12-15T22:18:21Z"
+                    last_nonce: 15
+                    last_app_nonce: 4
+                    rejoin_count: 0
+                    firmware_version: ""
+                    hardware_version: ""
+                    product_id: ""
+                    serial_number: ""
+                    tags: ""
 
 components:
   securitySchemes:

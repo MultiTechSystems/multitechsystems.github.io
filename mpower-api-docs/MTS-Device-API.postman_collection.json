@@ -901,6 +901,376 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Get LoRa Server Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/config",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "config"
+              ]
+            },
+            "description": "Retrieve LoRa network server runtime configuration"
+          }
+        },
+        {
+          "name": "Get LoRa Server Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/stats",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "stats"
+              ]
+            },
+            "description": "Retrieve LoRa network server statistics"
+          }
+        },
+        {
+          "name": "List LoRa Devices",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/devices?limit=100&offset=0",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "devices"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "100"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Retrieve list of registered LoRa end devices"
+          }
+        },
+        {
+          "name": "Get Device Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/devices/stats",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "devices",
+                "stats"
+              ]
+            },
+            "description": "Retrieve statistics for all LoRa devices"
+          }
+        },
+        {
+          "name": "List Active Sessions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "sessions"
+              ]
+            },
+            "description": "Retrieve list of active device sessions"
+          }
+        },
+        {
+          "name": "List Join Requests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/joinRequests",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "joinRequests"
+              ]
+            },
+            "description": "Retrieve list of device join requests"
+          }
+        },
+        {
+          "name": "List All Packets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/packets?limit=100&offset=0",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "packets"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "100"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Retrieve list of all LoRa packets"
+          }
+        },
+        {
+          "name": "List Join Packets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/packets/join",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "packets",
+                "join"
+              ]
+            },
+            "description": "Retrieve list of join request/accept packets"
+          }
+        },
+        {
+          "name": "List Uplink Packets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/packets/up",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "packets",
+                "up"
+              ]
+            },
+            "description": "Retrieve list of uplink data packets"
+          }
+        },
+        {
+          "name": "List Downlink Packets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/packets/down",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "packets",
+                "down"
+              ]
+            },
+            "description": "Retrieve list of downlink data packets"
+          }
+        },
+        {
+          "name": "Get Downlink Queue",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/packets/queue",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "packets",
+                "queue"
+              ]
+            },
+            "description": "Retrieve pending downlink packets in queue"
+          }
+        },
+        {
+          "name": "Get Recent Packets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/packets/recent",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "packets",
+                "recent"
+              ]
+            },
+            "description": "Retrieve most recent packets (uplink and downlink)"
+          }
+        },
+        {
+          "name": "List Device Profiles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/profiles/device",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "profiles",
+                "device"
+              ]
+            },
+            "description": "Retrieve list of device profiles"
+          }
+        },
+        {
+          "name": "List Network Profiles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/profiles/network",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "profiles",
+                "network"
+              ]
+            },
+            "description": "Retrieve list of network profiles"
+          }
+        },
+        {
+          "name": "List Multicast Groups",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/groups",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "groups"
+              ]
+            },
+            "description": "Retrieve list of multicast groups"
+          }
+        },
+        {
+          "name": "Get FOTA Progress",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/fotaprogress",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "fotaprogress"
+              ]
+            },
+            "description": "Retrieve firmware over-the-air update progress"
+          }
+        },
+        {
+          "name": "Get FOTA Schedule",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/fotaschedule",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "fotaschedule"
+              ]
+            },
+            "description": "Retrieve scheduled FOTA updates"
+          }
+        },
+        {
+          "name": "Get FOTA Results",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lora/fotaresults",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lora",
+                "fotaresults"
+              ]
+            },
+            "description": "Retrieve results of FOTA updates"
+          }
         }
       ]
     },

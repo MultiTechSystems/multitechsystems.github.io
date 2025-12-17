@@ -1373,6 +1373,446 @@
         }
       }
     },
+    "/api/lora/config": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "Get LoRa server configuration",
+        "description": "Retrieve LoRa network server runtime configuration",
+        "operationId": "getLoraConfig",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "LoRa server configuration"
+          }
+        }
+      }
+    },
+    "/api/lora/stats": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "Get LoRa server statistics",
+        "description": "Retrieve LoRa network server statistics",
+        "operationId": "getLoraStats",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "LoRa server statistics"
+          }
+        }
+      }
+    },
+    "/api/lora/devices": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "List LoRa devices",
+        "description": "Retrieve list of registered LoRa end devices",
+        "operationId": "listLoraDevices",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Maximum number of devices to return"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Offset for pagination"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of LoRa devices",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "devices": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "devEui": {
+                            "type": "string",
+                            "description": "Device EUI"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "appEui": {
+                            "type": "string",
+                            "description": "Application EUI"
+                          },
+                          "devAddr": {
+                            "type": "string",
+                            "description": "Device address"
+                          },
+                          "class": {
+                            "type": "string",
+                            "enum": [
+                              "A",
+                              "B",
+                              "C"
+                            ]
+                          },
+                          "lastSeen": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/lora/devices/stats": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "Get device statistics",
+        "description": "Retrieve statistics for all LoRa devices",
+        "operationId": "getLoraDeviceStats",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Device statistics"
+          }
+        }
+      }
+    },
+    "/api/lora/sessions": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "List active sessions",
+        "description": "Retrieve list of active device sessions",
+        "operationId": "listLoraSessions",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of active sessions"
+          }
+        }
+      }
+    },
+    "/api/lora/joinRequests": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "List join requests",
+        "description": "Retrieve list of device join requests",
+        "operationId": "listLoraJoinRequests",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of join requests"
+          }
+        }
+      }
+    },
+    "/api/lora/packets": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "List all packets",
+        "description": "Retrieve list of all LoRa packets",
+        "operationId": "listLoraPackets",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Maximum number of packets to return"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Offset for pagination"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of packets"
+          }
+        }
+      }
+    },
+    "/api/lora/packets/join": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "List join packets",
+        "description": "Retrieve list of join request/accept packets",
+        "operationId": "listLoraJoinPackets",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of join packets"
+          }
+        }
+      }
+    },
+    "/api/lora/packets/up": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "List uplink packets",
+        "description": "Retrieve list of uplink data packets",
+        "operationId": "listLoraUplinkPackets",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of uplink packets"
+          }
+        }
+      }
+    },
+    "/api/lora/packets/down": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "List downlink packets",
+        "description": "Retrieve list of downlink data packets",
+        "operationId": "listLoraDownlinkPackets",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of downlink packets"
+          }
+        }
+      }
+    },
+    "/api/lora/packets/queue": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "Get downlink queue",
+        "description": "Retrieve pending downlink packets in queue",
+        "operationId": "getLoraDownlinkQueue",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Downlink queue"
+          }
+        }
+      }
+    },
+    "/api/lora/packets/recent": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "Get recent packets",
+        "description": "Retrieve most recent packets (uplink and downlink)",
+        "operationId": "getLoraRecentPackets",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recent packets"
+          }
+        }
+      }
+    },
+    "/api/lora/profiles/device": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "List device profiles",
+        "description": "Retrieve list of device profiles",
+        "operationId": "listLoraDeviceProfiles",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of device profiles"
+          }
+        }
+      }
+    },
+    "/api/lora/profiles/network": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "List network profiles",
+        "description": "Retrieve list of network profiles",
+        "operationId": "listLoraNetworkProfiles",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of network profiles"
+          }
+        }
+      }
+    },
+    "/api/lora/groups": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "List multicast groups",
+        "description": "Retrieve list of multicast groups",
+        "operationId": "listLoraGroups",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of multicast groups"
+          }
+        }
+      }
+    },
+    "/api/lora/fotaprogress": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "Get FOTA progress",
+        "description": "Retrieve firmware over-the-air update progress",
+        "operationId": "getLoraFotaProgress",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "FOTA progress"
+          }
+        }
+      }
+    },
+    "/api/lora/fotaschedule": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "Get FOTA schedule",
+        "description": "Retrieve scheduled FOTA updates",
+        "operationId": "getLoraFotaSchedule",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "FOTA schedule"
+          }
+        }
+      }
+    },
+    "/api/lora/fotaresults": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "Get FOTA results",
+        "description": "Retrieve results of FOTA updates",
+        "operationId": "getLoraFotaResults",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "FOTA results"
+          }
+        }
+      }
+    },
     "/api/docker": {
       "get": {
         "tags": [
@@ -2819,29 +3259,419 @@
       },
       "LoraNetwork": {
         "type": "object",
+        "description": "Complete LoRa Network configuration supporting multiple operational modes.\nSee [LORA-NETWORK-SCHEMA](LORA-NETWORK-SCHEMA.md) for comprehensive documentation.\n",
         "properties": {
           "enabled": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Enable/disable LoRa network interface"
           },
           "mode": {
             "type": "string",
+            "description": "Operational mode",
             "enum": [
               "PACKET_FORWARDER",
               "BASIC_STATION",
-              "NETWORK_SERVER"
+              "NETWORK_SERVER",
+              "CHIRPSTACK"
             ]
           },
           "packetForwarder": {
             "type": "object",
-            "description": "Packet forwarder configuration"
+            "description": "Packet forwarder configuration (forwards packets to remote server)",
+            "properties": {
+              "serverUrl": {
+                "type": "string",
+                "description": "Remote server URL",
+                "example": "wss://lns.example.com"
+              },
+              "serverPort": {
+                "type": "integer",
+                "description": "Remote server port",
+                "example": 1700
+              },
+              "gatewayId": {
+                "type": "string",
+                "description": "Gateway identifier"
+              },
+              "keepaliveInterval": {
+                "type": "integer",
+                "description": "Keepalive interval in seconds"
+              },
+              "statInterval": {
+                "type": "integer",
+                "description": "Statistics reporting interval"
+              },
+              "pushTimeoutMs": {
+                "type": "integer",
+                "description": "Push timeout in milliseconds"
+              },
+              "forwardCrcValid": {
+                "type": "boolean",
+                "description": "Forward packets with valid CRC"
+              },
+              "forwardCrcError": {
+                "type": "boolean",
+                "description": "Forward packets with CRC errors"
+              },
+              "forwardCrcDisabled": {
+                "type": "boolean",
+                "description": "Forward packets with CRC disabled"
+              }
+            }
           },
           "basicStation": {
             "type": "object",
-            "description": "Basic station configuration"
+            "description": "Basic Station configuration (Semtech protocol)",
+            "properties": {
+              "serverUrl": {
+                "type": "string",
+                "description": "LNS server URL",
+                "example": "wss://lns.example.com:8887"
+              },
+              "trustStore": {
+                "type": "string",
+                "description": "Path to trust store (CA certificates)"
+              },
+              "clientCert": {
+                "type": "string",
+                "description": "Path to client certificate"
+              },
+              "clientKey": {
+                "type": "string",
+                "description": "Path to client private key"
+              },
+              "routerId": {
+                "type": "string",
+                "description": "Router identifier"
+              },
+              "tcUri": {
+                "type": "string",
+                "description": "CUPS server URI for configuration"
+              },
+              "cupsUri": {
+                "type": "string",
+                "description": "CUPS server URI"
+              },
+              "cupsKey": {
+                "type": "string",
+                "description": "CUPS authentication key"
+              },
+              "cupsKeyFile": {
+                "type": "string",
+                "description": "Path to CUPS key file"
+              }
+            }
           },
           "networkServer": {
             "type": "object",
-            "description": "Network server configuration"
+            "description": "Built-in LoRa Network Server configuration",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Network server name"
+              },
+              "netId": {
+                "type": "string",
+                "description": "Network ID (3 bytes hex)",
+                "pattern": "^[0-9A-Fa-f]{6}$"
+              },
+              "network": {
+                "type": "object",
+                "properties": {
+                  "public": {
+                    "type": "boolean",
+                    "description": "Public or private network"
+                  },
+                  "region": {
+                    "type": "string",
+                    "description": "Frequency plan region",
+                    "enum": [
+                      "US915",
+                      "EU868",
+                      "AS923",
+                      "AU915",
+                      "CN470",
+                      "IN865",
+                      "KR920",
+                      "RU864"
+                    ]
+                  },
+                  "subband": {
+                    "type": "integer",
+                    "description": "Sub-band selection (US915, AU915)",
+                    "minimum": 0,
+                    "maximum": 8
+                  },
+                  "rxWindow": {
+                    "type": "integer",
+                    "description": "RX window delay (ms)"
+                  },
+                  "rx1Delay": {
+                    "type": "integer",
+                    "description": "RX1 delay (seconds)"
+                  },
+                  "rx2Frequency": {
+                    "type": "number",
+                    "description": "RX2 frequency (MHz)"
+                  },
+                  "rx2DataRate": {
+                    "type": "integer",
+                    "description": "RX2 data rate"
+                  },
+                  "maxEirp": {
+                    "type": "number",
+                    "description": "Maximum EIRP (dBm)"
+                  }
+                }
+              },
+              "adr": {
+                "type": "object",
+                "description": "Adaptive Data Rate configuration",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "margin": {
+                    "type": "number",
+                    "description": "Link margin (dB)"
+                  },
+                  "minDataRate": {
+                    "type": "integer"
+                  },
+                  "minTxPower": {
+                    "type": "integer"
+                  },
+                  "maxTxPower": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "joinServer": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "caCert": {
+                    "type": "string"
+                  },
+                  "tlsCert": {
+                    "type": "string"
+                  },
+                  "tlsKey": {
+                    "type": "string"
+                  }
+                }
+              },
+              "applicationServer": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "Application server URL",
+                    "example": "http://localhost:8080"
+                  },
+                  "token": {
+                    "type": "string",
+                    "description": "Authentication token"
+                  },
+                  "caCert": {
+                    "type": "string"
+                  },
+                  "tlsCert": {
+                    "type": "string"
+                  },
+                  "tlsKey": {
+                    "type": "string"
+                  }
+                }
+              },
+              "geolocation": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "TDOA",
+                      "RSSI",
+                      "GNSS",
+                      "WIFI"
+                    ]
+                  },
+                  "minGateways": {
+                    "type": "integer",
+                    "description": "Minimum gateways for geolocation"
+                  }
+                }
+              },
+              "classB": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "pingSlotPeriod": {
+                    "type": "integer",
+                    "description": "Ping slot period (seconds)"
+                  },
+                  "pingSlotDataRate": {
+                    "type": "integer"
+                  },
+                  "pingSlotFrequency": {
+                    "type": "number",
+                    "description": "Ping slot frequency (MHz)"
+                  }
+                }
+              },
+              "classC": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "downlinkTimeout": {
+                    "type": "integer",
+                    "description": "Downlink timeout (seconds)"
+                  }
+                }
+              },
+              "multicastGroups": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "mcAddr": {
+                      "type": "string",
+                      "description": "Multicast address"
+                    },
+                    "mcNwkSKey": {
+                      "type": "string",
+                      "description": "Multicast network session key"
+                    },
+                    "mcAppSKey": {
+                      "type": "string",
+                      "description": "Multicast application session key"
+                    },
+                    "fcnt": {
+                      "type": "integer",
+                      "description": "Frame counter"
+                    },
+                    "dr": {
+                      "type": "integer",
+                      "description": "Data rate"
+                    },
+                    "frequency": {
+                      "type": "number",
+                      "description": "Frequency (MHz)"
+                    },
+                    "classB": {
+                      "type": "boolean"
+                    },
+                    "classC": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "chirpstack": {
+            "type": "object",
+            "description": "ChirpStack Network Server integration",
+            "properties": {
+              "serverUrl": {
+                "type": "string",
+                "description": "ChirpStack server URL"
+              },
+              "apiToken": {
+                "type": "string",
+                "description": "ChirpStack API token"
+              },
+              "caCert": {
+                "type": "string"
+              },
+              "tlsCert": {
+                "type": "string"
+              },
+              "tlsKey": {
+                "type": "string"
+              }
+            }
+          },
+          "gateway": {
+            "type": "object",
+            "description": "Gateway hardware configuration",
+            "properties": {
+              "model": {
+                "type": "string",
+                "description": "Gateway model"
+              },
+              "antennaGain": {
+                "type": "number",
+                "description": "Antenna gain (dBi)"
+              },
+              "gpsEnabled": {
+                "type": "boolean"
+              },
+              "latitude": {
+                "type": "number"
+              },
+              "longitude": {
+                "type": "number"
+              },
+              "altitude": {
+                "type": "number"
+              }
+            }
+          },
+          "db": {
+            "type": "string",
+            "description": "Database file path"
+          },
+          "backupInterval": {
+            "type": "integer",
+            "description": "Database backup interval (seconds)"
+          },
+          "trimInterval": {
+            "type": "integer",
+            "description": "Database trim interval (seconds)"
+          },
+          "trimRows": {
+            "type": "integer",
+            "description": "Maximum rows before trimming"
+          },
+          "log": {
+            "type": "object",
+            "properties": {
+              "level": {
+                "type": "integer",
+                "description": "Log level (0-5)"
+              },
+              "destination": {
+                "type": "string",
+                "enum": [
+                  "STDOUT",
+                  "FILE",
+                  "SYSLOG"
+                ]
+              },
+              "path": {
+                "type": "string",
+                "description": "Log file path"
+              }
+            }
           }
         }
       },

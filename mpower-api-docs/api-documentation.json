@@ -4710,6 +4710,375 @@
           }
         }
       }
+    },
+    "/api/lora/config": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "Get LoRa network server configuration",
+        "description": "Retrieve the complete LoRa network server configuration including:\n- Address range for device addresses\n- Backup interval settings\n- Basic Station configuration (radio settings, channels, frequencies)\n- ChirpStack configuration (backend, integration, MQTT settings)\n- Packet forwarder settings\n- Network server settings",
+        "responses": {
+          "200": {
+            "description": "LoRa network server configuration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "addressRange": {
+                          "type": "object",
+                          "properties": {
+                            "start": {
+                              "type": "string",
+                              "example": "00:00:00:01"
+                            },
+                            "end": {
+                              "type": "string",
+                              "example": "FF:FF:FF:FE"
+                            }
+                          }
+                        },
+                        "backupInterval": {
+                          "type": "integer",
+                          "description": "Backup interval in milliseconds",
+                          "example": 3600000
+                        },
+                        "basicStation": {
+                          "type": "object",
+                          "description": "Basic Station configuration for LoRa packet forwarder"
+                        },
+                        "chirpstack": {
+                          "type": "object",
+                          "description": "ChirpStack network server configuration"
+                        },
+                        "networkServer": {
+                          "type": "object",
+                          "description": "Network server settings"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "Update LoRa network server configuration",
+        "description": "Update the LoRa network server configuration",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "LoRa configuration object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Configuration updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/lora/sessions": {
+      "get": {
+        "tags": [
+          "LoRa"
+        ],
+        "summary": "Get LoRa device sessions",
+        "description": "Retrieve all active LoRa device sessions with detailed information:\n- Device identifiers (DevEUI, AppEUI, JoinEUI)\n- Session keys (encryption and integrity)\n- Device address and network ID\n- Frame counters (uplink and downlink)\n- Radio parameters (frequencies, data rates, power)\n- ADR (Adaptive Data Rate) settings\n- Class B beacon settings\n- Channel configuration",
+        "responses": {
+          "200": {
+            "description": "List of active LoRa device sessions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "deveui": {
+                            "type": "string",
+                            "description": "Device EUI (unique identifier)",
+                            "example": "00-80-00-ff-00-00-00-02"
+                          },
+                          "appeui": {
+                            "type": "string",
+                            "description": "Application EUI",
+                            "example": "16-ea-76-f6-ab-66-3d-80"
+                          },
+                          "joineui": {
+                            "type": "string",
+                            "description": "Join EUI",
+                            "example": "16-ea-76-f6-ab-66-3d-80"
+                          },
+                          "dev_addr": {
+                            "type": "string",
+                            "description": "Device address",
+                            "example": "0164458c"
+                          },
+                          "net_id": {
+                            "type": "string",
+                            "description": "Network ID",
+                            "example": "000000"
+                          },
+                          "app_senc_key": {
+                            "type": "string",
+                            "description": "Application session encryption key",
+                            "example": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                          },
+                          "fnwk_sint_key": {
+                            "type": "string",
+                            "description": "Forwarding network session integrity key",
+                            "example": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                          },
+                          "up_counter": {
+                            "type": "integer",
+                            "description": "Uplink frame counter",
+                            "example": 0
+                          },
+                          "nwk_down_counter": {
+                            "type": "integer",
+                            "description": "Network downlink frame counter",
+                            "example": 1
+                          },
+                          "app_down_counter": {
+                            "type": "integer",
+                            "description": "Application downlink frame counter",
+                            "example": 0
+                          },
+                          "rx1_delay": {
+                            "type": "integer",
+                            "description": "RX1 window delay in seconds",
+                            "example": 1
+                          },
+                          "rx1_datarate_offset": {
+                            "type": "integer",
+                            "description": "RX1 data rate offset",
+                            "example": 0
+                          },
+                          "rx2_datarate_index": {
+                            "type": "integer",
+                            "description": "RX2 data rate index",
+                            "example": 2
+                          },
+                          "rx2_frequency": {
+                            "type": "number",
+                            "description": "RX2 frequency in Hz",
+                            "example": 923.2000122070312
+                          },
+                          "max_eirp": {
+                            "type": "integer",
+                            "description": "Maximum EIRP in dBm",
+                            "example": 16
+                          },
+                          "adr_ack_limit": {
+                            "type": "integer",
+                            "description": "ADR ACK limit",
+                            "example": 64
+                          },
+                          "adr_ack_delay": {
+                            "type": "integer",
+                            "description": "ADR ACK delay",
+                            "example": 32
+                          },
+                          "is_class_b": {
+                            "type": "integer",
+                            "description": "Class B enabled (0=no, 1=yes)",
+                            "example": 0
+                          },
+                          "ping_slot_periodicity": {
+                            "type": "integer",
+                            "description": "Class B ping slot periodicity",
+                            "example": 0
+                          },
+                          "ping_slot_frequency": {
+                            "type": "number",
+                            "description": "Class B ping slot frequency in Hz",
+                            "example": 923.4000244140625
+                          },
+                          "beacon_frequency": {
+                            "type": "number",
+                            "description": "Class B beacon frequency in Hz",
+                            "example": 923.4000244140625
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Session creation timestamp",
+                            "example": "2025-09-30T15:56:29Z"
+                          },
+                          "last_seen": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Last seen timestamp",
+                            "example": ""
+                          },
+                          "uplink_channels": {
+                            "type": "string",
+                            "description": "Hex-encoded uplink channel mask",
+                            "example": "0080de8c500150e68c500220ee8c500370b78c500440bf8c500510c78c5006e0ce8c50"
+                          },
+                          "uplink_dwell_time": {
+                            "type": "integer",
+                            "description": "Uplink dwell time limit",
+                            "example": 1
+                          },
+                          "downlink_dwell_time": {
+                            "type": "integer",
+                            "description": "Downlink dwell time limit",
+                            "example": 1
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "code": 200,
+                  "result": [
+                    {
+                      "adr_ack_delay": 32,
+                      "adr_ack_limit": 64,
+                      "app_down_counter": 0,
+                      "app_senc_key": "88225921cc7f1f279d8482542c18b9cf",
+                      "appeui": "16-ea-76-f6-ab-66-3d-80",
+                      "beacon_frequency": 923.4000244140625,
+                      "channel_mask": "",
+                      "created_at": "2025-09-30T15:56:29Z",
+                      "dev_addr": "0164458c",
+                      "deveui": "00-80-00-ff-00-00-00-02",
+                      "downlink_channels": "",
+                      "downlink_dwell_time": 1,
+                      "fnwk_sint_key": "c2b6c4edfc5b91698597fc45a2c1eb6f",
+                      "is_class_b": 0,
+                      "joineui": "16-ea-76-f6-ab-66-3d-80",
+                      "js_enc_key": "00000000000000000000000000000000",
+                      "js_int_key": "00000000000000000000000000000000",
+                      "last_seen": "",
+                      "max_duty_cycle": 0,
+                      "max_eirp": 16,
+                      "multicast": 0,
+                      "net_id": "000000",
+                      "nwk_down_counter": 1,
+                      "nwk_senc_key": "00000000000000000000000000000000",
+                      "ping_slot_datarate": 3,
+                      "ping_slot_frequency": 923.4000244140625,
+                      "ping_slot_periodicity": 0,
+                      "redundancy": 0,
+                      "remote_join": false,
+                      "rx1_datarate_offset": 0,
+                      "rx1_delay": 1,
+                      "rx2_datarate_index": 2,
+                      "rx2_frequency": 923.2000122070312,
+                      "snwk_sint_key": "00000000000000000000000000000000",
+                      "status_battery": 0,
+                      "status_snr": 0,
+                      "tx_datarate": 0,
+                      "tx_power": 0,
+                      "up_counter": 0,
+                      "uplink_channels": "0080de8c500150e68c500220ee8c500370b78c500440bf8c500510c78c5006e0ce8c50",
+                      "uplink_dwell_time": 1
+                    },
+                    {
+                      "adr_ack_delay": 32,
+                      "adr_ack_limit": 64,
+                      "app_down_counter": 0,
+                      "app_senc_key": "f14312ca3aa4b2b273b78c1725b72497",
+                      "appeui": "16-ea-76-f6-ab-66-3d-80",
+                      "beacon_frequency": 0.0,
+                      "channel_mask": "",
+                      "created_at": "2025-12-15T15:43:12Z",
+                      "dev_addr": "015a6146",
+                      "deveui": "00-80-00-00-0a-00-11-ba",
+                      "downlink_channels": "",
+                      "downlink_dwell_time": 1,
+                      "fnwk_sint_key": "d94022bd1dd640b5ba88d7083ff5293d",
+                      "is_class_b": 0,
+                      "joineui": "16-ea-76-f6-ab-66-3d-80",
+                      "js_enc_key": "00000000000000000000000000000000",
+                      "js_int_key": "00000000000000000000000000000000",
+                      "last_seen": "2025-12-15T22:18:21Z",
+                      "max_duty_cycle": 0,
+                      "max_eirp": 30,
+                      "multicast": 0,
+                      "net_id": "000000",
+                      "nwk_down_counter": 10,
+                      "nwk_senc_key": "00000000000000000000000000000000",
+                      "ping_slot_datarate": 8,
+                      "ping_slot_frequency": 0.0,
+                      "ping_slot_periodicity": 0,
+                      "redundancy": 0,
+                      "remote_join": false,
+                      "rx1_datarate_offset": 0,
+                      "rx1_delay": 1,
+                      "rx2_datarate_index": 10,
+                      "rx2_frequency": 923.2999877929688,
+                      "snwk_sint_key": "00000000000000000000000000000000",
+                      "status_battery": 0,
+                      "status_snr": 0,
+                      "tx_datarate": 3,
+                      "tx_power": 10,
+                      "up_counter": 141,
+                      "uplink_channels": "",
+                      "uplink_dwell_time": 1
+                    }
+                  ],
+                  "status": "success"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

@@ -37,7 +37,7 @@
               "script": {
                 "exec": [
                   "if (pm.response.code === 200) {",
-                  "    pm.environment.set('sessionCookie', pm.cookies.get('session'));",
+                  "    pm.environment.set('tokenCookie', pm.cookies.get('token'));",
                   "}"
                 ],
                 "type": "text/javascript"

@@ -125,7 +125,7 @@ paths:
             Set-Cookie:
               schema:
                 type: string
-                example: session=abc123; Path=/; HttpOnly
+                example: token=8D6BB3C6C977084DCBC9F26FBAA9C22; Path=/; HttpOnly
           content:
             application/json:
               schema:
@@ -1742,8 +1742,8 @@ components:
     cookieAuth:
       type: apiKey
       in: cookie
-      name: session
-      description: Session cookie obtained from /api/login
+      name: token
+      description: Authentication token cookie obtained from /api/login
 
   schemas:
     # Common Response Schemas

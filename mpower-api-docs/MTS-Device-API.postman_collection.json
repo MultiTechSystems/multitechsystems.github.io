@@ -872,7 +872,7 @@
           },
           "response": [
             {
-              "name": "Success Response",
+              "name": "Success",
               "originalRequest": {
                 "method": "GET",
                 "header": [],
@@ -898,7 +898,7 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"result\": {\n    \"lora-basic-station\": 0,\n    \"lora-cloud-connector\": 3332,\n    \"lora-lens-server\": 0,\n    \"lora-network-server\": 12811,\n    \"lora-packet-forwarder\": [\n      12845\n    ]\n  }\n}"
+              "body": "{\n  \"code\": 200,\n  \"result\": {\n    \"lora-basic-station\": 0,\n    \"lora-cloud-connector\": 3332,\n    \"lora-lens-server\": 0,\n    \"lora-network-server\": 12811,\n    \"lora-packet-forwarder\": [\n      12845\n    ]\n  },\n  \"status\": \"success\"\n}"
             }
           ]
         },
@@ -922,7 +922,7 @@
           },
           "response": [
             {
-              "name": "Success Response with Gateway Statistics",
+              "name": "Success",
               "originalRequest": {
                 "method": "GET",
                 "header": [],
@@ -948,7 +948,7 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"result\": [\n    {\n      \"gweui\": \"00-80-00-00-d0-00-42-6e\",\n      \"ip_addr\": \"127.0.0.1\",\n      \"ip_port\": 56078,\n      \"last_seen\": \"2025-12-17T21:05:42Z\",\n      \"version\": 2,\n      \"rx_count\": 2836,\n      \"rx_ok\": 2689,\n      \"rx_forwarded\": 2831,\n      \"crc_errors\": 143,\n      \"mic_fails\": 0,\n      \"uplinks\": 2694,\n      \"uplinks_ok\": 0,\n      \"uplinks_nok_mic\": 0,\n      \"uplinks_nok_unknown\": 2398,\n      \"downlinks\": 0,\n      \"downlinks_ack_requested\": 0,\n      \"downlink_count\": 0,\n      \"tx_count\": 0,\n      \"ack_rate\": 1.0,\n      \"total_channels\": 10,\n      \"rx_ch_0\": 377,\n      \"rx_ch_1\": 345,\n      \"rx_ch_2\": 344,\n      \"rx_ch_3\": 377,\n      \"rx_ch_4\": 340,\n      \"rx_ch_5\": 357,\n      \"rx_ch_6\": 339,\n      \"rx_ch_7\": 322,\n      \"rx_ch_16\": 0,\n      \"rx_ch_17\": 0,\n      \"rx_ch_18\": 0,\n      \"rx_ch_19\": 0,\n      \"rx_ch_20\": 0,\n      \"rx_ch_21\": 0,\n      \"rx_ch_22\": 0,\n      \"rx_ch_23\": 0,\n      \"rx_ch_fsk\": 0,\n      \"rx_ch_fsk_2\": 0,\n      \"rx_ch_hbw\": 36,\n      \"rx_ch_hbw_2\": 0\n    }\n  ]\n}"
+              "body": "{\n  \"code\": 200,\n  \"result\": [\n    {\n      \"ack_rate\": 1.0,\n      \"crc_errors\": 170,\n      \"downlink_count\": 0,\n      \"downlinks\": 0,\n      \"downlinks_ack_requested\": 0,\n      \"gweui\": \"00-80-00-00-d0-00-42-6e\",\n      \"ip_addr\": \"127.0.0.1\",\n      \"ip_port\": 56078,\n      \"last_seen\": \"2025-12-17T22:06:42Z\",\n      \"mic_fails\": 0,\n      \"rx_ch_0\": 443,\n      \"rx_ch_1\": 409,\n      \"rx_ch_16\": 0,\n      \"rx_ch_17\": 0,\n      \"rx_ch_18\": 0,\n      \"rx_ch_19\": 0,\n      \"rx_ch_2\": 411,\n      \"rx_ch_20\": 0,\n      \"rx_ch_21\": 0,\n      \"rx_ch_22\": 0,\n      \"rx_ch_23\": 0,\n      \"rx_ch_3\": 444,\n      \"rx_ch_4\": 409,\n      \"rx_ch_5\": 428,\n      \"rx_ch_6\": 390,\n      \"rx_ch_7\": 386,\n      \"rx_ch_fsk\": 0,\n      \"rx_ch_fsk_2\": 0,\n      \"rx_ch_hbw\": 44,\n      \"rx_ch_hbw_2\": 0,\n      \"rx_count\": 3366,\n      \"rx_forwarded\": 3360,\n      \"rx_ok\": 3190,\n      \"total_channels\": 10,\n      \"tx_count\": 0,\n      \"uplinks\": 3194,\n      \"uplinks_nok_mic\": 0,\n      \"uplinks_nok_unknown\": 2838,\n      \"uplinks_ok\": 0,\n      \"version\": 2\n    }\n  ],\n  \"status\": \"success\"\n}"
             }
           ]
         },
@@ -972,7 +972,7 @@
           },
           "response": [
             {
-              "name": "Success Response with Device List",
+              "name": "Success",
               "originalRequest": {
                 "method": "GET",
                 "header": [],
@@ -998,7 +998,7 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"code\": 200,\n  \"status\": \"success\",\n  \"result\": [\n    {\n      \"deveui\": \"00-80-00-ff-00-00-00-02\",\n      \"name\": \"\",\n      \"class\": \"A\",\n      \"device_profile_id\": 16,\n      \"device_profile_updated_at\": \"2025-11-24T15:23:50Z\",\n      \"network_profile_id\": 1,\n      \"network_profile_updated_at\": \"2025-09-30T15:56:29Z\",\n      \"created_at\": \"2025-09-30T15:56:29Z\",\n      \"last_seen\": \"\",\n      \"last_nonce\": 443,\n      \"last_app_nonce\": 20,\n      \"rejoin_count\": 0,\n      \"firmware_version\": \"\",\n      \"hardware_version\": \"\",\n      \"product_id\": \"\",\n      \"serial_number\": \"\",\n      \"tags\": \"\"\n    },\n    {\n      \"deveui\": \"00-80-00-00-0a-00-11-ba\",\n      \"name\": \"\",\n      \"class\": \"A\",\n      \"device_profile_id\": 16,\n      \"device_profile_updated_at\": \"2025-12-15T15:43:12Z\",\n      \"network_profile_id\": 1,\n      \"network_profile_updated_at\": \"2025-12-15T15:43:12Z\",\n      \"created_at\": \"2025-12-15T15:43:12Z\",\n      \"last_seen\": \"2025-12-15T22:18:21Z\",\n      \"last_nonce\": 15,\n      \"last_app_nonce\": 4,\n      \"rejoin_count\": 0,\n      \"firmware_version\": \"\",\n      \"hardware_version\": \"\",\n      \"product_id\": \"\",\n      \"serial_number\": \"\",\n      \"tags\": \"\"\n    }\n  ]\n}"
+              "body": "{\n  \"code\": 200,\n  \"result\": [\n    {\n      \"class\": \"A\",\n      \"created_at\": \"2025-09-30T15:56:29Z\",\n      \"deveui\": \"00-80-00-ff-00-00-00-02\",\n      \"device_profile_id\": 16,\n      \"device_profile_updated_at\": \"2025-11-24T15:23:50Z\",\n      \"firmware_version\": \"\",\n      \"hardware_version\": \"\",\n      \"last_app_nonce\": 20,\n      \"last_nonce\": 443,\n      \"last_seen\": \"\",\n      \"name\": \"\",\n      \"network_profile_id\": 1,\n      \"network_profile_updated_at\": \"2025-09-30T15:56:29Z\",\n      \"product_id\": \"\",\n      \"rejoin_count\": 0,\n      \"serial_number\": \"\",\n      \"tags\": \"\"\n    },\n    {\n      \"class\": \"A\",\n      \"created_at\": \"2025-12-15T15:43:12Z\",\n      \"deveui\": \"00-80-00-00-0a-00-11-ba\",\n      \"device_profile_id\": 16,\n      \"device_profile_updated_at\": \"2025-12-15T15:43:12Z\",\n      \"firmware_version\": \"\",\n      \"hardware_version\": \"\",\n      \"last_app_nonce\": 4,\n      \"last_nonce\": 15,\n      \"last_seen\": \"2025-12-15T22:18:21Z\",\n      \"name\": \"\",\n      \"network_profile_id\": 1,\n      \"network_profile_updated_at\": \"2025-12-15T15:43:12Z\",\n      \"product_id\": \"\",\n      \"rejoin_count\": 0,\n      \"serial_number\": \"\",\n      \"tags\": \"\"\n    }\n  ],\n  \"status\": \"success\"\n}"
             }
           ]
         },
@@ -1056,7 +1056,23 @@
           },
           "response": [
             {
-              "name": "Success Response",
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/lora/sessions",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "lora",
+                    "sessions"
+                  ]
+                },
+                "description": "Retrieve all active LoRa device sessions with detailed information including device identifiers, session keys, frame counters, radio parameters, and channel configuration."
+              },
               "status": "OK",
               "code": 200,
               "_postman_previewlanguage": "json",

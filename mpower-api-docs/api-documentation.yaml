@@ -1,8 +1,7 @@
 openapi: 3.0.3
 info:
   title: MTS Device API
-  description: 'RESTful API for managing MTS IoT devices (mPower Edge Intelligence
-    platform).
+  description: 'RESTful API for managing MTS IoT devices (mPower Edge Intelligence platform).
 
 
     This API provides comprehensive device management capabilities including:
@@ -245,8 +244,7 @@ paths:
       tags:
       - System
       summary: Query resources
-      description: 'Generic endpoint to query one or more resources. Resources are
-        specified
+      description: 'Generic endpoint to query one or more resources. Resources are specified
 
         via the `fields` query parameter as a comma-separated list.
 
@@ -414,8 +412,7 @@ paths:
       tags:
       - Users
       summary: List users
-      description: Retrieve list of user accounts (admin only, or current user for
-        non-admin)
+      description: Retrieve list of user accounts (admin only, or current user for non-admin)
       operationId: listUsers
       security:
       - cookieAuth: []
@@ -1536,8 +1533,7 @@ paths:
       tags:
       - Security
       summary: Update remote access security configuration
-      description: Configure HTTP/HTTPS/SSH/SNMP security settings, brute force protection,
-        DoS prevention
+      description: Configure HTTP/HTTPS/SSH/SNMP security settings, brute force protection, DoS prevention
       requestBody:
         required: true
         content:
@@ -3310,8 +3306,7 @@ paths:
       tags:
       - LoRa
       summary: Get LoRa service status
-      description: 'Retrieve LoRa service process status. Returns process IDs (PIDs)
-        for running LoRa services.
+      description: 'Retrieve LoRa service process status. Returns process IDs (PIDs) for running LoRa services.
 
         A PID of 0 indicates the service is not running.
 
@@ -3887,13 +3882,11 @@ paths:
                   example: 0
                 scheduledTimeSinceUnixEpoch:
                   type: integer
-                  description: Unix timestamp for scheduled start time (optional,
-                    defaults to immediate)
+                  description: Unix timestamp for scheduled start time (optional, defaults to immediate)
                   example: 1734480000
                 setupTimeFromScheduledTime:
                   type: integer
-                  description: 'Setup time before transmission starts in seconds (default:
-                    0)'
+                  description: 'Setup time before transmission starts in seconds (default: 0)'
                   example: 300
                 fragmentDesc:
                   type: string
@@ -4013,8 +4006,7 @@ paths:
                   type: string
                   enum:
                   - Message
-                  description: Type of transmission (must be Message for multicast
-                    messaging)
+                  description: Type of transmission (must be Message for multicast messaging)
                 endDeviceDeveuis:
                   type: array
                   items:
@@ -4062,13 +4054,11 @@ paths:
                       example: 5
                 scheduledTimeSinceUnixEpoch:
                   type: integer
-                  description: Unix timestamp for scheduled start time (optional,
-                    defaults to immediate)
+                  description: Unix timestamp for scheduled start time (optional, defaults to immediate)
                   example: 1734480000
                 setupTimeFromScheduledTime:
                   type: integer
-                  description: 'Setup time before transmission starts in seconds (default:
-                    0)'
+                  description: 'Setup time before transmission starts in seconds (default: 0)'
                   example: 60
                 keep_log:
                   type: boolean
@@ -4211,8 +4201,7 @@ paths:
       tags:
       - LoRa
       summary: Cancel scheduled FOTA operation
-      description: Cancel a scheduled FOTA or multicast message operation before it
-        executes.
+      description: Cancel a scheduled FOTA or multicast message operation before it executes.
       parameters:
       - name: filename
         in: path
@@ -4732,16 +4721,168 @@ components:
     LoraGateway:
       type: object
       properties:
-        gwEui:
+        gweui:
           type: string
           description: Gateway EUI
-        name:
+          example: 00-80-00-00-d0-00-42-6e
+        ip_addr:
           type: string
-        description:
-          type: string
-        lastSeen:
+          description: IP address
+          example: 127.0.0.1
+        ip_port:
+          type: integer
+          description: IP port
+          example: 56078
+        last_seen:
           type: string
           format: date-time
+          description: Last seen timestamp
+          example: '2025-12-17T22:06:42Z'
+        version:
+          type: integer
+          description: Protocol version
+          example: 2
+        rx_count:
+          type: integer
+          description: Total received packets
+          example: 3366
+        rx_ok:
+          type: integer
+          description: Successfully received packets
+          example: 3190
+        rx_forwarded:
+          type: integer
+          description: Forwarded packets
+          example: 3360
+        tx_count:
+          type: integer
+          description: Transmitted packets
+          example: 0
+        crc_errors:
+          type: integer
+          description: CRC error count
+          example: 170
+        mic_fails:
+          type: integer
+          description: MIC failure count
+          example: 0
+        uplinks:
+          type: integer
+          description: Total uplinks
+          example: 3194
+        uplinks_ok:
+          type: integer
+          description: Successful uplinks
+          example: 0
+        uplinks_nok_mic:
+          type: integer
+          description: Uplinks with MIC errors
+          example: 0
+        uplinks_nok_unknown:
+          type: integer
+          description: Uplinks from unknown devices
+          example: 2838
+        downlinks:
+          type: integer
+          description: Total downlinks
+          example: 0
+        downlinks_ack_requested:
+          type: integer
+          description: Downlinks with ACK requested
+          example: 0
+        downlink_count:
+          type: integer
+          description: Downlink count
+          example: 0
+        ack_rate:
+          type: number
+          format: float
+          description: ACK rate (0.0-1.0)
+          example: 1.0
+        total_channels:
+          type: integer
+          description: Total configured channels
+          example: 10
+        rx_ch_0:
+          type: integer
+          description: Packets on channel 0
+          example: 443
+        rx_ch_1:
+          type: integer
+          description: Packets on channel 1
+          example: 409
+        rx_ch_2:
+          type: integer
+          description: Packets on channel 2
+          example: 411
+        rx_ch_3:
+          type: integer
+          description: Packets on channel 3
+          example: 444
+        rx_ch_4:
+          type: integer
+          description: Packets on channel 4
+          example: 409
+        rx_ch_5:
+          type: integer
+          description: Packets on channel 5
+          example: 428
+        rx_ch_6:
+          type: integer
+          description: Packets on channel 6
+          example: 390
+        rx_ch_7:
+          type: integer
+          description: Packets on channel 7
+          example: 386
+        rx_ch_16:
+          type: integer
+          description: Packets on channel 16
+          example: 0
+        rx_ch_17:
+          type: integer
+          description: Packets on channel 17
+          example: 0
+        rx_ch_18:
+          type: integer
+          description: Packets on channel 18
+          example: 0
+        rx_ch_19:
+          type: integer
+          description: Packets on channel 19
+          example: 0
+        rx_ch_20:
+          type: integer
+          description: Packets on channel 20
+          example: 0
+        rx_ch_21:
+          type: integer
+          description: Packets on channel 21
+          example: 0
+        rx_ch_22:
+          type: integer
+          description: Packets on channel 22
+          example: 0
+        rx_ch_23:
+          type: integer
+          description: Packets on channel 23
+          example: 0
+        rx_ch_fsk:
+          type: integer
+          description: Packets on FSK channel
+          example: 0
+        rx_ch_fsk_2:
+          type: integer
+          description: Packets on FSK channel 2
+          example: 0
+        rx_ch_hbw:
+          type: integer
+          description: Packets on high bandwidth channel
+          example: 44
+        rx_ch_hbw_2:
+          type: integer
+          description: Packets on high bandwidth channel 2
+          example: 0
     Docker:
       type: object
       properties:
@@ -4790,5 +4931,282 @@ components:
           type: boolean
         mode:
           type: string
+    LoraDevice:
+      type: object
+      properties:
+        deveui:
+          type: string
+          description: Device EUI
+          example: 00-80-00-ff-00-00-00-02
+        name:
+          type: string
+          description: Device name
+          example: ''
+        class:
+          type: string
+          enum:
+          - A
+          - B
+          - C
+          description: LoRaWAN device class
+          example: A
+        device_profile_id:
+          type: integer
+          description: Device profile ID
+          example: 16
+        network_profile_id:
+          type: integer
+          description: Network profile ID
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          description: Creation timestamp
+          example: '2025-09-30T15:56:29Z'
+        device_profile_updated_at:
+          type: string
+          format: date-time
+          description: Device profile update timestamp
+          example: '2025-11-24T15:23:50Z'
+        network_profile_updated_at:
+          type: string
+          format: date-time
+          description: Network profile update timestamp
+          example: '2025-09-30T15:56:29Z'
+        last_seen:
+          type: string
+          format: date-time
+          description: Last seen timestamp
+          example: ''
+        last_nonce:
+          type: integer
+          description: Last nonce value
+          example: 443
+        last_app_nonce:
+          type: integer
+          description: Last application nonce
+          example: 20
+        rejoin_count:
+          type: integer
+          description: Rejoin counter
+          example: 0
+        firmware_version:
+          type: string
+          description: Firmware version
+          example: ''
+        hardware_version:
+          type: string
+          description: Hardware version
+          example: ''
+        product_id:
+          type: string
+          description: Product ID
+          example: ''
+        serial_number:
+          type: string
+          description: Serial number
+          example: ''
+        tags:
+          type: string
+          description: Device tags
+          example: ''
+    LoraStatus:
+      type: object
+      properties:
+        lora-network-server:
+          type: integer
+          description: Network server PID (0 if not running)
+          example: 12811
+        lora-packet-forwarder:
+          type: array
+          items:
+            type: integer
+          description: Packet forwarder PIDs
+          example:
+          - 12845
+        lora-basic-station:
+          type: integer
+          description: Basic station PID (0 if not running)
+          example: 0
+        lora-cloud-connector:
+          type: integer
+          description: Cloud connector PID (0 if not running)
+          example: 3332
+        lora-lens-server:
+          type: integer
+          description: Lens server PID (0 if not running)
+          example: 0
+    LoraSession:
+      type: object
+      properties:
+        deveui:
+          type: string
+          description: Device EUI
+          example: 00-80-00-ff-00-00-00-02
+        appeui:
+          type: string
+          description: Application EUI
+          example: 16-ea-76-f6-ab-66-3d-80
+        joineui:
+          type: string
+          description: Join EUI
+          example: 16-ea-76-f6-ab-66-3d-80
+        dev_addr:
+          type: string
+          description: Device address
+          example: 0164458c
+        net_id:
+          type: string
+          description: Network ID
+          example: '000000'
+        fnwk_sint_key:
+          type: string
+          description: Forwarding network session integrity key
+          example: c2b6c4edfc5b91698597fc45a2c1eb6f
+        snwk_sint_key:
+          type: string
+          description: Serving network session integrity key
+          example: '00000000000000000000000000000000'
+        nwk_senc_key:
+          type: string
+          description: Network session encryption key
+          example: '00000000000000000000000000000000'
+        app_senc_key:
+          type: string
+          description: Application session encryption key
+          example: 88225921cc7f1f279d8482542c18b9cf
+        js_enc_key:
+          type: string
+          description: Join server encryption key
+          example: '00000000000000000000000000000000'
+        js_int_key:
+          type: string
+          description: Join server integrity key
+          example: '00000000000000000000000000000000'
+        up_counter:
+          type: integer
+          description: Uplink frame counter
+          example: 0
+        nwk_down_counter:
+          type: integer
+          description: Network downlink counter
+          example: 1
+        app_down_counter:
+          type: integer
+          description: Application downlink counter
+          example: 0
+        multicast:
+          type: integer
+          description: Multicast flag (0 or 1)
+          example: 0
+        remote_join:
+          type: boolean
+          description: Remote join flag
+          example: false
+        created_at:
+          type: string
+          format: date-time
+          description: Session creation timestamp
+          example: '2025-09-30T15:56:29Z'
+        last_seen:
+          type: string
+          format: date-time
+          description: Last seen timestamp
+          example: ''
+        is_class_b:
+          type: integer
+          description: Class B flag (0 or 1)
+          example: 0
+        ping_slot_periodicity:
+          type: integer
+          description: Ping slot periodicity
+          example: 0
+        ping_slot_datarate:
+          type: integer
+          description: Ping slot data rate
+          example: 3
+        ping_slot_frequency:
+          type: number
+          format: float
+          description: Ping slot frequency (Hz)
+          example: 923.4000244140625
+        beacon_frequency:
+          type: number
+          format: float
+          description: Beacon frequency (Hz)
+          example: 923.4000244140625
+        rx1_delay:
+          type: integer
+          description: RX1 delay (seconds)
+          example: 1
+        rx1_datarate_offset:
+          type: integer
+          description: RX1 data rate offset
+          example: 0
+        rx2_datarate_index:
+          type: integer
+          description: RX2 data rate index
+          example: 2
+        rx2_frequency:
+          type: number
+          format: float
+          description: RX2 frequency (Hz)
+          example: 923.2000122070312
+        adr_ack_limit:
+          type: integer
+          description: ADR ACK limit
+          example: 64
+        adr_ack_delay:
+          type: integer
+          description: ADR ACK delay
+          example: 32
+        max_duty_cycle:
+          type: integer
+          description: Maximum duty cycle
+          example: 0
+        max_eirp:
+          type: integer
+          description: Maximum EIRP (dBm)
+          example: 16
+        tx_power:
+          type: integer
+          description: TX power index
+          example: 0
+        tx_datarate:
+          type: integer
+          description: TX data rate
+          example: 0
+        uplink_dwell_time:
+          type: integer
+          description: Uplink dwell time (0 or 1)
+          example: 1
+        downlink_dwell_time:
+          type: integer
+          description: Downlink dwell time (0 or 1)
+          example: 1
+        channel_mask:
+          type: string
+          description: Channel mask
+          example: ''
+        uplink_channels:
+          type: string
+          description: Uplink channels configuration
+          example: 0080de8c500150e68c500220ee8c500370b78c500440bf8c500510c78c5006e0ce8c50
+        downlink_channels:
+          type: string
+          description: Downlink channels configuration
+          example: ''
+        redundancy:
+          type: integer
+          description: Redundancy setting
+          example: 0
+        status_battery:
+          type: integer
+          description: Battery status
+          example: 0
+        status_snr:
+          type: integer
+          description: SNR status
+          example: 0
 security:
 - cookieAuth: []

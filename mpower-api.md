@@ -91,6 +91,26 @@ Comprehensive testing documentation:
 
 ## Quick Start
 
+### Discovering API Calls Using Browser Developer Tools
+
+A useful technique for learning the API is to use your browser's developer tools to observe the API calls made by the mPower web interface. This helps you discover the exact endpoints, request formats, and payload structures used by the device.
+
+![Browser Developer Tools showing API calls](images/UI-API-DEBUG.png)
+
+**Steps to capture API calls:**
+
+1. Open your browser's Developer Tools (F12, or right-click → Inspect)
+2. Navigate to the **Network** tab
+3. Filter by "Fetch/XHR" to see only API requests
+4. Perform an action in the mPower web UI (e.g., change a setting)
+5. Click on the captured request to view:
+   - **Request URL** - The exact endpoint being called
+   - **Request Method** - GET, PUT, POST, or DELETE
+   - **Request Payload** - The JSON data being sent
+   - **Response** - The data returned by the device
+
+This is especially helpful for complex configurations where the endpoint structure may include array indices (e.g., `/api/ni/nis/6` for updating a specific network interface).
+
 ### Authentication
 
 The API uses session-based authentication with cookies:
@@ -412,6 +432,62 @@ curl -X POST http://192.168.2.1/api/users \
 # Save changes
 curl -X POST http://192.168.2.1/api/command/save -b cookies.txt
 ```
+
+### Network Interface Configuration (BR0 Bridge)
+
+Network interfaces are stored in an array and must be updated by index. Use `GET /api?fields=ni` to retrieve all interfaces and identify the index of the interface you want to modify.
+
+```bash
+# Get all network interfaces
+curl -X GET "http://192.168.2.1/api?fields=ni" -b cookies.txt
+
+# Update BR0 bridge interface (index 6 in this example)
+# Use browser developer tools to find the correct index for your device
+curl -X PUT http://192.168.2.1/api/ni/nis/6 \
+  -H "Content-Type: application/json" \
+  -b cookies.txt \
+  -d '{
+    "MAC": "",
+    "available": true,
+    "bridge": "br0",
+    "ipv4": {
+      "dns1": "8.8.8.8",
+      "dns2": "",
+      "gateway": "",
+      "ip": "192.168.100.1",
+      "mask": "255.255.255.0",
+      "mode": "STATIC",
+      "wanMasquerade": true
+    },
+    "ipv6": {
+      "delegatedPrefixLength": 64,
+      "dns1": "",
+      "dns2": "",
+      "enabled": false,
+      "fixedIp": [],
+      "gateway": "",
+      "ip": [],
+      "linkLocalIp": [],
+      "mode": "DELEGATED",
+      "prefixDelegationEnabled": false
+    },
+    "name": "br0",
+    "nitype": "BRIDGE",
+    "type": "LAN",
+    "vlanId": -1
+  }'
+
+# Save configuration
+curl -X POST http://192.168.2.1/api/command/save -b cookies.txt
+```
+
+**Note:** The interface index varies by device model and configuration. Common interfaces and typical indices:
+- `eth0` - Index 0 (WAN Ethernet)
+- `eth1`, `eth2` - Indices 1, 2 (LAN Ethernet ports)
+- `ppp0` - Cellular PPP interface
+- `wlan0` - WiFi as WAN
+- `wlan1` - WiFi Access Point
+- `br0` - Bridge interface (often index 6)
 
 ### LoRa Network Server
 

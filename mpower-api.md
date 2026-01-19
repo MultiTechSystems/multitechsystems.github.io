@@ -124,7 +124,7 @@ https://192.168.2.1/api/ni/nis/6
 
 **PUT requests** - Add `method` and `data` parameters to the URL:
 ```
-https://192.168.2.1/api/loraNetwork/?method=PUT&data={"enabled":false}
+https://192.168.2.1/api/loraNetwork/?method=PUT&data={"lora":{"enabled":false}}
 ```
 
 **Note:** When using the browser address bar, special characters in JSON must be URL-encoded (e.g., `{` becomes `%7B`, `"` becomes `%22`). Most browsers will handle this automatically when you paste the URL.

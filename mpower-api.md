@@ -441,6 +441,9 @@ Network interfaces are stored in an array and must be updated by index. Use `GET
 # Get all network interfaces
 curl -X GET "http://192.168.2.1/api?fields=ni" -b cookies.txt
 
+# Get a single network interface by index (e.g., br0 at index 6)
+curl -X GET "http://192.168.2.1/api/ni/nis/6" -b cookies.txt
+
 # Update BR0 bridge interface (index 6 in this example)
 # Use browser developer tools to find the correct index for your device
 curl -X PUT http://192.168.2.1/api/ni/nis/6 \

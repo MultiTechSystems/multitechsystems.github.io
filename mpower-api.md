@@ -111,6 +111,24 @@ A useful technique for learning the API is to use your browser's developer tools
 
 This is especially helpful for complex configurations where the endpoint structure may include array indices (e.g., `/api/ni/nis/6` for updating a specific network interface).
 
+### Using the API Directly in the Browser
+
+Once logged into the mPower web interface, you can make API calls directly from the browser address bar. This is useful for quick testing and exploration.
+
+**GET requests** - Simply enter the API URL:
+```
+https://192.168.2.1/api?fields=system
+https://192.168.2.1/api?fields=ni
+https://192.168.2.1/api/ni/nis/6
+```
+
+**PUT requests** - Add `method` and `data` parameters to the URL:
+```
+https://192.168.2.1/api/loraNetwork/?method=PUT&data={"enabled":false}
+```
+
+**Note:** When using the browser address bar, special characters in JSON must be URL-encoded (e.g., `{` becomes `%7B`, `"` becomes `%22`). Most browsers will handle this automatically when you paste the URL.
+
 ### Authentication
 
 The API uses session-based authentication with cookies:

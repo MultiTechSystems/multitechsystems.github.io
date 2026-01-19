@@ -594,7 +594,7 @@ The `dot1x` object configures IEEE 802.1X port-based network access control:
 
 ## API Operations
 
-### Get Network Interfaces
+### Get All Network Interfaces
 
 ```bash
 GET /api?fields=ni
@@ -613,9 +613,90 @@ Response:
 }
 ```
 
-### Update Network Interface
+### Get Single Network Interface by Index
 
-To update a specific interface, you need to update the entire `ni` object:
+```bash
+GET /api/ni/nis/{index}
+```
+
+Example - Get br0 interface at index 6:
+```bash
+GET /api/ni/nis/6
+```
+
+Response:
+```json
+{
+  "code": 200,
+  "result": {
+    "MAC": "",
+    "available": true,
+    "bridge": "br0",
+    "ipv4": {
+      "ip": "192.168.2.1",
+      "mask": "255.255.255.0",
+      "mode": "STATIC",
+      ...
+    },
+    "name": "br0",
+    "nitype": "BRIDGE",
+    "type": "LAN"
+  },
+  "status": "success"
+}
+```
+
+### Update Single Network Interface by Index
+
+The recommended way to update a network interface is by index:
+
+```bash
+PUT /api/ni/nis/{index}
+Content-Type: application/json
+```
+
+Example - Update br0 interface at index 6:
+```bash
+PUT /api/ni/nis/6
+Content-Type: application/json
+
+{
+  "MAC": "",
+  "available": true,
+  "bridge": "br0",
+  "ipv4": {
+    "dns1": "8.8.8.8",
+    "dns2": "",
+    "gateway": "",
+    "ip": "192.168.100.1",
+    "mask": "255.255.255.0",
+    "mode": "STATIC",
+    "wanMasquerade": true
+  },
+  "ipv6": {
+    "delegatedPrefixLength": 64,
+    "dns1": "",
+    "dns2": "",
+    "enabled": false,
+    "fixedIp": [],
+    "gateway": "",
+    "ip": [],
+    "linkLocalIp": [],
+    "mode": "DELEGATED",
+    "prefixDelegationEnabled": false
+  },
+  "name": "br0",
+  "nitype": "BRIDGE",
+  "type": "LAN",
+  "vlanId": -1
+}
+```
+
+**Tip:** Use your browser's developer tools (F12 → Network tab) while using the mPower web UI to discover the correct index for each interface on your device.
+
+### Update Entire Network Interfaces Object (Alternative)
+
+You can also update the entire `ni` object, but this requires including all interfaces:
 
 ```bash
 PUT /api/ni

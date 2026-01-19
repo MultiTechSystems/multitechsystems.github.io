@@ -997,6 +997,150 @@
         }
       }
     },
+    "/api/ni/nis/{index}": {
+      "get": {
+        "tags": [
+          "Network"
+        ],
+        "summary": "Get network interface by index",
+        "description": "Retrieve a specific network interface configuration by its array index.\nUse `GET /api?fields=ni` to list all interfaces and find the correct index.\n\nCommon interface indices (varies by device model):\n- 0: eth0 (WAN Ethernet)\n- 1-2: eth1, eth2 (LAN Ethernet)\n- 3: ppp0 (Cellular)\n- 4: wlan0 (WiFi as WAN)\n- 5: wlan1 (WiFi AP)\n- 6: br0 (Bridge)\n",
+        "operationId": "getNetworkInterface",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "index",
+            "in": "path",
+            "required": true,
+            "description": "Array index of the network interface (0-based)",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "examples": {
+              "br0": {
+                "value": 6,
+                "summary": "Bridge interface (br0)"
+              },
+              "eth0": {
+                "value": 0,
+                "summary": "Primary Ethernet (eth0)"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Network interface configuration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "$ref": "#/components/schemas/NetworkInterface"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Interface index not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Network"
+        ],
+        "summary": "Update network interface by index",
+        "description": "Update a specific network interface configuration by its array index.\nUse browser developer tools (F12 \u2192 Network tab) while using the mPower web UI\nto discover the correct index for each interface on your device.\n",
+        "operationId": "updateNetworkInterface",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "index",
+            "in": "path",
+            "required": true,
+            "description": "Array index of the network interface (0-based)",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NetworkInterface"
+              },
+              "example": {
+                "MAC": "",
+                "available": true,
+                "bridge": "br0",
+                "ipv4": {
+                  "dns1": "8.8.8.8",
+                  "dns2": "",
+                  "gateway": "",
+                  "ip": "192.168.100.1",
+                  "mask": "255.255.255.0",
+                  "mode": "STATIC",
+                  "wanMasquerade": true
+                },
+                "ipv6": {
+                  "delegatedPrefixLength": 64,
+                  "dns1": "",
+                  "dns2": "",
+                  "enabled": false,
+                  "fixedIp": [],
+                  "gateway": "",
+                  "ip": [],
+                  "linkLocalIp": [],
+                  "mode": "DELEGATED",
+                  "prefixDelegationEnabled": false
+                },
+                "name": "br0",
+                "nitype": "BRIDGE",
+                "type": "LAN",
+                "vlanId": -1
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Network interface updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Interface index not found"
+          }
+        }
+      }
+    },
     "/api/command/save": {
       "post": {
         "tags": [
@@ -6206,6 +6350,179 @@
           "client": {
             "type": "object",
             "description": "WiFi client configuration"
+          }
+        }
+      },
+      "NetworkInterface": {
+        "type": "object",
+        "description": "Network interface configuration",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Interface name (e.g., eth0, br0, ppp0, wlan0)",
+            "example": "br0"
+          },
+          "type": {
+            "type": "string",
+            "description": "Interface role",
+            "enum": [
+              "LAN",
+              "WAN"
+            ]
+          },
+          "nitype": {
+            "type": "string",
+            "description": "Interface type",
+            "enum": [
+              "ETHER",
+              "PPP",
+              "WIFI_AS_WAN",
+              "WIFI_AP",
+              "BRIDGE"
+            ]
+          },
+          "available": {
+            "type": "boolean",
+            "description": "Whether the interface is available/present"
+          },
+          "bridge": {
+            "type": "string",
+            "description": "Bridge name if connected to bridge, \"--\" if not bridged",
+            "example": "br0"
+          },
+          "MAC": {
+            "type": "string",
+            "description": "MAC address of the interface",
+            "example": "00:08:00:4E:3F:21"
+          },
+          "vlanId": {
+            "type": "integer",
+            "description": "VLAN ID (-1 = no VLAN, 1-4094 = VLAN ID)",
+            "example": -1
+          },
+          "ipv4": {
+            "type": "object",
+            "description": "IPv4 configuration",
+            "properties": {
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "STATIC",
+                  "DHCP",
+                  "DHCP-ADDRESSES-ONLY",
+                  "PPP",
+                  "PPP-ADDRESSES-ONLY"
+                ]
+              },
+              "ip": {
+                "type": "string",
+                "format": "ipv4",
+                "example": "192.168.100.1"
+              },
+              "mask": {
+                "type": "string",
+                "format": "ipv4",
+                "example": "255.255.255.0"
+              },
+              "gateway": {
+                "type": "string",
+                "format": "ipv4"
+              },
+              "dns1": {
+                "type": "string",
+                "format": "ipv4",
+                "example": "8.8.8.8"
+              },
+              "dns2": {
+                "type": "string",
+                "format": "ipv4"
+              },
+              "wanMasquerade": {
+                "type": "boolean",
+                "description": "Enable NAT/masquerading for WAN interfaces"
+              }
+            }
+          },
+          "ipv6": {
+            "type": "object",
+            "description": "IPv6 configuration",
+            "properties": {
+              "enabled": {
+                "type": "boolean"
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "STATIC",
+                  "DELEGATED",
+                  "AUTO",
+                  "AUTO-ADDRESSES-ONLY"
+                ]
+              },
+              "ip": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "fixedIp": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "linkLocalIp": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "prefixDelegationEnabled": {
+                "type": "boolean"
+              },
+              "delegatedPrefixLength": {
+                "type": "integer",
+                "example": 64
+              },
+              "gateway": {
+                "type": "string"
+              },
+              "dns1": {
+                "type": "string"
+              },
+              "dns2": {
+                "type": "string"
+              }
+            }
+          },
+          "dot1x": {
+            "type": "object",
+            "description": "IEEE 802.1X authentication configuration",
+            "properties": {
+              "enabled": {
+                "type": "boolean"
+              },
+              "authType": {
+                "type": "string",
+                "enum": [
+                  "EAP-PWD",
+                  "EAP-TLS",
+                  "EAP-TTLS",
+                  "EAP-PEAP"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "authorized",
+                  "unauthorized"
+                ]
+              },
+              "params": {
+                "type": "object",
+                "description": "Authentication parameters"
+              }
+            }
           }
         }
       },

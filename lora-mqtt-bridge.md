@@ -1,3 +1,11 @@
+---
+layout: default
+title: LoRa MQTT Bridge
+description: Bridge MQTT messages from local gateway to multiple remote brokers with filtering
+category: lorawan
+tags: [lorawan, mqtt, python, bridge]
+---
+
 # LoRa MQTT Bridge
 
 ## Overview

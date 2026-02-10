@@ -1,3 +1,11 @@
+---
+layout: default
+title: LoRaWAN App Connect MQTT v1.0
+description: MQTT protocol for connecting LoRaWAN networks to back-end services
+category: lorawan
+tags: [lorawan, mqtt, api]
+---
+
 # MQTT Application
 
 ## Application configuration

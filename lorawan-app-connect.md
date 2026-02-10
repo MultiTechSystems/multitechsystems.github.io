@@ -1,3 +1,11 @@
+---
+layout: default
+title: LoRaWAN App Connect HTTP
+description: Default mPower LoRaWAN application and server API implementation
+category: lorawan
+tags: [lorawan, http, mqtt, api]
+---
+
 # LoRaWAN Application
 Default mPower&trade; LoRaWAN&reg; application and server API implementation for a distributed LoRaWAN network. The application will communicate with the embedded LoRaWAN network server on a MultiTech Conduit&reg; and forward messages to the configured HTTP(S) or MQTT(S) servers. Configuration for a single server can be provided via the mPower WebUI or for multiple servers using the [MultiTech Lens&reg;](https://www.multitech.com/brands/lens) cloud service.
 

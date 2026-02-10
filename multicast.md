@@ -1,3 +1,11 @@
+---
+layout: default
+title: Multicast Protocol
+description: Multicast messaging protocol for LoRaWAN networks with Conduit and Dot
+category: lorawan
+tags: [lorawan, multicast, dot, conduit]
+---
+
 # Multicast Messaging with Multitech Conduit and Dot
 
 The multicast implementation is based LoRa Alliance [Multicast Setup Protocol](https://resources.lora-alliance.org/technical-specifications/lorawan-remote-multicast-setup-specification-v1-0-0)

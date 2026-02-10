@@ -1,4 +1,12 @@
-# MQTT Application
+---
+layout: default
+title: LoRaWAN App Connect MQTT v1.1
+description: MQTT v1.1 protocol with enhanced features for LoRaWAN networks
+category: lorawan
+tags: [lorawan, mqtt, api]
+---
+
+# MQTT Application v1.1
 
 ## Application configuration
     url: mqtts://test.mosquitto.org:8883

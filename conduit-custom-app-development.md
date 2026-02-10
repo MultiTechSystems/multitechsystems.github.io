@@ -1,3 +1,11 @@
+---
+layout: default
+title: Conduit Custom App Development
+description: Best practices for developing custom Python applications for MultiTech Conduit gateways
+category: development
+tags: [python, conduit, mlinux, development]
+---
+
 # Custom Application Development for MultiTech Conduit
 
 This guide documents best practices for developing custom Python applications for MultiTech Conduit gateways, based on lessons learned from the [LoRa MQTT Bridge](lora-mqtt-bridge) project.

@@ -1,3 +1,11 @@
+---
+layout: default
+title: Fragmented Data Transfer
+description: Fragmentation protocol for FUOTA (Firmware Update Over The Air)
+category: lorawan
+tags: [lorawan, fuota, fragmentation, firmware]
+---
+
 # Fragmentation for FUOTA
 
 The fragmentation implementation is based LoRa Alliance [Fragmented Data Block Transport Protocol](https://resources.lora-alliance.org/technical-specifications/lorawan-fragmented-data-block-transport-specification-v1-0-0)

@@ -1,0 +1,26 @@
+# Documentation Versions
+# Current version is the default shown to users
+# Versions link to tagged releases or archived documentation
+
+current: "2.0"
+
+versions:
+  - number: "2.0"
+    title: "v2.0 (Latest)"
+    url: "/"
+    date: "February 2026"
+    description: "Complete API documentation with OpenAPI schemas from source"
+    current: true
+
+  - number: "1.0"
+    title: "v1.0"
+    url: "/v1/"
+    date: "December 2025"
+    description: "Initial API documentation release"
+    current: false
+
+# API version (separate from documentation version)
+api_version: "mPower 6.x"
+
+# Last updated timestamp
+last_updated: "February 10, 2026"

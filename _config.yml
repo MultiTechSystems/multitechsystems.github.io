@@ -1,10 +1,72 @@
+# MultiTech Developer Documentation
+# Site Configuration
+
+title: MultiTech Developer Docs
+description: Developer documentation for MultiTech IoT devices and LoRaWAN solutions
+url: "https://multitechsystems.github.io"
+baseurl: ""
+
+# Theme
 theme: jekyll-theme-leap-day
-title: Multitech System Developer Documentation
-description: Collection of articles for working with Multitech devices in LoRaWAN networks.
-favicon: favicon.ico
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+
+# Plugins
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
 
+# GitHub settings
 github:
   is_project_page: false
+
+# Favicon
+favicon: favicon.ico
+
+# Collections (for future use)
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:path/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: "mpower-api-docs"
+    values:
+      layout: "default"
+      category: "api"
+
+# Exclude from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .git
+  - .gitignore
+  - README.md
+  - LICENSE
+
+# Include in build
+include:
+  - _pages
+
+# Pagination (if needed later)
+# paginate: 10
+# paginate_path: "/page:num/"
+
+# Analytics (uncomment and add ID to enable)
+# google_analytics: UA-XXXXXXXX-X

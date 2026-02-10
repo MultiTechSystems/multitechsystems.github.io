@@ -1,121 +1,196 @@
 <!doctype html>
-<html lang="{{ site.lang | default: "en-US" }}">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-{% seo %}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-    <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
-    <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
-    <!--[if lt IE 9]>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-
-    <style>
-      code {
-        font-family: 'Source Code Pro', monospace, serif!important;
-      }
-    </style>
-  </head>
-  <body>
-
-      <header style="text-align: left;">
-        <h1 style="text-align: left;">{{ page.title | default: site.title | default: site.github.repository_name }}</h1>
-        <p style="text-align: left;">{{ page.description | default: site.description | default: site.github.project_tagline }}</p>
-        
-        <!-- Search Box in Header -->
-        <div style="margin: 15px 0 0 0; max-width: 500px; position: relative;">
-          <input type="search" id="search-input" placeholder="Search documentation..." 
-                 style="width: 100%; padding: 10px; border: 2px solid #fff; border-radius: 4px; font-size: 14px; background: rgba(255,255,255,0.9); box-sizing: border-box;">
-          <div id="results-container" style="position: absolute; left: 0; right: 0; top: calc(100% + 5px); z-index: 1000; background: white; border: 1px solid #ccc; border-radius: 4px; max-height: 400px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: none;"></div>
-        </div>
-      </header>
-
-    <div class="wrapper">
-      <nav style="text-align: left;">
-        <ul style="text-align: left;"><li><a href="/">Home</a></li></ul>
-      </nav>
-      <section>
-        {{ content }}
-
-      </section>
-      <footer>
-        Questions or issues can be posted at <a href="https://github.com/MultiTechSystems/multitechsystems.github.io">Multitech Systems Github</a> or <a href="https://support.multitech.com">Multitech Support Portal</a>
-        <br/>
-        Copyright © 1995 - 2025 by Multi-Tech Systems, Inc. ‧ All rights reserved
-        {% if site.github.is_project_page %}
-          <p>Project maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
-        {% endif %}
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/mattgraham">mattgraham</a></small></p>
-      </footer>
+<html lang="{{ site.lang | default: 'en-US' }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+  
+  {% seo %}
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ '/favicon.ico' | relative_url }}">
+  
+  <style>
+    code { font-family: 'Source Code Pro', monospace, serif !important; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <div class="header-brand">
+        <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <h1><a href="{{ '/' | relative_url }}">{{ site.title | default: 'MultiTech Developer Docs' }}</a></h1>
+        <span class="header-tagline">{{ site.description | default: 'Developer Documentation' }}</span>
+      </div>
+      
+      <div class="header-search">
+        <input type="search" id="header-search-input" placeholder="Search documentation..." aria-label="Search">
+        <div id="header-search-results" class="search-results"></div>
+      </div>
+      
+      <div class="header-links">
+        <a href="https://github.com/MultiTechSystems/multitechsystems.github.io" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://support.multitech.com" target="_blank" rel="noopener">Support</a>
+      </div>
     </div>
+  </header>
 
-    {% if site.google_analytics %}
-      <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', '{{ site.google_analytics }}', 'auto');
-        ga('send', 'pageview');
-      </script>
-    {% endif %}
+  <div class="site-wrapper">
+    <!-- Sidebar Navigation -->
+    {% include sidebar.html %}
+    
+    <!-- Overlay for mobile -->
+    <div class="nav-overlay" id="nav-overlay"></div>
 
-    <!-- Simple Jekyll Search -->
-    <script src="https://unpkg.com/simple-jekyll-search@latest/dest/simple-jekyll-search.min.js"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        var searchInput = document.getElementById('search-input');
-        var resultsContainer = document.getElementById('results-container');
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-wrapper">
+        <article class="article-content">
+          {% include breadcrumbs.html %}
+          
+          {{ content }}
+          
+          <!-- Page Footer -->
+          <footer class="site-footer">
+            <p>Questions or issues? Visit <a href="https://github.com/MultiTechSystems/multitechsystems.github.io">GitHub</a> or <a href="https://support.multitech.com">MultiTech Support</a></p>
+            <p>Copyright © 1995 - 2026 by Multi-Tech Systems, Inc. All rights reserved.</p>
+            <p><small>Documentation Version {{ site.data.versions.current }} | API: {{ site.data.versions.api_version }} | Updated: {{ site.data.versions.last_updated }}</small></p>
+          </footer>
+        </article>
         
-        if (searchInput && resultsContainer) {
-          // Show/hide results container
-          searchInput.addEventListener('focus', function() {
-            if (resultsContainer.children.length > 0) {
-              resultsContainer.style.display = 'block';
-            }
-          });
-          
-          searchInput.addEventListener('input', function() {
-            if (this.value.length > 0) {
-              resultsContainer.style.display = 'block';
-            } else {
-              resultsContainer.style.display = 'none';
-            }
-          });
-          
-          // Hide results when clicking outside
-          document.addEventListener('click', function(e) {
-            if (!searchInput.contains(e.target) && !resultsContainer.contains(e.target)) {
-              resultsContainer.style.display = 'none';
-            }
-          });
-          
-          // Initialize search
-          window.simpleJekyllSearch = new SimpleJekyllSearch({
-            searchInput: searchInput,
-            resultsContainer: resultsContainer,
-            json: '/search.json',
-            searchResultTemplate: '<div style="padding: 10px; border-bottom: 1px solid #eee;"><a href="{url}" style="text-decoration: none; color: #333;"><strong style="color: #0066cc;">{title}</strong><br><small style="color: #666;">{url}</small></a></div>',
-            noResultsText: '<div style="padding: 10px; color: #999;">No results found</div>',
-            limit: 10,
-            fuzzy: false,
-            success: function() {
-              console.log('Search index loaded successfully');
-            },
-            error: function(xhr) {
-              console.error('Failed to load search index:', xhr);
-              resultsContainer.innerHTML = '<div style="padding: 10px; color: #c00;">Search unavailable</div>';
-            }
-          });
-        }
+        {% include toc.html %}
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/simple-jekyll-search@latest/dest/simple-jekyll-search.min.js"></script>
+  
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Mobile Navigation Toggle
+    const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+    const siteNav = document.getElementById('site-nav');
+    const navOverlay = document.getElementById('nav-overlay');
+    
+    if (mobileNavToggle && siteNav) {
+      mobileNavToggle.addEventListener('click', function() {
+        siteNav.classList.toggle('open');
+        navOverlay.classList.toggle('active');
+        document.body.style.overflow = siteNav.classList.contains('open') ? 'hidden' : '';
       });
-    </script>
-  </body>
+      
+      navOverlay.addEventListener('click', function() {
+        siteNav.classList.remove('open');
+        navOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    }
+    
+    // Expandable Navigation Sections
+    document.querySelectorAll('.nav-item.has-children .nav-expand').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.closest('.nav-item').classList.toggle('expanded');
+      });
+    });
+    
+    // Auto-expand current section
+    document.querySelectorAll('.nav-children .nav-link.active').forEach(function(link) {
+      link.closest('.nav-item.has-children').classList.add('expanded');
+    });
+    
+    // Generate Page TOC
+    const tocNav = document.querySelector('.page-toc .toc-nav');
+    if (tocNav) {
+      const headings = document.querySelectorAll('.article-content h2, .article-content h3');
+      if (headings.length > 2) {
+        const ul = document.createElement('ul');
+        headings.forEach(function(heading, index) {
+          // Ensure heading has an ID
+          if (!heading.id) {
+            heading.id = 'heading-' + index;
+          }
+          
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = '#' + heading.id;
+          a.textContent = heading.textContent;
+          a.className = 'toc-' + heading.tagName.toLowerCase();
+          li.appendChild(a);
+          ul.appendChild(li);
+        });
+        tocNav.appendChild(ul);
+        
+        // Highlight active TOC item on scroll
+        const tocLinks = tocNav.querySelectorAll('a');
+        window.addEventListener('scroll', function() {
+          let current = '';
+          headings.forEach(function(heading) {
+            const top = heading.offsetTop - 100;
+            if (window.pageYOffset >= top) {
+              current = heading.id;
+            }
+          });
+          
+          tocLinks.forEach(function(link) {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+              link.classList.add('active');
+            }
+          });
+        });
+      } else {
+        // Hide TOC if not enough headings
+        document.querySelector('.page-toc').style.display = 'none';
+      }
+    }
+    
+    // Search Functionality
+    const searchInputs = [
+      { input: document.getElementById('header-search-input'), results: document.getElementById('header-search-results') },
+      { input: document.getElementById('nav-search-input'), results: document.getElementById('nav-search-results') }
+    ];
+    
+    searchInputs.forEach(function(search) {
+      if (search.input && search.results) {
+        SimpleJekyllSearch({
+          searchInput: search.input,
+          resultsContainer: search.results,
+          json: '{{ "/search.json" | relative_url }}',
+          searchResultTemplate: '<div class="search-result"><a href="{url}"><strong>{title}</strong><br><small>{url}</small></a></div>',
+          noResultsText: '<div class="search-result"><span style="color: #999;">No results found</span></div>',
+          limit: 10
+        });
+        
+        search.input.addEventListener('focus', function() {
+          if (this.value.length > 0) {
+            search.results.classList.add('active');
+          }
+        });
+        
+        search.input.addEventListener('input', function() {
+          search.results.classList.toggle('active', this.value.length > 0);
+        });
+        
+        document.addEventListener('click', function(e) {
+          if (!search.input.contains(e.target) && !search.results.contains(e.target)) {
+            search.results.classList.remove('active');
+          }
+        });
+      }
+    });
+  });
+  </script>
+</body>
 </html>

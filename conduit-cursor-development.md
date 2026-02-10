@@ -1,3 +1,11 @@
+---
+layout: default
+title: Conduit Cursor AI Development
+description: Using Cursor AI Agent to develop and deploy applications to Conduit gateways
+category: development
+tags: [cursor, ai, python, conduit, development]
+---
+
 # Cursor Agent Development for MultiTech Conduit
 
 This guide provides prompts and commands for using [Cursor](https://cursor.sh/) AI Agent to develop and deploy custom Python applications to MultiTech Conduit gateways.

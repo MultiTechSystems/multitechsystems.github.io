@@ -1,3 +1,11 @@
+---
+layout: default
+title: mDot & xDot Development
+description: Project configuration and programming guide for MultiTech Dot modules
+category: development
+tags: [mdot, xdot, embedded, lora]
+---
+
 # Dot Development
 
 This article provides general project configuration and programming for working with Dots.

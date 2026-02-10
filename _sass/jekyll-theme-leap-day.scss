@@ -1,6 +1,7 @@
 /*
 Multitech Systems Developer Documentation Theme
 Based on Leap Day by Matt Graham, customized for Multitech branding
+Version 2.0 - February 2026
 */
 
 @import "normalize";
@@ -16,50 +17,64 @@ $multitech-light-gray: #f5f5f5;
 $multitech-white: #ffffff;
 $multitech-accent: #00a3e0;
 
+// Layout Variables
+$sidebar-width: 280px;
+$toc-width: 220px;
+$content-max-width: 900px;
+$header-height: 60px;
+
+// ============================================
+// Base Styles
+// ============================================
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font: 14px/22px "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 15px/1.6 "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #333333;
   font-weight: 400;
-  margin: 0px;
-  padding: 0px 0 20px 0px;
+  margin: 0;
+  padding: 0;
   background: $multitech-light-gray;
 }
 
 h1, h2, h3, h4, h5, h6 {
   color: $multitech-dark-blue;
-  margin: 0 0 10px;
+  margin: 0 0 16px;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 600;
+  line-height: 1.3;
+}
+
+h1 {
+  font-size: 32px;
+  color: $multitech-blue;
+  margin-bottom: 24px;
+}
+
+h2 {
+  font-size: 26px;
+  color: $multitech-dark-blue;
+  border-bottom: 2px solid $multitech-blue;
+  padding-bottom: 10px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 20px;
+  color: $multitech-gray;
+  margin-top: 32px;
+}
+
+h4, h5, h6 {
+  color: $multitech-gray;
 }
 
 p, ul, ol, table, pre, dl {
   margin: 0 0 20px;
-}
-
-h1, h2, h3 {
-  line-height: 1.2;
-}
-
-h1 {
-  font-size: 28px;
-  color: $multitech-blue;
-}
-
-h2 {
-  font-size: 24px;
-  color: $multitech-dark-blue;
-  border-bottom: 2px solid $multitech-blue;
-  padding-bottom: 8px;
-  margin-bottom: 16px;
-}
-
-h3, h4, h5, h6 {
-  color: $multitech-gray;
-}
-
-h3 {
-  font-size: 18px;
-  line-height: 24px;
 }
 
 a {
@@ -74,16 +89,13 @@ a {
   }
 }
 
-a small {
-  font-size: 11px;
-  color: $multitech-gray;
-  margin-top: -0.6em;
-  display: block;
-}
-
 ul {
   list-style: disc;
-  list-style-image: none;
+  padding-left: 24px;
+}
+
+ol {
+  padding-left: 24px;
 }
 
 strong {
@@ -91,61 +103,52 @@ strong {
   color: #333;
 }
 
-.wrapper {
-  width: 650px;
-  margin: 0 auto;
-  position: relative;
-}
-
-section img {
-  max-width: 100%;
-}
-
-blockquote {
-  border-left: 4px solid $multitech-blue;
-  margin: 0;
-  padding: 0 0 0 20px;
-  font-style: italic;
-  background: rgba($multitech-blue, 0.05);
-  padding: 15px 20px;
-  border-radius: 0 4px 4px 0;
-}
+// ============================================
+// Code Styles
+// ============================================
 
 code {
   font-family: 'Source Code Pro', 'Consolas', 'Monaco', monospace;
-  font-size: 13px;
+  font-size: 14px;
   color: #e6e6e6;
   text-shadow: none;
   margin: 0 4px;
-  padding: 2px 6px;
+  padding: 3px 8px;
   background: #2d3748;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 pre {
-  padding: 12px 16px;
-  background: #2d3748;
-  border-radius: 4px;
+  padding: 16px 20px;
+  background: #1a202c;
+  border-radius: 6px;
   border: 1px solid #4a5568;
-  overflow: auto;
-  overflow-y: hidden;
+  overflow-x: auto;
+  margin: 20px 0;
 
   code {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     background: transparent;
+    font-size: 13px;
+    line-height: 1.5;
   }
 }
+
+// ============================================
+// Table Styles
+// ============================================
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  margin: 20px 0;
+  font-size: 14px;
 }
 
 th {
   text-align: left;
-  padding: 10px 12px;
+  padding: 12px 16px;
   border-bottom: 2px solid $multitech-blue;
   color: $multitech-dark-blue;
   font-weight: 600;
@@ -154,221 +157,741 @@ th {
 
 td {
   text-align: left;
-  padding: 10px 12px;
+  padding: 12px 16px;
   border-bottom: 1px solid #e0e0e0;
-  border-right: none;
-
-  &:first-child {
-    border-left: none;
-  }
 }
 
 tr:hover td {
   background: rgba($multitech-blue, 0.02);
 }
 
+// ============================================
+// Blockquote & HR
+// ============================================
+
+blockquote {
+  border-left: 4px solid $multitech-blue;
+  margin: 20px 0;
+  padding: 16px 24px;
+  font-style: italic;
+  background: rgba($multitech-blue, 0.05);
+  border-radius: 0 6px 6px 0;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
 hr {
   border: 0;
-  outline: none;
   height: 2px;
   background: linear-gradient(to right, $multitech-blue, $multitech-accent);
-  margin: 30px 0;
+  margin: 40px 0;
 }
 
-dt {
-  color: $multitech-dark-blue;
-  font-weight: 600;
-}
+// ============================================
+// Header
+// ============================================
 
 header {
-  padding: 25px 20px 40px 20px;
-  margin: 0;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  width: 100%;
-  text-align: center;
+  height: $header-height;
   background: linear-gradient(135deg, $multitech-blue 0%, $multitech-dark-blue 100%);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-  z-index: 99;
-  -webkit-font-smoothing: antialiased;
-  min-height: 76px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
 
   h1 {
-    font: 600 36px/44px "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 20px;
     color: $multitech-white;
-    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
-    margin: 0px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -o-text-overflow: ellipsis;
-    -ms-text-overflow: ellipsis;
-  }
-
-  p {
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: none;
-    font-size: 16px;
-    margin: 8px 0 0 0;
-    font-weight: 300;
-  }
-}
-
-#banner {
-  z-index: 100;
-  left: 0;
-  right: 50%;
-  height: 50px;
-  margin-right: -382px;
-  position: fixed;
-  top: 115px;
-  background: $multitech-accent;
-  border: none;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
-  border-radius: 0px 4px 4px 0px;
-  padding-right: 10px;
-
-  .button {
-    border: none;
-    background: linear-gradient(to bottom, lighten($multitech-accent, 5%), $multitech-accent);
-    border-radius: 4px;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-    background-color: $multitech-accent;
-    margin-left: 5px;
-    padding: 10px 14px;
-    margin-top: 6px;
-    line-height: 14px;
-    font-size: 14px;
-    color: $multitech-white;
+    margin: 0;
     font-weight: 600;
-    display: inline-block;
-    text-align: center;
-    transition: background 0.2s ease;
 
-    &:hover {
-      background: lighten($multitech-accent, 8%);
-      text-decoration: none;
-    }
-  }
-
-  .fork {
-    position: fixed;
-    left: 50%;
-    margin-left: -325px;
-    padding: 10px 14px;
-    margin-top: 6px;
-    line-height: 14px;
-    font-size: 14px;
-    background-color: $multitech-accent;
-    color: $multitech-white;
-  }
-
-  .downloads {
-    float: right;
-    margin: 0 45px 0 0;
-
-    span {
-      float: left;
-      line-height: 52px;
-      font-size: 90%;
+    a {
       color: $multitech-white;
-      text-transform: uppercase;
-      text-shadow: none;
-      opacity: 0.9;
-    }
-  }
+      text-decoration: none;
 
-  ul {
-    list-style: none;
-    height: 40px;
-    padding: 0;
-    float: left;
-    margin-left: 10px;
-
-    li {
-      display: inline;
-
-      a.button {
-        background-color: lighten($multitech-accent, 5%);
+      &:hover {
+        text-decoration: none;
+        opacity: 0.9;
       }
     }
   }
 
-  #logo {
-    position: absolute;
-    height: 36px;
-    width: 36px;
-    right: 7px;
-    top: 7px;
-    display: block;
-    background: url(../images/octocat-logo.svg);
-  }
-}
-
-section {
-  width: 800px;
-  padding: 30px 30px 50px 30px;
-  margin: 20px 0;
-  margin-top: 190px;
-  position: relative;
-  background: $multitech-white;
-  border-radius: 6px;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-}
-
-small {
-  font-size: 12px;
-}
-
-nav {
-  width: 230px;
-  position: fixed;
-  top: 220px;
-  left: 50%;
-  margin-left: -580px;
-  text-align: right;
-  max-height: calc(100vh - 240px);
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 10px;
-
-  ul {
-    list-style: none;
-    list-style-image: none;
+  .header-tagline {
+    color: rgba(255, 255, 255, 0.8);
     font-size: 14px;
-    line-height: 24px;
+    display: none;
 
-    li {
-      padding: 5px 0px;
-      line-height: 16px;
+    @media (min-width: 768px) {
+      display: block;
+    }
+  }
 
-      &.tag-h1 {
-        font-size: 1.2em;
+  .header-search {
+    position: relative;
+    max-width: 300px;
+    flex: 1;
+    margin: 0 24px;
+    display: none;
+
+    @media (min-width: 900px) {
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 20px;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.9);
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+      }
+    }
+
+    .search-results {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      max-height: 400px;
+      overflow-y: auto;
+      display: none;
+      z-index: 1001;
+
+      &.active {
+        display: block;
+      }
+
+      .search-result {
+        padding: 12px 16px;
+        border-bottom: 1px solid #eee;
+
+        &:last-child {
+          border-bottom: none;
+        }
 
         a {
-          font-weight: 600;
-          color: $multitech-dark-blue;
+          text-decoration: none;
+          display: block;
+
+          strong {
+            color: $multitech-blue;
+            display: block;
+            margin-bottom: 4px;
+          }
+
+          small {
+            color: #666;
+            font-size: 12px;
+          }
         }
 
-        + .tag-h2 {
+        &:hover {
+          background: $multitech-light-gray;
+        }
+      }
+    }
+  }
 
+  .header-links {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    a {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      font-weight: 500;
+
+      &:hover {
+        color: white;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+// ============================================
+// Main Layout
+// ============================================
+
+.site-wrapper {
+  display: flex;
+  min-height: 100vh;
+  padding-top: $header-height;
+}
+
+// ============================================
+// Sidebar Navigation
+// ============================================
+
+.site-nav {
+  position: fixed;
+  top: $header-height;
+  left: 0;
+  width: $sidebar-width;
+  height: calc(100vh - #{$header-height});
+  background: $multitech-white;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px 0;
+  z-index: 900;
+  transition: transform 0.3s ease;
+
+  @media (max-width: 1060px) {
+    transform: translateX(-100%);
+
+    &.open {
+      transform: translateX(0);
+      box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .nav-header {
+    display: none;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e0e0e0;
+
+    @media (max-width: 1060px) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-title {
+      font-weight: 600;
+      color: $multitech-dark-blue;
+    }
+  }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+
+    span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: $multitech-gray;
+      margin: 4px 0;
+      transition: 0.3s;
+    }
+  }
+
+  .version-selector {
+    padding: 12px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 12px;
+
+    label {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: $multitech-gray;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      background: white;
+      color: $multitech-dark-blue;
+      cursor: pointer;
+
+      &:focus {
+        outline: none;
+        border-color: $multitech-blue;
+      }
+    }
+  }
+
+  .nav-search {
+    padding: 0 20px 16px;
+    display: none;
+
+    @media (max-width: 900px) {
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+
+      &:focus {
+        outline: none;
+        border-color: $multitech-blue;
+      }
+    }
+
+    .search-results {
+      margin-top: 8px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      max-height: 300px;
+      overflow-y: auto;
+      display: none;
+
+      &.active {
+        display: block;
+      }
+    }
+  }
+
+  .nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .nav-item {
+    border-bottom: 1px solid #f0f0f0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &.has-children {
+      position: relative;
+
+      > .nav-link {
+        padding-right: 40px;
+      }
+
+      .nav-expand {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        width: 28px;
+        height: 28px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        transition: background 0.2s;
+
+        svg {
+          transition: transform 0.2s;
+          color: $multitech-gray;
+        }
+
+        &:hover {
+          background: $multitech-light-gray;
         }
       }
 
-      &.tag-h2 {
+      &.expanded {
+        .nav-expand svg {
+          transform: rotate(180deg);
+        }
 
-        + .tag-h1 {
-          margin-top: 10px;
+        .nav-children {
+          display: block;
         }
       }
+    }
+  }
+
+  .nav-link {
+    display: block;
+    padding: 12px 20px;
+    color: $multitech-gray;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+
+    &:hover {
+      color: $multitech-blue;
+      background: rgba($multitech-blue, 0.05);
+      text-decoration: none;
+    }
+
+    &.active {
+      color: $multitech-blue;
+      background: rgba($multitech-blue, 0.1);
+      border-left: 3px solid $multitech-blue;
+      padding-left: 17px;
+    }
+
+    &.nav-section {
+      font-weight: 600;
+      color: $multitech-dark-blue;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .nav-children {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: rgba(0, 0, 0, 0.02);
+
+    .nav-link {
+      padding-left: 36px;
+      font-size: 13px;
+      font-weight: 400;
+
+      &.active {
+        padding-left: 33px;
+      }
+    }
+  }
+
+  .nav-footer {
+    padding: 20px;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 20px;
+    font-size: 12px;
+    color: $multitech-gray;
+
+    p {
+      margin: 0 0 8px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// Mobile nav toggle button (in header)
+.mobile-nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  margin-right: 12px;
+
+  @media (max-width: 1060px) {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: white;
+    transition: 0.3s;
+  }
+}
+
+// ============================================
+// Main Content Area
+// ============================================
+
+.main-content {
+  flex: 1;
+  margin-left: $sidebar-width;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: 1060px) {
+    margin-left: 0;
+  }
+}
+
+.content-wrapper {
+  width: 100%;
+  max-width: $content-max-width + $toc-width + 60px;
+  display: flex;
+  padding: 0 24px;
+
+  @media (max-width: 1200px) {
+    max-width: $content-max-width + 48px;
+  }
+}
+
+// ============================================
+// Article Content
+// ============================================
+
+.article-content {
+  flex: 1;
+  max-width: $content-max-width;
+  padding: 32px 0 60px;
+  min-width: 0;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+  }
+}
+
+// ============================================
+// Breadcrumbs
+// ============================================
+
+.breadcrumbs {
+  margin-bottom: 24px;
+  padding: 12px 16px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+
+  ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+
+    &::after {
+      content: '/';
+      margin-left: 8px;
+      color: #ccc;
+    }
+
+    &:last-child::after {
+      display: none;
+    }
+
+    &.current {
+      color: $multitech-gray;
+      font-weight: 500;
+    }
+  }
+
+  a {
+    color: $multitech-blue;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// ============================================
+// Page TOC (Right Sidebar)
+// ============================================
+
+.page-toc {
+  width: $toc-width;
+  flex-shrink: 0;
+  margin-left: 40px;
+  position: sticky;
+  top: $header-height + 32px;
+  max-height: calc(100vh - #{$header-height} - 64px);
+  overflow-y: auto;
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
+
+  .toc-header {
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: $multitech-gray;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 12px;
+  }
+
+  .toc-nav {
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      margin: 0;
     }
 
     a {
+      display: block;
+      padding: 6px 0;
+      font-size: 13px;
       color: $multitech-gray;
-      transition: color 0.2s ease;
+      border-left: 2px solid transparent;
+      padding-left: 12px;
+      margin-left: -2px;
+      transition: all 0.2s;
+
+      &:hover {
+        color: $multitech-blue;
+        text-decoration: none;
+      }
+
+      &.active {
+        color: $multitech-blue;
+        border-left-color: $multitech-blue;
+        font-weight: 500;
+      }
+    }
+
+    .toc-h3 {
+      padding-left: 24px;
+      font-size: 12px;
+    }
+  }
+}
+
+// ============================================
+// Homepage Cards
+// ============================================
+
+.home-hero {
+  text-align: center;
+  padding: 48px 24px;
+  background: linear-gradient(135deg, rgba($multitech-blue, 0.05) 0%, rgba($multitech-accent, 0.05) 100%);
+  border-radius: 12px;
+  margin-bottom: 40px;
+
+  h1 {
+    font-size: 36px;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 18px;
+    color: $multitech-gray;
+    max-width: 600px;
+    margin: 0 auto 24px;
+  }
+
+  .hero-links {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.2s;
+
+    &.primary {
+      background: $multitech-blue;
+      color: white;
+
+      &:hover {
+        background: $multitech-dark-blue;
+        text-decoration: none;
+      }
+    }
+
+    &.secondary {
+      background: white;
+      color: $multitech-blue;
+      border: 2px solid $multitech-blue;
+
+      &:hover {
+        background: rgba($multitech-blue, 0.05);
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.home-section {
+  margin-bottom: 48px;
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid $multitech-blue;
+  }
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 24px;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: $multitech-blue;
+    box-shadow: 0 4px 20px rgba($multitech-blue, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .card-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+
+  h3 {
+    font-size: 18px;
+    margin: 0 0 8px;
+    color: $multitech-dark-blue;
+
+    a {
+      color: inherit;
 
       &:hover {
         color: $multitech-blue;
@@ -376,190 +899,147 @@ nav {
       }
     }
   }
+
+  p {
+    font-size: 14px;
+    color: $multitech-gray;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .card-links {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    a {
+      font-size: 13px;
+      font-weight: 500;
+    }
+  }
 }
 
-footer {
-  left: 50%;
-  bottom: 20px;
-  text-align: right;
-  line-height: 16px;
+// ============================================
+// Version Badge
+// ============================================
+
+.version-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba($multitech-accent, 0.1);
+  color: $multitech-dark-blue;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+
+  &.new {
+    background: rgba(#22c55e, 0.1);
+    color: #16a34a;
+  }
+
+  &.updated {
+    background: rgba($multitech-accent, 0.1);
+    color: $multitech-blue;
+  }
+
+  &.deprecated {
+    background: rgba(#ef4444, 0.1);
+    color: #dc2626;
+  }
+}
+
+// ============================================
+// Footer
+// ============================================
+
+.site-footer {
+  padding: 32px 24px;
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 48px;
+  text-align: center;
   color: $multitech-gray;
-  font-size: 13px;
+  font-size: 14px;
 
   a {
     color: $multitech-blue;
+  }
 
-    &:hover {
-      color: $multitech-light-blue;
-    }
+  p {
+    margin: 8px 0;
   }
 }
 
-@media print, screen and (max-width: 1060px) {
+// ============================================
+// Utility Classes
+// ============================================
 
-  div.wrapper {
-    width: auto;
-    margin: 0;
-  }
+.hidden {
+  display: none !important;
+}
 
-  nav {
-    display: none;
-  }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
 
-  header, section, footer {
-    float: none;
+// ============================================
+// Mobile Overlay
+// ============================================
 
-    h1 {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      -o-text-overflow: ellipsis;
-      -ms-text-overflow: ellipsis;
-    }
-  }
+.nav-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 850;
 
-  #banner {
-    width: 100%;
-
-    .downloads {
-      margin-right: 60px;
-    }
-
-    .fork {
-    }
-
-    #logo {
-      margin-right: 15px;
-    }
-  }
-
-  section {
-    border: 1px solid #e0e0e0;
-    border-width: 1px 0;
-    padding: 20px auto;
-    margin: 190px auto 20px;
-    max-width: 600px;
-  }
-
-  footer {
-    text-align: center;
-    margin: 20px auto;
-    position: relative;
-    left: auto;
-    bottom: auto;
-    width: auto;
+  &.active {
+    display: block;
   }
 }
 
-@media print, screen and (max-width: 720px) {
-  body {
-    word-wrap: break-word;
-  }
-
-  header {
-    padding: 20px 20px;
-    margin: 0;
-
-    h1 {
-      font-size: 28px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      -o-text-overflow: ellipsis;
-      -ms-text-overflow: ellipsis;
-    }
-
-    p {
-      display: none;
-    }
-  }
-
-  #banner {
-    top: 80px;
-
-    .fork {
-      float: left;
-      display: inline-block;
-      margin-left: 0px;
-      position: fixed;
-      left: 20px;
-    }
-  }
-
-  section {
-    margin-top: 130px;
-    margin-bottom: 0px;
-    width: auto;
-  }
-
-  header ul, header p.view {
-    position: static;
-  }
-}
-
-@media print, screen and (max-width: 480px) {
-  body {
-  }
-
-  header {
-    position: relative;
-    padding: 5px 0px;
-    min-height: 0px;
-
-    h1 {
-      font-size: 22px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      -o-text-overflow: ellipsis;
-      -ms-text-overflow: ellipsis;
-    }
-  }
-
-  section {
-    margin-top: 5px;
-  }
-
-  #banner {
-    display: none;
-  }
-
-  header ul {
-    display: none;
-  }
-}
+// ============================================
+// Print Styles
+// ============================================
 
 @media print {
+  .site-nav,
+  .page-toc,
+  header,
+  .breadcrumbs {
+    display: none !important;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .article-content {
+    max-width: 100%;
+  }
+
   body {
-    padding: 0.4in;
     font-size: 12pt;
-    color: #333;
-  }
-}
-
-@media print, screen and (max-height: 680px) {
-
-  footer {
-    text-align: center;
-    margin: 20px auto;
-    position: relative;
-    left: auto;
-    bottom: auto;
-    width: auto;
-  }
-}
-
-@media print, screen and (max-height: 480px) {
-  nav {
-    display: none;
+    color: #000;
   }
 
-  footer {
-    text-align: center;
-    margin: 20px auto;
-    position: relative;
-    left: auto;
-    bottom: auto;
-    width: auto;
+  a {
+    color: #000;
+    text-decoration: underline;
   }
 }

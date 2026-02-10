@@ -1,3 +1,11 @@
+---
+layout: default
+title: mPower Device API
+description: Complete REST API documentation for managing Multi-Tech Systems IoT gateway devices
+category: api
+tags: [api, rest, mpower, conduit]
+---
+
 # mPower Edge Intelligence Device API
 
 Complete REST API documentation for managing Multi-Tech Systems IoT gateway devices (mPower Edge Intelligence platform).

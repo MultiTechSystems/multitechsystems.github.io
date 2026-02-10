@@ -45,15 +45,18 @@ Ready-to-import Postman collection with pre-configured requests for all major en
 
 Comprehensive field-by-field documentation for complex configuration objects:
 
-- **[LoRa Network Schema](mpower-api-docs/LORA-NETWORK-SCHEMA.md)** - Complete `loraNetwork` configuration with 200+ properties covering Network Server, Packet Forwarder, Basic Station, and ChirpStack modes
+- **[API Schemas Reference](mpower-api-docs/API-SCHEMAS-REFERENCE.md)** - 🆕 Core schemas (system, users, cellular, WiFi, DNS, DHCP, routes, firewall, NAT, GPS, serial, alert)
+- **[VPN Schemas](mpower-api-docs/VPN-SCHEMAS.md)** - 🆕 OpenVPN, IPsec, and GRE tunnel configuration (from source)
+- **[Network Services Schemas](mpower-api-docs/NETWORK-SERVICES-SCHEMAS.md)** - 🆕 SNMP, SMTP, SNTP, and Network Interfaces (from source)
+- **[SMS Schema](mpower-api-docs/SMS-SCHEMA.md)** - SMS messaging and remote commands configuration (from source)
+- **[LoRa Network Schema](mpower-api-docs/LORA-NETWORK-SCHEMA.md)** - Complete `loraNetwork` configuration with 200+ properties
 - **[Security Schemas](mpower-api-docs/SECURITY-SCHEMAS.md)** - Authentication, certificates, and security configuration
 - **[NAT & Firewall Schemas](mpower-api-docs/NAT-FIREWALL-SCHEMAS.md)** - NAT rules, port forwarding, and firewall configuration
-- **[VPN Schemas](mpower-api-docs/VPN-SCHEMAS.md)** - OpenVPN, IPsec, and GRE tunnel configuration
 - **[Network Interfaces Schema](mpower-api-docs/NETWORK-INTERFACES-SCHEMA.md)** - Ethernet, cellular, WiFi, and network interface configuration
 - **[Alert Schema](mpower-api-docs/ALERT-SCHEMA.md)** - Alert and notification configuration
-- **[SMS Schema](mpower-api-docs/SMS-SCHEMA.md)** - SMS messaging and remote commands configuration
 - **[SNMP Schema](mpower-api-docs/SNMP-SCHEMA.md)** - SNMP agent and trap configuration
 - **[Schema Coverage Analysis](mpower-api-docs/SCHEMA-COVERAGE-ANALYSIS.md)** - Overview of all documented schemas and coverage status
+- **[Schema Analysis Working Doc](mpower-api-docs/SCHEMA-ANALYSIS-WORKING.md)** - 🆕 Working document tracking schema analysis progress
 
 ### 🔍 New Discovery Documentation (December 2025)
 
@@ -667,8 +670,8 @@ For technical support and additional documentation:
 ## Version Information
 
 - **API Version**: Based on mPower Edge Intelligence platform
-- **Documentation Version**: 1.0.0
-- **Last Updated**: December 17, 2025
+- **Documentation Version**: 1.1.0
+- **Last Updated**: February 10, 2026
 - **OpenAPI Version**: 3.0.3
 
 ---

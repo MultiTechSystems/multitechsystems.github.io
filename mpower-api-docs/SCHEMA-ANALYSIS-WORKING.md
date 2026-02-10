@@ -12,52 +12,67 @@ This document tracks the progress of extracting accurate API schema information 
 
 ## Analysis Progress
 
-| Resource | Schema | API Code | UI Code | Tests | Doc Status |
-|----------|--------|----------|---------|-------|------------|
-| sms | ✅ | ✅ | ✅ | ✅ | ✅ Complete |
-| alert | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| autoReboot | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| backOffTimers | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| bluetooth | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| brand | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| cellular | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| customApps | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| customRoles | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| ddns | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| dhcp | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| dns | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| docker | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| firewall | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| gps | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| greTunnels | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| ipPassthrough | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| ipsecTunnels | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| lldp | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| loraNetwork | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| mdns | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| mqttBroker | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| nat | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| ni | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| notificationEventGroup | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| ovpnTunnels | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| passwordComplexityRules | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| radius | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| remoteAccess | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| remoteMgmt | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| resetButton | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| routes | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| scada | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| secureProtocols | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| serial | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| smtp | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| snmp | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| sntp | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| system | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| trustedIp | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| users | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| waninfo | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| wanmngr | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
-| wifi | ⏳ | ⏳ | ⏳ | ⏳ | Pending |
+| Resource | Schema | Doc Status |
+|----------|--------|------------|
+| sms | ✅ | ✅ Complete (SMS-SCHEMA.md) |
+| system | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
+| users | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
+| cellular | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
+| wifi | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
+| dns | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
+| dhcp | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
+| routes | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
+| firewall | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
+| nat | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
+| gps | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
+| serial | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
+| alert | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
+| ni | ✅ | ✅ Schema analyzed |
+| loraNetwork | ✅ | ✅ Schema analyzed (complex) |
+| ovpnTunnels | ✅ | ✅ Schema analyzed |
+| ipsecTunnels | ✅ | ✅ Schema analyzed |
+| snmp | ✅ | ✅ Schema analyzed |
+| sntp | ✅ | ✅ Schema analyzed |
+| smtp | ✅ | ✅ Schema analyzed |
+| autoReboot | ⏳ | Pending |
+| backOffTimers | ⏳ | Pending |
+| bluetooth | ⏳ | Pending |
+| bluetoothLowEnergy | ⏳ | Pending |
+| brand | ⏳ | Pending |
+| btDevices | ⏳ | Pending |
+| cellTimeSync | ⏳ | Pending |
+| customApps | ⏳ | Pending |
+| customAppsConfig | ⏳ | Pending |
+| customRoles | ⏳ | Pending |
+| databaseInfo | ⏳ | Pending |
+| ddns | ⏳ | Pending |
+| docker | ⏳ | Pending |
+| eventlog | ⏳ | Pending |
+| extIo | ⏳ | Pending |
+| extUsb | ⏳ | Pending |
+| filters | ⏳ | Pending |
+| greTunnels | ⏳ | Pending |
+| ipPassthrough | ⏳ | Pending |
+| ipPipes | ⏳ | Pending |
+| legacyDefaults | ⏳ | Pending |
+| lldp | ⏳ | Pending |
+| mdns | ⏳ | Pending |
+| mqttBroker | ⏳ | Pending |
+| notificationEventGroup | ⏳ | Pending |
+| passwordComplexityRules | ⏳ | Pending |
+| policy | ⏳ | Pending |
+| radius | ⏳ | Pending |
+| remoteAccess | ⏳ | Pending |
+| remoteMgmt | ⏳ | Pending |
+| resetButton | ⏳ | Pending |
+| saveAndRestore | ⏳ | Pending |
+| scada | ⏳ | Pending |
+| secureProtocols | ⏳ | Pending |
+| status | ⏳ | Pending |
+| syslog | ⏳ | Pending |
+| trustedIp | ⏳ | Pending |
+| waninfo | ⏳ | Pending |
+| wanmngr | ⏳ | Pending |
 
 ---
 

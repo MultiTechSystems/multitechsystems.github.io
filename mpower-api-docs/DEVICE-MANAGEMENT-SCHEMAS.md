@@ -17,6 +17,7 @@ Complete schema documentation for device management resources extracted from mts
 - [Docker](#docker)
 - [Users and Roles](#users-and-roles)
 - [Password Complexity Rules](#password-complexity-rules)
+- [Branding](#branding)
 
 ---
 
@@ -495,6 +496,118 @@ When `creditMode: true`:
 | `minPasswordAge` | integer | Days before can change | 0 |
 | `maxPasswordAge` | integer | Days before must change | 0 |
 | `passwordHistoryLength` | integer | History length (max: 400) | 0 |
+
+---
+
+## Branding
+
+OEM/white-label customization for rebranded devices.
+
+**Source:** `brand.schema.json`
+
+**Endpoints:**
+- `GET /api?fields=brand` - Get branding configuration
+- `PUT /api/brand` - Update branding configuration
+- `POST /api/command/upload_icon` - Upload custom favicon
+- `POST /api/command/upload_logo` - Upload custom logo
+- `POST /api/command/upload_image` - Upload support page image
+
+### Schema
+
+```json
+{
+  "companyName": "My Company",
+  "address1": "123 Main Street",
+  "address2": "Suite 100",
+  "city": "Minneapolis",
+  "state": "MN",
+  "zipCode": "55401",
+  "country": "USA",
+  "fax": "",
+  "website": "https://example.com",
+  "phoneNumbers": [
+    {
+      "label": "Support",
+      "number": "+1-555-123-4567"
+    }
+  ],
+  "links": [
+    {
+      "label": "Documentation",
+      "url": "https://docs.example.com",
+      "text": "View Documentation"
+    }
+  ],
+  "buttonColor": "#0066cc",
+  "buttonFontColor": "#ffffff",
+  "buttonHighlightColor": "#0052a3",
+  "buttonHighlightFontColor": "#ffffff",
+  "icon": "custom-favicon.ico",
+  "logo": "custom-logo.png",
+  "image": "support-image.png",
+  "showOnDashboard": true
+}
+```
+
+### Key Properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `companyName` | string | Company name (max 250) |
+| `website` | string | Company website URL |
+| `showOnDashboard` | boolean | Show branding on support page |
+
+### Contact Information
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `address1` | string | Address line 1 |
+| `address2` | string | Address line 2 |
+| `city` | string | City |
+| `state` | string | State/Province |
+| `zipCode` | string | ZIP/Postal code |
+| `country` | string | Country |
+| `fax` | string | Fax number |
+
+### Phone Numbers Array
+
+```json
+{
+  "label": "Technical Support",
+  "number": "+1-800-555-1234"
+}
+```
+
+### Links Array
+
+```json
+{
+  "label": "Knowledge Base",
+  "url": "https://kb.example.com",
+  "text": "Search our knowledge base"
+}
+```
+
+### UI Customization Colors
+
+All colors use `#rrggbb` hex format:
+
+| Property | Description |
+|----------|-------------|
+| `buttonColor` | Primary button background |
+| `buttonFontColor` | Primary button text |
+| `buttonHighlightColor` | Hover/active button background |
+| `buttonHighlightFontColor` | Hover/active button text |
+
+### Custom Images
+
+| Property | Description |
+|----------|-------------|
+| `icon` | Browser favicon filename |
+| `logo` | Header and login page logo filename |
+| `image` | Support page image filename |
+
+Images are uploaded via command endpoints and stored on the device.
 
 ---
 

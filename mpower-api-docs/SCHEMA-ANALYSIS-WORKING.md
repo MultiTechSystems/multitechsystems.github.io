@@ -104,12 +104,17 @@ This document tracks the progress of extracting accurate API schema information 
 | extUsb | ✅ | ✅ Complete |
 | databaseInfo | ✅ | ✅ Complete |
 
-### Remaining (Low Priority)
+### Additional Resources
 
 | Resource | Schema | Doc Status |
 |----------|--------|------------|
-| brand | ⏳ | Pending (internal) |
-| legacyDefaults | ⏳ | Pending (internal) |
+| brand | ✅ | ✅ Complete (DEVICE-MANAGEMENT-SCHEMAS.md) |
+
+### Internal/Low Priority
+
+| Resource | Schema | Doc Status |
+|----------|--------|------------|
+| legacyDefaults | ✅ | ⏭️ Skipped (internal use only) |
 
 ---
 

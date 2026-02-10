@@ -1129,12 +1129,27 @@ GET /api?fields=stats/dashboard&inactivity=true
 
 ## Related Documentation
 
+### Reference Guides
 - [Command Endpoints](COMMAND-ENDPOINTS.md) - Device commands reference
 - [API Quick Reference](API-QUICK-REFERENCE.md) - Concise command reference
 - [API README](API-README.md) - Getting started guide
-- [Schema Documentation](SCHEMA-COVERAGE-ANALYSIS.md) - Detailed schema documentation
+
+### Detailed Schema Documentation (from source code)
+- [API Schemas Reference](API-SCHEMAS-REFERENCE.md) - Core schemas (system, users, cellular, wifi, dns, dhcp, routes, firewall, nat, gps, serial, alert)
+- [SMS Schema](SMS-SCHEMA.md) - SMS messaging and remote commands
+- [VPN Schemas](VPN-SCHEMAS.md) - OpenVPN, IPsec, and GRE tunnels
+- [Network Services Schemas](NETWORK-SERVICES-SCHEMAS.md) - SNMP, SMTP, SNTP, Network Interfaces
+- [Device Management Schemas](DEVICE-MANAGEMENT-SCHEMAS.md) - Auto reboot, remote access, custom apps, Docker, branding
+- [Connectivity Schemas](CONNECTIVITY-SCHEMAS.md) - Bluetooth, BLE, IP passthrough, DDNS, WAN manager
+- [Advanced Features Schemas](ADVANCED-FEATURES-SCHEMAS.md) - SCADA, MQTT, RADIUS, filters, trusted IP
+- [Logging & Status Schemas](LOGGING-STATUS-SCHEMAS.md) - Event log, syslog, LLDP, mDNS, external I/O
+- [LoRa Network Schema](LORA-NETWORK-SCHEMA.md) - Complete LoRa configuration (200+ properties)
+
+### Analysis & Coverage
+- [Schema Analysis Working Doc](SCHEMA-ANALYSIS-WORKING.md) - Progress tracking (55+ schemas)
+- [Schema Coverage Analysis](SCHEMA-COVERAGE-ANALYSIS.md) - Coverage status overview
 
 ---
 
-**Document Version**: 1.0.0  
-**Last Updated**: February 2026
+**Document Version**: 1.1.0  
+**Last Updated**: February 10, 2026

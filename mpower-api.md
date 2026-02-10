@@ -43,20 +43,35 @@ Ready-to-import Postman collection with pre-configured requests for all major en
 
 ### 📐 Detailed Schema Documentation
 
-Comprehensive field-by-field documentation for complex configuration objects:
+Comprehensive field-by-field documentation extracted from mtsDeviceAPI source code (`json/strict/*.schema.json`):
 
-- **[API Schemas Reference](mpower-api-docs/API-SCHEMAS-REFERENCE.md)** - 🆕 Core schemas (system, users, cellular, WiFi, DNS, DHCP, routes, firewall, NAT, GPS, serial, alert)
-- **[VPN Schemas](mpower-api-docs/VPN-SCHEMAS.md)** - 🆕 OpenVPN, IPsec, and GRE tunnel configuration (from source)
-- **[Network Services Schemas](mpower-api-docs/NETWORK-SERVICES-SCHEMAS.md)** - 🆕 SNMP, SMTP, SNTP, and Network Interfaces (from source)
-- **[SMS Schema](mpower-api-docs/SMS-SCHEMA.md)** - SMS messaging and remote commands configuration (from source)
+#### Core Documentation (from source)
+
+- **[API Schemas Reference](mpower-api-docs/API-SCHEMAS-REFERENCE.md)** - Core schemas (system, users, cellular, WiFi, DNS, DHCP, routes, firewall, NAT, GPS, serial, alert)
+- **[SMS Schema](mpower-api-docs/SMS-SCHEMA.md)** - SMS messaging and remote commands configuration
+- **[VPN Schemas](mpower-api-docs/VPN-SCHEMAS.md)** - OpenVPN, IPsec, and GRE tunnel configuration
+- **[Network Services Schemas](mpower-api-docs/NETWORK-SERVICES-SCHEMAS.md)** - SNMP, SMTP, SNTP, and Network Interfaces
+
+#### Extended Documentation (from source) 🆕
+
+- **[Device Management Schemas](mpower-api-docs/DEVICE-MANAGEMENT-SCHEMAS.md)** - Auto reboot, remote management, remote access, custom apps, Docker, user roles, password rules
+- **[Connectivity Schemas](mpower-api-docs/CONNECTIVITY-SCHEMAS.md)** - Bluetooth, BLE, IP passthrough, IP pipes, DDNS, WAN manager, backoff timers, cell time sync
+- **[Advanced Features Schemas](mpower-api-docs/ADVANCED-FEATURES-SCHEMAS.md)** - Filters, SCADA, MQTT broker, RADIUS, secure protocols, trusted IP, notifications
+- **[Logging & Status Schemas](mpower-api-docs/LOGGING-STATUS-SCHEMAS.md)** - Event log, syslog, status, LLDP, mDNS, policy, external I/O
+
+#### Additional Schemas
+
 - **[LoRa Network Schema](mpower-api-docs/LORA-NETWORK-SCHEMA.md)** - Complete `loraNetwork` configuration with 200+ properties
 - **[Security Schemas](mpower-api-docs/SECURITY-SCHEMAS.md)** - Authentication, certificates, and security configuration
 - **[NAT & Firewall Schemas](mpower-api-docs/NAT-FIREWALL-SCHEMAS.md)** - NAT rules, port forwarding, and firewall configuration
 - **[Network Interfaces Schema](mpower-api-docs/NETWORK-INTERFACES-SCHEMA.md)** - Ethernet, cellular, WiFi, and network interface configuration
 - **[Alert Schema](mpower-api-docs/ALERT-SCHEMA.md)** - Alert and notification configuration
 - **[SNMP Schema](mpower-api-docs/SNMP-SCHEMA.md)** - SNMP agent and trap configuration
+
+#### Analysis & Coverage
+
+- **[Schema Analysis Working Doc](mpower-api-docs/SCHEMA-ANALYSIS-WORKING.md)** - Working document tracking schema analysis progress (55+ schemas analyzed)
 - **[Schema Coverage Analysis](mpower-api-docs/SCHEMA-COVERAGE-ANALYSIS.md)** - Overview of all documented schemas and coverage status
-- **[Schema Analysis Working Doc](mpower-api-docs/SCHEMA-ANALYSIS-WORKING.md)** - 🆕 Working document tracking schema analysis progress
 
 ### 🔍 New Discovery Documentation (December 2025)
 
@@ -670,7 +685,7 @@ For technical support and additional documentation:
 ## Version Information
 
 - **API Version**: Based on mPower Edge Intelligence platform
-- **Documentation Version**: 1.1.0
+- **Documentation Version**: 1.2.0
 - **Last Updated**: February 10, 2026
 - **OpenAPI Version**: 3.0.3
 

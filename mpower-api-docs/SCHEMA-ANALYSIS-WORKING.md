@@ -12,67 +12,104 @@ This document tracks the progress of extracting accurate API schema information 
 
 ## Analysis Progress
 
+### Core Resources (API-SCHEMAS-REFERENCE.md)
+
 | Resource | Schema | Doc Status |
 |----------|--------|------------|
+| system | ✅ | ✅ Complete |
+| users | ✅ | ✅ Complete |
+| cellular | ✅ | ✅ Complete |
+| wifi | ✅ | ✅ Complete |
+| dns | ✅ | ✅ Complete |
+| dhcp | ✅ | ✅ Complete |
+| routes | ✅ | ✅ Complete |
+| firewall | ✅ | ✅ Complete |
+| nat | ✅ | ✅ Complete |
+| gps | ✅ | ✅ Complete |
+| serial | ✅ | ✅ Complete |
+| alert | ✅ | ✅ Complete |
 | sms | ✅ | ✅ Complete (SMS-SCHEMA.md) |
-| system | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
-| users | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
-| cellular | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
-| wifi | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
-| dns | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
-| dhcp | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
-| routes | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
-| firewall | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
-| nat | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
-| gps | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
-| serial | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
-| alert | ✅ | ✅ Complete (API-SCHEMAS-REFERENCE.md) |
-| ni | ✅ | ✅ Schema analyzed |
-| loraNetwork | ✅ | ✅ Schema analyzed (complex) |
-| ovpnTunnels | ✅ | ✅ Schema analyzed |
-| ipsecTunnels | ✅ | ✅ Schema analyzed |
-| snmp | ✅ | ✅ Schema analyzed |
-| sntp | ✅ | ✅ Schema analyzed |
-| smtp | ✅ | ✅ Schema analyzed |
-| autoReboot | ⏳ | Pending |
-| backOffTimers | ⏳ | Pending |
-| bluetooth | ⏳ | Pending |
-| bluetoothLowEnergy | ⏳ | Pending |
-| brand | ⏳ | Pending |
-| btDevices | ⏳ | Pending |
-| cellTimeSync | ⏳ | Pending |
-| customApps | ⏳ | Pending |
-| customAppsConfig | ⏳ | Pending |
-| customRoles | ⏳ | Pending |
-| databaseInfo | ⏳ | Pending |
-| ddns | ⏳ | Pending |
-| docker | ⏳ | Pending |
-| eventlog | ⏳ | Pending |
-| extIo | ⏳ | Pending |
-| extUsb | ⏳ | Pending |
-| filters | ⏳ | Pending |
-| greTunnels | ⏳ | Pending |
-| ipPassthrough | ⏳ | Pending |
-| ipPipes | ⏳ | Pending |
-| legacyDefaults | ⏳ | Pending |
-| lldp | ⏳ | Pending |
-| mdns | ⏳ | Pending |
-| mqttBroker | ⏳ | Pending |
-| notificationEventGroup | ⏳ | Pending |
-| passwordComplexityRules | ⏳ | Pending |
-| policy | ⏳ | Pending |
-| radius | ⏳ | Pending |
-| remoteAccess | ⏳ | Pending |
-| remoteMgmt | ⏳ | Pending |
-| resetButton | ⏳ | Pending |
-| saveAndRestore | ⏳ | Pending |
-| scada | ⏳ | Pending |
-| secureProtocols | ⏳ | Pending |
-| status | ⏳ | Pending |
-| syslog | ⏳ | Pending |
-| trustedIp | ⏳ | Pending |
-| waninfo | ⏳ | Pending |
-| wanmngr | ⏳ | Pending |
+
+### VPN Resources (VPN-SCHEMAS.md)
+
+| Resource | Schema | Doc Status |
+|----------|--------|------------|
+| ovpnTunnels | ✅ | ✅ Complete |
+| ipsecTunnels | ✅ | ✅ Complete |
+| greTunnels | ✅ | ✅ Complete |
+
+### Network Services (NETWORK-SERVICES-SCHEMAS.md)
+
+| Resource | Schema | Doc Status |
+|----------|--------|------------|
+| ni | ✅ | ✅ Complete |
+| snmp | ✅ | ✅ Complete |
+| sntp | ✅ | ✅ Complete |
+| smtp | ✅ | ✅ Complete |
+| loraNetwork | ✅ | ✅ Complete (complex) |
+
+### Device Management (DEVICE-MANAGEMENT-SCHEMAS.md)
+
+| Resource | Schema | Doc Status |
+|----------|--------|------------|
+| autoReboot | ✅ | ✅ Complete |
+| remoteMgmt | ✅ | ✅ Complete |
+| remoteAccess | ✅ | ✅ Complete |
+| resetButton | ✅ | ✅ Complete |
+| saveAndRestore | ✅ | ✅ Complete |
+| customApps | ✅ | ✅ Complete |
+| customAppsConfig | ✅ | ✅ Complete |
+| customRoles | ✅ | ✅ Complete |
+| docker | ✅ | ✅ Complete |
+| passwordComplexityRules | ✅ | ✅ Complete |
+
+### Connectivity (CONNECTIVITY-SCHEMAS.md)
+
+| Resource | Schema | Doc Status |
+|----------|--------|------------|
+| bluetooth | ✅ | ✅ Complete |
+| bluetoothLowEnergy | ✅ | ✅ Complete |
+| btDevices | ✅ | ✅ Complete |
+| ipPassthrough | ✅ | ✅ Complete |
+| ipPipes | ✅ | ✅ Complete |
+| ddns | ✅ | ✅ Complete |
+| wanmngr | ✅ | ✅ Complete |
+| waninfo | ✅ | ✅ Complete |
+| backOffTimers | ✅ | ✅ Complete |
+| cellTimeSync | ✅ | ✅ Complete |
+
+### Advanced Features (ADVANCED-FEATURES-SCHEMAS.md)
+
+| Resource | Schema | Doc Status |
+|----------|--------|------------|
+| filters | ✅ | ✅ Complete |
+| scada | ✅ | ✅ Complete |
+| mqttBroker | ✅ | ✅ Complete |
+| radius | ✅ | ✅ Complete |
+| secureProtocols | ✅ | ✅ Complete |
+| trustedIp | ✅ | ✅ Complete |
+| notificationEventGroup | ✅ | ✅ Complete |
+
+### Logging and Status (LOGGING-STATUS-SCHEMAS.md)
+
+| Resource | Schema | Doc Status |
+|----------|--------|------------|
+| eventlog | ✅ | ✅ Complete |
+| syslog | ✅ | ✅ Complete |
+| status | ✅ | ✅ Complete |
+| lldp | ✅ | ✅ Complete |
+| mdns | ✅ | ✅ Complete |
+| policy | ✅ | ✅ Complete |
+| extIo | ✅ | ✅ Complete |
+| extUsb | ✅ | ✅ Complete |
+| databaseInfo | ✅ | ✅ Complete |
+
+### Remaining (Low Priority)
+
+| Resource | Schema | Doc Status |
+|----------|--------|------------|
+| brand | ⏳ | Pending (internal) |
+| legacyDefaults | ⏳ | Pending (internal) |
 
 ---
 

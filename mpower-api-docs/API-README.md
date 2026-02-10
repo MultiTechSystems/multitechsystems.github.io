@@ -17,6 +17,23 @@ The MTS Device API is a RESTful API that provides complete control and monitorin
 
 ## Documentation Files
 
+### Reference Guides
+
+- **[Available Resources](AVAILABLE-RESOURCES.md)**: Complete reference for all API resources with examples
+  - Core system, network, cellular, VPN resources
+  - IoT protocols (LoRa, SCADA, MQTT)
+  - Communication (GPS, Serial, SMS, Bluetooth)
+  - Security and monitoring resources
+
+- **[Command Endpoints](COMMAND-ENDPOINTS.md)**: Complete reference for all command endpoints
+  - Configuration commands (save, revert, upload/download)
+  - System commands (restart, reset modules)
+  - Network commands (ping, traceroute, DNS lookup)
+  - SMS commands (send messages, configuration)
+  - Firmware and certificate management
+
+### API Specification
+
 - **`api-documentation.yaml`**: Complete OpenAPI 3.0 specification
   - Can be viewed using [Swagger UI](https://swagger.io/tools/swagger-ui/)
   - Can be imported into [Postman](https://www.postman.com/)
@@ -116,6 +133,8 @@ The API follows a consistent pattern for resource management:
 
 ### Available Resources
 
+See **[Available Resources Reference](AVAILABLE-RESOURCES.md)** for complete documentation with examples.
+
 #### Core System Resources
 - `system` - Device information and capabilities
 - `status` - System status notifications
@@ -154,7 +173,7 @@ The API follows a consistent pattern for resource management:
 #### Communication Resources
 - `gps` - GPS configuration and data
 - `serial` - Serial port configuration
-- `sms` - SMS messaging
+- `sms` - SMS messaging (see [SMS Resource](AVAILABLE-RESOURCES.md#sms))
 - `bluetooth` - Bluetooth configuration
 - `bluetoothLowEnergy` - BLE configuration
 
@@ -173,7 +192,7 @@ The API follows a consistent pattern for resource management:
 
 ### Command Endpoints
 
-Commands are executed via POST to `/api/command/<command>`:
+Commands are executed via POST to `/api/command/<command>`. See **[Command Endpoints Reference](COMMAND-ENDPOINTS.md)** for complete documentation with examples.
 
 #### Configuration Commands
 - `save` - Save configuration to persistent storage
@@ -206,7 +225,7 @@ Commands are executed via POST to `/api/command/<command>`:
 - `upload_lora_fota_file` - Upload LoRa FOTA firmware
 
 #### SMS Commands
-- `sms_send` - Send SMS message
+- `sms_send` - Send SMS message (see [SMS Commands](COMMAND-ENDPOINTS.md#sms-commands))
 
 ## Role-Based Access Control
 
@@ -522,6 +541,12 @@ If you receive "device unavailable" errors:
 
 ## Additional Resources
 
+### Documentation
+- **[Available Resources Reference](AVAILABLE-RESOURCES.md)** - Complete resource documentation
+- **[Command Endpoints Reference](COMMAND-ENDPOINTS.md)** - Complete command documentation
+- **[API Quick Reference](API-QUICK-REFERENCE.md)** - Concise reference guide
+
+### Source Code
 - **mtsDeviceAPI**: Backend API implementation (C++)
 - **mtsDeviceUI**: Frontend web interface (Vue.js)
 - **JSON Schemas**: Located in `mtsDeviceAPI/json/permissive/` and `mtsDeviceAPI/json/strict/`

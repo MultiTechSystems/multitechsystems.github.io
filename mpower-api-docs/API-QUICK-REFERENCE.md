@@ -1,5 +1,10 @@
 # MTS Device API - Quick Reference Guide
 
+**Related Documentation:**
+- [Available Resources Reference](AVAILABLE-RESOURCES.md) - Complete resource documentation with examples
+- [Command Endpoints Reference](COMMAND-ENDPOINTS.md) - Complete command documentation with examples
+- [API README](API-README.md) - Getting started guide
+
 ## Base URL
 ```
 http://192.168.2.1  (or your device IP)
@@ -159,6 +164,8 @@ PUT /api/docker
 
 ## Command Endpoints
 
+See [Command Endpoints Reference](COMMAND-ENDPOINTS.md) for complete documentation.
+
 ### Configuration Management
 ```bash
 # Save configuration
@@ -260,13 +267,63 @@ POST /api/command/radio/get_cellular_scan
 ```
 
 ### SMS Commands
+
+See [SMS Schema](SMS-SCHEMA.md) for complete SMS documentation.
+
 ```bash
-# Send SMS
-POST /api/command/sms_send
+# Get SMS configuration
+GET /api?fields=sms
+
+# Send SMS via outbox
+POST /api/sms/outbox
 {
-  "number": "+1234567890",
-  "message": "Hello from device"
+  "recipients": ["+1234567890", "+0987654321"],
+  "message": "Alert from device"
 }
+
+# Get sent messages
+GET /api?fields=sms/outbox
+
+# Get received messages
+GET /api?fields=sms/inbox
+
+# Delete message
+DELETE /api/sms/inbox/{guid}
+DELETE /api/sms/outbox/{guid}
+
+# Delete all messages
+DELETE /api/sms/inbox/all
+DELETE /api/sms/outbox/all
+
+# Configure SMS with commands
+PUT /api/sms
+{
+  "enabled": true,
+  "sentLimit": 500,
+  "receivedLimit": 500,
+  "resendLimit": 3,
+  "smsCommands": {
+    "enabled": true,
+    "rebootEnabled": true,
+    "pingEnabled": true,
+    "password": {
+      "enabled": true,
+      "useCustomPassword": false
+    },
+    "whitelist": {
+      "enabled": true,
+      "numbers": ["+1234567890"]
+    }
+  }
+}
+```
+
+**SMS Remote Commands** (via SMS to device):
+```
+p <password> #reboot
+p <password> #ping 8.8.8.8
+p <password> #wanips
+p <password> #cellular
 ```
 
 ## Query Parameters
@@ -296,12 +353,16 @@ GET /api?fields=cellular&default=true
 
 ## Available Resources
 
+See [Available Resources Reference](AVAILABLE-RESOURCES.md) for complete documentation.
+
 ### Core Resources
 - `system` - System information
 - `status` - Status notifications
 - `users` - User accounts
 - `customRoles` - Custom roles
 - `permissions` - Permissions
+- `autoReboot` - Scheduled reboot
+- `brand` - White-label branding
 
 ### Network Resources
 - `cellular` - Cellular config
@@ -314,6 +375,8 @@ GET /api?fields=cellular&default=true
 - `firewall` - Firewall rules
 - `filters` - Traffic filters
 - `trustedIp` - Trusted IPs
+- `wanmngr` - WAN failover/load balancing
+- `ddns` - Dynamic DNS
 
 ### VPN Resources
 - `ovpnTunnels` - OpenVPN
@@ -335,7 +398,7 @@ GET /api?fields=cellular&default=true
 ### Communication
 - `gps` - GPS
 - `serial` - Serial ports
-- `sms` - SMS
+- `sms` - SMS ([details](AVAILABLE-RESOURCES.md#sms))
 - `bluetooth` - Bluetooth
 - `bluetoothLowEnergy` - BLE
 
@@ -344,13 +407,20 @@ GET /api?fields=cellular&default=true
 - `cacertificates` - CA certs
 - `secureProtocols` - TLS/SSL
 - `passwordComplexityRules` - Password rules
+- `remoteAccess` - HTTP/HTTPS/SSH access
+- `radius` - RADIUS authentication
 
 ### Monitoring
-- `stats` - Statistics
+- `stats` - Statistics ([33+ categories](STATS-ENDPOINTS-DISCOVERY.md))
 - `eventlog` - Event log
 - `syslog` - Syslog config
 - `alert` - Alerts
 - `snmp` - SNMP config
+
+### Notifications
+- `smtp` - SMTP email
+- `sntp` - NTP time sync
+- `notificationEventGroup` - Event groups
 
 ## Response Format
 
@@ -510,5 +580,15 @@ curl -X POST http://192.168.2.1/api/command/firmware_upgrade \
 
 ---
 
-**Quick Reference Version**: 1.0.0  
-**Last Updated**: December 17, 2025
+## Related Documentation
+
+- [Available Resources Reference](AVAILABLE-RESOURCES.md) - Complete resource documentation
+- [Command Endpoints Reference](COMMAND-ENDPOINTS.md) - Complete command documentation  
+- [API README](API-README.md) - Getting started guide
+- [LoRa Operations Workflow](LORA-OPERATIONS-WORKFLOW.md) - FOTA and multicast
+- [WAN Failover Guide](WAN-FAILOVER-GUIDE.md) - Failover configuration
+
+---
+
+**Quick Reference Version**: 1.1.0  
+**Last Updated**: February 2026

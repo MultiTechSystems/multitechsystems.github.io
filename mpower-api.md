@@ -25,6 +25,12 @@ Comprehensive documentation with detailed explanations, authentication guide, co
 ### 📋 [Quick Reference](mpower-api-docs/API-QUICK-REFERENCE.md)
 Concise command reference with all endpoints at a glance, common usage patterns, and quick copy-paste examples.
 
+### 📚 [Available Resources Reference](mpower-api-docs/AVAILABLE-RESOURCES.md)
+Complete documentation for all API resources including system, network, cellular, VPN, IoT protocols, communication (SMS, GPS, Serial), security, and monitoring resources with examples.
+
+### ⚡ [Command Endpoints Reference](mpower-api-docs/COMMAND-ENDPOINTS.md)
+Complete documentation for all command endpoints including configuration management, system commands, firmware updates, network diagnostics, SMS messaging, and LoRa operations with examples.
+
 ### 📑 [Documentation Index](mpower-api-docs/API-DOCUMENTATION-INDEX.md)
 Master index with overview of all documentation, how-to guides, tool integration, and quick start instructions.
 
@@ -45,6 +51,7 @@ Comprehensive field-by-field documentation for complex configuration objects:
 - **[VPN Schemas](mpower-api-docs/VPN-SCHEMAS.md)** - OpenVPN, IPsec, and GRE tunnel configuration
 - **[Network Interfaces Schema](mpower-api-docs/NETWORK-INTERFACES-SCHEMA.md)** - Ethernet, cellular, WiFi, and network interface configuration
 - **[Alert Schema](mpower-api-docs/ALERT-SCHEMA.md)** - Alert and notification configuration
+- **[SMS Schema](mpower-api-docs/SMS-SCHEMA.md)** - SMS messaging and remote commands configuration
 - **[SNMP Schema](mpower-api-docs/SNMP-SCHEMA.md)** - SNMP agent and trap configuration
 - **[Schema Coverage Analysis](mpower-api-docs/SCHEMA-COVERAGE-ANALYSIS.md)** - Overview of all documented schemas and coverage status
 

@@ -1,0 +1,309 @@
+# Connectivity Paths
+
+/api?fields=bluetooth:
+  get:
+    tags:
+      - Network
+    summary: Get Bluetooth configuration
+    description: Retrieve classic Bluetooth settings
+    operationId: getBluetooth
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Bluetooth configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    bluetooth:
+                      $ref: '../schemas/connectivity.yaml#/Bluetooth'
+      '401':
+        description: Not authenticated
+
+/api/bluetooth:
+  put:
+    tags:
+      - Network
+    summary: Update Bluetooth configuration
+    description: Update classic Bluetooth settings
+    operationId: updateBluetooth
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/connectivity.yaml#/Bluetooth'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=bluetoothLowEnergy:
+  get:
+    tags:
+      - Network
+    summary: Get BLE configuration
+    description: Retrieve Bluetooth Low Energy settings
+    operationId: getBluetoothLowEnergy
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: BLE configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    bluetoothLowEnergy:
+                      $ref: '../schemas/connectivity.yaml#/BluetoothLowEnergy'
+      '401':
+        description: Not authenticated
+
+/api/bluetoothLowEnergy:
+  put:
+    tags:
+      - Network
+    summary: Update BLE configuration
+    description: Update Bluetooth Low Energy settings
+    operationId: updateBluetoothLowEnergy
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/connectivity.yaml#/BluetoothLowEnergy'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=gps:
+  get:
+    tags:
+      - GPS
+    summary: Get GPS configuration
+    description: Retrieve GPS settings and location
+    operationId: getGps
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: GPS configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    gps:
+                      $ref: '../schemas/connectivity.yaml#/Gps'
+      '401':
+        description: Not authenticated
+
+/api/gps:
+  put:
+    tags:
+      - GPS
+    summary: Update GPS configuration
+    description: Update GPS settings
+    operationId: updateGps
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/connectivity.yaml#/Gps'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=serial:
+  get:
+    tags:
+      - Serial
+    summary: Get serial port configuration
+    description: Retrieve serial port settings
+    operationId: getSerial
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Serial configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    serial:
+                      type: array
+                      items:
+                        $ref: '../schemas/connectivity.yaml#/Serial'
+      '401':
+        description: Not authenticated
+
+/api/serial:
+  put:
+    tags:
+      - Serial
+    summary: Update serial port configuration
+    description: Update serial port settings
+    operationId: updateSerial
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../schemas/connectivity.yaml#/Serial'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=ipPassthrough:
+  get:
+    tags:
+      - Network
+    summary: Get IP passthrough configuration
+    description: Retrieve IP passthrough settings
+    operationId: getIpPassthrough
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: IP passthrough configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    ipPassthrough:
+                      $ref: '../schemas/connectivity.yaml#/IpPassthrough'
+      '401':
+        description: Not authenticated
+
+/api/ipPassthrough:
+  put:
+    tags:
+      - Network
+    summary: Update IP passthrough configuration
+    description: Update IP passthrough settings
+    operationId: updateIpPassthrough
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/connectivity.yaml#/IpPassthrough'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=ipPipes:
+  get:
+    tags:
+      - Serial
+    summary: Get IP pipes configuration
+    description: Retrieve serial-to-IP tunnel settings
+    operationId: getIpPipes
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: IP pipes configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    ipPipes:
+                      type: array
+                      items:
+                        $ref: '../schemas/connectivity.yaml#/IpPipe'
+      '401':
+        description: Not authenticated
+
+/api/ipPipes:
+  put:
+    tags:
+      - Serial
+    summary: Update IP pipes configuration
+    description: Update serial-to-IP tunnel settings
+    operationId: updateIpPipes
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../schemas/connectivity.yaml#/IpPipe'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions

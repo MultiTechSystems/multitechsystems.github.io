@@ -1,0 +1,131 @@
+# LoRa Paths
+
+/api?fields=loraNetwork:
+  get:
+    tags:
+      - LoRa
+    summary: Get LoRa network configuration
+    description: Retrieve LoRa network server and gateway settings
+    operationId: getLoraNetwork
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: LoRa network configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    loraNetwork:
+                      $ref: '../schemas/lora.yaml#/LoraNetwork'
+      '401':
+        description: Not authenticated
+
+/api/loraNetwork:
+  put:
+    tags:
+      - LoRa
+    summary: Update LoRa network configuration
+    description: Update LoRa network server and gateway settings
+    operationId: updateLoraNetwork
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/lora.yaml#/LoraNetwork'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/loraNetwork/devices:
+  post:
+    tags:
+      - LoRa
+    summary: Add LoRa device
+    description: Add a new LoRa device
+    operationId: createLoraDevice
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/lora.yaml#/LoraDevice'
+    responses:
+      '200':
+        description: Device added
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/loraNetwork/devices/{devEui}:
+  put:
+    tags:
+      - LoRa
+    summary: Update LoRa device
+    description: Update a LoRa device configuration
+    operationId: updateLoraDevice
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: devEui
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Device EUI
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/lora.yaml#/LoraDevice'
+    responses:
+      '200':
+        description: Device updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '404':
+        description: Device not found
+
+  delete:
+    tags:
+      - LoRa
+    summary: Delete LoRa device
+    description: Remove a LoRa device
+    operationId: deleteLoraDevice
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: devEui
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Device EUI
+    responses:
+      '200':
+        description: Device deleted
+      '401':
+        description: Not authenticated
+      '404':
+        description: Device not found

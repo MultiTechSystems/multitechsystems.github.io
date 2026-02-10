@@ -1,0 +1,284 @@
+# VPN Schemas
+# Source: mtsDeviceAPI/json/strict/*.schema.json
+
+# OpenVPN Tunnels
+OpenVpnTunnel:
+  type: object
+  description: OpenVPN tunnel configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    name:
+      type: string
+      description: Tunnel name
+      maxLength: 15
+      pattern: "^[A-Za-z0-9_.-]+$"
+    description:
+      type: string
+      maxLength: 250
+    type:
+      type: string
+      description: Tunnel type
+      enum:
+        - CLIENT
+        - SERVER
+      default: CLIENT
+    config:
+      type: string
+      description: OpenVPN configuration file content
+  required:
+    - enabled
+    - name
+    - type
+    - config
+
+# IPsec Tunnels
+IpsecTunnel:
+  type: object
+  description: IPsec tunnel configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    name:
+      type: string
+      description: Tunnel name
+      maxLength: 15
+      pattern: "^[A-Za-z0-9_.-]+$"
+    description:
+      type: string
+      maxLength: 250
+    remoteAddress:
+      type: string
+      description: Remote peer address (IP or hostname)
+      maxLength: 250
+    localId:
+      type: string
+      description: Local identifier
+      maxLength: 250
+    remoteId:
+      type: string
+      description: Remote identifier
+      maxLength: 250
+    authMethod:
+      type: string
+      description: Authentication method
+      enum:
+        - PSK
+        - CERT
+      default: PSK
+    psk:
+      type: string
+      description: Pre-shared key (required if authMethod is PSK)
+      minLength: 6
+      maxLength: 250
+    localCert:
+      type: string
+      description: Local certificate (required if authMethod is CERT)
+    localKey:
+      type: string
+      description: Local private key (required if authMethod is CERT)
+    remoteCert:
+      type: string
+      description: Remote certificate (required if authMethod is CERT)
+    ikeVersion:
+      type: string
+      description: IKE version
+      enum:
+        - IKEv1
+        - IKEv2
+      default: IKEv2
+    phase1:
+      $ref: '#/IpsecPhase1'
+    phase2:
+      $ref: '#/IpsecPhase2'
+    localSubnets:
+      type: array
+      description: Local subnets
+      items:
+        type: object
+        properties:
+          subnet:
+            type: string
+          mask:
+            type: string
+    remoteSubnets:
+      type: array
+      description: Remote subnets
+      items:
+        type: object
+        properties:
+          subnet:
+            type: string
+          mask:
+            type: string
+    dpd:
+      type: object
+      description: Dead Peer Detection
+      properties:
+        enabled:
+          type: boolean
+          default: true
+        delay:
+          type: integer
+          description: DPD delay (seconds)
+          minimum: 1
+          maximum: 86400
+          default: 30
+        timeout:
+          type: integer
+          description: DPD timeout (seconds)
+          minimum: 1
+          maximum: 86400
+          default: 150
+  required:
+    - enabled
+    - name
+    - remoteAddress
+    - authMethod
+    - ikeVersion
+
+IpsecPhase1:
+  type: object
+  description: IKE Phase 1 (IKE SA) settings
+  properties:
+    encryption:
+      type: string
+      description: Encryption algorithm
+      enum:
+        - AES128
+        - AES192
+        - AES256
+        - 3DES
+      default: AES256
+    hash:
+      type: string
+      description: Hash algorithm
+      enum:
+        - SHA1
+        - SHA256
+        - SHA384
+        - SHA512
+        - MD5
+      default: SHA256
+    dhGroup:
+      type: string
+      description: Diffie-Hellman group
+      enum:
+        - MODP768
+        - MODP1024
+        - MODP1536
+        - MODP2048
+        - MODP3072
+        - MODP4096
+        - ECP256
+        - ECP384
+      default: MODP2048
+    lifetime:
+      type: integer
+      description: SA lifetime (seconds)
+      minimum: 60
+      maximum: 86400
+      default: 28800
+
+IpsecPhase2:
+  type: object
+  description: IKE Phase 2 (IPsec SA) settings
+  properties:
+    encryption:
+      type: string
+      enum:
+        - AES128
+        - AES192
+        - AES256
+        - 3DES
+      default: AES256
+    hash:
+      type: string
+      enum:
+        - SHA1
+        - SHA256
+        - SHA384
+        - SHA512
+        - MD5
+      default: SHA256
+    pfsGroup:
+      type: string
+      description: Perfect Forward Secrecy group
+      enum:
+        - NONE
+        - MODP768
+        - MODP1024
+        - MODP1536
+        - MODP2048
+        - MODP3072
+        - MODP4096
+        - ECP256
+        - ECP384
+      default: MODP2048
+    lifetime:
+      type: integer
+      minimum: 60
+      maximum: 86400
+      default: 3600
+
+# GRE Tunnels
+GreTunnel:
+  type: object
+  description: GRE tunnel configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    name:
+      type: string
+      description: Tunnel name
+      maxLength: 15
+      pattern: "^[A-Za-z0-9_.-]+$"
+    description:
+      type: string
+      maxLength: 250
+    remoteIp:
+      type: string
+      description: Remote peer IP or hostname
+      maxLength: 250
+    ttl:
+      type: integer
+      description: Time to live (0 = inherit)
+      minimum: 0
+      maximum: 255
+      default: 64
+    checkPeriod:
+      type: integer
+      description: DNS resolve interval (minutes)
+      minimum: 1
+      maximum: 120
+    tunnelIp:
+      type: string
+      description: Local tunnel IP address
+      format: ipv4
+    tunnelMask:
+      type: string
+      description: Tunnel subnet mask
+    routes:
+      type: array
+      description: Routes through tunnel
+      items:
+        type: object
+        properties:
+          ip:
+            type: string
+            format: ipv4
+          mask:
+            type: string
+        required:
+          - ip
+          - mask
+  required:
+    - enabled
+    - name
+    - remoteIp
+    - tunnelIp
+    - tunnelMask
+    - routes

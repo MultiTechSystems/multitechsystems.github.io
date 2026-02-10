@@ -1,0 +1,398 @@
+# Advanced Features Paths
+
+/api?fields=scada:
+  get:
+    tags:
+      - SCADA
+    summary: Get SCADA configuration
+    description: Retrieve SCADA protocol settings
+    operationId: getScada
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: SCADA configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    scada:
+                      $ref: '../schemas/advanced.yaml#/Scada'
+      '401':
+        description: Not authenticated
+
+/api/scada:
+  put:
+    tags:
+      - SCADA
+    summary: Update SCADA configuration
+    description: Update SCADA protocol settings
+    operationId: updateScada
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/advanced.yaml#/Scada'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=mqttBroker:
+  get:
+    tags:
+      - Network
+    summary: Get MQTT broker configuration
+    description: Retrieve MQTT broker settings
+    operationId: getMqttBroker
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: MQTT broker configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    mqttBroker:
+                      $ref: '../schemas/advanced.yaml#/MqttBroker'
+      '401':
+        description: Not authenticated
+
+/api/mqttBroker:
+  put:
+    tags:
+      - Network
+    summary: Update MQTT broker configuration
+    description: Update MQTT broker settings
+    operationId: updateMqttBroker
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/advanced.yaml#/MqttBroker'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=alert:
+  get:
+    tags:
+      - Notifications
+    summary: Get alert configuration
+    description: Retrieve alert/notification settings
+    operationId: getAlert
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Alert configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    alert:
+                      $ref: '../schemas/advanced.yaml#/Alert'
+      '401':
+        description: Not authenticated
+
+/api/alert:
+  put:
+    tags:
+      - Notifications
+    summary: Update alert configuration
+    description: Update alert/notification settings
+    operationId: updateAlert
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/advanced.yaml#/Alert'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=eventlog:
+  get:
+    tags:
+      - Monitoring
+    summary: Get event log configuration
+    description: Retrieve event logging settings
+    operationId: getEventLog
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Event log configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    eventlog:
+                      $ref: '../schemas/status.yaml#/EventLog'
+      '401':
+        description: Not authenticated
+
+/api/eventlog:
+  put:
+    tags:
+      - Monitoring
+    summary: Update event log configuration
+    description: Update event logging settings
+    operationId: updateEventLog
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/status.yaml#/EventLog'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=eventlog/events:
+  get:
+    tags:
+      - Monitoring
+    summary: Get event log entries
+    description: Retrieve event log entries
+    operationId: getEventLogEntries
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 100
+        description: Maximum entries to return
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          default: 0
+        description: Offset for pagination
+      - name: severity
+        in: query
+        schema:
+          type: string
+        description: Filter by severity level
+    responses:
+      '200':
+        description: Event log entries
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    events:
+                      type: array
+                      items:
+                        $ref: '../schemas/status.yaml#/EventLogEntry'
+                    total:
+                      type: integer
+      '401':
+        description: Not authenticated
+
+/api?fields=extIo:
+  get:
+    tags:
+      - System
+    summary: Get external I/O configuration
+    description: Retrieve external I/O settings
+    operationId: getExtIo
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: External I/O configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    extIo:
+                      $ref: '../schemas/advanced.yaml#/ExtIo'
+      '401':
+        description: Not authenticated
+
+/api/extIo:
+  put:
+    tags:
+      - System
+    summary: Update external I/O configuration
+    description: Update external I/O settings
+    operationId: updateExtIo
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/advanced.yaml#/ExtIo'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=secureProtocols:
+  get:
+    tags:
+      - Security
+    summary: Get secure protocol configuration
+    description: Retrieve SSH/TLS security settings
+    operationId: getSecureProtocols
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Secure protocol configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    secureProtocols:
+                      $ref: '../schemas/advanced.yaml#/SecureProtocols'
+      '401':
+        description: Not authenticated
+
+/api/secureProtocols:
+  put:
+    tags:
+      - Security
+    summary: Update secure protocol configuration
+    description: Update SSH/TLS security settings
+    operationId: updateSecureProtocols
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/advanced.yaml#/SecureProtocols'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=policy:
+  get:
+    tags:
+      - Security
+    summary: Get access policy
+    description: Retrieve device access policy settings
+    operationId: getPolicy
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Policy configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    policy:
+                      $ref: '../schemas/status.yaml#/Policy'
+      '401':
+        description: Not authenticated
+
+/api/policy:
+  put:
+    tags:
+      - Security
+    summary: Update access policy
+    description: Update device access policy settings
+    operationId: updatePolicy
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/status.yaml#/Policy'
+    responses:
+      '200':
+        description: Policy updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions

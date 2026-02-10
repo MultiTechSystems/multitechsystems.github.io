@@ -1,0 +1,330 @@
+# Device Management Paths
+
+/api?fields=autoReboot:
+  get:
+    tags:
+      - System
+    summary: Get auto reboot configuration
+    description: Retrieve automatic reboot settings
+    operationId: getAutoReboot
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Auto reboot configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    autoReboot:
+                      $ref: '../schemas/device-management.yaml#/AutoReboot'
+      '401':
+        description: Not authenticated
+
+/api/autoReboot:
+  put:
+    tags:
+      - System
+    summary: Update auto reboot configuration
+    description: Update automatic reboot settings
+    operationId: updateAutoReboot
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/device-management.yaml#/AutoReboot'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=remoteMgmt:
+  get:
+    tags:
+      - System
+    summary: Get remote management configuration
+    description: Retrieve DeviceHQ settings
+    operationId: getRemoteMgmt
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Remote management configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    remoteMgmt:
+                      $ref: '../schemas/device-management.yaml#/RemoteMgmt'
+      '401':
+        description: Not authenticated
+
+/api/remoteMgmt:
+  put:
+    tags:
+      - System
+    summary: Update remote management configuration
+    description: Update DeviceHQ settings
+    operationId: updateRemoteMgmt
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/device-management.yaml#/RemoteMgmt'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=remoteAccess:
+  get:
+    tags:
+      - Security
+    summary: Get remote access configuration
+    description: Retrieve SSH/HTTP/HTTPS access settings
+    operationId: getRemoteAccess
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Remote access configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    remoteAccess:
+                      $ref: '../schemas/device-management.yaml#/RemoteAccess'
+      '401':
+        description: Not authenticated
+
+/api/remoteAccess:
+  put:
+    tags:
+      - Security
+    summary: Update remote access configuration
+    description: Update SSH/HTTP/HTTPS access settings
+    operationId: updateRemoteAccess
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/device-management.yaml#/RemoteAccess'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=resetButton:
+  get:
+    tags:
+      - System
+    summary: Get reset button configuration
+    description: Retrieve physical reset button settings
+    operationId: getResetButton
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Reset button configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    resetButton:
+                      $ref: '../schemas/device-management.yaml#/ResetButton'
+      '401':
+        description: Not authenticated
+
+/api/resetButton:
+  put:
+    tags:
+      - System
+    summary: Update reset button configuration
+    description: Update physical reset button settings
+    operationId: updateResetButton
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/device-management.yaml#/ResetButton'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=docker:
+  get:
+    tags:
+      - Docker
+    summary: Get Docker configuration
+    description: Retrieve Docker container settings
+    operationId: getDocker
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Docker configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    docker:
+                      $ref: '../schemas/device-management.yaml#/Docker'
+      '401':
+        description: Not authenticated
+
+/api/docker:
+  put:
+    tags:
+      - Docker
+    summary: Update Docker configuration
+    description: Update Docker container settings
+    operationId: updateDocker
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/device-management.yaml#/Docker'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=customApps:
+  get:
+    tags:
+      - System
+    summary: Get custom applications
+    description: Retrieve custom application configuration
+    operationId: getCustomApps
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Custom applications
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    customApps:
+                      type: array
+                      items:
+                        $ref: '../schemas/device-management.yaml#/CustomApp'
+      '401':
+        description: Not authenticated
+
+/api/customApps:
+  put:
+    tags:
+      - System
+    summary: Update custom applications
+    description: Update custom application configuration
+    operationId: updateCustomApps
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../schemas/device-management.yaml#/CustomApp'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=brand:
+  get:
+    tags:
+      - System
+    summary: Get brand configuration
+    description: Retrieve device branding settings
+    operationId: getBrand
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Brand configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    brand:
+                      $ref: '../schemas/device-management.yaml#/Brand'
+      '401':
+        description: Not authenticated

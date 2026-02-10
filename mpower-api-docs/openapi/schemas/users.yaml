@@ -1,0 +1,201 @@
+# Users Schema
+# Source: mtsDeviceAPI/json/strict/users.schema.json
+
+User:
+  type: object
+  description: User account
+  properties:
+    name:
+      type: string
+      description: Username (login name)
+      maxLength: 250
+      pattern: "^[a-zA-Z][a-zA-Z0-9_-]*$"
+    permission:
+      type: string
+      description: User role
+      enum:
+        - admin
+        - user
+        - guest
+    firstName:
+      type: string
+      description: First name
+      maxLength: 250
+    lastName:
+      type: string
+      description: Last name
+      maxLength: 250
+    email:
+      type: string
+      description: Email address
+      format: email
+      maxLength: 250
+    enabled:
+      type: boolean
+      description: Account enabled status
+      default: true
+    lockedOut:
+      type: boolean
+      description: Account lockout status
+      readOnly: true
+    forcePasswordReset:
+      type: boolean
+      description: Force password change on next login
+      default: false
+  required:
+    - name
+    - permission
+
+UserCreate:
+  allOf:
+    - $ref: '#/User'
+    - type: object
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          description: User password
+          format: password
+          minLength: 6
+
+UserUpdate:
+  type: object
+  description: User update request
+  properties:
+    password:
+      type: string
+      description: New password
+      format: password
+      minLength: 6
+    firstName:
+      type: string
+      maxLength: 250
+    lastName:
+      type: string
+      maxLength: 250
+    email:
+      type: string
+      format: email
+      maxLength: 250
+    enabled:
+      type: boolean
+    forcePasswordReset:
+      type: boolean
+
+CustomRole:
+  type: object
+  description: Custom user role definition
+  properties:
+    name:
+      type: string
+      description: Role name
+    description:
+      type: string
+      description: Role description
+    permissions:
+      type: object
+      description: Permission matrix (resource -> [read, write, create, delete, execute])
+      additionalProperties:
+        type: array
+        items:
+          type: boolean
+        minItems: 5
+        maxItems: 5
+  required:
+    - name
+    - description
+    - permissions
+
+PasswordComplexityRules:
+  type: object
+  description: Password complexity requirements
+  properties:
+    minPasswordLength:
+      type: integer
+      description: Minimum password length
+      minimum: 6
+      default: 8
+    maxPasswordLength:
+      type: integer
+      description: Maximum password length
+      minimum: 0
+      default: 64
+    charactersNotPermitted:
+      type: string
+      description: Characters not allowed in passwords
+      maxLength: 250
+      default: ""
+    creditMode:
+      type: boolean
+      description: Use credit-based complexity mode
+      default: false
+    minLowerCaseChars:
+      type: integer
+      description: Minimum lowercase characters (standard mode)
+      minimum: 0
+      default: 0
+    minUpperCaseChars:
+      type: integer
+      description: Minimum uppercase characters (standard mode)
+      minimum: 0
+      default: 0
+    minNumeralChars:
+      type: integer
+      description: Minimum numeric characters (standard mode)
+      minimum: 0
+      default: 0
+    minOtherChars:
+      type: integer
+      description: Minimum special characters (standard mode)
+      minimum: 0
+      default: 0
+    minCharClasses:
+      type: integer
+      description: Minimum character classes (credit mode)
+      minimum: 0
+      default: 3
+    lowerCaseExtraCreditCap:
+      type: integer
+      description: Extra credit cap for lowercase (credit mode)
+      minimum: 0
+      default: 0
+    upperCaseExtraCreditCap:
+      type: integer
+      description: Extra credit cap for uppercase (credit mode)
+      minimum: 0
+      default: 0
+    numeralExtraCreditCap:
+      type: integer
+      description: Extra credit cap for numbers (credit mode)
+      minimum: 0
+      default: 0
+    otherExtraCreditCap:
+      type: integer
+      description: Extra credit cap for special chars (credit mode)
+      minimum: 0
+      default: 0
+    minPasswordAge:
+      type: integer
+      description: Days before password can be changed
+      minimum: 0
+      default: 0
+    maxPasswordAge:
+      type: integer
+      description: Days before password must be changed
+      minimum: 0
+      default: 0
+    passwordHistoryLength:
+      type: integer
+      description: Number of previous passwords to remember
+      minimum: 0
+      maximum: 400
+      default: 0
+  required:
+    - minPasswordLength
+    - maxPasswordLength
+    - charactersNotPermitted
+    - creditMode
+    - minPasswordAge
+    - maxPasswordAge
+    - passwordHistoryLength

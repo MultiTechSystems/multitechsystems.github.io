@@ -1,0 +1,351 @@
+# Network Services Paths
+
+/api?fields=snmp:
+  get:
+    tags:
+      - Network
+    summary: Get SNMP configuration
+    description: Retrieve SNMP agent settings
+    operationId: getSnmp
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: SNMP configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    snmp:
+                      $ref: '../schemas/services.yaml#/Snmp'
+      '401':
+        description: Not authenticated
+
+/api/snmp:
+  put:
+    tags:
+      - Network
+    summary: Update SNMP configuration
+    description: Update SNMP agent settings
+    operationId: updateSnmp
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/services.yaml#/Snmp'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=sntp:
+  get:
+    tags:
+      - Time Sync
+    summary: Get NTP configuration
+    description: Retrieve NTP time synchronization settings
+    operationId: getSntp
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: NTP configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    sntp:
+                      $ref: '../schemas/services.yaml#/Sntp'
+      '401':
+        description: Not authenticated
+
+/api/sntp:
+  put:
+    tags:
+      - Time Sync
+    summary: Update NTP configuration
+    description: Update NTP time synchronization settings
+    operationId: updateSntp
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/services.yaml#/Sntp'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=smtp:
+  get:
+    tags:
+      - Notifications
+    summary: Get SMTP configuration
+    description: Retrieve email server settings
+    operationId: getSmtp
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: SMTP configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    smtp:
+                      $ref: '../schemas/services.yaml#/Smtp'
+      '401':
+        description: Not authenticated
+
+/api/smtp:
+  put:
+    tags:
+      - Notifications
+    summary: Update SMTP configuration
+    description: Update email server settings
+    operationId: updateSmtp
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/services.yaml#/Smtp'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=syslog:
+  get:
+    tags:
+      - Monitoring
+    summary: Get syslog configuration
+    description: Retrieve syslog forwarding settings
+    operationId: getSyslog
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Syslog configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    syslog:
+                      $ref: '../schemas/services.yaml#/Syslog'
+      '401':
+        description: Not authenticated
+
+/api/syslog:
+  put:
+    tags:
+      - Monitoring
+    summary: Update syslog configuration
+    description: Update syslog forwarding settings
+    operationId: updateSyslog
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/services.yaml#/Syslog'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=lldp:
+  get:
+    tags:
+      - Network
+    summary: Get LLDP configuration
+    description: Retrieve LLDP settings
+    operationId: getLldp
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: LLDP configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    lldp:
+                      $ref: '../schemas/services.yaml#/Lldp'
+      '401':
+        description: Not authenticated
+
+/api/lldp:
+  put:
+    tags:
+      - Network
+    summary: Update LLDP configuration
+    description: Update LLDP settings
+    operationId: updateLldp
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/services.yaml#/Lldp'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=mdns:
+  get:
+    tags:
+      - Network
+    summary: Get mDNS configuration
+    description: Retrieve mDNS settings
+    operationId: getMdns
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: mDNS configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    mdns:
+                      $ref: '../schemas/services.yaml#/Mdns'
+      '401':
+        description: Not authenticated
+
+/api/mdns:
+  put:
+    tags:
+      - Network
+    summary: Update mDNS configuration
+    description: Update mDNS settings
+    operationId: updateMdns
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/services.yaml#/Mdns'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=radius:
+  get:
+    tags:
+      - Security
+    summary: Get RADIUS configuration
+    description: Retrieve RADIUS authentication settings
+    operationId: getRadius
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: RADIUS configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    radius:
+                      $ref: '../schemas/services.yaml#/Radius'
+      '401':
+        description: Not authenticated
+
+/api/radius:
+  put:
+    tags:
+      - Security
+    summary: Update RADIUS configuration
+    description: Update RADIUS authentication settings
+    operationId: updateRadius
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/services.yaml#/Radius'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions

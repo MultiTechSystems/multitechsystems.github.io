@@ -1,0 +1,304 @@
+# VPN Paths
+
+/api?fields=ovpnTunnels:
+  get:
+    tags:
+      - VPN
+    summary: Get OpenVPN tunnels
+    description: Retrieve OpenVPN tunnel configuration
+    operationId: getOpenVpnTunnels
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: OpenVPN tunnels
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    ovpnTunnels:
+                      type: array
+                      items:
+                        $ref: '../schemas/vpn.yaml#/OpenVpnTunnel'
+      '401':
+        description: Not authenticated
+
+/api/ovpnTunnels:
+  post:
+    tags:
+      - VPN
+    summary: Create OpenVPN tunnel
+    description: Create a new OpenVPN tunnel
+    operationId: createOpenVpnTunnel
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/vpn.yaml#/OpenVpnTunnel'
+    responses:
+      '200':
+        description: Tunnel created
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+  put:
+    tags:
+      - VPN
+    summary: Update OpenVPN tunnels
+    description: Update OpenVPN tunnel configuration
+    operationId: updateOpenVpnTunnels
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../schemas/vpn.yaml#/OpenVpnTunnel'
+    responses:
+      '200':
+        description: Tunnels updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/ovpnTunnels/{name}:
+  delete:
+    tags:
+      - VPN
+    summary: Delete OpenVPN tunnel
+    description: Delete an OpenVPN tunnel
+    operationId: deleteOpenVpnTunnel
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Tunnel deleted
+      '401':
+        description: Not authenticated
+      '404':
+        description: Tunnel not found
+
+/api?fields=ipsecTunnels:
+  get:
+    tags:
+      - VPN
+    summary: Get IPsec tunnels
+    description: Retrieve IPsec tunnel configuration
+    operationId: getIpsecTunnels
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: IPsec tunnels
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    ipsecTunnels:
+                      type: array
+                      items:
+                        $ref: '../schemas/vpn.yaml#/IpsecTunnel'
+      '401':
+        description: Not authenticated
+
+/api/ipsecTunnels:
+  post:
+    tags:
+      - VPN
+    summary: Create IPsec tunnel
+    description: Create a new IPsec tunnel
+    operationId: createIpsecTunnel
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/vpn.yaml#/IpsecTunnel'
+    responses:
+      '200':
+        description: Tunnel created
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+  put:
+    tags:
+      - VPN
+    summary: Update IPsec tunnels
+    description: Update IPsec tunnel configuration
+    operationId: updateIpsecTunnels
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../schemas/vpn.yaml#/IpsecTunnel'
+    responses:
+      '200':
+        description: Tunnels updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/ipsecTunnels/{name}:
+  delete:
+    tags:
+      - VPN
+    summary: Delete IPsec tunnel
+    description: Delete an IPsec tunnel
+    operationId: deleteIpsecTunnel
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Tunnel deleted
+      '401':
+        description: Not authenticated
+      '404':
+        description: Tunnel not found
+
+/api?fields=greTunnels:
+  get:
+    tags:
+      - VPN
+    summary: Get GRE tunnels
+    description: Retrieve GRE tunnel configuration
+    operationId: getGreTunnels
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: GRE tunnels
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    greTunnels:
+                      type: array
+                      items:
+                        $ref: '../schemas/vpn.yaml#/GreTunnel'
+      '401':
+        description: Not authenticated
+
+/api/greTunnels:
+  post:
+    tags:
+      - VPN
+    summary: Create GRE tunnel
+    description: Create a new GRE tunnel
+    operationId: createGreTunnel
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/vpn.yaml#/GreTunnel'
+    responses:
+      '200':
+        description: Tunnel created
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+  put:
+    tags:
+      - VPN
+    summary: Update GRE tunnels
+    description: Update GRE tunnel configuration
+    operationId: updateGreTunnels
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../schemas/vpn.yaml#/GreTunnel'
+    responses:
+      '200':
+        description: Tunnels updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/greTunnels/{name}:
+  delete:
+    tags:
+      - VPN
+    summary: Delete GRE tunnel
+    description: Delete a GRE tunnel
+    operationId: deleteGreTunnel
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Tunnel deleted
+      '401':
+        description: Not authenticated
+      '404':
+        description: Tunnel not found

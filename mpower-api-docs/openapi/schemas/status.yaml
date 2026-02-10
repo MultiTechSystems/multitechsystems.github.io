@@ -1,0 +1,187 @@
+# Status and Logging Schemas
+# Source: mtsDeviceAPI/json/strict/*.schema.json
+
+# System Status
+Status:
+  type: object
+  description: Device status information
+  properties:
+    uptime:
+      type: integer
+      description: System uptime in seconds
+      readOnly: true
+    uptimeString:
+      type: string
+      description: Human-readable uptime
+      readOnly: true
+    loadAverage:
+      type: array
+      description: System load averages (1, 5, 15 min)
+      items:
+        type: number
+      readOnly: true
+    memory:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: Total memory (KB)
+        free:
+          type: integer
+          description: Free memory (KB)
+        available:
+          type: integer
+          description: Available memory (KB)
+        used:
+          type: integer
+          description: Used memory (KB)
+      readOnly: true
+    storage:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: Total storage (KB)
+        free:
+          type: integer
+          description: Free storage (KB)
+        used:
+          type: integer
+          description: Used storage (KB)
+      readOnly: true
+    temperature:
+      type: number
+      description: CPU temperature (Celsius)
+      readOnly: true
+
+# Database Info
+DatabaseInfo:
+  type: object
+  description: Database version and state information
+  properties:
+    version:
+      type: integer
+      description: Database schema version
+    size:
+      type: integer
+      description: Database size (bytes)
+    dirty:
+      type: boolean
+      description: Unsaved changes pending
+  readOnly: true
+
+# Event Log Configuration
+EventLog:
+  type: object
+  description: Event logging configuration
+  properties:
+    severityLevel:
+      type: string
+      description: Minimum severity to log
+      enum:
+        - EMERGENCY
+        - ALERT
+        - CRITICAL
+        - ERROR
+        - WARNING
+        - NOTICE
+        - INFORMATIONAL
+        - DEBUG
+      default: INFORMATIONAL
+    remote:
+      type: array
+      description: Remote syslog servers
+      items:
+        type: object
+        properties:
+          alias:
+            type: string
+            maxLength: 250
+          host:
+            type: string
+            maxLength: 250
+          port:
+            type: integer
+            minimum: 1
+            maximum: 65535
+            default: 514
+          severityLevel:
+            type: string
+            enum:
+              - EMERGENCY
+              - ALERT
+              - CRITICAL
+              - ERROR
+              - WARNING
+              - NOTICE
+              - INFORMATIONAL
+              - DEBUG
+          description:
+            type: string
+            maxLength: 250
+  required:
+    - severityLevel
+
+# Event Log Entry
+EventLogEntry:
+  type: object
+  description: Event log entry
+  readOnly: true
+  properties:
+    timestamp:
+      type: string
+      description: Event timestamp
+    severity:
+      type: string
+      enum:
+        - EMERGENCY
+        - ALERT
+        - CRITICAL
+        - ERROR
+        - WARNING
+        - NOTICE
+        - INFORMATIONAL
+        - DEBUG
+    source:
+      type: string
+      description: Event source/component
+    message:
+      type: string
+      description: Event message
+
+# Policy
+Policy:
+  type: object
+  description: Device access policy
+  properties:
+    loginBanner:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        text:
+          type: string
+          maxLength: 4096
+    maxLoginAttempts:
+      type: integer
+      description: Max failed login attempts before lockout
+      minimum: 0
+      maximum: 100
+      default: 5
+    lockoutDuration:
+      type: integer
+      description: Account lockout duration (minutes)
+      minimum: 0
+      maximum: 10080
+      default: 30
+    sessionIdleTimeout:
+      type: integer
+      description: Session idle timeout (minutes)
+      minimum: 1
+      maximum: 1440
+      default: 30
+  required:
+    - maxLoginAttempts
+    - lockoutDuration
+    - sessionIdleTimeout

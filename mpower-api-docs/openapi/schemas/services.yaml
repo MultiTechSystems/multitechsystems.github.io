@@ -1,0 +1,335 @@
+# Network Services Schemas
+# Source: mtsDeviceAPI/json/strict/*.schema.json
+
+# SNMP Configuration
+Snmp:
+  type: object
+  description: SNMP agent configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    port:
+      type: integer
+      description: SNMP port
+      minimum: 1
+      maximum: 65535
+      default: 161
+    sysContact:
+      type: string
+      description: System contact
+      maxLength: 255
+    sysName:
+      type: string
+      description: System name
+      maxLength: 255
+    sysLocation:
+      type: string
+      description: System location
+      maxLength: 255
+    v1v2:
+      $ref: '#/SnmpV1V2'
+    v3:
+      $ref: '#/SnmpV3'
+    traps:
+      type: array
+      items:
+        $ref: '#/SnmpTrap'
+  required:
+    - enabled
+
+SnmpV1V2:
+  type: object
+  description: SNMP v1/v2c configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    readCommunity:
+      type: string
+      description: Read community string
+      maxLength: 255
+      default: public
+    writeCommunity:
+      type: string
+      description: Write community string
+      maxLength: 255
+  required:
+    - enabled
+
+SnmpV3:
+  type: object
+  description: SNMP v3 configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    users:
+      type: array
+      items:
+        type: object
+        properties:
+          username:
+            type: string
+            maxLength: 32
+          securityLevel:
+            type: string
+            enum:
+              - noAuthNoPriv
+              - authNoPriv
+              - authPriv
+          authProtocol:
+            type: string
+            enum:
+              - MD5
+              - SHA
+          authPassword:
+            type: string
+          privProtocol:
+            type: string
+            enum:
+              - DES
+              - AES
+          privPassword:
+            type: string
+  required:
+    - enabled
+
+SnmpTrap:
+  type: object
+  description: SNMP trap destination
+  properties:
+    enabled:
+      type: boolean
+      default: true
+    host:
+      type: string
+      maxLength: 250
+    port:
+      type: integer
+      minimum: 1
+      maximum: 65535
+      default: 162
+    version:
+      type: string
+      enum:
+        - V1
+        - V2C
+        - V3
+      default: V2C
+    community:
+      type: string
+      maxLength: 255
+  required:
+    - host
+    - version
+
+# SNTP (NTP) Configuration
+Sntp:
+  type: object
+  description: Time synchronization configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    primaryServer:
+      type: string
+      description: Primary NTP server
+      maxLength: 250
+      default: pool.ntp.org
+    secondaryServer:
+      type: string
+      description: Secondary NTP server
+      maxLength: 250
+    pollingTime:
+      type: integer
+      description: Polling interval (minutes)
+      minimum: 5
+      maximum: 1440
+      default: 60
+    syncAtStartup:
+      type: boolean
+      description: Sync time at boot
+      default: true
+  required:
+    - enabled
+
+# SMTP Configuration
+Smtp:
+  type: object
+  description: SMTP email configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    server:
+      type: string
+      description: SMTP server hostname
+      maxLength: 250
+    port:
+      type: integer
+      description: SMTP port
+      minimum: 1
+      maximum: 65535
+      default: 25
+    security:
+      type: string
+      description: Connection security
+      enum:
+        - NONE
+        - TLS
+        - STARTTLS
+      default: NONE
+    authentication:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        username:
+          type: string
+          maxLength: 250
+        password:
+          type: string
+          maxLength: 250
+    sender:
+      type: string
+      description: From address
+      format: email
+      maxLength: 250
+  required:
+    - enabled
+    - server
+
+# Syslog Configuration
+Syslog:
+  type: object
+  description: Syslog forwarding configuration
+  properties:
+    remote:
+      type: array
+      items:
+        type: object
+        properties:
+          enabled:
+            type: boolean
+            default: true
+          host:
+            type: string
+            maxLength: 250
+          port:
+            type: integer
+            minimum: 1
+            maximum: 65535
+            default: 514
+          protocol:
+            type: string
+            enum:
+              - UDP
+              - TCP
+            default: UDP
+          severityLevel:
+            type: string
+            enum:
+              - EMERGENCY
+              - ALERT
+              - CRITICAL
+              - ERROR
+              - WARNING
+              - NOTICE
+              - INFORMATIONAL
+              - DEBUG
+            default: WARNING
+        required:
+          - host
+
+# LLDP Configuration
+Lldp:
+  type: object
+  description: Link Layer Discovery Protocol configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+  required:
+    - enabled
+
+# mDNS Configuration
+Mdns:
+  type: object
+  description: Multicast DNS configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    hostname:
+      type: string
+      maxLength: 63
+    services:
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+            description: Service type (e.g., _http._tcp)
+          name:
+            type: string
+            description: Service name
+          port:
+            type: integer
+            minimum: 1
+            maximum: 65535
+          txt:
+            type: array
+            items:
+              type: string
+  required:
+    - enabled
+
+# RADIUS Configuration
+Radius:
+  type: object
+  description: RADIUS authentication configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    server:
+      type: string
+      description: RADIUS server address
+      maxLength: 250
+    port:
+      type: integer
+      minimum: 1
+      maximum: 65535
+      default: 1812
+    secret:
+      type: string
+      description: Shared secret
+      maxLength: 250
+    timeout:
+      type: integer
+      description: Request timeout (seconds)
+      minimum: 1
+      maximum: 60
+      default: 3
+    retries:
+      type: integer
+      description: Retry attempts
+      minimum: 0
+      maximum: 10
+      default: 3
+    accounting:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        server:
+          type: string
+        port:
+          type: integer
+          default: 1813
+  required:
+    - enabled

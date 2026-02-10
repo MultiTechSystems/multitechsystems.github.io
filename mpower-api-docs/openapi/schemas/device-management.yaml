@@ -1,0 +1,332 @@
+# Device Management Schemas
+# Source: mtsDeviceAPI/json/strict/*.schema.json
+
+# Auto Reboot
+AutoReboot:
+  type: object
+  description: Automatic device reboot configuration
+  properties:
+    mode:
+      type: string
+      description: Auto reboot mode
+      enum:
+        - DISABLED
+        - TIME
+        - TIMER
+      default: DISABLED
+    hour:
+      type: integer
+      description: Hour (TIME mode) or hours from boot (TIMER mode)
+      minimum: 0
+    minute:
+      type: integer
+      description: Minute of hour (TIME mode only)
+      minimum: 0
+      maximum: 59
+    interval:
+      type: integer
+      description: Reboot window in minutes (TIME mode, 0 or 15-120)
+      default: 0
+  required:
+    - mode
+    - hour
+    - minute
+    - interval
+
+# Remote Management
+RemoteMgmt:
+  type: object
+  description: Remote management server configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    server:
+      type: string
+      description: DeviceHQ server address
+      maxLength: 250
+    port:
+      type: integer
+      minimum: 1
+      maximum: 65535
+    ssl:
+      type: boolean
+      default: true
+    checkin:
+      type: object
+      description: Check-in interval configuration
+      properties:
+        period:
+          type: integer
+          description: Check-in period (minutes)
+          minimum: 1
+          maximum: 10080
+          default: 1440
+        startTime:
+          type: string
+          description: Check-in start time (HH:MM format)
+          pattern: "^[0-9]{2}:[0-9]{2}$"
+        window:
+          type: integer
+          description: Random window (minutes)
+          minimum: 0
+          maximum: 1440
+    key:
+      type: string
+      description: Account key
+      maxLength: 250
+  required:
+    - enabled
+
+# Remote Access
+RemoteAccess:
+  type: object
+  description: Remote access (SSH/WebUI) configuration
+  properties:
+    ssh:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: true
+        port:
+          type: integer
+          minimum: 1
+          maximum: 65535
+          default: 22
+        wanAccess:
+          type: boolean
+          description: Allow SSH from WAN
+          default: false
+    http:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: true
+        port:
+          type: integer
+          minimum: 1
+          maximum: 65535
+          default: 80
+        redirect:
+          type: boolean
+          description: Redirect HTTP to HTTPS
+          default: true
+    https:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: true
+        port:
+          type: integer
+          minimum: 1
+          maximum: 65535
+          default: 443
+        wanAccess:
+          type: boolean
+          description: Allow HTTPS from WAN
+          default: false
+    sessionTimeout:
+      type: integer
+      description: Web session timeout (minutes)
+      minimum: 1
+      maximum: 1440
+      default: 30
+  required:
+    - ssh
+    - http
+    - https
+
+# Reset Button
+ResetButton:
+  type: object
+  description: Physical reset button configuration
+  properties:
+    enabled:
+      type: boolean
+      description: Enable reset button
+      default: true
+    enableCustomUserReset:
+      type: boolean
+      description: Enable short press for custom action
+      default: false
+    userResetScript:
+      type: string
+      description: Custom script path
+      maxLength: 250
+  required:
+    - enabled
+
+# Save and Restore
+SaveAndRestore:
+  type: object
+  description: Configuration backup/restore settings
+  properties:
+    pendingSave:
+      type: boolean
+      description: Changes pending save
+      readOnly: true
+    pendingRestore:
+      type: boolean
+      description: Restore pending
+      readOnly: true
+    includeUserPasswords:
+      type: boolean
+      description: Include passwords in backup
+      default: false
+  required:
+    - pendingSave
+    - pendingRestore
+    - includeUserPasswords
+
+# Docker Configuration
+Docker:
+  type: object
+  description: Docker container management
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    autoStart:
+      type: boolean
+      description: Start containers on boot
+      default: true
+    containers:
+      type: array
+      items:
+        $ref: '#/DockerContainer'
+  required:
+    - enabled
+
+DockerContainer:
+  type: object
+  description: Docker container configuration
+  properties:
+    name:
+      type: string
+      description: Container name
+      maxLength: 250
+    image:
+      type: string
+      description: Image name
+      maxLength: 250
+    running:
+      type: boolean
+      description: Container running state
+      readOnly: true
+    autoStart:
+      type: boolean
+      default: true
+    portMappings:
+      type: array
+      items:
+        type: object
+        properties:
+          hostPort:
+            type: integer
+          containerPort:
+            type: integer
+          protocol:
+            type: string
+            enum:
+              - tcp
+              - udp
+    volumes:
+      type: array
+      items:
+        type: object
+        properties:
+          hostPath:
+            type: string
+          containerPath:
+            type: string
+          readOnly:
+            type: boolean
+    environment:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          value:
+            type: string
+  required:
+    - name
+    - image
+
+# Custom Applications
+CustomApp:
+  type: object
+  description: Custom application configuration
+  properties:
+    name:
+      type: string
+      description: Application name
+      maxLength: 250
+      pattern: "^[A-Za-z0-9_-]+$"
+    enabled:
+      type: boolean
+      default: false
+    autoStart:
+      type: boolean
+      default: true
+    restartOnExit:
+      type: boolean
+      default: false
+    startDelay:
+      type: integer
+      description: Start delay (seconds)
+      minimum: 0
+      maximum: 3600
+      default: 0
+    startCommand:
+      type: string
+      description: Start command/script
+      maxLength: 250
+    stopCommand:
+      type: string
+      description: Stop command/script
+      maxLength: 250
+    log:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        maxSize:
+          type: integer
+          description: Max log size (KB)
+          minimum: 1
+          maximum: 10240
+          default: 100
+  required:
+    - name
+
+# Brand Configuration
+Brand:
+  type: object
+  description: Device branding configuration
+  properties:
+    name:
+      type: string
+      description: Brand name
+      maxLength: 250
+    logoFile:
+      type: string
+      description: Logo filename
+    supportUrl:
+      type: string
+      description: Support URL
+      maxLength: 250
+    supportEmail:
+      type: string
+      format: email
+      maxLength: 250
+    supportPhone:
+      type: string
+      maxLength: 50
+  required:
+    - name

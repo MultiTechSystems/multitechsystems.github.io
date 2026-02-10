@@ -1,0 +1,191 @@
+# Users Paths
+
+/api?fields=users:
+  get:
+    tags:
+      - Users
+    summary: Get users
+    description: Retrieve list of users
+    operationId: getUsers
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: User list
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    users:
+                      type: array
+                      items:
+                        $ref: '../schemas/users.yaml#/User'
+      '401':
+        description: Not authenticated
+
+/api/users:
+  post:
+    tags:
+      - Users
+    summary: Create user
+    description: Create a new user account
+    operationId: createUser
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/users.yaml#/UserCreate'
+    responses:
+      '200':
+        description: User created
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/SuccessResponse'
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/users/{username}:
+  put:
+    tags:
+      - Users
+    summary: Update user
+    description: Update user account
+    operationId: updateUser
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/users.yaml#/UserUpdate'
+    responses:
+      '200':
+        description: User updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+      '404':
+        description: User not found
+
+  delete:
+    tags:
+      - Users
+    summary: Delete user
+    description: Delete user account
+    operationId: deleteUser
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: User deleted
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+      '404':
+        description: User not found
+
+/api?fields=customRoles:
+  get:
+    tags:
+      - Users
+    summary: Get custom roles
+    description: Retrieve custom role definitions
+    operationId: getCustomRoles
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Custom roles
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    customRoles:
+                      type: array
+                      items:
+                        $ref: '../schemas/users.yaml#/CustomRole'
+      '401':
+        description: Not authenticated
+
+/api?fields=passwordComplexityRules:
+  get:
+    tags:
+      - Users
+    summary: Get password rules
+    description: Retrieve password complexity requirements
+    operationId: getPasswordRules
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Password rules
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    passwordComplexityRules:
+                      $ref: '../schemas/users.yaml#/PasswordComplexityRules'
+      '401':
+        description: Not authenticated
+
+/api/passwordComplexityRules:
+  put:
+    tags:
+      - Users
+    summary: Update password rules
+    description: Update password complexity requirements
+    operationId: updatePasswordRules
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/users.yaml#/PasswordComplexityRules'
+    responses:
+      '200':
+        description: Rules updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions

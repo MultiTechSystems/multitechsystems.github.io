@@ -1,0 +1,236 @@
+# SMS Schema
+# Source: mtsDeviceAPI/json/strict/sms.schema.json
+
+Sms:
+  type: object
+  description: SMS messaging configuration
+  properties:
+    enabled:
+      type: boolean
+      description: Enable SMS service
+      default: false
+    sentLimit:
+      type: integer
+      description: Number of sent messages to keep
+      minimum: 0
+      maximum: 1000
+      default: 1000
+    receivedLimit:
+      type: integer
+      description: Number of received messages to keep
+      minimum: 0
+      maximum: 1000
+      default: 1000
+    resendLimit:
+      type: integer
+      description: Retry attempts for failed messages
+      minimum: 0
+      maximum: 10
+      default: 0
+    smsCommands:
+      $ref: '#/SmsCommands'
+  required:
+    - enabled
+    - sentLimit
+    - receivedLimit
+    - resendLimit
+    - smsCommands
+
+SmsCommands:
+  type: object
+  description: SMS remote command configuration
+  properties:
+    enabled:
+      type: boolean
+      description: Enable SMS commands
+      default: false
+    appEnabled:
+      type: boolean
+      description: Enable #app command
+      default: false
+    rebootEnabled:
+      type: boolean
+      description: Enable #reboot command
+      default: false
+    checkinEnabled:
+      type: boolean
+      description: Enable #checkin command
+      default: false
+    rmEnabled:
+      type: boolean
+      description: Enable #rm command
+      default: false
+    setCellularEnabled:
+      type: boolean
+      description: Enable #setcellular command
+      default: false
+    apnEnabled:
+      type: boolean
+      description: Enable #apn command
+      default: false
+    cellularStatusEnabled:
+      type: boolean
+      description: Enable #cellular command
+      default: false
+    radioEnabled:
+      type: boolean
+      description: Enable #radio command
+      default: false
+    ethernetEnabled:
+      type: boolean
+      description: Enable #ethernet command
+      default: false
+    wanStatusEnabled:
+      type: boolean
+      description: Enable #wan command
+      default: false
+    wifiEnabled:
+      type: boolean
+      description: Enable #wifi command
+      default: false
+    pingEnabled:
+      type: boolean
+      description: Enable #ping command
+      default: false
+    serialEnabled:
+      type: boolean
+      description: Enable #serial command
+      default: false
+    geopositionEnabled:
+      type: boolean
+      description: Enable #geoposition command
+      default: false
+    lnsRestartEnabled:
+      type: boolean
+      description: Enable #lnsrestart command
+      default: false
+    wanIpsEnabled:
+      type: boolean
+      description: Enable #wanips command
+      default: false
+    getIoEnabled:
+      type: boolean
+      description: Enable #getio command
+      default: false
+    setIoEnabled:
+      type: boolean
+      description: Enable #setio command
+      default: false
+    password:
+      $ref: '#/SmsPassword'
+    whitelist:
+      $ref: '#/SmsWhitelist'
+  required:
+    - enabled
+    - password
+    - whitelist
+
+SmsPassword:
+  type: object
+  description: SMS command password configuration
+  properties:
+    enabled:
+      type: boolean
+      description: Require password for SMS commands
+      default: true
+    useCustomPassword:
+      type: boolean
+      description: Use custom password instead of IMEI-based
+      default: false
+    customText:
+      type: string
+      description: Custom password text (min 6 chars, no spaces)
+      maxLength: 250
+    defaultText:
+      type: string
+      description: Default password (last 6 chars of IMEI)
+      readOnly: true
+    text:
+      type: string
+      description: Current active password
+      readOnly: true
+  required:
+    - enabled
+    - useCustomPassword
+
+SmsWhitelist:
+  type: object
+  description: SMS command whitelist configuration
+  properties:
+    enabled:
+      type: boolean
+      description: Enable phone number whitelist
+      default: false
+    numbers:
+      type: array
+      description: Allowed phone numbers (max 50)
+      items:
+        type: string
+        maxLength: 250
+      maxItems: 50
+  required:
+    - enabled
+    - numbers
+
+SmsMessage:
+  type: object
+  description: SMS message object
+  properties:
+    guid:
+      type: string
+      description: Unique message identifier
+    timestamp:
+      type: string
+      description: Message timestamp
+      example: "2026-02-10 14:30:00"
+    message:
+      type: string
+      description: Message content
+      maxLength: 160
+
+SmsInboxMessage:
+  allOf:
+    - $ref: '#/SmsMessage'
+    - type: object
+      properties:
+        source:
+          type: string
+          description: Sender phone number
+
+SmsOutboxMessage:
+  allOf:
+    - $ref: '#/SmsMessage'
+    - type: object
+      properties:
+        recipient:
+          type: string
+          description: Recipient phone number
+        status:
+          type: string
+          description: Message delivery status
+          enum:
+            - sending
+            - sent
+            - failed
+
+SmsSendRequest:
+  type: object
+  description: Request to send SMS message
+  required:
+    - recipients
+    - message
+  properties:
+    recipients:
+      type: array
+      description: List of recipient phone numbers
+      items:
+        type: string
+      minItems: 1
+    message:
+      type: string
+      description: Message text
+      maxLength: 160
+  example:
+    recipients:
+      - "+1234567890"
+    message: "Alert from gateway"

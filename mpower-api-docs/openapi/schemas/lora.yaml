@@ -1,0 +1,243 @@
+# LoRa Network Schema
+# Source: mtsDeviceAPI/json/strict/loraNetwork.schema.json
+
+LoraNetwork:
+  type: object
+  description: LoRa network server and gateway configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    addressingMode:
+      type: string
+      description: Device addressing mode
+      enum:
+        - MANUAL
+        - DHCP
+      default: MANUAL
+    gatewayId:
+      type: string
+      description: Gateway EUI (8 hex bytes)
+      pattern: "^[0-9a-fA-F]{16}$"
+    protocol:
+      type: string
+      description: LoRa protocol
+      enum:
+        - SEMTECH
+        - CUSTOM
+      default: SEMTECH
+    public:
+      type: boolean
+      description: Public network mode
+      default: true
+    gpsEnabled:
+      type: boolean
+      description: Enable GPS for gateway
+      default: false
+    channelPlan:
+      type: string
+      description: Channel plan
+      enum:
+        - US915
+        - AU915
+        - EU868
+        - AS923
+        - AS923-2
+        - AS923-3
+        - AS923-4
+        - IN865
+        - KR920
+        - RU864
+      default: US915
+    frequencySubBand:
+      type: integer
+      description: Frequency sub-band (1-8, or 0 for all)
+      minimum: 0
+      maximum: 8
+      default: 1
+    networkId:
+      type: string
+      description: Network identifier (7 hex chars)
+      pattern: "^[0-9a-fA-F]{1,7}$"
+      default: "000000"
+    networkKey:
+      type: string
+      description: Network encryption key (16 hex bytes)
+      pattern: "^[0-9a-fA-F]{32}$"
+    dataKey:
+      type: string
+      description: Data encryption key (16 hex bytes)
+      pattern: "^[0-9a-fA-F]{32}$"
+    antennaGain:
+      type: integer
+      description: Antenna gain (dBi * 10)
+      minimum: 0
+      maximum: 255
+      default: 30
+    cableAtt:
+      type: integer
+      description: Cable attenuation (dB * 10)
+      minimum: 0
+      maximum: 255
+      default: 0
+    joinDelay:
+      type: integer
+      description: Join delay (seconds)
+      minimum: 1
+      maximum: 15
+      default: 5
+    rx1Delay:
+      type: integer
+      description: RX1 window delay (seconds)
+      minimum: 1
+      maximum: 15
+      default: 1
+    rx1DROffset:
+      type: integer
+      description: RX1 data rate offset
+      minimum: 0
+      maximum: 7
+      default: 0
+    rx2DR:
+      type: integer
+      description: RX2 data rate
+      minimum: 0
+      maximum: 15
+    rx2Freq:
+      type: number
+      description: RX2 frequency (MHz)
+    preferRx2:
+      type: boolean
+      description: Prefer RX2 window
+      default: false
+    appServer:
+      $ref: '#/LoraAppServer'
+    devices:
+      type: array
+      description: Configured LoRa devices
+      items:
+        $ref: '#/LoraDevice'
+    maxPayloadSize:
+      type: integer
+      description: Maximum payload size
+      minimum: 11
+      maximum: 242
+    beaconFrequency:
+      type: integer
+      description: Beacon frequency (Hz)
+    pingSlotFrequency:
+      type: integer
+      description: Ping slot frequency (Hz)
+    pingSlotDatarate:
+      type: integer
+      description: Ping slot data rate
+      minimum: 0
+      maximum: 15
+    adrEnabled:
+      type: boolean
+      description: Adaptive Data Rate enabled
+      default: true
+    adrMinDR:
+      type: integer
+      description: ADR minimum data rate
+      minimum: 0
+      maximum: 15
+    adrMaxDR:
+      type: integer
+      description: ADR maximum data rate
+      minimum: 0
+      maximum: 15
+    adrMinTxPower:
+      type: integer
+      description: ADR minimum TX power index
+    adrMaxTxPower:
+      type: integer
+      description: ADR maximum TX power index
+    log:
+      type: object
+      description: LoRa logging settings
+      properties:
+        level:
+          type: string
+          enum:
+            - ERROR
+            - WARNING
+            - INFO
+            - DEBUG
+          default: INFO
+        rawPackets:
+          type: boolean
+          default: false
+  required:
+    - enabled
+
+LoraAppServer:
+  type: object
+  description: LoRa application server forwarding
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    host:
+      type: string
+      description: Server address
+      maxLength: 250
+    port:
+      type: integer
+      description: Server port
+      minimum: 1
+      maximum: 65535
+    ssl:
+      type: boolean
+      default: false
+    topic:
+      type: string
+      description: MQTT topic prefix
+    clientId:
+      type: string
+      description: MQTT client ID
+    username:
+      type: string
+    password:
+      type: string
+  required:
+    - enabled
+
+LoraDevice:
+  type: object
+  description: LoRa device configuration
+  properties:
+    devEui:
+      type: string
+      description: Device EUI (8 hex bytes)
+      pattern: "^[0-9a-fA-F]{16}$"
+    devAddr:
+      type: string
+      description: Device address (4 hex bytes)
+      pattern: "^[0-9a-fA-F]{8}$"
+    name:
+      type: string
+      description: Device name
+      maxLength: 250
+    class:
+      type: string
+      description: LoRaWAN device class
+      enum:
+        - A
+        - B
+        - C
+      default: A
+    appKey:
+      type: string
+      description: Application key (OTAA)
+      pattern: "^[0-9a-fA-F]{32}$"
+    appSKey:
+      type: string
+      description: Application session key (ABP)
+      pattern: "^[0-9a-fA-F]{32}$"
+    nwkSKey:
+      type: string
+      description: Network session key (ABP)
+      pattern: "^[0-9a-fA-F]{32}$"
+  required:
+    - devEui

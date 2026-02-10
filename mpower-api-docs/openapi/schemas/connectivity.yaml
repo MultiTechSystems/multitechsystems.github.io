@@ -1,0 +1,310 @@
+# Connectivity Schemas
+# Source: mtsDeviceAPI/json/strict/*.schema.json
+
+# Bluetooth
+Bluetooth:
+  type: object
+  description: Classic Bluetooth configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    device:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Bluetooth device name
+          maxLength: 250
+        address:
+          type: string
+          description: Bluetooth MAC address
+          pattern: "^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$"
+    devices:
+      type: array
+      description: Discovered devices
+      readOnly: true
+      items:
+        $ref: '#/BluetoothDevice'
+    savedDevices:
+      type: array
+      description: Saved/paired devices
+      items:
+        $ref: '#/BluetoothDevice'
+  required:
+    - enabled
+
+BluetoothDevice:
+  type: object
+  description: Bluetooth device
+  properties:
+    address:
+      type: string
+      pattern: "^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$"
+    name:
+      type: string
+    type:
+      type: string
+    connected:
+      type: boolean
+    paired:
+      type: boolean
+
+# Bluetooth Low Energy
+BluetoothLowEnergy:
+  type: object
+  description: BLE configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    device:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 250
+        address:
+          type: string
+          pattern: "^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$"
+    scanning:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        interval:
+          type: integer
+          description: Scan interval (ms)
+        window:
+          type: integer
+          description: Scan window (ms)
+        duration:
+          type: integer
+          description: Scan duration (seconds)
+    advertising:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        interval:
+          type: integer
+          description: Advertising interval (ms)
+    devices:
+      type: array
+      readOnly: true
+      items:
+        type: object
+        properties:
+          address:
+            type: string
+          name:
+            type: string
+          rssi:
+            type: integer
+  required:
+    - enabled
+
+# IP Passthrough
+IpPassthrough:
+  type: object
+  description: IP passthrough configuration (bridge cellular IP to LAN device)
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    mode:
+      type: string
+      enum:
+        - AUTO
+        - MANUAL
+      default: AUTO
+    manualMac:
+      type: string
+      description: Target MAC address (MANUAL mode)
+      pattern: "^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$"
+  required:
+    - enabled
+    - mode
+
+# IP Pipes
+IpPipe:
+  type: object
+  description: IP pipe (serial-to-IP tunnel) configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    name:
+      type: string
+      maxLength: 250
+    mode:
+      type: string
+      enum:
+        - SERVER
+        - CLIENT
+      default: SERVER
+    protocol:
+      type: string
+      enum:
+        - TCP
+        - UDP
+      default: TCP
+    port:
+      type: integer
+      minimum: 1
+      maximum: 65535
+    serialPort:
+      type: string
+      description: Serial port path
+    clientHost:
+      type: string
+      description: Remote host (CLIENT mode)
+      maxLength: 250
+    clientPort:
+      type: integer
+      description: Remote port (CLIENT mode)
+      minimum: 1
+      maximum: 65535
+    options:
+      type: object
+      properties:
+        packetTimeout:
+          type: integer
+          description: Packet timeout (ms)
+          minimum: 0
+          maximum: 65535
+        maxPacketSize:
+          type: integer
+          minimum: 1
+          maximum: 4096
+        idleTimeout:
+          type: integer
+          description: Idle disconnect timeout (seconds)
+          minimum: 0
+  required:
+    - enabled
+    - name
+    - mode
+    - protocol
+
+# Serial Port
+Serial:
+  type: object
+  description: Serial port configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    port:
+      type: string
+      description: Serial port device path
+    baudRate:
+      type: integer
+      enum:
+        - 300
+        - 600
+        - 1200
+        - 2400
+        - 4800
+        - 9600
+        - 19200
+        - 38400
+        - 57600
+        - 115200
+        - 230400
+      default: 115200
+    dataBits:
+      type: integer
+      enum:
+        - 5
+        - 6
+        - 7
+        - 8
+      default: 8
+    parity:
+      type: string
+      enum:
+        - NONE
+        - EVEN
+        - ODD
+      default: NONE
+    stopBits:
+      type: integer
+      enum:
+        - 1
+        - 2
+      default: 1
+    flowControl:
+      type: string
+      enum:
+        - NONE
+        - HARDWARE
+        - SOFTWARE
+      default: NONE
+  required:
+    - port
+    - baudRate
+    - dataBits
+    - parity
+    - stopBits
+    - flowControl
+
+# GPS
+Gps:
+  type: object
+  description: GPS configuration and location data
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    mode:
+      type: string
+      enum:
+        - STANDALONE
+        - NMEA_OUTPUT
+      default: STANDALONE
+    nmeaOutput:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        port:
+          type: integer
+          minimum: 1
+          maximum: 65535
+        protocol:
+          type: string
+          enum:
+            - TCP
+            - UDP
+          default: TCP
+    location:
+      type: object
+      description: Current location (read-only)
+      readOnly: true
+      properties:
+        latitude:
+          type: number
+        longitude:
+          type: number
+        altitude:
+          type: number
+        speed:
+          type: number
+        heading:
+          type: number
+        satellites:
+          type: integer
+        fix:
+          type: string
+          enum:
+            - NO_FIX
+            - 2D
+            - 3D
+        timestamp:
+          type: string
+  required:
+    - enabled

@@ -1,0 +1,568 @@
+openapi: 3.0.3
+info:
+  title: MTS Device API
+  description: |
+    RESTful API for managing MTS IoT devices (mPower Edge Intelligence platform).
+
+    This API provides comprehensive device management capabilities including:
+    - System configuration and monitoring
+    - Cellular connectivity management
+    - Network configuration (WiFi, Ethernet, VPN)
+    - User authentication and authorization
+    - LoRa network management
+    - SCADA protocols
+    - Docker container management
+    - Firmware updates and diagnostics
+
+    ## Authentication
+
+    The API uses session-based authentication with cookies. Users must first authenticate
+    via the `/api/login` endpoint to obtain a session cookie, which is then used for
+    subsequent API requests.
+
+    ## API Structure
+
+    The API follows a resource-based structure where most endpoints follow the pattern:
+    - `GET /api?fields=<resource>` - Retrieve resource data
+    - `PUT /api/<resource>` - Update resource configuration
+    - `POST /api/command/<action>` - Execute commands
+    - `DELETE /api/<resource>/<id>` - Delete resource items
+
+    ## Permissions
+
+    The API supports role-based access control (RBAC) with three built-in roles:
+    - **Admin**: Full access to all endpoints and operations
+    - **Engineer** (User): Read and modify access to most configuration
+    - **Monitor** (Guest): Read-only access to status and monitoring data
+
+    ## Schema Documentation
+
+    Detailed schema documentation extracted from source code is available in the
+    separate schema files under the `schemas/` directory.
+
+  version: 2.0.0
+  contact:
+    name: Multi-Tech Systems
+    url: https://www.multitech.com
+  license:
+    name: Proprietary
+
+servers:
+  - url: http://{device-ip}
+    description: Device local network access
+    variables:
+      device-ip:
+        default: 192.168.2.1
+        description: IP address of the MTS device
+  - url: https://{device-ip}
+    description: Secure device local network access
+    variables:
+      device-ip:
+        default: 192.168.2.1
+        description: IP address of the MTS device
+
+tags:
+  - name: Authentication
+    description: User authentication and session management
+  - name: System
+    description: System information and configuration
+  - name: Cellular
+    description: Cellular connectivity configuration
+  - name: Users
+    description: User account management
+  - name: Network
+    description: Network interface configuration (WiFi, DNS, DHCP, Routes)
+  - name: Status
+    description: Device status and monitoring
+  - name: Commands
+    description: Device command execution
+  - name: LoRa
+    description: LoRa network server and gateway management
+  - name: VPN
+    description: VPN tunnel configuration (OpenVPN, IPsec, GRE)
+  - name: Firewall
+    description: Firewall and security configuration
+  - name: SCADA
+    description: SCADA protocol configuration
+  - name: Docker
+    description: Docker container management
+  - name: GPS
+    description: GPS configuration and location data
+  - name: Serial
+    description: Serial port configuration
+  - name: SMS
+    description: SMS messaging
+  - name: Certificates
+    description: Certificate management
+  - name: WAN Management
+    description: WAN failover, load balancing, and interface management
+  - name: Security
+    description: Security configuration (Remote access, RADIUS, bootloader)
+  - name: Monitoring
+    description: Stats and monitoring endpoints
+  - name: Notifications
+    description: Email, SMS, and event notifications
+  - name: Time Sync
+    description: Time synchronization (NTP, cellular)
+
+paths:
+  # Authentication
+  /api/login:
+    $ref: 'paths/authentication.yaml#/~1api~1login'
+  /api/logout:
+    $ref: 'paths/authentication.yaml#/~1api~1logout'
+  /api/session:
+    $ref: 'paths/authentication.yaml#/~1api~1session'
+
+  # System
+  /api?fields=system:
+    $ref: 'paths/system.yaml#/~1api?fields=system'
+  /api/system:
+    $ref: 'paths/system.yaml#/~1api~1system'
+  /api?fields=status:
+    $ref: 'paths/system.yaml#/~1api?fields=status'
+  /api?fields=databaseInfo:
+    $ref: 'paths/system.yaml#/~1api?fields=databaseInfo'
+
+  # Users
+  /api?fields=users:
+    $ref: 'paths/users.yaml#/~1api?fields=users'
+  /api/users:
+    $ref: 'paths/users.yaml#/~1api~1users'
+  /api/users/{username}:
+    $ref: 'paths/users.yaml#/~1api~1users~1{username}'
+  /api?fields=customRoles:
+    $ref: 'paths/users.yaml#/~1api?fields=customRoles'
+  /api?fields=passwordComplexityRules:
+    $ref: 'paths/users.yaml#/~1api?fields=passwordComplexityRules'
+  /api/passwordComplexityRules:
+    $ref: 'paths/users.yaml#/~1api~1passwordComplexityRules'
+
+  # Cellular
+  /api?fields=cellular:
+    $ref: 'paths/cellular.yaml#/~1api?fields=cellular'
+  /api/cellular:
+    $ref: 'paths/cellular.yaml#/~1api~1cellular'
+  /api?fields=backOffTimers:
+    $ref: 'paths/cellular.yaml#/~1api?fields=backOffTimers'
+  /api/backOffTimers:
+    $ref: 'paths/cellular.yaml#/~1api~1backOffTimers'
+  /api?fields=cellTimeSync:
+    $ref: 'paths/cellular.yaml#/~1api?fields=cellTimeSync'
+  /api/cellTimeSync:
+    $ref: 'paths/cellular.yaml#/~1api~1cellTimeSync'
+
+  # SMS
+  /api?fields=sms:
+    $ref: 'paths/sms.yaml#/~1api?fields=sms'
+  /api/sms:
+    $ref: 'paths/sms.yaml#/~1api~1sms'
+  /api?fields=sms/inbox:
+    $ref: 'paths/sms.yaml#/~1api?fields=sms~1inbox'
+  /api?fields=sms/outbox:
+    $ref: 'paths/sms.yaml#/~1api?fields=sms~1outbox'
+  /api/sms/outbox:
+    $ref: 'paths/sms.yaml#/~1api~1sms~1outbox'
+  /api/sms/inbox/{guid}:
+    $ref: 'paths/sms.yaml#/~1api~1sms~1inbox~1{guid}'
+  /api/sms/outbox/{guid}:
+    $ref: 'paths/sms.yaml#/~1api~1sms~1outbox~1{guid}'
+
+  # Network
+  /api?fields=wifi:
+    $ref: 'paths/network.yaml#/~1api?fields=wifi'
+  /api/wifi:
+    $ref: 'paths/network.yaml#/~1api~1wifi'
+  /api?fields=dns:
+    $ref: 'paths/network.yaml#/~1api?fields=dns'
+  /api/dns:
+    $ref: 'paths/network.yaml#/~1api~1dns'
+  /api?fields=dhcp:
+    $ref: 'paths/network.yaml#/~1api?fields=dhcp'
+  /api/dhcp:
+    $ref: 'paths/network.yaml#/~1api~1dhcp'
+  /api?fields=routes:
+    $ref: 'paths/network.yaml#/~1api?fields=routes'
+  /api/routes:
+    $ref: 'paths/network.yaml#/~1api~1routes'
+  /api?fields=ni:
+    $ref: 'paths/network.yaml#/~1api?fields=ni'
+  /api?fields=wanmngr:
+    $ref: 'paths/network.yaml#/~1api?fields=wanmngr'
+  /api/wanmngr:
+    $ref: 'paths/network.yaml#/~1api~1wanmngr'
+  /api?fields=waninfo:
+    $ref: 'paths/network.yaml#/~1api?fields=waninfo'
+  /api?fields=ddns:
+    $ref: 'paths/network.yaml#/~1api?fields=ddns'
+  /api/ddns:
+    $ref: 'paths/network.yaml#/~1api~1ddns'
+
+  # VPN
+  /api?fields=ovpnTunnels:
+    $ref: 'paths/vpn.yaml#/~1api?fields=ovpnTunnels'
+  /api/ovpnTunnels:
+    $ref: 'paths/vpn.yaml#/~1api~1ovpnTunnels'
+  /api/ovpnTunnels/{name}:
+    $ref: 'paths/vpn.yaml#/~1api~1ovpnTunnels~1{name}'
+  /api?fields=ipsecTunnels:
+    $ref: 'paths/vpn.yaml#/~1api?fields=ipsecTunnels'
+  /api/ipsecTunnels:
+    $ref: 'paths/vpn.yaml#/~1api~1ipsecTunnels'
+  /api/ipsecTunnels/{name}:
+    $ref: 'paths/vpn.yaml#/~1api~1ipsecTunnels~1{name}'
+  /api?fields=greTunnels:
+    $ref: 'paths/vpn.yaml#/~1api?fields=greTunnels'
+  /api/greTunnels:
+    $ref: 'paths/vpn.yaml#/~1api~1greTunnels'
+  /api/greTunnels/{name}:
+    $ref: 'paths/vpn.yaml#/~1api~1greTunnels~1{name}'
+
+  # Firewall
+  /api?fields=firewall:
+    $ref: 'paths/firewall.yaml#/~1api?fields=firewall'
+  /api/firewall:
+    $ref: 'paths/firewall.yaml#/~1api~1firewall'
+  /api?fields=filters:
+    $ref: 'paths/firewall.yaml#/~1api?fields=filters'
+  /api/filters:
+    $ref: 'paths/firewall.yaml#/~1api~1filters'
+  /api/filters/{name}:
+    $ref: 'paths/firewall.yaml#/~1api~1filters~1{name}'
+  /api?fields=nat:
+    $ref: 'paths/firewall.yaml#/~1api?fields=nat'
+  /api/nat:
+    $ref: 'paths/firewall.yaml#/~1api~1nat'
+  /api/nat/{name}:
+    $ref: 'paths/firewall.yaml#/~1api~1nat~1{name}'
+  /api?fields=trustedIp:
+    $ref: 'paths/firewall.yaml#/~1api?fields=trustedIp'
+  /api/trustedIp:
+    $ref: 'paths/firewall.yaml#/~1api~1trustedIp'
+
+  # LoRa
+  /api?fields=loraNetwork:
+    $ref: 'paths/lora.yaml#/~1api?fields=loraNetwork'
+  /api/loraNetwork:
+    $ref: 'paths/lora.yaml#/~1api~1loraNetwork'
+  /api/loraNetwork/devices:
+    $ref: 'paths/lora.yaml#/~1api~1loraNetwork~1devices'
+  /api/loraNetwork/devices/{devEui}:
+    $ref: 'paths/lora.yaml#/~1api~1loraNetwork~1devices~1{devEui}'
+
+  # Services
+  /api?fields=snmp:
+    $ref: 'paths/services.yaml#/~1api?fields=snmp'
+  /api/snmp:
+    $ref: 'paths/services.yaml#/~1api~1snmp'
+  /api?fields=sntp:
+    $ref: 'paths/services.yaml#/~1api?fields=sntp'
+  /api/sntp:
+    $ref: 'paths/services.yaml#/~1api~1sntp'
+  /api?fields=smtp:
+    $ref: 'paths/services.yaml#/~1api?fields=smtp'
+  /api/smtp:
+    $ref: 'paths/services.yaml#/~1api~1smtp'
+  /api?fields=syslog:
+    $ref: 'paths/services.yaml#/~1api?fields=syslog'
+  /api/syslog:
+    $ref: 'paths/services.yaml#/~1api~1syslog'
+  /api?fields=lldp:
+    $ref: 'paths/services.yaml#/~1api?fields=lldp'
+  /api/lldp:
+    $ref: 'paths/services.yaml#/~1api~1lldp'
+  /api?fields=mdns:
+    $ref: 'paths/services.yaml#/~1api?fields=mdns'
+  /api/mdns:
+    $ref: 'paths/services.yaml#/~1api~1mdns'
+  /api?fields=radius:
+    $ref: 'paths/services.yaml#/~1api?fields=radius'
+  /api/radius:
+    $ref: 'paths/services.yaml#/~1api~1radius'
+
+  # Device Management
+  /api?fields=autoReboot:
+    $ref: 'paths/device-management.yaml#/~1api?fields=autoReboot'
+  /api/autoReboot:
+    $ref: 'paths/device-management.yaml#/~1api~1autoReboot'
+  /api?fields=remoteMgmt:
+    $ref: 'paths/device-management.yaml#/~1api?fields=remoteMgmt'
+  /api/remoteMgmt:
+    $ref: 'paths/device-management.yaml#/~1api~1remoteMgmt'
+  /api?fields=remoteAccess:
+    $ref: 'paths/device-management.yaml#/~1api?fields=remoteAccess'
+  /api/remoteAccess:
+    $ref: 'paths/device-management.yaml#/~1api~1remoteAccess'
+  /api?fields=resetButton:
+    $ref: 'paths/device-management.yaml#/~1api?fields=resetButton'
+  /api/resetButton:
+    $ref: 'paths/device-management.yaml#/~1api~1resetButton'
+  /api?fields=docker:
+    $ref: 'paths/device-management.yaml#/~1api?fields=docker'
+  /api/docker:
+    $ref: 'paths/device-management.yaml#/~1api~1docker'
+  /api?fields=customApps:
+    $ref: 'paths/device-management.yaml#/~1api?fields=customApps'
+  /api/customApps:
+    $ref: 'paths/device-management.yaml#/~1api~1customApps'
+  /api?fields=brand:
+    $ref: 'paths/device-management.yaml#/~1api?fields=brand'
+
+  # Connectivity
+  /api?fields=bluetooth:
+    $ref: 'paths/connectivity.yaml#/~1api?fields=bluetooth'
+  /api/bluetooth:
+    $ref: 'paths/connectivity.yaml#/~1api~1bluetooth'
+  /api?fields=bluetoothLowEnergy:
+    $ref: 'paths/connectivity.yaml#/~1api?fields=bluetoothLowEnergy'
+  /api/bluetoothLowEnergy:
+    $ref: 'paths/connectivity.yaml#/~1api~1bluetoothLowEnergy'
+  /api?fields=gps:
+    $ref: 'paths/connectivity.yaml#/~1api?fields=gps'
+  /api/gps:
+    $ref: 'paths/connectivity.yaml#/~1api~1gps'
+  /api?fields=serial:
+    $ref: 'paths/connectivity.yaml#/~1api?fields=serial'
+  /api/serial:
+    $ref: 'paths/connectivity.yaml#/~1api~1serial'
+  /api?fields=ipPassthrough:
+    $ref: 'paths/connectivity.yaml#/~1api?fields=ipPassthrough'
+  /api/ipPassthrough:
+    $ref: 'paths/connectivity.yaml#/~1api~1ipPassthrough'
+  /api?fields=ipPipes:
+    $ref: 'paths/connectivity.yaml#/~1api?fields=ipPipes'
+  /api/ipPipes:
+    $ref: 'paths/connectivity.yaml#/~1api~1ipPipes'
+
+  # Commands
+  /api/command/reboot:
+    $ref: 'paths/commands.yaml#/~1api~1command~1reboot'
+  /api/command/save:
+    $ref: 'paths/commands.yaml#/~1api~1command~1save'
+  /api/command/saveAndApply:
+    $ref: 'paths/commands.yaml#/~1api~1command~1saveAndApply'
+  /api/command/saveAndReboot:
+    $ref: 'paths/commands.yaml#/~1api~1command~1saveAndReboot'
+  /api/command/resetToDefaults:
+    $ref: 'paths/commands.yaml#/~1api~1command~1resetToDefaults'
+  /api/command/cellularConnect:
+    $ref: 'paths/commands.yaml#/~1api~1command~1cellularConnect'
+  /api/command/cellularDisconnect:
+    $ref: 'paths/commands.yaml#/~1api~1command~1cellularDisconnect'
+  /api/command/modemReset:
+    $ref: 'paths/commands.yaml#/~1api~1command~1modemReset'
+  /api/command/lnsRestart:
+    $ref: 'paths/commands.yaml#/~1api~1command~1lnsRestart'
+  /api/command/checkin:
+    $ref: 'paths/commands.yaml#/~1api~1command~1checkin'
+  /api/command/ping:
+    $ref: 'paths/commands.yaml#/~1api~1command~1ping'
+  /api/command/traceroute:
+    $ref: 'paths/commands.yaml#/~1api~1command~1traceroute'
+
+  # Advanced
+  /api?fields=scada:
+    $ref: 'paths/advanced.yaml#/~1api?fields=scada'
+  /api/scada:
+    $ref: 'paths/advanced.yaml#/~1api~1scada'
+  /api?fields=mqttBroker:
+    $ref: 'paths/advanced.yaml#/~1api?fields=mqttBroker'
+  /api/mqttBroker:
+    $ref: 'paths/advanced.yaml#/~1api~1mqttBroker'
+  /api?fields=alert:
+    $ref: 'paths/advanced.yaml#/~1api?fields=alert'
+  /api/alert:
+    $ref: 'paths/advanced.yaml#/~1api~1alert'
+  /api?fields=eventlog:
+    $ref: 'paths/advanced.yaml#/~1api?fields=eventlog'
+  /api/eventlog:
+    $ref: 'paths/advanced.yaml#/~1api~1eventlog'
+  /api?fields=eventlog/events:
+    $ref: 'paths/advanced.yaml#/~1api?fields=eventlog~1events'
+  /api?fields=extIo:
+    $ref: 'paths/advanced.yaml#/~1api?fields=extIo'
+  /api/extIo:
+    $ref: 'paths/advanced.yaml#/~1api~1extIo'
+  /api?fields=secureProtocols:
+    $ref: 'paths/advanced.yaml#/~1api?fields=secureProtocols'
+  /api/secureProtocols:
+    $ref: 'paths/advanced.yaml#/~1api~1secureProtocols'
+  /api?fields=policy:
+    $ref: 'paths/advanced.yaml#/~1api?fields=policy'
+  /api/policy:
+    $ref: 'paths/advanced.yaml#/~1api~1policy'
+
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: PHPSESSID
+      description: Session cookie obtained from /api/login
+
+  schemas:
+    # Common schemas
+    ApiResponse:
+      $ref: 'schemas/common.yaml#/ApiResponse'
+    ErrorResponse:
+      $ref: 'schemas/common.yaml#/ErrorResponse'
+    SuccessResponse:
+      $ref: 'schemas/common.yaml#/SuccessResponse'
+    LoginRequest:
+      $ref: 'schemas/common.yaml#/LoginRequest'
+    LoginResponse:
+      $ref: 'schemas/common.yaml#/LoginResponse'
+
+    # System schemas
+    System:
+      $ref: 'schemas/system.yaml#/System'
+    SystemUpdate:
+      $ref: 'schemas/system.yaml#/SystemUpdate'
+
+    # User schemas
+    User:
+      $ref: 'schemas/users.yaml#/User'
+    UserCreate:
+      $ref: 'schemas/users.yaml#/UserCreate'
+    UserUpdate:
+      $ref: 'schemas/users.yaml#/UserUpdate'
+    CustomRole:
+      $ref: 'schemas/users.yaml#/CustomRole'
+    PasswordComplexityRules:
+      $ref: 'schemas/users.yaml#/PasswordComplexityRules'
+
+    # Cellular schemas
+    Cellular:
+      $ref: 'schemas/cellular.yaml#/Cellular'
+    CellularProviderProfile:
+      $ref: 'schemas/cellular.yaml#/CellularProviderProfile'
+    CellularSimProfile:
+      $ref: 'schemas/cellular.yaml#/CellularSimProfile'
+    BackOffTimers:
+      $ref: 'schemas/cellular.yaml#/BackOffTimers'
+    CellTimeSync:
+      $ref: 'schemas/cellular.yaml#/CellTimeSync'
+
+    # SMS schemas
+    Sms:
+      $ref: 'schemas/sms.yaml#/Sms'
+    SmsCommands:
+      $ref: 'schemas/sms.yaml#/SmsCommands'
+    SmsSendRequest:
+      $ref: 'schemas/sms.yaml#/SmsSendRequest'
+    SmsInboxMessage:
+      $ref: 'schemas/sms.yaml#/SmsInboxMessage'
+    SmsOutboxMessage:
+      $ref: 'schemas/sms.yaml#/SmsOutboxMessage'
+
+    # Network schemas
+    Wifi:
+      $ref: 'schemas/network.yaml#/Wifi'
+    Dns:
+      $ref: 'schemas/network.yaml#/Dns'
+    Dhcp:
+      $ref: 'schemas/network.yaml#/Dhcp'
+    Route:
+      $ref: 'schemas/network.yaml#/Route'
+    NetworkInterface:
+      $ref: 'schemas/network.yaml#/NetworkInterface'
+    WanManager:
+      $ref: 'schemas/network.yaml#/WanManager'
+    WanInfo:
+      $ref: 'schemas/network.yaml#/WanInfo'
+    Ddns:
+      $ref: 'schemas/network.yaml#/Ddns'
+
+    # VPN schemas
+    OpenVpnTunnel:
+      $ref: 'schemas/vpn.yaml#/OpenVpnTunnel'
+    IpsecTunnel:
+      $ref: 'schemas/vpn.yaml#/IpsecTunnel'
+    GreTunnel:
+      $ref: 'schemas/vpn.yaml#/GreTunnel'
+
+    # Firewall schemas
+    Firewall:
+      $ref: 'schemas/firewall.yaml#/Firewall'
+    Filter:
+      $ref: 'schemas/firewall.yaml#/Filter'
+    Nat:
+      $ref: 'schemas/firewall.yaml#/Nat'
+    TrustedIp:
+      $ref: 'schemas/firewall.yaml#/TrustedIp'
+
+    # LoRa schemas
+    LoraNetwork:
+      $ref: 'schemas/lora.yaml#/LoraNetwork'
+    LoraDevice:
+      $ref: 'schemas/lora.yaml#/LoraDevice'
+
+    # Services schemas
+    Snmp:
+      $ref: 'schemas/services.yaml#/Snmp'
+    Sntp:
+      $ref: 'schemas/services.yaml#/Sntp'
+    Smtp:
+      $ref: 'schemas/services.yaml#/Smtp'
+    Syslog:
+      $ref: 'schemas/services.yaml#/Syslog'
+    Lldp:
+      $ref: 'schemas/services.yaml#/Lldp'
+    Mdns:
+      $ref: 'schemas/services.yaml#/Mdns'
+    Radius:
+      $ref: 'schemas/services.yaml#/Radius'
+
+    # Device management schemas
+    AutoReboot:
+      $ref: 'schemas/device-management.yaml#/AutoReboot'
+    RemoteMgmt:
+      $ref: 'schemas/device-management.yaml#/RemoteMgmt'
+    RemoteAccess:
+      $ref: 'schemas/device-management.yaml#/RemoteAccess'
+    ResetButton:
+      $ref: 'schemas/device-management.yaml#/ResetButton'
+    Docker:
+      $ref: 'schemas/device-management.yaml#/Docker'
+    CustomApp:
+      $ref: 'schemas/device-management.yaml#/CustomApp'
+    Brand:
+      $ref: 'schemas/device-management.yaml#/Brand'
+
+    # Connectivity schemas
+    Bluetooth:
+      $ref: 'schemas/connectivity.yaml#/Bluetooth'
+    BluetoothLowEnergy:
+      $ref: 'schemas/connectivity.yaml#/BluetoothLowEnergy'
+    Gps:
+      $ref: 'schemas/connectivity.yaml#/Gps'
+    Serial:
+      $ref: 'schemas/connectivity.yaml#/Serial'
+    IpPassthrough:
+      $ref: 'schemas/connectivity.yaml#/IpPassthrough'
+    IpPipe:
+      $ref: 'schemas/connectivity.yaml#/IpPipe'
+
+    # Advanced schemas
+    Scada:
+      $ref: 'schemas/advanced.yaml#/Scada'
+    MqttBroker:
+      $ref: 'schemas/advanced.yaml#/MqttBroker'
+    Alert:
+      $ref: 'schemas/advanced.yaml#/Alert'
+    ExtIo:
+      $ref: 'schemas/advanced.yaml#/ExtIo'
+    SecureProtocols:
+      $ref: 'schemas/advanced.yaml#/SecureProtocols'
+
+    # Status schemas
+    Status:
+      $ref: 'schemas/status.yaml#/Status'
+    EventLog:
+      $ref: 'schemas/status.yaml#/EventLog'
+    EventLogEntry:
+      $ref: 'schemas/status.yaml#/EventLogEntry'
+    Policy:
+      $ref: 'schemas/status.yaml#/Policy'
+    DatabaseInfo:
+      $ref: 'schemas/status.yaml#/DatabaseInfo'

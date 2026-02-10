@@ -252,6 +252,49 @@ This document tracks the progress of extracting accurate API schema information 
 
 ---
 
+## OpenAPI/Swagger Documentation
+
+**Status:** ✅ Complete (February 10, 2026)
+
+The OpenAPI specification has been restructured into modular files:
+
+### Directory Structure
+```
+mpower-api-docs/openapi/
+├── api-documentation.yaml    # Main spec with $ref imports
+├── schemas/                  # 14 schema files by domain
+└── paths/                    # 14 path files by domain
+```
+
+### Generated Files
+- `api-documentation-bundled.yaml` - Bundled single-file YAML
+- `api-documentation-bundled.json` - Bundled single-file JSON (271 KB)
+
+### Validation
+- ✅ Validated with swagger-cli
+- All schemas extracted from source `.schema.json` files
+- Covers 100+ endpoints across 58+ resources
+
+### Schema Files
+| File | Contents |
+|------|----------|
+| common.yaml | Auth, responses, common types |
+| system.yaml | System configuration |
+| users.yaml | User management, roles, password rules |
+| cellular.yaml | Cellular, SIM profiles, backoff timers |
+| sms.yaml | SMS configuration and commands |
+| network.yaml | WiFi, DNS, DHCP, routes, WAN, DDNS |
+| vpn.yaml | OpenVPN, IPsec, GRE tunnels |
+| firewall.yaml | Firewall, filters, NAT, trusted IP |
+| lora.yaml | LoRa network server and devices |
+| services.yaml | SNMP, NTP, SMTP, syslog, LLDP, mDNS, RADIUS |
+| device-management.yaml | Auto reboot, remote access, Docker, apps |
+| connectivity.yaml | Bluetooth, BLE, GPS, serial, IP pipes |
+| advanced.yaml | SCADA, MQTT, alerts, I/O |
+| status.yaml | Status, event log, policy |
+
+---
+
 ## Notes
 
 ### Data Sources Priority

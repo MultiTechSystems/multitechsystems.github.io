@@ -1,0 +1,192 @@
+# Common Schema Definitions
+# Reusable types referenced across multiple schemas
+
+# Common Response Types
+ApiResponse:
+  type: object
+  description: Standard API response wrapper
+  properties:
+    result:
+      type: object
+      description: Response data
+    error:
+      type: string
+      description: Error message (if any)
+
+ErrorResponse:
+  type: object
+  description: Error response
+  properties:
+    error:
+      type: string
+      description: Error message
+    code:
+      type: integer
+      description: Error code
+  required:
+    - error
+
+SuccessResponse:
+  type: object
+  description: Success response
+  properties:
+    success:
+      type: boolean
+      default: true
+
+# Authentication
+LoginRequest:
+  type: object
+  description: Login credentials
+  required:
+    - username
+    - password
+  properties:
+    username:
+      type: string
+      description: Username
+      example: admin
+    password:
+      type: string
+      description: Password
+      format: password
+
+LoginResponse:
+  type: object
+  description: Login response
+  properties:
+    result:
+      type: object
+      properties:
+        username:
+          type: string
+        role:
+          type: string
+        sessionTimeout:
+          type: integer
+
+# Common Data Types
+UUID:
+  type: string
+  format: uuid
+  description: Universally unique identifier
+  pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+
+MacAddress:
+  type: string
+  description: MAC address
+  pattern: "^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$"
+  example: "00:11:22:33:44:55"
+
+IpAddress:
+  type: string
+  format: ipv4
+  description: IPv4 address
+  example: "192.168.2.1"
+
+IpV6Address:
+  type: string
+  format: ipv6
+  description: IPv6 address
+
+IpOrHostname:
+  type: string
+  description: IP address or hostname
+  maxLength: 250
+
+PortNumber:
+  type: integer
+  description: TCP/UDP port number
+  minimum: 1
+  maximum: 65535
+
+PortsExpression:
+  type: string
+  description: Port or port range (e.g., "80", "8080-8090", "22,80,443")
+  pattern: "^(\\d+(-\\d+)?)(,\\d+(-\\d+)?)*$"
+
+HexString:
+  type: string
+  description: Hexadecimal string
+  pattern: "^[0-9a-fA-F]+$"
+
+# Certificate Types
+Certificate:
+  type: object
+  description: TLS/SSL certificate
+  properties:
+    name:
+      type: string
+      description: Certificate name/alias
+      maxLength: 250
+    type:
+      type: string
+      enum:
+        - CA
+        - CLIENT
+        - SERVER
+    content:
+      type: string
+      description: PEM-encoded certificate
+    privateKey:
+      type: string
+      description: PEM-encoded private key (if applicable)
+    expirationDate:
+      type: string
+      description: Certificate expiration date
+      readOnly: true
+    issuer:
+      type: string
+      description: Certificate issuer
+      readOnly: true
+    subject:
+      type: string
+      description: Certificate subject
+      readOnly: true
+  required:
+    - name
+    - type
+    - content
+
+# Command Types
+CommandRequest:
+  type: object
+  description: Generic command request
+  properties:
+    command:
+      type: string
+      description: Command name
+    parameters:
+      type: object
+      description: Command parameters
+      additionalProperties: true
+
+CommandResponse:
+  type: object
+  description: Command execution response
+  properties:
+    success:
+      type: boolean
+    result:
+      type: object
+      additionalProperties: true
+    error:
+      type: string
+
+# Pagination
+PaginatedResponse:
+  type: object
+  description: Paginated list response
+  properties:
+    items:
+      type: array
+      items: {}
+    total:
+      type: integer
+      description: Total number of items
+    offset:
+      type: integer
+      description: Current offset
+    limit:
+      type: integer
+      description: Items per page

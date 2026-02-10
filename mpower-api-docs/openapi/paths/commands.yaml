@@ -1,0 +1,344 @@
+# Command Paths
+
+/api/command/reboot:
+  post:
+    tags:
+      - Commands
+    summary: Reboot device
+    description: Reboot the device
+    operationId: rebootDevice
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Reboot initiated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/SuccessResponse'
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/command/save:
+  post:
+    tags:
+      - Commands
+    summary: Save configuration
+    description: Save current configuration to persistent storage
+    operationId: saveConfig
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Configuration saved
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/SuccessResponse'
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/command/saveAndApply:
+  post:
+    tags:
+      - Commands
+    summary: Save and apply configuration
+    description: Save configuration and apply changes requiring restart
+    operationId: saveAndApplyConfig
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Configuration saved and applied
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/SuccessResponse'
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/command/saveAndReboot:
+  post:
+    tags:
+      - Commands
+    summary: Save and reboot
+    description: Save configuration and reboot the device
+    operationId: saveAndReboot
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Save initiated, reboot pending
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/SuccessResponse'
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/command/resetToDefaults:
+  post:
+    tags:
+      - Commands
+    summary: Reset to factory defaults
+    description: Reset device configuration to factory defaults
+    operationId: resetToDefaults
+    security:
+      - sessionCookie: []
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              keepNetwork:
+                type: boolean
+                description: Keep network configuration
+                default: false
+              keepUsers:
+                type: boolean
+                description: Keep user accounts
+                default: false
+    responses:
+      '200':
+        description: Reset initiated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/SuccessResponse'
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/command/cellularConnect:
+  post:
+    tags:
+      - Commands
+      - Cellular
+    summary: Connect cellular
+    description: Initiate cellular connection
+    operationId: cellularConnect
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Connection initiated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/SuccessResponse'
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/command/cellularDisconnect:
+  post:
+    tags:
+      - Commands
+      - Cellular
+    summary: Disconnect cellular
+    description: Disconnect cellular connection
+    operationId: cellularDisconnect
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Disconnection initiated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/SuccessResponse'
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/command/modemReset:
+  post:
+    tags:
+      - Commands
+      - Cellular
+    summary: Reset modem
+    description: Reset the cellular modem
+    operationId: modemReset
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Modem reset initiated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/SuccessResponse'
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/command/lnsRestart:
+  post:
+    tags:
+      - Commands
+      - LoRa
+    summary: Restart LoRa network server
+    description: Restart the LoRa network server
+    operationId: lnsRestart
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: LNS restart initiated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/SuccessResponse'
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/command/checkin:
+  post:
+    tags:
+      - Commands
+    summary: Force remote management check-in
+    description: Force immediate check-in with DeviceHQ
+    operationId: checkin
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Check-in initiated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/SuccessResponse'
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/command/ping:
+  post:
+    tags:
+      - Commands
+    summary: Ping host
+    description: Ping a remote host
+    operationId: ping
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - host
+            properties:
+              host:
+                type: string
+                description: Host to ping
+              count:
+                type: integer
+                description: Number of pings
+                default: 4
+              interface:
+                type: string
+                description: Source interface
+    responses:
+      '200':
+        description: Ping results
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                result:
+                  type: object
+                  properties:
+                    transmitted:
+                      type: integer
+                    received:
+                      type: integer
+                    loss:
+                      type: number
+                    rtt:
+                      type: object
+                      properties:
+                        min:
+                          type: number
+                        avg:
+                          type: number
+                        max:
+                          type: number
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+
+/api/command/traceroute:
+  post:
+    tags:
+      - Commands
+    summary: Traceroute to host
+    description: Perform traceroute to a remote host
+    operationId: traceroute
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - host
+            properties:
+              host:
+                type: string
+                description: Target host
+              maxHops:
+                type: integer
+                description: Maximum hops
+                default: 30
+              interface:
+                type: string
+                description: Source interface
+    responses:
+      '200':
+        description: Traceroute results
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                result:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      hop:
+                        type: integer
+                      address:
+                        type: string
+                      rtt:
+                        type: number
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated

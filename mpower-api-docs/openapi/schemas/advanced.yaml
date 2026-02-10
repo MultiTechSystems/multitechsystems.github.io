@@ -1,0 +1,336 @@
+# Advanced Features Schemas
+# Source: mtsDeviceAPI/json/strict/*.schema.json
+
+# SCADA Configuration
+Scada:
+  type: object
+  description: SCADA protocol configuration
+  properties:
+    modbusSerial:
+      $ref: '#/ModbusSerial'
+    modbusTcp:
+      $ref: '#/ModbusTcp'
+    dnp3Serial:
+      $ref: '#/Dnp3Serial'
+    dnp3Tcp:
+      $ref: '#/Dnp3Tcp'
+
+ModbusSerial:
+  type: object
+  description: Modbus serial configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    port:
+      type: string
+      description: Serial port
+    mode:
+      type: string
+      enum:
+        - RTU
+        - ASCII
+      default: RTU
+    baudRate:
+      type: integer
+      default: 9600
+    slaveId:
+      type: integer
+      minimum: 1
+      maximum: 247
+  required:
+    - enabled
+
+ModbusTcp:
+  type: object
+  description: Modbus TCP configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    port:
+      type: integer
+      minimum: 1
+      maximum: 65535
+      default: 502
+    unitId:
+      type: integer
+      minimum: 0
+      maximum: 255
+      default: 1
+  required:
+    - enabled
+
+Dnp3Serial:
+  type: object
+  description: DNP3 serial configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    port:
+      type: string
+    masterAddress:
+      type: integer
+    outstationAddress:
+      type: integer
+  required:
+    - enabled
+
+Dnp3Tcp:
+  type: object
+  description: DNP3 TCP configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    port:
+      type: integer
+      minimum: 1
+      maximum: 65535
+      default: 20000
+    masterAddress:
+      type: integer
+    outstationAddress:
+      type: integer
+  required:
+    - enabled
+
+# MQTT Broker
+MqttBroker:
+  type: object
+  description: MQTT broker configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    port:
+      type: integer
+      minimum: 1
+      maximum: 65535
+      default: 1883
+    sslPort:
+      type: integer
+      minimum: 0
+      maximum: 65535
+      default: 8883
+    websocketPort:
+      type: integer
+      minimum: 0
+      maximum: 65535
+      default: 0
+    authentication:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        users:
+          type: array
+          items:
+            type: object
+            properties:
+              username:
+                type: string
+                maxLength: 250
+              password:
+                type: string
+              acl:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    topic:
+                      type: string
+                    access:
+                      type: string
+                      enum:
+                        - read
+                        - write
+                        - readwrite
+    persistence:
+      type: boolean
+      default: false
+    maxMessageSize:
+      type: integer
+      minimum: 0
+      maximum: 268435456
+      default: 0
+  required:
+    - enabled
+
+# Alert Configuration
+Alert:
+  type: object
+  description: Alert/notification configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    recipients:
+      type: array
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+            enum:
+              - EMAIL
+              - SMS
+          address:
+            type: string
+            maxLength: 250
+    triggers:
+      type: array
+      items:
+        $ref: '#/AlertTrigger'
+  required:
+    - enabled
+
+AlertTrigger:
+  type: object
+  description: Alert trigger configuration
+  properties:
+    enabled:
+      type: boolean
+      default: true
+    event:
+      type: string
+      description: Event type
+      enum:
+        - CELLULAR_CONNECT
+        - CELLULAR_DISCONNECT
+        - REBOOT
+        - LOGIN_FAILURE
+        - WAN_FAILOVER
+        - GPS_GEOFENCE
+        - CUSTOM
+    message:
+      type: string
+      maxLength: 250
+  required:
+    - event
+
+# Notification Event Groups
+NotificationEventGroup:
+  type: object
+  description: Notification event group configuration
+  properties:
+    name:
+      type: string
+      maxLength: 250
+    description:
+      type: string
+      maxLength: 250
+    events:
+      type: array
+      items:
+        type: string
+    emailRecipients:
+      type: array
+      items:
+        type: string
+        format: email
+    smsRecipients:
+      type: array
+      items:
+        type: string
+  required:
+    - name
+    - events
+
+# External I/O
+ExtIo:
+  type: object
+  description: External I/O configuration
+  properties:
+    inputs:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+            maxLength: 250
+          enabled:
+            type: boolean
+          state:
+            type: boolean
+            readOnly: true
+          triggerOnRising:
+            type: boolean
+          triggerOnFalling:
+            type: boolean
+    outputs:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+            maxLength: 250
+          enabled:
+            type: boolean
+          state:
+            type: boolean
+          defaultState:
+            type: boolean
+
+# External USB
+ExtUsb:
+  type: object
+  description: External USB configuration
+  properties:
+    enabled:
+      type: boolean
+      default: true
+    autoMount:
+      type: boolean
+      default: true
+    mountPoint:
+      type: string
+      description: USB mount path
+      readOnly: true
+  required:
+    - enabled
+    - autoMount
+
+# Secure Protocols
+SecureProtocols:
+  type: object
+  description: Security protocol settings
+  properties:
+    ssh:
+      type: object
+      properties:
+        ciphers:
+          type: array
+          items:
+            type: string
+        kexAlgorithms:
+          type: array
+          items:
+            type: string
+        macs:
+          type: array
+          items:
+            type: string
+    tls:
+      type: object
+      properties:
+        minVersion:
+          type: string
+          enum:
+            - TLS1.0
+            - TLS1.1
+            - TLS1.2
+            - TLS1.3
+          default: TLS1.2
+        cipherSuites:
+          type: array
+          items:
+            type: string

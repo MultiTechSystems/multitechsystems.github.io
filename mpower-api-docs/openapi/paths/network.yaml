@@ -1,0 +1,357 @@
+# Network Paths
+
+/api?fields=wifi:
+  get:
+    tags:
+      - Network
+    summary: Get WiFi configuration
+    description: Retrieve WiFi settings
+    operationId: getWifi
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: WiFi configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    wifi:
+                      $ref: '../schemas/network.yaml#/Wifi'
+      '401':
+        description: Not authenticated
+
+/api/wifi:
+  put:
+    tags:
+      - Network
+    summary: Update WiFi configuration
+    description: Update WiFi settings
+    operationId: updateWifi
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/network.yaml#/Wifi'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=dns:
+  get:
+    tags:
+      - Network
+    summary: Get DNS configuration
+    description: Retrieve DNS server settings
+    operationId: getDns
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: DNS configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    dns:
+                      $ref: '../schemas/network.yaml#/Dns'
+      '401':
+        description: Not authenticated
+
+/api/dns:
+  put:
+    tags:
+      - Network
+    summary: Update DNS configuration
+    description: Update DNS server settings
+    operationId: updateDns
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/network.yaml#/Dns'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=dhcp:
+  get:
+    tags:
+      - Network
+    summary: Get DHCP configuration
+    description: Retrieve DHCP server settings
+    operationId: getDhcp
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: DHCP configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    dhcp:
+                      $ref: '../schemas/network.yaml#/Dhcp'
+      '401':
+        description: Not authenticated
+
+/api/dhcp:
+  put:
+    tags:
+      - Network
+    summary: Update DHCP configuration
+    description: Update DHCP server settings
+    operationId: updateDhcp
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/network.yaml#/Dhcp'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=routes:
+  get:
+    tags:
+      - Network
+    summary: Get static routes
+    description: Retrieve static route configuration
+    operationId: getRoutes
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Static routes
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    routes:
+                      type: array
+                      items:
+                        $ref: '../schemas/network.yaml#/Route'
+      '401':
+        description: Not authenticated
+
+/api/routes:
+  put:
+    tags:
+      - Network
+    summary: Update static routes
+    description: Update static route configuration
+    operationId: updateRoutes
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../schemas/network.yaml#/Route'
+    responses:
+      '200':
+        description: Routes updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=ni:
+  get:
+    tags:
+      - Network
+    summary: Get network interfaces
+    description: Retrieve network interface configuration
+    operationId: getNetworkInterfaces
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Network interfaces
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    ni:
+                      type: array
+                      items:
+                        $ref: '../schemas/network.yaml#/NetworkInterface'
+      '401':
+        description: Not authenticated
+
+/api?fields=wanmngr:
+  get:
+    tags:
+      - WAN Management
+    summary: Get WAN manager configuration
+    description: Retrieve WAN failover and load balancing settings
+    operationId: getWanManager
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: WAN manager configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    wanmngr:
+                      $ref: '../schemas/network.yaml#/WanManager'
+      '401':
+        description: Not authenticated
+
+/api/wanmngr:
+  put:
+    tags:
+      - WAN Management
+    summary: Update WAN manager configuration
+    description: Update WAN failover and load balancing settings
+    operationId: updateWanManager
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/network.yaml#/WanManager'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=waninfo:
+  get:
+    tags:
+      - WAN Management
+    summary: Get WAN status
+    description: Retrieve WAN interface status
+    operationId: getWanInfo
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: WAN status
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    waninfo:
+                      $ref: '../schemas/network.yaml#/WanInfo'
+      '401':
+        description: Not authenticated
+
+/api?fields=ddns:
+  get:
+    tags:
+      - Network
+    summary: Get DDNS configuration
+    description: Retrieve dynamic DNS settings
+    operationId: getDdns
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: DDNS configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    ddns:
+                      $ref: '../schemas/network.yaml#/Ddns'
+      '401':
+        description: Not authenticated
+
+/api/ddns:
+  put:
+    tags:
+      - Network
+    summary: Update DDNS configuration
+    description: Update dynamic DNS settings
+    operationId: updateDdns
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/network.yaml#/Ddns'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions

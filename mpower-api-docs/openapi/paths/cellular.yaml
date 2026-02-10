@@ -1,0 +1,153 @@
+# Cellular Paths
+
+/api?fields=cellular:
+  get:
+    tags:
+      - Cellular
+    summary: Get cellular configuration
+    description: Retrieve cellular connectivity settings
+    operationId: getCellular
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Cellular configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    cellular:
+                      $ref: '../schemas/cellular.yaml#/Cellular'
+      '401':
+        description: Not authenticated
+
+/api/cellular:
+  put:
+    tags:
+      - Cellular
+    summary: Update cellular configuration
+    description: Update cellular connectivity settings
+    operationId: updateCellular
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/cellular.yaml#/Cellular'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=backOffTimers:
+  get:
+    tags:
+      - Cellular
+    summary: Get backoff timers
+    description: Retrieve carrier backoff timer configuration
+    operationId: getBackOffTimers
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Backoff timers
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    backOffTimers:
+                      $ref: '../schemas/cellular.yaml#/BackOffTimers'
+      '401':
+        description: Not authenticated
+
+/api/backOffTimers:
+  put:
+    tags:
+      - Cellular
+    summary: Update backoff timers
+    description: Update carrier backoff timer configuration
+    operationId: updateBackOffTimers
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/cellular.yaml#/BackOffTimers'
+    responses:
+      '200':
+        description: Timers updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=cellTimeSync:
+  get:
+    tags:
+      - Cellular
+      - Time Sync
+    summary: Get cellular time sync
+    description: Retrieve cellular time synchronization settings
+    operationId: getCellTimeSync
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Cell time sync configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    cellTimeSync:
+                      $ref: '../schemas/cellular.yaml#/CellTimeSync'
+      '401':
+        description: Not authenticated
+
+/api/cellTimeSync:
+  put:
+    tags:
+      - Cellular
+      - Time Sync
+    summary: Update cellular time sync
+    description: Update cellular time synchronization settings
+    operationId: updateCellTimeSync
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/cellular.yaml#/CellTimeSync'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions

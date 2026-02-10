@@ -1,0 +1,192 @@
+# SMS Paths
+
+/api?fields=sms:
+  get:
+    tags:
+      - SMS
+    summary: Get SMS configuration
+    description: Retrieve SMS settings and command configuration
+    operationId: getSms
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: SMS configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    sms:
+                      $ref: '../schemas/sms.yaml#/Sms'
+      '401':
+        description: Not authenticated
+
+/api/sms:
+  put:
+    tags:
+      - SMS
+    summary: Update SMS configuration
+    description: Update SMS settings
+    operationId: updateSms
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/sms.yaml#/Sms'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=sms/inbox:
+  get:
+    tags:
+      - SMS
+    summary: Get SMS inbox
+    description: Retrieve received SMS messages
+    operationId: getSmsInbox
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: SMS inbox
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    inbox:
+                      type: array
+                      items:
+                        $ref: '../schemas/sms.yaml#/SmsInboxMessage'
+      '401':
+        description: Not authenticated
+
+/api?fields=sms/outbox:
+  get:
+    tags:
+      - SMS
+    summary: Get SMS outbox
+    description: Retrieve sent SMS messages
+    operationId: getSmsOutbox
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: SMS outbox
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    outbox:
+                      type: array
+                      items:
+                        $ref: '../schemas/sms.yaml#/SmsOutboxMessage'
+      '401':
+        description: Not authenticated
+
+/api/sms/outbox:
+  post:
+    tags:
+      - SMS
+    summary: Send SMS
+    description: Send an SMS message
+    operationId: sendSms
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/sms.yaml#/SmsSendRequest'
+          example:
+            recipients:
+              - "+1234567890"
+            message: "Alert from gateway"
+    responses:
+      '200':
+        description: SMS queued for sending
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                success:
+                  type: boolean
+                guid:
+                  type: string
+                  description: Message GUID
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/sms/inbox/{guid}:
+  delete:
+    tags:
+      - SMS
+    summary: Delete inbox message
+    description: Delete a received SMS message
+    operationId: deleteSmsInbox
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: guid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Message GUID
+    responses:
+      '200':
+        description: Message deleted
+      '401':
+        description: Not authenticated
+      '404':
+        description: Message not found
+
+/api/sms/outbox/{guid}:
+  delete:
+    tags:
+      - SMS
+    summary: Delete outbox message
+    description: Delete a sent SMS message
+    operationId: deleteSmsOutbox
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: guid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Message GUID
+    responses:
+      '200':
+        description: Message deleted
+      '401':
+        description: Not authenticated
+      '404':
+        description: Message not found

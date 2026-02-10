@@ -1,0 +1,303 @@
+# Firewall Paths
+
+/api?fields=firewall:
+  get:
+    tags:
+      - Firewall
+    summary: Get firewall configuration
+    description: Retrieve firewall settings
+    operationId: getFirewall
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Firewall configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    firewall:
+                      $ref: '../schemas/firewall.yaml#/Firewall'
+      '401':
+        description: Not authenticated
+
+/api/firewall:
+  put:
+    tags:
+      - Firewall
+    summary: Update firewall configuration
+    description: Update firewall settings
+    operationId: updateFirewall
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/firewall.yaml#/Firewall'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=filters:
+  get:
+    tags:
+      - Firewall
+    summary: Get firewall filters
+    description: Retrieve firewall filter rules
+    operationId: getFilters
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Firewall filters
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    filters:
+                      type: array
+                      items:
+                        $ref: '../schemas/firewall.yaml#/Filter'
+      '401':
+        description: Not authenticated
+
+/api/filters:
+  post:
+    tags:
+      - Firewall
+    summary: Create firewall filter
+    description: Create a new firewall filter rule
+    operationId: createFilter
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/firewall.yaml#/Filter'
+    responses:
+      '200':
+        description: Filter created
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+  put:
+    tags:
+      - Firewall
+    summary: Update firewall filters
+    description: Update firewall filter rules
+    operationId: updateFilters
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../schemas/firewall.yaml#/Filter'
+    responses:
+      '200':
+        description: Filters updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/filters/{name}:
+  delete:
+    tags:
+      - Firewall
+    summary: Delete firewall filter
+    description: Delete a firewall filter rule
+    operationId: deleteFilter
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Filter deleted
+      '401':
+        description: Not authenticated
+      '404':
+        description: Filter not found
+
+/api?fields=nat:
+  get:
+    tags:
+      - Firewall
+    summary: Get NAT rules
+    description: Retrieve NAT configuration
+    operationId: getNat
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: NAT rules
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    nat:
+                      type: array
+                      items:
+                        $ref: '../schemas/firewall.yaml#/Nat'
+      '401':
+        description: Not authenticated
+
+/api/nat:
+  post:
+    tags:
+      - Firewall
+    summary: Create NAT rule
+    description: Create a new NAT rule
+    operationId: createNat
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/firewall.yaml#/Nat'
+    responses:
+      '200':
+        description: NAT rule created
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+  put:
+    tags:
+      - Firewall
+    summary: Update NAT rules
+    description: Update NAT configuration
+    operationId: updateNat
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../schemas/firewall.yaml#/Nat'
+    responses:
+      '200':
+        description: NAT rules updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api/nat/{name}:
+  delete:
+    tags:
+      - Firewall
+    summary: Delete NAT rule
+    description: Delete a NAT rule
+    operationId: deleteNat
+    security:
+      - sessionCookie: []
+    parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: NAT rule deleted
+      '401':
+        description: Not authenticated
+      '404':
+        description: NAT rule not found
+
+/api?fields=trustedIp:
+  get:
+    tags:
+      - Security
+    summary: Get trusted IP configuration
+    description: Retrieve trusted IP whitelist
+    operationId: getTrustedIp
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Trusted IP configuration
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    trustedIp:
+                      $ref: '../schemas/firewall.yaml#/TrustedIp'
+      '401':
+        description: Not authenticated
+
+/api/trustedIp:
+  put:
+    tags:
+      - Security
+    summary: Update trusted IP configuration
+    description: Update trusted IP whitelist
+    operationId: updateTrustedIp
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/firewall.yaml#/TrustedIp'
+    responses:
+      '200':
+        description: Configuration updated
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions

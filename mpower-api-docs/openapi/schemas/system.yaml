@@ -1,0 +1,173 @@
+# System Schema
+# Source: mtsDeviceAPI/json/strict/system.schema.json
+
+System:
+  type: object
+  description: System information and configuration
+  properties:
+    capabilities:
+      type: object
+      description: Reports hardware capabilities
+      properties:
+        wifi:
+          type: boolean
+          default: false
+        cell:
+          type: boolean
+          default: false
+        gps:
+          type: boolean
+          default: false
+        lora:
+          type: boolean
+          default: false
+        gpio:
+          type: boolean
+          default: false
+        serial:
+          type: boolean
+          default: false
+        battery:
+          type: boolean
+          default: false
+        nodeRed:
+          type: boolean
+          default: false
+        ethSwitch:
+          type: boolean
+          default: false
+        docker:
+          type: boolean
+          default: false
+        tpm:
+          type: boolean
+          default: false
+        bluetooth:
+          type: boolean
+          default: false
+      required:
+        - wifi
+        - cell
+        - gps
+        - lora
+        - gpio
+        - serial
+        - battery
+        - nodeRed
+        - ethSwitch
+        - docker
+        - tpm
+    accessoryCards:
+      type: array
+      description: List of accessory cards installed
+      items:
+        type: object
+    apiVersion:
+      type: string
+      description: API version string
+    datetime:
+      type: string
+      description: Current system date and time
+      pattern: "^[0-9]{2}/[0-9]{2}/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}$"
+      example: "02/10/2026 14:30:00"
+    deviceName:
+      type: string
+      description: Configured name of the device
+      maxLength: 250
+    deviceHostname:
+      type: string
+      description: Device hostname
+      maxLength: 63
+      pattern: "^[a-zA-Z][a-zA-Z0-9-]*$"
+    uuid:
+      type: string
+      description: Device UUID
+    productId:
+      type: string
+      description: Product ID
+    deviceId:
+      type: string
+      description: Device ID
+    imei:
+      type: string
+      description: IMEI (for cellular devices)
+    imsi:
+      type: string
+      description: IMSI (for cellular devices)
+    iccid:
+      type: string
+      description: SIM ICCID
+    firmware:
+      type: string
+      description: Firmware version
+    firmwareDate:
+      type: string
+      description: Firmware build date
+    firmwareRelease:
+      type: string
+      description: Firmware release
+    hardwareVersion:
+      type: string
+      description: Hardware version
+    macAddress:
+      type: string
+      description: MAC address of Ethernet port
+      pattern: "^([0-9A-Fa-f]{2}:){5}([0-9A-Fa-f]{2})$"
+    macWifi:
+      type: string
+      description: MAC address of WiFi module
+    macBluetooth:
+      type: string
+      description: MAC address of Bluetooth module
+    mode:
+      type: string
+      description: System operating mode
+      enum:
+        - ROUTER
+        - CELL-IP-PT
+      default: ROUTER
+    dbDirty:
+      type: boolean
+      description: Whether configuration has unsaved changes
+    firstTimeSetup:
+      type: boolean
+      description: First time setup wizard enabled
+      default: false
+    timezoneName:
+      type: string
+      description: Timezone name
+      maxLength: 250
+    timezoneString:
+      type: string
+      description: Timezone string (POSIX format)
+      maxLength: 250
+  required:
+    - capabilities
+    - apiVersion
+    - datetime
+    - deviceName
+
+SystemUpdate:
+  type: object
+  description: Writable system properties
+  properties:
+    deviceName:
+      type: string
+      maxLength: 250
+    deviceHostname:
+      type: string
+      maxLength: 63
+      pattern: "^[a-zA-Z][a-zA-Z0-9-]*$"
+    mode:
+      type: string
+      enum:
+        - ROUTER
+        - CELL-IP-PT
+    firstTimeSetup:
+      type: boolean
+    timezoneName:
+      type: string
+      maxLength: 250
+    timezoneString:
+      type: string
+      maxLength: 250

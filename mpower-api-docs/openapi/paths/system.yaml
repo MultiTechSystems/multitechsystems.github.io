@@ -1,0 +1,105 @@
+# System Paths
+
+/api?fields=system:
+  get:
+    tags:
+      - System
+    summary: Get system information
+    description: Retrieve system configuration and status
+    operationId: getSystem
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: System information
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    system:
+                      $ref: '../schemas/system.yaml#/System'
+      '401':
+        description: Not authenticated
+
+/api/system:
+  put:
+    tags:
+      - System
+    summary: Update system configuration
+    description: Update writable system properties
+    operationId: updateSystem
+    security:
+      - sessionCookie: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/system.yaml#/SystemUpdate'
+    responses:
+      '200':
+        description: System updated
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/SuccessResponse'
+      '400':
+        description: Invalid request
+      '401':
+        description: Not authenticated
+      '403':
+        description: Insufficient permissions
+
+/api?fields=status:
+  get:
+    tags:
+      - Status
+    summary: Get device status
+    description: Retrieve device status information
+    operationId: getStatus
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Device status
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    status:
+                      $ref: '../schemas/status.yaml#/Status'
+      '401':
+        description: Not authenticated
+
+/api?fields=databaseInfo:
+  get:
+    tags:
+      - System
+    summary: Get database info
+    description: Retrieve database version and state
+    operationId: getDatabaseInfo
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Database information
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    databaseInfo:
+                      $ref: '../schemas/status.yaml#/DatabaseInfo'
+      '401':
+        description: Not authenticated

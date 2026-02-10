@@ -1,0 +1,199 @@
+# Firewall Schemas
+# Source: mtsDeviceAPI/json/strict/*.schema.json
+
+# Firewall Configuration
+Firewall:
+  type: object
+  description: Firewall configuration
+  properties:
+    enabled:
+      type: boolean
+      default: true
+    defaultInputPolicy:
+      type: string
+      enum:
+        - ACCEPT
+        - DROP
+      default: DROP
+    defaultOutputPolicy:
+      type: string
+      enum:
+        - ACCEPT
+        - DROP
+      default: ACCEPT
+    defaultForwardPolicy:
+      type: string
+      enum:
+        - ACCEPT
+        - DROP
+      default: DROP
+  required:
+    - enabled
+    - defaultInputPolicy
+    - defaultOutputPolicy
+    - defaultForwardPolicy
+
+# Firewall Filters
+Filter:
+  type: object
+  description: Firewall filter rule
+  properties:
+    name:
+      type: string
+      description: Rule name
+      maxLength: 250
+    description:
+      type: string
+      maxLength: 250
+    enabled:
+      type: boolean
+      default: true
+    chain:
+      type: string
+      description: iptables chain
+      enum:
+        - INPUT
+        - OUTPUT
+        - FORWARD
+    target:
+      type: string
+      description: Rule action
+      enum:
+        - ACCEPT
+        - DROP
+        - REJECT
+    protocol:
+      type: string
+      description: Protocol to match
+      enum:
+        - TCP
+        - UDP
+        - ICMP
+        - ANY
+      default: ANY
+    srcInterface:
+      type: string
+      description: Source interface
+      default: ANY
+    srcSpecInterface:
+      type: string
+      description: Specific source interface name
+    srcAddr:
+      type: string
+      description: Source address (ANY or IP/CIDR)
+      default: ANY
+    srcMask:
+      type: string
+      description: Source netmask
+    srcPort:
+      type: string
+      description: Source port(s)
+      default: ANY
+    srcMac:
+      type: string
+      description: Source MAC address
+      default: ANY
+    dstInterface:
+      type: string
+      description: Destination interface
+      default: ANY
+    dstSpecInterface:
+      type: string
+      description: Specific destination interface name
+    dstAddr:
+      type: string
+      description: Destination address (ANY or IP/CIDR)
+      default: ANY
+    dstMask:
+      type: string
+      description: Destination netmask
+    dstPort:
+      type: string
+      description: Destination port(s)
+  required:
+    - name
+    - chain
+    - target
+
+# NAT Configuration
+Nat:
+  type: object
+  description: NAT rule
+  properties:
+    name:
+      type: string
+      description: Rule name
+      maxLength: 250
+    enabled:
+      type: boolean
+      default: true
+    target:
+      type: string
+      description: NAT type
+      enum:
+        - MASQUERADE
+        - SNAT
+        - DNAT
+        - REDIRECT
+    protocol:
+      type: string
+      enum:
+        - TCP
+        - UDP
+        - ANY
+      default: ANY
+    srcInterface:
+      type: string
+      default: ANY
+    srcAddr:
+      type: string
+      default: ANY
+    srcMask:
+      type: string
+    srcPort:
+      type: string
+      default: ANY
+    dstAddr:
+      type: string
+    dstMask:
+      type: string
+    dstPort:
+      type: string
+    toAddr:
+      type: string
+      description: Translated destination address (for DNAT)
+    toPort:
+      type: string
+      description: Translated destination port (for DNAT/REDIRECT)
+    snatAddr:
+      type: string
+      description: SNAT address
+  required:
+    - name
+    - target
+
+# Trusted IP Configuration
+TrustedIp:
+  type: object
+  description: Trusted IP list configuration
+  properties:
+    enabled:
+      type: boolean
+      default: false
+    allowedIps:
+      type: array
+      description: List of allowed IPs/subnets
+      items:
+        type: object
+        properties:
+          ip:
+            type: string
+            format: ipv4
+          mask:
+            type: string
+        required:
+          - ip
+          - mask
+  required:
+    - enabled
+    - allowedIps

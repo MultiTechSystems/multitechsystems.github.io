@@ -1,0 +1,81 @@
+# Authentication Paths
+
+/api/login:
+  post:
+    tags:
+      - Authentication
+    summary: User login
+    description: Authenticate user and establish session
+    operationId: login
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/common.yaml#/LoginRequest'
+    responses:
+      '200':
+        description: Login successful
+        headers:
+          Set-Cookie:
+            description: Session cookie
+            schema:
+              type: string
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/LoginResponse'
+      '401':
+        description: Invalid credentials
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/ErrorResponse'
+
+/api/logout:
+  post:
+    tags:
+      - Authentication
+    summary: User logout
+    description: End user session
+    operationId: logout
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Logout successful
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/common.yaml#/SuccessResponse'
+      '401':
+        description: Not authenticated
+
+/api/session:
+  get:
+    tags:
+      - Authentication
+    summary: Get session info
+    description: Get current session information
+    operationId: getSession
+    security:
+      - sessionCookie: []
+    responses:
+      '200':
+        description: Session information
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: object
+                  properties:
+                    username:
+                      type: string
+                    role:
+                      type: string
+                    timeout:
+                      type: integer
+      '401':
+        description: Not authenticated

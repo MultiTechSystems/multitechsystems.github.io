@@ -1,0 +1,277 @@
+# Cellular Schema
+# Source: mtsDeviceAPI/json/strict/cellular.schema.json
+
+Cellular:
+  type: object
+  description: Cellular connectivity configuration
+  properties:
+    enabled:
+      type: boolean
+      description: Enable cellular connection
+      default: false
+    providerProfiles:
+      type: array
+      description: List of cellular provider profiles
+      items:
+        $ref: '#/CellularProviderProfile'
+    simProfiles:
+      type: array
+      description: List of SIM profiles
+      items:
+        $ref: '#/CellularSimProfile'
+    dualSim:
+      $ref: '#/DualSimConfig'
+    connMonitors:
+      $ref: '#/ConnectionMonitors'
+    connRecovery:
+      $ref: '#/ConnectionRecovery'
+  required:
+    - enabled
+    - providerProfiles
+    - simProfiles
+
+CellularProviderProfile:
+  type: object
+  description: Cellular provider/APN profile
+  properties:
+    _id:
+      type: string
+      format: uuid
+      description: Profile UUID
+    profileName:
+      type: string
+      description: Profile name
+      maxLength: 250
+    cellularMode:
+      type: string
+      description: Cellular technology mode
+      enum:
+        - auto
+        - 2g-only
+        - 2g-preferred
+        - 3g-only
+        - 3g-preferred
+        - 4g-only
+        - 4g-preferred
+        - 5g-only
+        - 5g-preferred
+      default: auto
+    dataCtx:
+      type: object
+      description: Data context (APN) configuration
+      properties:
+        apnString:
+          type: string
+          description: APN string
+          maxLength: 250
+        contextIpMode:
+          type: string
+          description: IP mode
+          enum:
+            - AUTO
+            - IPV4
+            - IPV6
+            - IPV4V6
+          default: AUTO
+        authentication:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - NONE
+                - PAP
+                - CHAP
+                - PAP-CHAP
+              default: NONE
+            username:
+              type: string
+              maxLength: 250
+            password:
+              type: string
+              maxLength: 250
+    roaming:
+      type: boolean
+      description: Allow roaming
+      default: false
+    mtu:
+      type: integer
+      description: MTU size
+      minimum: 576
+      maximum: 1500
+  required:
+    - _id
+    - profileName
+
+CellularSimProfile:
+  type: object
+  description: SIM card profile
+  properties:
+    _id:
+      type: string
+      format: uuid
+      description: Profile UUID
+    profileName:
+      type: string
+      description: Profile name
+      maxLength: 250
+    providerProfileId:
+      type: string
+      format: uuid
+      description: Associated provider profile UUID
+    simIccid:
+      type: string
+      description: SIM ICCID (or "ANY" for any SIM)
+      maxLength: 250
+    simPin:
+      type: string
+      description: SIM PIN code
+      maxLength: 8
+  required:
+    - _id
+    - profileName
+    - providerProfileId
+
+DualSimConfig:
+  type: object
+  description: Dual SIM configuration
+  properties:
+    enabled:
+      type: boolean
+      description: Enable dual SIM failover
+      default: false
+    mainSlot:
+      type: string
+      description: Primary SIM slot
+      enum:
+        - SIM1
+        - SIM2
+      default: SIM1
+    backupSimTimeout:
+      type: integer
+      description: Timeout before switching to backup SIM (minutes)
+      minimum: 10
+      maximum: 1440
+      default: 60
+  required:
+    - enabled
+
+ConnectionMonitors:
+  type: object
+  description: Connection monitoring configuration
+  properties:
+    ping:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        address:
+          type: string
+          description: Address to ping
+        interval:
+          type: integer
+          description: Ping interval (seconds)
+          minimum: 30
+          maximum: 3600
+        failCount:
+          type: integer
+          description: Failures before disconnect
+          minimum: 1
+          maximum: 10
+
+ConnectionRecovery:
+  type: object
+  description: Connection recovery configuration
+  properties:
+    modemReset:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        delay:
+          type: integer
+          description: Delay before modem reset (seconds)
+    deviceReboot:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        delay:
+          type: integer
+          description: Delay before device reboot (seconds)
+
+BackOffTimers:
+  type: object
+  description: Carrier backoff timer configuration
+  properties:
+    enabled:
+      type: boolean
+      description: Enable backoff timers
+      default: true
+    timers:
+      type: array
+      items:
+        $ref: '#/BackOffTimer'
+  required:
+    - enabled
+    - timers
+
+BackOffTimer:
+  type: object
+  description: Carrier-specific backoff timer set
+  properties:
+    carrierName:
+      type: string
+      description: Carrier name
+      maxLength: 250
+    readOnly:
+      type: boolean
+      description: Whether timers are read-only
+    data:
+      type: array
+      description: Data connection retry intervals (seconds)
+      items:
+        type: integer
+    dataReset:
+      type: array
+      description: Data reset retry intervals (seconds)
+      items:
+        type: integer
+    sms:
+      type: array
+      description: SMS retry intervals (seconds)
+      items:
+        type: integer
+    modemReset:
+      type: array
+      description: Modem reset intervals (seconds)
+      items:
+        type: integer
+  required:
+    - carrierName
+    - readOnly
+    - data
+    - dataReset
+    - sms
+    - modemReset
+
+CellTimeSync:
+  type: object
+  description: Cellular time synchronization
+  properties:
+    enabled:
+      type: boolean
+      description: Enable cellular time sync
+      default: false
+    pollingTime:
+      type: integer
+      description: Polling interval (minutes)
+      minimum: 5
+      maximum: 1440
+      default: 120
+  required:
+    - enabled
+    - pollingTime

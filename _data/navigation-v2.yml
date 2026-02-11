@@ -1,0 +1,101 @@
+# Site Navigation Structure
+# This file defines the sidebar navigation for all documentation
+
+main:
+  - title: Home
+    url: /v2/
+
+  - title: mPower API
+    url: /v2/mpower-api
+    children:
+      - title: Quick Start
+        url: /v2/mpower-api#quick-start
+      - title: API Reference
+        url: /v2/mpower-api-docs/API-README
+      - title: Quick Reference
+        url: /v2/mpower-api-docs/API-QUICK-REFERENCE
+      - title: Available Resources
+        url: /v2/mpower-api-docs/AVAILABLE-RESOURCES
+      - title: Command Endpoints
+        url: /v2/mpower-api-docs/COMMAND-ENDPOINTS
+
+  - title: API Schemas
+    children:
+      - title: Core Schemas
+        url: /v2/mpower-api-docs/API-SCHEMAS-REFERENCE
+      - title: SMS Schema
+        url: /v2/mpower-api-docs/SMS-SCHEMA
+      - title: VPN Schemas
+        url: /v2/mpower-api-docs/VPN-SCHEMAS
+      - title: Network Services
+        url: /v2/mpower-api-docs/NETWORK-SERVICES-SCHEMAS
+      - title: Device Management
+        url: /v2/mpower-api-docs/DEVICE-MANAGEMENT-SCHEMAS
+      - title: Connectivity
+        url: /v2/mpower-api-docs/CONNECTIVITY-SCHEMAS
+      - title: Advanced Features
+        url: /v2/mpower-api-docs/ADVANCED-FEATURES-SCHEMAS
+      - title: Logging & Status
+        url: /v2/mpower-api-docs/LOGGING-STATUS-SCHEMAS
+      - title: LoRa Network
+        url: /v2/mpower-api-docs/LORA-NETWORK-SCHEMA
+
+  - title: Implementation Guides
+    children:
+      - title: Monitoring Best Practices
+        url: /v2/mpower-api-docs/MONITORING-BEST-PRACTICES
+      - title: WAN Failover Guide
+        url: /v2/mpower-api-docs/WAN-FAILOVER-GUIDE
+      - title: Client Examples
+        url: /v2/mpower-api-docs/CLIENT-EXAMPLES
+      - title: LoRa Operations
+        url: /v2/mpower-api-docs/LORA-OPERATIONS-WORKFLOW
+
+  - title: LoRaWAN
+    children:
+      - title: App Connect HTTP
+        url: /v2/lorawan-app-connect
+      - title: App Connect MQTT v1.0
+        url: /v2/lorawan-app-connect-mqtt
+      - title: App Connect MQTT v1.1
+        url: /v2/lorawan-app-connect-mqtt-v1_1
+      - title: MQTT WebSockets
+        url: /v2/lorawan-app-connect-mqtt-websockets
+      - title: MQTT Azure
+        url: /v2/lorawan-app-connect-mqtt-azure
+      - title: MQTT Walkthrough
+        url: /v2/lorawan-app-connect-walkthrough
+      - title: MQTT Bridge
+        url: /v2/lora-mqtt-bridge
+      - title: Multicast Protocol
+        url: /v2/multicast
+      - title: Fragmentation
+        url: /v2/fragmentation
+      - title: Basic Station
+        url: /v2/basic-station
+
+  - title: Development
+    children:
+      - title: Conduit Custom Apps
+        url: /v2/conduit-custom-app-development
+      - title: Conduit Cursor Dev
+        url: /v2/conduit-cursor-development
+      - title: Dot Development
+        url: /v2/dot-development
+      - title: xDot Development
+        url: /v2/dot-development-xdot
+      - title: xDot DAPLink
+        url: /v2/xdot-daplink
+      - title: Migrate to Dot v4
+        url: /v2/dot-migrate-to-4
+
+  - title: OpenAPI/Swagger
+    children:
+      - title: OpenAPI YAML
+        url: /v2/mpower-api-docs/openapi/api-documentation.yaml
+      - title: Bundled YAML
+        url: /v2/mpower-api-docs/api-documentation-bundled.yaml
+      - title: Bundled JSON
+        url: /v2/mpower-api-docs/api-documentation-bundled.json
+      - title: Postman Collection
+        url: /v2/mpower-api-docs/MTS-Device-API.postman_collection.json

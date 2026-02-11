@@ -1,8 +1,11 @@
 ---
 layout: default
-title: "mPower Edge Intelligence Device API"
-permalink: /v1/mpower-api/
-doc_version: v1
+title: mPower Device API
+description: Complete REST API documentation for managing Multi-Tech Systems IoT gateway devices
+category: api
+tags: [api, rest, mpower, conduit]
+permalink: /v2/mpower-api/
+doc_version: v2
 ---
 
 # mPower Edge Intelligence Device API
@@ -127,7 +130,7 @@ Comprehensive testing documentation:
 
 A useful technique for learning the API is to use your browser's developer tools to observe the API calls made by the mPower web interface. This helps you discover the exact endpoints, request formats, and payload structures used by the device.
 
-![Browser Developer Tools showing API calls](/images/UI-API-DEBUG.png)
+![Browser Developer Tools showing API calls](images/UI-API-DEBUG.png)
 
 **Steps to capture API calls:**
 
@@ -699,6 +702,6 @@ For technical support and additional documentation:
 ---
 
 **Related Documentation:**
-- [LoRaWAN App Connect](/v1/lorawan-app-connect/)
-- [Conduit Custom App Development](/v1/conduit-custom-app-development/)
-- [Conduit Cursor Development](/v1/conduit-cursor-development/)
+- [LoRaWAN App Connect](/v2/lorawan-app-connect/)
+- [Conduit Custom App Development](/v2/conduit-custom-app-development/)
+- [Conduit Cursor Development](/v2/conduit-cursor-development/)

@@ -1,6 +1,6 @@
 <nav class="site-nav" id="site-nav">
   <div class="nav-header">
-    <a href="/" class="nav-logo">
+    <a href="{% if page.doc_version == 'v1' %}/v1/{% elsif page.doc_version == 'v2' %}/v2/{% else %}/{% endif %}" class="nav-logo">
       <span class="nav-title">MultiTech Docs</span>
     </a>
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
@@ -17,7 +17,8 @@
       {% for version in site.data.versions.versions %}
       <option value="{{ version.url }}"
         {% if page.doc_version == "v1" and version.number == "1.0" %}selected
-        {% elsif page.doc_version != "v1" and version.current %}selected{% endif %}>
+        {% elsif page.doc_version == "v2" and version.number == "2.0" %}selected
+        {% elsif page.doc_version != "v1" and page.doc_version != "v2" and version.current %}selected{% endif %}>
         {{ version.title }}
       </option>
       {% endfor %}
@@ -33,6 +34,8 @@
   <!-- Navigation Links -->
   {% if page.doc_version == "v1" %}
     {% assign nav_items = site.data.navigation-v1.main %}
+  {% elsif page.doc_version == "v2" %}
+    {% assign nav_items = site.data.navigation-v2.main %}
   {% else %}
     {% assign nav_items = site.data.navigation.main %}
   {% endif %}

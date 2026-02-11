@@ -44,10 +44,15 @@ defaults:
     values:
       layout: "default"
   - scope:
-      path: "mpower-api-docs"
+      path: "v2/mpower-api-docs"
     values:
       layout: "default"
       category: "api"
+      doc_version: "v2"
+  - scope:
+      path: "v2"
+    values:
+      doc_version: "v2"
 
 # Exclude from build
 exclude:

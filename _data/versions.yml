@@ -7,7 +7,7 @@ current: "2.0"
 versions:
   - number: "2.0"
     title: "v2.0 (Latest)"
-    url: "/"
+    url: "/v2/"
     date: "February 2026"
     description: "Complete API documentation with OpenAPI schemas from source"
     current: true

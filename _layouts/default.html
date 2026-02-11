@@ -72,14 +72,12 @@
   </div>
 
   <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
-  
   <script>
   document.addEventListener('DOMContentLoaded', function() {
     // Mobile Navigation Toggle
-    const mobileNavToggle = document.getElementById('mobile-nav-toggle');
-    const siteNav = document.getElementById('site-nav');
-    const navOverlay = document.getElementById('nav-overlay');
+    var mobileNavToggle = document.getElementById('mobile-nav-toggle');
+    var siteNav = document.getElementById('site-nav');
+    var navOverlay = document.getElementById('nav-overlay');
     
     if (mobileNavToggle && siteNav) {
       mobileNavToggle.addEventListener('click', function() {
@@ -110,19 +108,15 @@
     });
     
     // Generate Page TOC
-    const tocNav = document.querySelector('.page-toc .toc-nav');
+    var tocNav = document.querySelector('.page-toc .toc-nav');
     if (tocNav) {
-      const headings = document.querySelectorAll('.article-content h2, .article-content h3');
+      var headings = document.querySelectorAll('.article-content h2, .article-content h3');
       if (headings.length > 2) {
-        const ul = document.createElement('ul');
+        var ul = document.createElement('ul');
         headings.forEach(function(heading, index) {
-          // Ensure heading has an ID
-          if (!heading.id) {
-            heading.id = 'heading-' + index;
-          }
-          
-          const li = document.createElement('li');
-          const a = document.createElement('a');
+          if (!heading.id) { heading.id = 'heading-' + index; }
+          var li = document.createElement('li');
+          var a = document.createElement('a');
           a.href = '#' + heading.id;
           a.textContent = heading.textContent;
           a.className = 'toc-' + heading.tagName.toLowerCase();
@@ -131,58 +125,79 @@
         });
         tocNav.appendChild(ul);
         
-        // Highlight active TOC item on scroll
-        const tocLinks = tocNav.querySelectorAll('a');
+        var tocLinks = tocNav.querySelectorAll('a');
         window.addEventListener('scroll', function() {
-          let current = '';
+          var current = '';
           headings.forEach(function(heading) {
-            const top = heading.offsetTop - 100;
-            if (window.pageYOffset >= top) {
-              current = heading.id;
-            }
+            if (window.pageYOffset >= heading.offsetTop - 100) { current = heading.id; }
           });
-          
           tocLinks.forEach(function(link) {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + current) {
-              link.classList.add('active');
-            }
+            link.classList.toggle('active', link.getAttribute('href') === '#' + current);
           });
         });
       } else {
-        // Hide TOC if not enough headings
         document.querySelector('.page-toc').style.display = 'none';
       }
     }
     
-    // Search Functionality
-    // Visibility is handled by CSS :not(:empty) — no JS toggling needed.
-    // SimpleJekyllSearch sets innerHTML when results exist, clears it when empty.
-    if (typeof SimpleJekyllSearch === 'undefined') {
-      console.warn('SimpleJekyllSearch library not loaded');
-    } else {
-      [
-        { input: document.getElementById('header-search-input'), results: document.getElementById('header-search-results') },
-        { input: document.getElementById('nav-search-input'), results: document.getElementById('nav-search-results') }
-      ].forEach(function(s) {
-        if (!s.input || !s.results) return;
-        SimpleJekyllSearch({
-          searchInput: s.input,
-          resultsContainer: s.results,
-          json: '{{ "/search.json" | relative_url }}',
-          searchResultTemplate: '<div class="search-result"><a href="{url}"><strong>{title}</strong><br><small>{url}</small></a></div>',
-          noResultsText: '<div class="search-result"><span style="color: #999;">No results found</span></div>',
-          limit: 10,
-          success: function() { console.log('Search index loaded'); }
-        });
-        // Hide results when clicking outside
-        document.addEventListener('click', function(e) {
-          if (!s.input.contains(e.target) && !s.results.contains(e.target)) {
-            s.results.innerHTML = '';
-          }
-        });
-      });
+    // Search — inline implementation, no external library
+    var searchData = null;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '{{ "/search.json" | relative_url }}');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        try {
+          searchData = JSON.parse(xhr.responseText);
+          console.log('Search index loaded: ' + searchData.length + ' pages');
+        } catch (e) {
+          console.error('Search JSON parse error', e);
+        }
+      } else {
+        console.error('Search JSON fetch failed: ' + xhr.status);
+      }
+    };
+    xhr.onerror = function() { console.error('Search JSON network error'); };
+    xhr.send();
+
+    function doSearch(query, resultsEl) {
+      resultsEl.innerHTML = '';
+      if (!searchData || !query || query.length < 2) return;
+      var q = query.toLowerCase();
+      var matches = [];
+      for (var i = 0; i < searchData.length; i++) {
+        var entry = searchData[i];
+        var title = (entry.title || '').toLowerCase();
+        var content = (entry.content || '').toLowerCase();
+        if (title.indexOf(q) !== -1 || content.indexOf(q) !== -1) {
+          matches.push(entry);
+          if (matches.length >= 10) break;
+        }
+      }
+      if (matches.length === 0) {
+        resultsEl.innerHTML = '<div class="search-result"><span style="color:#999">No results found</span></div>';
+        return;
+      }
+      var html = '';
+      for (var j = 0; j < matches.length; j++) {
+        var m = matches[j];
+        html += '<div class="search-result"><a href="' + m.url + '"><strong>' +
+          (m.title || m.url) + '</strong><br><small>' + m.url + '</small></a></div>';
+      }
+      resultsEl.innerHTML = html;
     }
+
+    [
+      { input: document.getElementById('header-search-input'), results: document.getElementById('header-search-results') },
+      { input: document.getElementById('nav-search-input'), results: document.getElementById('nav-search-results') }
+    ].forEach(function(s) {
+      if (!s.input || !s.results) return;
+      s.input.addEventListener('input', function() { doSearch(this.value, s.results); });
+      document.addEventListener('click', function(e) {
+        if (!s.input.contains(e.target) && !s.results.contains(e.target)) {
+          s.results.innerHTML = '';
+        }
+      });
+    });
   });
   </script>
 </body>

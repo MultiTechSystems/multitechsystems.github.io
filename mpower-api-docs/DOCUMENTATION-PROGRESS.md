@@ -4,14 +4,14 @@ Current status of mPower Device API schema documentation.
 
 ## Progress Summary
 
-**Last Updated**: December 17, 2025
+**Last Updated**: February 11, 2026
 
 ### Completion Status
 
 | Category | Schemas | Documented | Percentage |
 |----------|---------|------------|------------|
-| **High Priority** | 3 | 3 | 100% ✅ |
-| **Medium Priority** | 14 | 7 | 50% |
+| **High Priority** | 3 | 3 | 100% |
+| **Medium Priority** | 17 | 7 | 41% |
 | **Low Priority** | 33 | 0 | 0% |
 | **Partial (OpenAPI)** | 7 | 7 | 100% |
 | **TOTAL** | 57 | 17 | 30% |
@@ -158,49 +158,73 @@ These schemas have < 10 properties and can be documented more quickly or expande
 | Low Priority (33 schemas) | 40-60 hours |
 | **TOTAL REMAINING** | **110-164 hours** |
 
+## Site Infrastructure (February 2026)
+
+### Completed
+
+- **Site redesign** — Modern layout with fixed header, sidebar navigation, breadcrumbs, page TOC
+- **Search functionality** — Client-side full-text search across all pages (SimpleJekyllSearch)
+- **Version selector** — v1.0 / v2.0 dropdown in sidebar
+- **Mobile responsive** — Hamburger nav, collapsible sidebar, responsive search
+- **Navigation structure** — `_data/navigation.yml` with expandable sections
+- **OpenAPI/Swagger** — Modular YAML files in `mpower-api-docs/openapi/`
+- **Development guides** — Conduit custom app, Cursor AI dev, Dot development
+
+### Search fix (February 11, 2026)
+
+- Pinned CDN to `simple-jekyll-search@1.10.0` (was `@latest` on unpkg)
+- Removed unused jQuery dependency
+- Replaced `input` event visibility toggle with `MutationObserver`
+- Added diagnostic console logging for search index load
+
+### Pages missing YAML frontmatter
+
+These pages render but lack `title` and `category` metadata, which affects search results and SEO:
+
+| Page | Status |
+|------|--------|
+| `basic-station.md` | Empty file (0 lines) — stub |
+| `dot-development-xdot.md` | Content exists, needs frontmatter |
+| `dot-migrate-to-4.md` | Content exists, needs frontmatter |
+| `lorawan-app-connect-mqtt-azure.md` | Content exists, needs frontmatter |
+| `lorawan-app-connect-mqtt-websockets.md` | Content exists, needs frontmatter |
+| `lorawan-app-connect-walkthrough.md` | Content exists, needs frontmatter |
+| `xdot-daplink.md` | Content exists, needs frontmatter |
+
 ## Recommended Next Steps
 
-### Phase 1: Complete High Priority (Week 1)
+### Phase 1: Site Quality (Quick wins)
 
-1. ✅ **loraNetwork** - DONE
-2. ✅ **ni** (Network Interfaces) - DONE
-3. ⏳ **snmp** (SNMP Agent) - TODO
-4. ⏳ **alert** (Alerting System) - TODO
+1. Add YAML frontmatter to the 6 pages listed above
+2. Write `basic-station.md` content (currently empty)
+3. Verify search works after CDN fix deploys
 
-**Estimated completion**: 1 week (20-30 hours)
+### Phase 2: Remaining Medium Priority Schemas
 
-### Phase 2: Security & VPN (Weeks 2-3)
+| Schema | Estimated Effort |
+|--------|------------------|
+| `secureProtocols` | 5-7 hours |
+| `remoteAccess` | 5-7 hours |
+| `radius` | 4-6 hours |
+| `trustedIp` | 3-4 hours |
+| `ddns` | 5-7 hours |
+| `mqttBroker` | 4-6 hours |
+| `scada` | 4-6 hours |
+| `remoteMgmt` | 4-6 hours |
+| `sms` | 3-5 hours |
+| `smtp` | 3-5 hours |
 
-Create consolidated documentation files:
+**Medium Priority Completed**: 7/17 (41%)
+**Remaining Medium Priority Effort**: 40-59 hours
 
-1. **VPN-SCHEMAS.md** - Document ipsecTunnels, greTunnels, ovpnTunnels
-   - Combined effort: 17-23 hours
+### Phase 3: Complete Coverage
 
-2. **NAT-FIREWALL-SCHEMAS.md** - Document nat, firewall, filters, routes
-   - Combined effort: 19-26 hours
-
-3. **SECURITY-SCHEMAS.md** - Document secureProtocols, remoteAccess, trustedIp, radius
-   - Combined effort: 18-25 hours
-
-**Estimated completion**: 2-3 weeks (54-74 hours)
-
-### Phase 3: Services & Integration (Week 4)
-
-Create consolidated documentation file:
-
-1. **SERVICES-SCHEMAS.md** - Document ddns, mqttBroker, smtp, sms, scada, remoteMgmt
-   - Combined effort: 25-37 hours
-
-**Estimated completion**: 1 week (25-37 hours)
-
-### Phase 4: Complete Coverage (Weeks 5-6)
-
-1. Expand OpenAPI specification with inline documentation for all low-priority schemas
+1. Expand OpenAPI spec with inline documentation for all low-priority schemas
 2. Add configuration examples
 3. Create troubleshooting guides
 4. Add cross-references between related schemas
 
-**Estimated completion**: 2 weeks (40-60 hours)
+**Estimated completion**: 40-60 hours
 
 ## Documentation Quality Standards
 
@@ -225,11 +249,14 @@ Each schema documentation should include:
 
 ## Benefits Tracking
 
-### Current Benefits (16% completion)
+### Current Benefits (30% completion)
 
 - **loraNetwork**: Complete LoRa configuration reference
 - **ni**: Complete network interface configuration reference
-- Reduced support questions for these two critical resources
+- **VPN/NAT/Firewall**: Complete security and networking reference
+- **SNMP/Alerting**: Complete monitoring configuration reference
+- **Site redesign**: Modern, searchable, mobile-friendly documentation
+- Reduced support questions for critical resources
 - Faster integration for developers
 
 ### Expected Benefits (100% completion)
@@ -243,23 +270,32 @@ Each schema documentation should include:
 
 ## Metrics
 
-### Documentation Coverage
+### API Schema Documentation Coverage
 
 ```
-Progress: [████████░░░░░░░░░░░░░░░░░░░░░░░░] 16% (9/57 schemas)
+Progress: [██████████░░░░░░░░░░░░░░░░░░░░░░] 30% (17/57 schemas)
+```
+
+### Site Page Coverage
+
+```
+Pages with frontmatter: 11/18 (61%)
+Pages with content:     17/18 (94%)  — basic-station.md is empty
 ```
 
 ### Effort Invested
 
-- **Completed**: ~30 hours
-- **Remaining**: ~110-164 hours
-- **Total Project**: ~140-194 hours
+- **Completed**: ~50 hours (schemas) + ~20 hours (site redesign)
+- **Remaining**: ~80-125 hours (schemas)
+- **Total Project**: ~150-195 hours
 
 ### Timeline
 
 - **Started**: December 17, 2025
-- **Current Phase**: Phase 1 (High Priority)
-- **Estimated Completion**: March 2026 (at 20 hours/week)
+- **Site Redesign**: February 10, 2026
+- **Search Fix**: February 11, 2026
+- **Current Phase**: Site quality + Phase 2 (Medium Priority schemas)
+- **Estimated Completion**: April 2026 (at 10-15 hours/week)
 
 ## How to Contribute
 
@@ -285,6 +321,6 @@ See [LORA-NETWORK-SCHEMA.md](LORA-NETWORK-SCHEMA.md) or [NETWORK-INTERFACES-SCHE
 
 ---
 
-**Document Version**: 1.0  
-**Last Updated**: December 17, 2025  
-**Next Review**: Weekly until Phase 1 complete
+**Document Version**: 2.0  
+**Last Updated**: February 11, 2026  
+**Next Review**: Weekly

@@ -171,23 +171,33 @@
         return;
       }
       var q = query.toLowerCase();
-      var matches = [];
+      var scored = [];
       for (var i = 0; i < searchData.length; i++) {
         var entry = searchData[i];
         var title = (entry.title || '').toLowerCase();
         var content = (entry.content || '').toLowerCase();
-        if (title.indexOf(q) !== -1 || content.indexOf(q) !== -1) {
-          matches.push(entry);
-          if (matches.length >= 10) break;
-        }
+        var score = 0;
+        // Exact title match
+        if (title === q) score += 100;
+        // Title starts with query
+        else if (title.indexOf(q) === 0) score += 50;
+        // Title contains query
+        else if (title.indexOf(q) !== -1) score += 30;
+        // Content contains query — count occurrences (up to 10)
+        var pos = 0, count = 0;
+        while (count < 10 && (pos = content.indexOf(q, pos)) !== -1) { count++; pos += q.length; }
+        score += count * 2;
+        if (score > 0) scored.push({ entry: entry, score: score });
       }
-      if (matches.length === 0) {
+      scored.sort(function(a, b) { return b.score - a.score; });
+      if (scored.length > 10) scored.length = 10;
+      if (scored.length === 0) {
         showResults(resultsEl, '<div class="search-result"><span style="color:#999">No results found</span></div>');
         return;
       }
       var html = '';
-      for (var j = 0; j < matches.length; j++) {
-        var m = matches[j];
+      for (var j = 0; j < scored.length; j++) {
+        var m = scored[j].entry;
         html += '<div class="search-result"><a href="' + m.url + '"><strong>' +
           (m.title || m.url) + '</strong><br><small>' + m.url + '</small></a></div>';
       }

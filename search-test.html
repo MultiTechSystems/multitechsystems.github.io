@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Search Test</title>
+<style>
+body { font-family: sans-serif; margin: 40px; }
+#search-input { width: 400px; padding: 10px; font-size: 16px; border: 2px solid #005596; border-radius: 8px; }
+#search-results { margin-top: 10px; border: 1px solid #ddd; border-radius: 8px; max-height: 400px; overflow-y: auto; }
+#search-results:empty { display: none; }
+.search-result { padding: 12px 16px; border-bottom: 1px solid #eee; }
+.search-result:hover { background: #f5f5f5; }
+.search-result a { text-decoration: none; display: block; }
+.search-result a strong { color: #005596; display: block; margin-bottom: 4px; }
+.search-result a small { color: #666; font-size: 12px; }
+#status { margin: 20px 0; padding: 10px; background: #f0f0f0; border-radius: 4px; font-family: monospace; }
+</style>
+</head>
+<body>
+<h1>Search Test Page</h1>
+<div id="status">Loading search index...</div>
+<input type="search" id="search-input" placeholder="Type to search (min 2 chars)..." autofocus>
+<div id="search-results"></div>
+
+<script>
+var statusEl = document.getElementById('status');
+var inputEl = document.getElementById('search-input');
+var resultsEl = document.getElementById('search-results');
+var searchData = null;
+
+// Fetch the search index
+var xhr = new XMLHttpRequest();
+xhr.open('GET', '/search.json');
+xhr.onload = function() {
+  statusEl.textContent = 'XHR status: ' + xhr.status + ', bytes: ' + xhr.responseText.length;
+  if (xhr.status === 200) {
+    try {
+      searchData = JSON.parse(xhr.responseText);
+      statusEl.textContent = 'Search index loaded: ' + searchData.length + ' pages. Type to search!';
+      statusEl.style.background = '#d4edda';
+    } catch (e) {
+      statusEl.textContent = 'JSON parse error: ' + e.message;
+      statusEl.style.background = '#f8d7da';
+    }
+  } else {
+    statusEl.textContent = 'Fetch failed with status ' + xhr.status;
+    statusEl.style.background = '#f8d7da';
+  }
+};
+xhr.onerror = function() {
+  statusEl.textContent = 'Network error fetching search.json';
+  statusEl.style.background = '#f8d7da';
+};
+xhr.send();
+
+function doSearch(query) {
+  resultsEl.innerHTML = '';
+  if (!searchData) { resultsEl.innerHTML = '<div class="search-result">Index not loaded yet</div>'; return; }
+  if (!query || query.length < 2) return;
+  var q = query.toLowerCase();
+  var matches = [];
+  for (var i = 0; i < searchData.length; i++) {
+    var entry = searchData[i];
+    var title = (entry.title || '').toLowerCase();
+    var content = (entry.content || '').toLowerCase();
+    if (title.indexOf(q) !== -1 || content.indexOf(q) !== -1) {
+      matches.push(entry);
+      if (matches.length >= 10) break;
+    }
+  }
+  if (matches.length === 0) {
+    resultsEl.innerHTML = '<div class="search-result"><span style="color:#999">No results found for "' + query + '"</span></div>';
+    return;
+  }
+  var html = '';
+  for (var j = 0; j < matches.length; j++) {
+    var m = matches[j];
+    html += '<div class="search-result"><a href="' + m.url + '"><strong>' +
+      (m.title || m.url) + '</strong><br><small>' + m.url + '</small></a></div>';
+  }
+  resultsEl.innerHTML = html;
+}
+
+inputEl.addEventListener('input', function() { doSearch(this.value); });
+</script>
+</body>
+</html>

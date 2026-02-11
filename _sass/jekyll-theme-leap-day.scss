@@ -286,7 +286,7 @@ header {
       display: none;
       z-index: 1001;
 
-      &.active {
+      &:not(:empty) {
         display: block;
       }
 
@@ -471,7 +471,7 @@ header {
       overflow-y: auto;
       display: none;
 
-      &.active {
+      &:not(:empty) {
         display: block;
       }
     }

@@ -156,54 +156,29 @@
     }
     
     // Search Functionality
+    // Visibility is handled by CSS :not(:empty) — no JS toggling needed.
+    // SimpleJekyllSearch sets innerHTML when results exist, clears it when empty.
     if (typeof SimpleJekyllSearch === 'undefined') {
-      console.warn('SimpleJekyllSearch library not loaded — search disabled');
+      console.warn('SimpleJekyllSearch library not loaded');
     } else {
-      var searchPairs = [
+      [
         { input: document.getElementById('header-search-input'), results: document.getElementById('header-search-results') },
         { input: document.getElementById('nav-search-input'), results: document.getElementById('nav-search-results') }
-      ];
-      
-      searchPairs.forEach(function(search) {
-        if (!search.input || !search.results) return;
-        
-        var sjs = SimpleJekyllSearch({
-          searchInput: search.input,
-          resultsContainer: search.results,
+      ].forEach(function(s) {
+        if (!s.input || !s.results) return;
+        SimpleJekyllSearch({
+          searchInput: s.input,
+          resultsContainer: s.results,
           json: '{{ "/search.json" | relative_url }}',
           searchResultTemplate: '<div class="search-result"><a href="{url}"><strong>{title}</strong><br><small>{url}</small></a></div>',
           noResultsText: '<div class="search-result"><span style="color: #999;">No results found</span></div>',
           limit: 10,
-          success: function() {
-            console.log('Search index loaded');
-          }
+          success: function() { console.log('Search index loaded'); }
         });
-        
-        // Use MutationObserver to show/hide results based on content
-        var observer = new MutationObserver(function() {
-          if (search.results.innerHTML.trim().length > 0 && search.input.value.length > 0) {
-            search.results.classList.add('active');
-          } else {
-            search.results.classList.remove('active');
-          }
-        });
-        observer.observe(search.results, { childList: true, subtree: true, characterData: true });
-        
-        search.input.addEventListener('focus', function() {
-          if (search.results.innerHTML.trim().length > 0 && this.value.length > 0) {
-            search.results.classList.add('active');
-          }
-        });
-        
-        search.input.addEventListener('input', function() {
-          if (this.value.length === 0) {
-            search.results.classList.remove('active');
-          }
-        });
-        
+        // Hide results when clicking outside
         document.addEventListener('click', function(e) {
-          if (!search.input.contains(e.target) && !search.results.contains(e.target)) {
-            search.results.classList.remove('active');
+          if (!s.input.contains(e.target) && !s.results.contains(e.target)) {
+            s.results.innerHTML = '';
           }
         });
       });

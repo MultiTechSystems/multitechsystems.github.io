@@ -72,8 +72,7 @@
   </div>
 
   <!-- Scripts -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/simple-jekyll-search@latest/dest/simple-jekyll-search.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js"></script>
   
   <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -157,30 +156,49 @@
     }
     
     // Search Functionality
-    const searchInputs = [
-      { input: document.getElementById('header-search-input'), results: document.getElementById('header-search-results') },
-      { input: document.getElementById('nav-search-input'), results: document.getElementById('nav-search-results') }
-    ];
-    
-    searchInputs.forEach(function(search) {
-      if (search.input && search.results) {
-        SimpleJekyllSearch({
+    if (typeof SimpleJekyllSearch === 'undefined') {
+      console.warn('SimpleJekyllSearch library not loaded — search disabled');
+    } else {
+      var searchPairs = [
+        { input: document.getElementById('header-search-input'), results: document.getElementById('header-search-results') },
+        { input: document.getElementById('nav-search-input'), results: document.getElementById('nav-search-results') }
+      ];
+      
+      searchPairs.forEach(function(search) {
+        if (!search.input || !search.results) return;
+        
+        var sjs = SimpleJekyllSearch({
           searchInput: search.input,
           resultsContainer: search.results,
           json: '{{ "/search.json" | relative_url }}',
           searchResultTemplate: '<div class="search-result"><a href="{url}"><strong>{title}</strong><br><small>{url}</small></a></div>',
           noResultsText: '<div class="search-result"><span style="color: #999;">No results found</span></div>',
-          limit: 10
+          limit: 10,
+          success: function() {
+            console.log('Search index loaded');
+          }
         });
         
+        // Use MutationObserver to show/hide results based on content
+        var observer = new MutationObserver(function() {
+          if (search.results.innerHTML.trim().length > 0 && search.input.value.length > 0) {
+            search.results.classList.add('active');
+          } else {
+            search.results.classList.remove('active');
+          }
+        });
+        observer.observe(search.results, { childList: true, subtree: true, characterData: true });
+        
         search.input.addEventListener('focus', function() {
-          if (this.value.length > 0) {
+          if (search.results.innerHTML.trim().length > 0 && this.value.length > 0) {
             search.results.classList.add('active');
           }
         });
         
         search.input.addEventListener('input', function() {
-          search.results.classList.toggle('active', this.value.length > 0);
+          if (this.value.length === 0) {
+            search.results.classList.remove('active');
+          }
         });
         
         document.addEventListener('click', function(e) {
@@ -188,8 +206,8 @@
             search.results.classList.remove('active');
           }
         });
-      }
-    });
+      });
+    }
   });
   </script>
 </body>

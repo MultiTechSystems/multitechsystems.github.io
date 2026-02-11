@@ -6,7 +6,7 @@ permalink: /search.json
   {% assign pages_count = 0 %}
   {% for page in site.pages %}
     {% assign exclude_page = false %}
-    {% if page.url contains '/search.json' or page.url contains '/assets/' %}
+    {% if page.url contains '/search.json' or page.url contains '/assets/' or page.url contains '/v1/' %}
       {% assign exclude_page = true %}
     {% endif %}
     {% unless exclude_page %}

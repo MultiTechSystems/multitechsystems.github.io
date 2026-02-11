@@ -1,0 +1,555 @@
+---
+layout: default
+title: "MQTT Application"
+permalink: /v1/lorawan-app-connect-mqtt/
+doc_version: v1
+---
+
+# MQTT Application
+
+## Application configuration
+    url: mqtts://test.mosquitto.org:8883
+    eui: filter end-devices joined to AppNet EUI
+    encodeHex: encode payloads to and from hex instead of default base64
+    options:
+      check_hostname: enable hostname check for tls connection
+      client_id: client id
+      server_cert: server certificate
+      client_cert: client certicate
+      apikey: client private key
+      username: MQTT username
+      password: MQTT password
+      uplinkTopic: override topic for uplinks to publish to
+      downlinkTopic: override topic to subscribe to for downlinks
+      overrideTopicsForAllApps: use custom topics for all apps
+    requestOptions:
+      api: enable api requests
+      log: enable log requests
+      lora: enable lora query requests
+    backhaulDetect:
+      enabled: turn backhaul detect messages on/off
+      payload: hex payload of downlink packet to send to end-device when backhaul is down
+      port: port to send downlink packet to end-device
+      timeout: scheduling timeout limit the number of downlinks scheduled, default one per 5 minutes
+
+
+## AWS or MQTT Broker
+AWS provides configuration for MQTT connections and topic based security and routing. The following MQTT topics can be configured in AWS policies. TLS Certificates and Keys are used to authenticate the AWS connection.
+
+
+## MQTT Protocol v1.0
+### Publishes
+  * lorawan/\<APP-EUI>/\<GW-UUID>/init
+    ```
+    lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/init
+    ```
+    ```json
+    {
+      "gateways_euis": ["00-80-00-00-d0-00-01-1a", "00-80-00-00-d0-00-01-ff"],
+      "time": "2023-03-04T23:08:26.021832Z",
+      "api_version": "1.0"
+    }
+    ```
+    or
+    ```json
+    {
+      "gateways_euis": ["00-80-00-00-d0-00-01-1a", "00-80-00-00-d0-00-01-ff"],
+      "time": "2023-03-04T23:08:26.021832Z"
+    }
+    ```
+  * lorawan/\<APP-EUI>/\<GW-UUID>/close
+    ```
+    lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/close (null)
+    ```
+  * lorawan/\<APP-EUI>/\<GW-UUID>/disconnected
+    ```
+    lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/disconnected (null)
+    ```
+  * lorawan/\<APP-EUI>/\<DEV-EUI>/up
+    ```
+    lorawan/8b-6c-f0-8e-ee-df-1b-b6/00-80-00-ff-ff-00-00-03/up
+    ```
+    ```json
+    {
+      "jver": 1,
+      "tmst": 561224395,
+      "time": "2023-03-04T23:14:39.522787Z",
+      "tmms": 1362006897523,
+      "chan": 6,
+      "rfch": 1,
+      "freq": 903.5,
+      "mid": 8,
+      "stat": 1,
+      "modu": "LORA",
+      "datr": "SF9BW125",
+      "codr": "4/5",
+      "rssis": -14,
+      "lsnr": 9.2,
+      "foff": -2769,
+      "rssi": -13,
+      "opts": "03070307",
+      "size": 8,
+      "fcnt": 1,
+      "cls": 0,
+      "port": 33,
+      "mhdr": "80cb80d000840100",
+      "data": "dGVzdGRhdGE=",
+      "appeui": "8b-6c-f0-8e-ee-df-1b-b6",
+      "deveui": "00-80-00-ff-ff-00-00-03",
+      "joineui": "16-ea-76-f6-ab-66-3d-80",
+      "name": "JSR-DEBIAN-PC-DOT2",
+      "devaddr": "00d080cb",
+      "ack": false,
+      "adr": true,
+      "gweui": "00-80-00-00-d0-00-01-ff",
+      "seqn": 1
+    }
+    ```
+  * lorawan/\<APP-EUI>/\<DEV-EUI>/joined
+    ```
+    lorawan/8b-6c-f0-8e-ee-df-1b-b6/00-80-00-ff-ff-00-00-03/joined
+    ```
+    ```json
+    {
+      "joineui": "16-ea-76-f6-ab-66-3d-80",
+      "name": "JSR-DEBIAN-PC-DOT2",
+      "appeui": "8b-6c-f0-8e-ee-df-1b-b6",
+      "gweui": "00-80-00-00-d0-00-01-ff",
+      "remote": true,
+      "time": "2023-03-04T23:07:11.360064Z"
+    }
+    ```
+  * lorawan/\<GW-UUID>/\<DEV-EUI>/joined
+    ```
+    lorawan/029998E06156CDD44523264B523115C1/00-80-00-ff-ff-00-00-03/joined
+    ```
+    ```json
+    {
+      "joineui": "16-ea-76-f6-ab-66-3d-80",
+      "name": "JSR-DEBIAN-PC-DOT2",
+      "appeui": "8b-6c-f0-8e-ee-df-1b-b6",
+      "gweui": "00-80-00-00-d0-00-01-ff",
+      "remote": true,
+      "time": "2023-03-04T23:07:11.360064Z"
+    }
+    ```
+
+  * lorawan/\<APP-EUI>/\<DEV-EUI>/moved
+    * Array of GW-EUIs
+    * ```json
+      ["00-80-00-0d-00-00-00-01"]
+      ```
+  * lorawan/\<APP-EUI>/\<GW-UUID>/lora_res
+    * Responses to lora query requests, see subscribed topics to make requests
+  * lorawan/\<APP-EUI>/\<GW-UUID>/log_res
+    * Responses to log requests, see subscribed topics to make requests
+  * lorawan/\<APP-EUI>/\<GW-UUID>/api_res
+    * Responses to API requests, see subscribed topics to make requests
+
+### Subscribed
+Subscribed topics allow communication to the gateway to issue downlinks, clear a downlink queue or request info.
+  * ***It is recomended to use topic access control to limit the clients that are able to make calls to the gateway to your back-end services***
+    * [Mosquitto Dynamic Security](https://mosquitto.org/documentation/dynamic-security/)
+    * [MQTT Multiple User Accounts](https://blog.jaimyn.dev/mqtt-use-acls-multiple-user-accounts/)
+  * Topics to manage the downlink queue
+    * [Multitech LNS MQTT Messages](https://www.multitech.net/developer/software/lora/lora-network-server/mqtt-messages/)
+    * lorawan/\<APP-EUI>/\<DEV-EUI>/+
+    * lorawan/\<GW-EUI>/\<DEV-EUI>/+
+    * lorawan/\<GW-UUID>/\<DEV-EUI>/+
+    * Supported topics
+      * down - downlinks to schedule
+        * Fields
+          * data – base64 encoded data to be sent in downlink packet payload. If Encode Payload as HEX is selected in Default App configuration a HEX payload should be provided for downlink as well.
+          * port – AppPort, 8-bit integer value to send packet, use 0 to send MAC commands.
+          * ack – optional, request ACK of receipt of packet by end device. If enabled the end device should send an ACK in its next uplink packet after receiving the downlink. If the ACK is not seen in the uplink the same downlink packet may be sent again, depending on retry settings. In Class C the ACK will be expected soon after the downlink is transmitted, i.e. five seconds, otherwise a retry will be sent.
+          * ack_retries – optional, number of re-transmissions to perform in sending the downlink. If network server is unable to schedule the downlink it will not be counted against the retries.
+          * rx_wnd – optional, specify Rx window downlink should be scheduled for values (0, 1 or 2). If provided, and not 0, the network server will wait until the packet can be scheduled for the specified window before sending the packet to the radio for transmission. The packet will remain in the queue until scheduled. Set to 0 for Class C devices.
+        ```json
+        $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/00-80-00-ff-ff-00-00-03/down -m '{"data":"QA=="}'
+      * clear - clear downlinks for a device
+      ```
+      $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/00-80-00-ff-ff-00-00-03/clear -m ""
+      ```
+
+
+## Topics to request gateway info
+
+Request ID
+
+The "rid" field can be added to app-connnect lora_query, api_query and log_query requests and will be added to the response json to correlate the response to the request message in releases after mPower 6.3.0.
+
+### LoRa Query
+  * lorawan/\<APP-EUI>/\<GW-UUID>/lora_req - send request for lora-query utility
+    * [Multitech LNS LoRa Query](https://www.multitech.net/developer/software/lora/lora-network-server/)
+    * command - lora-query command to run
+    * Example: retrieve count of device records
+    ```
+    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m '{"command":"device count"}'
+    ```
+    or in releases after mPower 6.3.0 "rid" is an optional field
+    ```
+    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m '{"command":"device count","rid":1}'
+    ```
+    * response
+    ```
+    lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_res
+    ```
+    ```json
+    {
+      "count" : 9
+    }
+    ```
+    or in releases after mPower 6.3.0
+    ```json
+    {
+      "rid": 1,
+      "result":
+      {
+        "count" : 9
+      }
+    }
+    ```
+    or
+
+    * Example: queue a downlink
+    ```
+    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m  $'{"command": "packet queue add \'{\\\"deveui\\\":\\\"00-80-00-ff-00-00-00-03\\\",\\\"data\\\": \\\"QA==\\\"}\'", "rid": 4}'
+    ```
+    * response
+    ```
+    lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_res
+    ```
+    ```json
+    {
+      "id":470,
+      "status":"success"
+    }
+    ```
+    or in releases after mPower 6.3.0 with optional "rid" field, command is moved to "result" field to be consistent with other message responses.
+    ```json
+    {
+      "rid": 4,
+      "result":
+          {
+        "id":470,
+        "status":"success"
+      }
+    }
+    ```
+    * Example: request pages of up to 500 records
+    ```
+    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_req -m '{"command":"device list json page 0"}'
+    ```
+    * response
+    ```
+    lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/lora_res
+    ```
+    ```json
+    [{
+      "class" : "A",
+      "created_at" : "2022-12-27T19:40:37Z",
+      "deveui" : "00-80-00-00-04-00-59-04",
+      "device_profile_id" : 0,
+      "device_profile_updated_at" : "2022-12-27T19:40:37Z",
+      "firmware_version" : "",
+      "hardware_version" : "",
+      "last_app_nonce" : 9,
+      "last_nonce" : 14,
+      "last_seen" : "",
+      "name" : "",
+      "network_profile_id" : 1,
+      "network_profile_updated_at" : "2022-12-27T19:40:37Z",
+      "product_id" : "",
+      "rejoin_count" : 0,
+      "serial_number" : "",
+      "tags" : ""
+    }]
+    ```
+    or in releases after mPower 6.3.0 with optional "rid" field, response is moved to "result" field to be consistent with other message responses.
+    ```json
+    {
+      "rid": 1,
+      "result":
+        [{
+          "class" : "A",
+          "created_at" : "2022-12-27T19:40:37Z",
+          "deveui" : "00-80-00-00-04-00-59-04",
+          "device_profile_id" : 0,
+          "device_profile_updated_at" : "2022-12-27T19:40:37Z",
+          "firmware_version" : "",
+          "hardware_version" : "",
+          "last_app_nonce" : 9,
+          "last_nonce" : 14,
+          "last_seen" : "",
+          "name" : "",
+          "network_profile_id" : 1,
+          "network_profile_updated_at" : "2022-12-27T19:40:37Z",
+          "product_id" : "",
+          "rejoin_count" : 0,
+          "serial_number" : "",
+          "tags" : ""
+        }]
+    }
+    ```
+### Log Requests
+  * lorawan/\<APP-EUI>/\<GW-UUID>/log_req - send request for log file
+    * lines - number of lines to returned
+    * file - name of file to read from /var/log folder, only paths to /var/log are allowed.
+    * filter - regex string to pass to grep -Ei '(REGEX)' as a filter
+    ```
+    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/log_req -m '{"file":"/var/log/messages","lines":100}'
+    ```
+    or in releases after mPower 6.3.0 "rid" is an optional field
+    ```
+    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/log_req -m '{"file":"/var/log/messages","lines":100,"rid":1}'
+    ```
+    * response
+    ```
+    lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/log_res
+    ```
+    ```json
+    {
+      "result": "2023-03-05T19:55:56.913366+00:00 mtcdt lora-app-connect: Call setup MQTT App\n2023-03-05T19:55:56.934340+00:00 mtcdt lora-app-connect: Setup MQTT App\n2023-03-05T19:55:57.014137+00:00 mtcdt lora-app-connect: MQTT connect mqtt://172.16.0.222:1883\n2023-03-05T19:55:59.985408+00:00 mtcdt lora-app-connect: Start client\n2023-03-05T19:56:00.039355+00:00 mtcdt lora-app..."
+    }
+      ```
+    or in releases after mPower 6.3.0 with optional "rid" field
+    ```json
+    {
+      "rid": 1,
+      "result": "2023-03-05T19:55:56.913366+00:00 mtcdt lora-app-connect: Call setup MQTT App\n2023-03-05T19:55:56.934340+00:00 mtcdt lora-app-connect: Setup MQTT App\n2023-03-05T19:55:57.014137+00:00 mtcdt lora-app-connect: MQTT connect mqtt://172.16.0.222:1883\n2023-03-05T19:55:59.985408+00:00 mtcdt lora-app-connect: Start client\n2023-03-05T19:56:00.039355+00:00 mtcdt lora-app..."
+    }
+    ```
+### API Requests
+  API Requests can get or change any configuration settings, restart services or reboot the gateway
+  * [Multitech mPower API](https://www.multitech.net/developer/software/mtr-software/mtr-api-reference/)
+  * lorawan/\<APP-EUI>/\<GW-UUID>/api_req - send request for log file
+    * method - GET, PUT, POST or DELETE
+    * path - API path to call
+    * body - JSON object to pass to the API
+    ```
+    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/api_req -m '{"method":"GET","path":"/api/loraNetwork","body":""}'
+    ```
+    or in releases after mPower 6.3.0 "rid" is an optional field
+    ```
+    $ mosquitto_pub -t lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/api_req -m '{"method":"GET","path":"/api/loraNetwork","body":"","rid":1}'
+    ```
+    * response
+    ```
+    lorawan/8b-6c-f0-8e-ee-df-1b-b6/029998E06156CDD44523264B523115C1/api_res
+    ```
+    ```json
+    {
+        "code" : 200,
+        "result" :
+        {
+          "__v" : 1,
+          "addressRange" :
+          {
+                  "end" : "FF:FF:FF:FE",
+                  …
+          },
+          …
+        }
+    }
+    ```
+    or in releases after mPower 6.3.0 with optional "rid" field
+    ```json
+    {
+        "rid": 1,
+        "code" : 200,
+        "result" :
+        {
+          "__v" : 1,
+          "addressRange" :
+          {
+                  "end" : "FF:FF:FF:FE",
+                  …
+          },
+          …
+        }
+    }
+    ```
+    *	Change LoRa Network Settings
+    ```json
+    {
+      "method": "PUT",
+      "path": "/api/loraNetwork/lora",
+      "body": "{\"channelPlan\":\"US915\"}"
+    }
+    ```
+    *	List device DevEUI and AppKey
+    ```json
+    {
+      "method": "GET",
+      "path": "/api/loraNetwork/whitelist/devices",
+      "body": ""
+    }
+    ```
+    *	Create device DevEUI and AppKey record
+    ```json
+    {
+      "method": "POST",
+      "path": "/api/loraNetwork/whitelist/devices",
+      "body": "{\"deveui\": \"00800000FFFF0001\",\"appeui\": \"0080000000000017\",\"appkey\": \"00800000FFFF000100800000FFFF0001\",\"class\": \"A\"}"
+    }
+    ```
+    *	Remove device DevEUI and AppKey, provide index or DEVEUI to record to delete
+    ```json
+    {
+      "method": "DELETE",
+      "path": "/api/loraNetwork/whitelist/devices/0",
+      "body": ""
+    }
+    ```
+    Or
+    ```json
+    {
+      "method": "DELETE",
+      "path": "/api/loraNetwork/whitelist/devices/00800000FFFF0001",
+      "body": ""
+    }
+    ```
+    * Restart LoRa services
+    ```json
+    {
+      "method":"POST",
+      "path":"/api/lora/restart",
+      "body":""
+    }
+    ```
+
+    * Multicast Session Setup and Downlinking
+
+      * Group setup
+
+        ```json
+          {
+            "method":"POST",
+            "path":"/api/lora/groups",
+            "body":"<SEE-BELOW>"
+          }
+        ```
+
+        Group EUI is autoassigned
+        ```json
+          {"groupname":"my-group","deveuis":["00-80-00-ff-ff-00-00-02","00-80-00-ff-00-00-00-03"]}
+        ```
+
+        Custom Group EUI
+        ```json
+          {"groupname":"group-2","groupeui":"00-11-22-33-11-22-33-44","deveuis":["00-80-00-ff-ff-00-00-02","00-80-00-ff-00-00-00-03"]}
+        ```
+
+      * OTA Multicast Session Setup
+
+        ```json
+          {
+            "method":"POST",
+            "path":"/api/lora/mcm",
+            "body":"<SEE-BELOW>"
+          }
+        ```
+        JSON body for multicast session setup
+        ```json
+          {
+            "scheduledTimeSinceUnixEpoch": 1748014851,
+            "keep_log": false,
+            "ssleep_time": 1000,
+            "sleep_time": 1500,
+            "multicastMessage": {
+                "messagePort": 1,
+                "messageFormat": "Hexadecimal",
+                "messagePayload": "1221",
+                "messagePayloadFile": "",
+                "multicastSessionTimeout": 15
+            },
+            "schedule_filename": "mcm_1748014851_0",
+            "setupTimeFromScheduledTime": 0,
+            "launchTimeFromSetupTime": 60,
+            "browserTimeBias": 0,
+            "transmission_type": "Message",
+            "multicastDeveui": "00-80-00-87-33-c0-03-e1",
+            "endDeviceDeveuis": [
+                "00-80-00-ff-ff-00-00-02",
+                "00-80-00-ff-00-00-00-03"
+            ],
+            "schedule_source": "Conduit",
+            "fotaFile": "N/A"
+        }
+        ```
+      Listing sessions, the multicast session EUI will appear after the scheduled start time
+      ```json
+      {
+        "method": "GET",
+        "path": "/api/lora/sessions",
+        "body": ""
+      }
+      ```
+
+      Schedule additional downlinks using the multicast session EUI
+      ```json
+      {
+        "method": "POST",
+        "path": "/api/lora/packets/queue",
+        "body": "{\"deveui\":\"00-80-00-87-33-c0-03-e1\",\"port\":1,\"data\":\"MkQ=\",\"ack_retries\":0,\"rx_wnd\":0,\"ack\":false}"
+      }
+      ```
+
+
+### Test brokers
+
+* [Mosquitto Test Broker](https://test.mosquitto.org/)
+  * Supports TLS1.2 server certificate, client certificate and apikey settings for authentication
+  * Application configuration
+    * url: mqtts://test.mosquitto.org:8883
+    * options:
+      * server_cert: server certificate
+      * clent_cert: client certicate
+      * apikey: client private key
+* [FLESPI Test Broker](https://flespi.com/mqtt-api)
+  * Supports authentication using username access token for authentication
+  * Application configuration
+    * url: mqtt://mqtt.flespi.io
+    * options:
+      * username: \<FLESPI-TOKEN>
+
+
+# Gateway Settings
+
+![mPower Default App Settings](/images/Cloud-Connector-v1.0.png)
+
+## Fields
+Enable - enable/disable the local app settings
+
+* Check server hostname - enable checking the certificate hostname for TLS connections
+* Server URL - server to connect to using HTTP,HTTPS,MQTT or MQTTS
+* App EUI - appeui to filter device uplinks and downlinks
+* MQTTS
+  * Client ID - mqtt client id
+  * Server Cert - server TLS certificate
+  * Client Cert - client TLS certificate
+  * Client Key - client TLS key
+  * Username - mqtt username
+  * Password - mqtt password
+  * Clean Session - start with a clean MQTT session
+* Encode Payload as HEX - change payload format from Base64 (default) to HEX string, used for uplink and downlink payloads
+* Override Topics for All Apps - apps connections defined by LENS will also use the overriden topic values for publishing uplinks and subscribing for downlinks if enabled
+* Enable LoraQuery Requests - allow the server to make lora-query requests through MQTT
+* Enable Log Requests - allow the server to make log file requests through MQTT
+* Enable API Requests - allow the server to make API requests through MQTT
+* Backhaul Detect - enable/disable downlink messages to end-device is the backhaul connection to MQTT is disconnected
+* Backhaul Port - port to send downlink messages
+* Payload - payload to send downlink messages
+* Timeout - timeout to wait before sending another downlink message to the end-device since last backhaul down message
+
+## Local Device Key Settings
+
+![mPower Device Credentials](/images/local-key-settings.png)
+
+
+### Settings
+* DevEUI - End-Device EUI
+* AppEUI - AppEUI to assign device record on Join, must match Default App EUI setting to forward to application unless catch-all AppEUI FF-FF-FF-FF-FF-FF-FF-FF is used for the Default App (Cloud Connector) setting
+* AppKey - AppKey of end-device to authenticate join and create session keys
+* Device Profile - Default settings to assign device on join
+* Network Profile - Class and RF settings to use for device session, MAC commands are sent to update the end-device

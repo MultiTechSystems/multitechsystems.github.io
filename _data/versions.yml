@@ -16,7 +16,7 @@ versions:
     title: "v1.0"
     url: "/v1/"
     date: "December 2025"
-    description: "Initial API documentation release"
+    description: "LoRaWAN guides, development docs, and mPower API overview (no detailed API schemas)"
     current: false
 
 # API version (separate from documentation version)

@@ -15,7 +15,9 @@
     <label for="version-select">Version:</label>
     <select id="version-select" onchange="if(this.value) window.location.href=this.value;">
       {% for version in site.data.versions.versions %}
-      <option value="{{ version.url }}" {% if version.current %}selected{% endif %}>
+      <option value="{{ version.url }}"
+        {% if page.doc_version == "v1" and version.number == "1.0" %}selected
+        {% elsif page.doc_version != "v1" and version.current %}selected{% endif %}>
         {{ version.title }}
       </option>
       {% endfor %}
@@ -29,8 +31,13 @@
   </div>
 
   <!-- Navigation Links -->
+  {% if page.doc_version == "v1" %}
+    {% assign nav_items = site.data.navigation-v1.main %}
+  {% else %}
+    {% assign nav_items = site.data.navigation.main %}
+  {% endif %}
   <ul class="nav-links">
-    {% for item in site.data.navigation.main %}
+    {% for item in nav_items %}
     <li class="nav-item {% if item.children %}has-children{% endif %}">
       {% if item.url %}
       <a href="{{ item.url | relative_url }}" class="nav-link {% if page.url == item.url %}active{% endif %}">
@@ -61,8 +68,12 @@
   <!-- Footer Info -->
   <div class="nav-footer">
     <p class="nav-version-info">
+      {% if page.doc_version == "v1" %}
+      Docs: v1.0
+      {% else %}
       API: {{ site.data.versions.api_version }}<br>
       Docs: v{{ site.data.versions.current }}
+      {% endif %}
     </p>
     <p class="nav-updated">
       Updated: {{ site.data.versions.last_updated }}

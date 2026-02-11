@@ -1,0 +1,49 @@
+# Site Navigation Structure - v1 (No API documentation)
+
+main:
+  - title: Home
+    url: /v1/
+
+  - title: mPower API
+    url: /v1/mpower-api
+    children:
+      - title: Quick Start
+        url: /v1/mpower-api#quick-start
+
+  - title: LoRaWAN
+    children:
+      - title: App Connect HTTP
+        url: /v1/lorawan-app-connect
+      - title: App Connect MQTT v1.0
+        url: /v1/lorawan-app-connect-mqtt
+      - title: App Connect MQTT v1.1
+        url: /v1/lorawan-app-connect-mqtt-v1_1
+      - title: MQTT WebSockets
+        url: /v1/lorawan-app-connect-mqtt-websockets
+      - title: MQTT Azure
+        url: /v1/lorawan-app-connect-mqtt-azure
+      - title: MQTT Walkthrough
+        url: /v1/lorawan-app-connect-walkthrough
+      - title: MQTT Bridge
+        url: /v1/lora-mqtt-bridge
+      - title: Multicast Protocol
+        url: /v1/multicast
+      - title: Fragmentation
+        url: /v1/fragmentation
+      - title: Basic Station
+        url: /v1/basic-station
+
+  - title: Development
+    children:
+      - title: Conduit Custom Apps
+        url: /v1/conduit-custom-app-development
+      - title: Conduit Cursor Dev
+        url: /v1/conduit-cursor-development
+      - title: Dot Development
+        url: /v1/dot-development
+      - title: xDot Development
+        url: /v1/dot-development-xdot
+      - title: xDot DAPLink
+        url: /v1/xdot-daplink
+      - title: Migrate to Dot v4
+        url: /v1/dot-migrate-to-4

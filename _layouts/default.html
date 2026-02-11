@@ -33,7 +33,7 @@
       
       <div class="header-search">
         <input type="search" id="header-search-input" placeholder="Search documentation..." aria-label="Search">
-        <div id="header-search-results" class="search-results"></div>
+        <div id="header-search-results" class="search-results" style="display:none;position:absolute;top:calc(100% + 8px);left:0;right:0;background:white;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.15);max-height:400px;overflow-y:auto;z-index:1001"></div>
       </div>
       
       <div class="header-links">
@@ -141,6 +141,7 @@
     }
     
     // Search — inline implementation, no external library
+    // Visibility controlled by JS style.display to avoid any CSS specificity issues
     var searchData = null;
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '{{ "/search.json" | relative_url }}');
@@ -159,9 +160,16 @@
     xhr.onerror = function() { console.error('Search JSON network error'); };
     xhr.send();
 
+    function showResults(el, html) {
+      el.innerHTML = html;
+      el.style.display = html ? 'block' : 'none';
+    }
+
     function doSearch(query, resultsEl) {
-      resultsEl.innerHTML = '';
-      if (!searchData || !query || query.length < 2) return;
+      if (!searchData || !query || query.length < 2) {
+        showResults(resultsEl, '');
+        return;
+      }
       var q = query.toLowerCase();
       var matches = [];
       for (var i = 0; i < searchData.length; i++) {
@@ -174,7 +182,7 @@
         }
       }
       if (matches.length === 0) {
-        resultsEl.innerHTML = '<div class="search-result"><span style="color:#999">No results found</span></div>';
+        showResults(resultsEl, '<div class="search-result"><span style="color:#999">No results found</span></div>');
         return;
       }
       var html = '';
@@ -183,7 +191,7 @@
         html += '<div class="search-result"><a href="' + m.url + '"><strong>' +
           (m.title || m.url) + '</strong><br><small>' + m.url + '</small></a></div>';
       }
-      resultsEl.innerHTML = html;
+      showResults(resultsEl, html);
     }
 
     [
@@ -191,10 +199,15 @@
       { input: document.getElementById('nav-search-input'), results: document.getElementById('nav-search-results') }
     ].forEach(function(s) {
       if (!s.input || !s.results) return;
+      // Force initial state
+      s.results.style.display = 'none';
       s.input.addEventListener('input', function() { doSearch(this.value, s.results); });
+      s.input.addEventListener('focus', function() {
+        if (this.value.length >= 2) doSearch(this.value, s.results);
+      });
       document.addEventListener('click', function(e) {
         if (!s.input.contains(e.target) && !s.results.contains(e.target)) {
-          s.results.innerHTML = '';
+          showResults(s.results, '');
         }
       });
     });

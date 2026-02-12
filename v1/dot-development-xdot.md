@@ -1,14 +1,18 @@
 ---
 layout: default
-title: "Dot Development - xDot"
+title: "Dot Development - xDot, xDot-ES & xDot-AD"
 permalink: /v1/dot-development-xdot/
 doc_version: v1
 ---
 
-# Dot Development - xDot
+# Dot Development - xDot Family
+
+This article covers topics specific to the xDot family of modules including xDot, xDot-ES (enhanced security), and xDot-AD (additional debug).
+
+For serial firmware upgrade instructions for all xDot variants, see the [Programming](/v1/dot-development/#programming) section in Dot Development. The [Dot Upgrade Tool](https://github.com/MultiTechSystems/Dot-AT-Firmware) in the Dot-AT-Firmware repository supports all xDot variants and handles CRC and bootloader stripping automatically.
 
 
-## Enabling external storage on XDot
+## Enabling external storage on xDot
 
 XDot requires an external storage device for FOTA.  Space is allocated to store the received file, a backup copy of the application, and an upgrade result file.
 

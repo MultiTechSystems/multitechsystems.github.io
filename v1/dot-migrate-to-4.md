@@ -57,11 +57,13 @@ FileHandle *mbed::mbed_override_console(int fd)
 
 ## Bootloader
 
-* A CRC it no longer automatically appended to firmware when compiled with Mbed.
+* A CRC is no longer automatically appended to firmware when compiled with Mbed.
 
-When upgrading a dot over serial the bootloader uses the appended CRC to verify the received file.  Sending a file to a Dot over serial will require calculating and appending a CRC32 to the file before transfering.  [Multitool](https://pypi.org/project/mtsmultitool) can be used to append a CRC and transfer the file.
+When upgrading a Dot over serial the bootloader uses the appended CRC to verify the received file.  Sending a file to a Dot over serial will require calculating and appending a CRC32 to the file before transferring.  This applies to mDot and xDot-AD.  xDot and xDot-ES do not require a CRC.
+
+The [Dot Upgrade Tool](https://github.com/MultiTechSystems/Dot-AT-Firmware) in the Dot-AT-Firmware repository handles CRC and bootloader stripping automatically for all device types.  [Multitool](https://pypi.org/project/mtsmultitool) can also be used (mDot and xDot only).
 
 
 * When applying an upgrade the mDot bootloader no longer assumes the file contains a bootloader.
 
-Firmware images sent to the new bootloader must be application only.  The old bootloader requires upgrade images to be a merged bootloader and application.  [Multitool](https://pypi.org/project/mtsmultitool) can be used to strip the bootloader from a file.
+Firmware images sent to the new bootloader must be application only.  The old bootloader requires upgrade images to be a merged bootloader and application.  The upgrade tool detects full images and strips the bootloader automatically.  [Multitool](https://pypi.org/project/mtsmultitool) can also be used to strip the bootloader from a file.

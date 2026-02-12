@@ -87,11 +87,11 @@ doc_version: v1
   <div class="card-grid">
     <div class="card">
       <h3><a href="{{ '/v1/dot-development' | relative_url }}">mDot Development</a></h3>
-      <p>Developing with mDot embedded LoRa modules.</p>
+      <p>Developing with mDot embedded LoRa modules. Includes serial firmware upgrade tool.</p>
     </div>
     <div class="card">
-      <h3><a href="{{ '/v1/dot-development-xdot' | relative_url }}">xDot Development</a></h3>
-      <p>Developing with xDot ultra-low-power LoRa modules.</p>
+      <h3><a href="{{ '/v1/dot-development-xdot' | relative_url }}">xDot / xDot-ES / xDot-AD Development</a></h3>
+      <p>Developing with xDot family ultra-low-power LoRa modules including ES (enhanced security) and AD (additional debug) variants.</p>
       <div class="card-links">
         <a href="{{ '/v1/xdot-daplink' | relative_url }}">DAPLink Debug</a>
       </div>

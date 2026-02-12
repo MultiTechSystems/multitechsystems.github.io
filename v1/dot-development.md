@@ -84,10 +84,46 @@ Note `target.app_offset` is ignored if `target.bootloader_img` is not present.
 
 ## Programming
 
-The Mbed online compiler outputs only a binary that is a merged bootloader and application.  Compiling offline with Mbed CLI or Mbed Studio will output a merged binary and an application only binary.  A full merged image (bootlaoder and application) is used when programming a Dot with a programmer or drag-and-drop.  Updating devices over serial or FOTA requires an application-only binary.
+A full merged image (bootloader and application) is used when programming a Dot with a programmer or drag-and-drop.  **Updating devices over serial or FOTA requires an application-only binary.**
 
-[Multitool](https://pypi.org/project/mtsmultitool) can be used to strip the bootloader from a binary and program a device over serial.
+> **Important:** Do not send a full image (bootloader + application) through the serial bootloader.  The bootloader must be stripped first or an application-only binary must be used.
 
+
+### Serial Firmware Upgrade Tool (Recommended)
+
+The [Dot-AT-Firmware](https://github.com/MultiTechSystems/Dot-AT-Firmware) repository includes a cross-platform Python upgrade tool that automates serial firmware updates for mDot, xDot, xDot-ES, and xDot-AD.  It handles image preparation (bootloader stripping and CRC) automatically.
+
+```
+git clone https://github.com/MultiTechSystems/Dot-AT-Firmware.git
+cd Dot-AT-Firmware
+pip install -r tools/requirements.txt
+
+python tools/dot-upgrade.py upgrade MDOT US915 COM3
+python tools/dot-upgrade.py upgrade XDOTAD EU868 /dev/ttyUSB0
+python tools/dot-upgrade.py --gui
+```
+
+See the [Dot-AT-Firmware README](https://github.com/MultiTechSystems/Dot-AT-Firmware) for full usage details.
+
+
+### Bootloader Entry
+
+To enter the bootloader for serial upgrades, the device must be reset and a key sequence must be received within 250ms of boot.  The upgrade tool handles this automatically.
+
+| Bootloader Version | AT/Command Port | Debug Port |
+|--------------------|----------------|------------|
+| v0.1.x             | N/A            | Any keypress |
+| 1.0.0 - 1.1.9      | `mts`          | Any keypress |
+| 1.2.0+             | `mts`          | `mts` (MAX32670) / Any keypress (others) |
+
+On the debug port, the tool sends a serial break to reset the device, parses the bootloader version from the `[INFO] MultiTech Bootloader x.x.x` banner, and selects the correct key automatically.  On the AT port, the bootloader version is not visible, so the tool sends `ATZ` to reset and tries `mts` then `xdt` via echo-detection.  Falls back to prompting for manual reset if needed.
+
+The bootloader source is available at [gitlab.multitech.net/mbed/generic-bootloader](https://gitlab.multitech.net/mbed/generic-bootloader).
+
+
+### Multitool (Legacy)
+
+[Multitool](https://pypi.org/project/mtsmultitool) can be used to strip the bootloader from a binary and program a device over serial (mDot and xDot only).
 
 Example multitool commands for stripping the bootloader and appending a CRC:
 ```
@@ -95,13 +131,7 @@ multitool device plain -b -i MTDOT -c -o mdot_app.bin mbed_output.bin
 multitool device plain -b -i XDOT -c -o xdot_app.bin mbed_output.bin
 ```
 
-Example multitool commands for appending a CRC only:
-```
-multitool device plain -c -o mdot_app.bin mbed_output_application.bin
-multitool device plain -c -o xdot_app.bin mbed_output_application.bin
-```
-
-Example multitool commands for stripping the bootloader, appending a CRC, and sending an upgrade to a device over serial.
+Example multitool commands for serial upgrade:
 ```
 multitool device upgrade -b COM3 MTDOT mbed_output.bin
 multitool device upgrade -b COM3 XDOT mbed_output.bin

@@ -41,7 +41,7 @@ main:
         url: /v1/conduit-cursor-development
       - title: Dot Development
         url: /v1/dot-development
-      - title: xDot Development
+      - title: xDot / xDot-ES / xDot-AD
         url: /v1/dot-development-xdot
       - title: xDot DAPLink
         url: /v1/xdot-daplink

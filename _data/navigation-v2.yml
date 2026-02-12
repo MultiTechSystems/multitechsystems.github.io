@@ -82,7 +82,7 @@ main:
         url: /v2/conduit-cursor-development
       - title: Dot Development
         url: /v2/dot-development
-      - title: xDot Development
+      - title: xDot / xDot-ES / xDot-AD
         url: /v2/dot-development-xdot
       - title: xDot DAPLink
         url: /v2/xdot-daplink

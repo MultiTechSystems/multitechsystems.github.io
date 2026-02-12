@@ -7,7 +7,7 @@ doc_version: v1
 
 # Dot Development - xDot Family
 
-This article covers topics specific to the xDot family of modules including xDot, xDot-ES (enhanced security), and xDot-AD (additional debug).
+This article covers topics specific to the xDot family of modules including xDot, xDot-ES (Essentials), and xDot-AD (Advanced).
 
 For serial firmware upgrade instructions for all xDot variants, see the [Programming](/v1/dot-development/#programming) section in Dot Development. The [Dot Upgrade Tool](https://github.com/MultiTechSystems/Dot-AT-Firmware) in the Dot-AT-Firmware repository supports all xDot variants and handles CRC and bootloader stripping automatically.
 

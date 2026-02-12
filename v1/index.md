@@ -91,7 +91,7 @@ doc_version: v1
     </div>
     <div class="card">
       <h3><a href="{{ '/v1/dot-development-xdot' | relative_url }}">xDot / xDot-ES / xDot-AD Development</a></h3>
-      <p>Developing with xDot family ultra-low-power LoRa modules including ES (enhanced security) and AD (additional debug) variants.</p>
+      <p>Developing with xDot family ultra-low-power LoRa modules including ES (Essentials) and AD (Advanced) variants.</p>
       <div class="card-links">
         <a href="{{ '/v1/xdot-daplink' | relative_url }}">DAPLink Debug</a>
       </div>

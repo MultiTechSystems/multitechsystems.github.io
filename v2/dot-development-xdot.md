@@ -12,10 +12,10 @@ This article covers topics specific to the xDot family of modules.
 | Module  | MCU | Mbed Target | Description |
 |---------|-----|-------------|-------------|
 | xDot    | STM32L151CC | `XDOT_L151CC` | Original xDot module |
-| xDot-ES | MAX32670 | `XDOT_MAX32670` | xDot with enhanced security |
-| xDot-AD | MAX32670 | `XDOT_MAX32670` | xDot with enhanced security and additional debug interface |
+| xDot-ES | MAX32670 | `XDOT_MAX32670` | xDot Essentials - saves config/session to MCU flash |
+| xDot-AD | MAX32670 | `XDOT_MAX32670` | xDot Advanced - EEPROM for config/session, external flash for FUOTA |
 
-The xDot-ES and xDot-AD are based on the Analog Devices MAX32670 microcontroller.  xDot-AD adds an additional debug serial interface.  Both share the same Mbed target and bootloader.
+The xDot-ES and xDot-AD are based on the Analog Devices MAX32670 microcontroller.  Both share the same Mbed target and bootloader.
 
 See also: [Dot Development](/v2/dot-development/) for general topics applicable to all Dot modules.
 
@@ -34,42 +34,22 @@ See the [Programming](/v2/dot-development/#programming) section in Dot Developme
 
 ### Device-Specific Notes
 
-**xDot** uses the `upgrade` bootloader command and does **not** require a CRC.  Application-only images can be sent directly.
+**xDot / xDot-ES:** The firmware image is written directly into MCU flash.
 
-**xDot-ES** uses the `upgrade` bootloader command and does **not** require a CRC.  Application-only images can be sent directly.
-
-**xDot-AD** uses the `upgrade` bootloader command and **requires a CRC32** appended to the image.  The upgrade tool handles this automatically.  After transfer, the device verifies the CRC before applying the upgrade.  The complete upgrade process takes approximately 90 seconds.  Do not power off or reset the device during this time.
+**xDot-AD:** The bootloader first moves the firmware image to external flash.  On reset, the bootloader validates the image from flash before applying it.  This results in additional time for the upgrade due to loading into and out of external flash.  A CRC is used to validate the image stored in flash.
 
 > **Important:** Always use application-only firmware images for serial upgrades (files from the `APPS/` directory in [Dot-AT-Firmware](https://github.com/MultiTechSystems/Dot-AT-Firmware)).  Full images containing a bootloader will fail or produce unexpected results.  If you must use a full image, the upgrade tool will detect it and strip the bootloader automatically.
 
+### xDot-ES vs xDot-AD Trade-offs
 
-### Bootloader Upgrade Flow
-
-The serial upgrade sequence for xDot family devices:
-
-1. Device is in AT command mode (or bootloader mode)
-2. Tool sends `ATZ` to reset, then `mts` to enter the bootloader
-3. Bootloader prompt `bootloader :>` appears
-4. Tool sends the `upgrade` command
-5. Device signals ready with YMODEM `C` character
-6. Tool transfers the prepared firmware file via YMODEM
-7. **xDot / xDot-ES:** Upgrade is applied immediately after transfer
-8. **xDot-AD:** Device verifies CRC, then applies upgrade (~90 seconds)
-
-### xDot-AD CRC Verification
-
-If the CRC check fails on xDot-AD, the bootloader will print an `ERROR` message and the device will not boot the new firmware.  The bootloader will remain active.  In this case:
-
-* Verify the correct application image was used
-* Ensure the CRC was appended correctly (the upgrade tool does this automatically)
-* Retry the upgrade
+xDot-ES uses MCU flash for config/session storage instead of EEPROM.  Trade-offs of MCU flash include limited write endurance compared to EEPROM and contention between MCU flash operations and application execution.
 
 
 ## Enabling External Storage on xDot
 
 xDot requires an external storage device for FOTA.  Space is allocated to store the received file, a backup copy of the application, and an upgrade result file.
 
-> **Note:** This section applies to the original xDot (`XDOT_L151CC`).  xDot-ES and xDot-AD have built-in storage and do not require external flash configuration.
+> **Note:** This section applies to the original xDot (`XDOT_L151CC`) and xDot-ES, which do not have external flash.  xDot-AD has external flash for FUOTA and does not require additional external flash configuration.
 
 Storage devices must meet the following criteria:
 

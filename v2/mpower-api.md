@@ -4,8 +4,6 @@ title: mPower Device API
 description: Complete REST API documentation for managing Multi-Tech Systems IoT gateway devices
 category: api
 tags: [api, rest, mpower, conduit]
-permalink: /v2/mpower-api/
-doc_version: v2
 ---
 
 # mPower Edge Intelligence Device API
@@ -29,26 +27,26 @@ The mPower Device API is a comprehensive RESTful API that provides complete cont
 
 ## Documentation Resources
 
-### 📘 [Complete API Guide](/v2/mpower-api-docs/API-README.md)
+### 📘 [Complete API Guide](mpower-api-docs/API-README)
 Comprehensive documentation with detailed explanations, authentication guide, complete endpoint reference, code examples, configuration workflows, and troubleshooting.
 
-### 📋 [Quick Reference](/v2/mpower-api-docs/API-QUICK-REFERENCE.md)
+### 📋 [Quick Reference](mpower-api-docs/API-QUICK-REFERENCE)
 Concise command reference with all endpoints at a glance, common usage patterns, and quick copy-paste examples.
 
-### 📚 [Available Resources Reference](/v2/mpower-api-docs/AVAILABLE-RESOURCES.md)
+### 📚 [Available Resources Reference](mpower-api-docs/AVAILABLE-RESOURCES)
 Complete documentation for all API resources including system, network, cellular, VPN, IoT protocols, communication (SMS, GPS, Serial), security, and monitoring resources with examples.
 
-### ⚡ [Command Endpoints Reference](/v2/mpower-api-docs/COMMAND-ENDPOINTS.md)
+### ⚡ [Command Endpoints Reference](mpower-api-docs/COMMAND-ENDPOINTS)
 Complete documentation for all command endpoints including configuration management, system commands, firmware updates, network diagnostics, SMS messaging, and LoRa operations with examples.
 
-### 📑 [Documentation Index](/v2/mpower-api-docs/API-DOCUMENTATION-INDEX.md)
+### 📑 [Documentation Index](mpower-api-docs/API-DOCUMENTATION-INDEX)
 Master index with overview of all documentation, how-to guides, tool integration, and quick start instructions.
 
 ### 🔧 OpenAPI/Swagger Specification
-- **[YAML Format](/v2/mpower-api-docs/api-documentation.yaml)** - For Swagger UI and code generators
-- **[JSON Format](/v2/mpower-api-docs/api-documentation.json)** - For programmatic access
+- **[YAML Format](mpower-api-docs/api-documentation.yaml)** - For Swagger UI and code generators
+- **[JSON Format](mpower-api-docs/api-documentation.json)** - For programmatic access
 
-### 📦 [Postman Collection](/v2/mpower-api-docs/MTS-Device-API.postman_collection.json)
+### 📦 [Postman Collection](mpower-api-docs/MTS-Device-API.postman_collection.json)
 Ready-to-import Postman collection with pre-configured requests for all major endpoints.
 
 ### 📐 Detailed Schema Documentation
@@ -57,35 +55,35 @@ Comprehensive field-by-field documentation extracted from mtsDeviceAPI source co
 
 #### Core Documentation (from source)
 
-- **[API Schemas Reference](/v2/mpower-api-docs/API-SCHEMAS-REFERENCE.md)** - Core schemas (system, users, cellular, WiFi, DNS, DHCP, routes, firewall, NAT, GPS, serial, alert)
-- **[SMS Schema](/v2/mpower-api-docs/SMS-SCHEMA.md)** - SMS messaging and remote commands configuration
-- **[VPN Schemas](/v2/mpower-api-docs/VPN-SCHEMAS.md)** - OpenVPN, IPsec, and GRE tunnel configuration
-- **[Network Services Schemas](/v2/mpower-api-docs/NETWORK-SERVICES-SCHEMAS.md)** - SNMP, SMTP, SNTP, and Network Interfaces
+- **[API Schemas Reference](mpower-api-docs/API-SCHEMAS-REFERENCE)** - Core schemas (system, users, cellular, WiFi, DNS, DHCP, routes, firewall, NAT, GPS, serial, alert)
+- **[SMS Schema](mpower-api-docs/SMS-SCHEMA)** - SMS messaging and remote commands configuration
+- **[VPN Schemas](mpower-api-docs/VPN-SCHEMAS)** - OpenVPN, IPsec, and GRE tunnel configuration
+- **[Network Services Schemas](mpower-api-docs/NETWORK-SERVICES-SCHEMAS)** - SNMP, SMTP, SNTP, and Network Interfaces
 
 #### Extended Documentation (from source) 🆕
 
-- **[Device Management Schemas](/v2/mpower-api-docs/DEVICE-MANAGEMENT-SCHEMAS.md)** - Auto reboot, remote management, remote access, custom apps, Docker, user roles, password rules
-- **[Connectivity Schemas](/v2/mpower-api-docs/CONNECTIVITY-SCHEMAS.md)** - Bluetooth, BLE, IP passthrough, IP pipes, DDNS, WAN manager, backoff timers, cell time sync
-- **[Advanced Features Schemas](/v2/mpower-api-docs/ADVANCED-FEATURES-SCHEMAS.md)** - Filters, SCADA, MQTT broker, RADIUS, secure protocols, trusted IP, notifications
-- **[Logging & Status Schemas](/v2/mpower-api-docs/LOGGING-STATUS-SCHEMAS.md)** - Event log, syslog, status, LLDP, mDNS, policy, external I/O
+- **[Device Management Schemas](mpower-api-docs/DEVICE-MANAGEMENT-SCHEMAS)** - Auto reboot, remote management, remote access, custom apps, Docker, user roles, password rules
+- **[Connectivity Schemas](mpower-api-docs/CONNECTIVITY-SCHEMAS)** - Bluetooth, BLE, IP passthrough, IP pipes, DDNS, WAN manager, backoff timers, cell time sync
+- **[Advanced Features Schemas](mpower-api-docs/ADVANCED-FEATURES-SCHEMAS)** - Filters, SCADA, MQTT broker, RADIUS, secure protocols, trusted IP, notifications
+- **[Logging & Status Schemas](mpower-api-docs/LOGGING-STATUS-SCHEMAS)** - Event log, syslog, status, LLDP, mDNS, policy, external I/O
 
 #### Additional Schemas
 
-- **[LoRa Network Schema](/v2/mpower-api-docs/LORA-NETWORK-SCHEMA.md)** - Complete `loraNetwork` configuration with 200+ properties
-- **[Security Schemas](/v2/mpower-api-docs/SECURITY-SCHEMAS.md)** - Authentication, certificates, and security configuration
-- **[NAT & Firewall Schemas](/v2/mpower-api-docs/NAT-FIREWALL-SCHEMAS.md)** - NAT rules, port forwarding, and firewall configuration
-- **[Network Interfaces Schema](/v2/mpower-api-docs/NETWORK-INTERFACES-SCHEMA.md)** - Ethernet, cellular, WiFi, and network interface configuration
-- **[Alert Schema](/v2/mpower-api-docs/ALERT-SCHEMA.md)** - Alert and notification configuration
-- **[SNMP Schema](/v2/mpower-api-docs/SNMP-SCHEMA.md)** - SNMP agent and trap configuration
+- **[LoRa Network Schema](mpower-api-docs/LORA-NETWORK-SCHEMA)** - Complete `loraNetwork` configuration with 200+ properties
+- **[Security Schemas](mpower-api-docs/SECURITY-SCHEMAS)** - Authentication, certificates, and security configuration
+- **[NAT & Firewall Schemas](mpower-api-docs/NAT-FIREWALL-SCHEMAS)** - NAT rules, port forwarding, and firewall configuration
+- **[Network Interfaces Schema](mpower-api-docs/NETWORK-INTERFACES-SCHEMA)** - Ethernet, cellular, WiFi, and network interface configuration
+- **[Alert Schema](mpower-api-docs/ALERT-SCHEMA)** - Alert and notification configuration
+- **[SNMP Schema](mpower-api-docs/SNMP-SCHEMA)** - SNMP agent and trap configuration
 
 #### Analysis & Coverage
 
-- **[Schema Analysis Working Doc](/v2/mpower-api-docs/SCHEMA-ANALYSIS-WORKING.md)** - Working document tracking schema analysis progress (55+ schemas analyzed)
-- **[Schema Coverage Analysis](/v2/mpower-api-docs/SCHEMA-COVERAGE-ANALYSIS.md)** - Overview of all documented schemas and coverage status
+- **[Schema Analysis Working Doc](mpower-api-docs/SCHEMA-ANALYSIS-WORKING)** - Working document tracking schema analysis progress (55+ schemas analyzed)
+- **[Schema Coverage Analysis](mpower-api-docs/SCHEMA-COVERAGE-ANALYSIS)** - Overview of all documented schemas and coverage status
 
 ### 🔍 New Discovery Documentation (December 2025)
 
-#### [Undocumented Endpoints Findings](/v2/mpower-api-docs/UNDOCUMENTED-ENDPOINTS-FINDINGS.md)
+#### [Undocumented Endpoints Findings](mpower-api-docs/UNDOCUMENTED-ENDPOINTS-FINDINGS)
 **19+ newly discovered configuration endpoints** including:
 - **Network Management**: WAN failover, load balancing, DDNS, IP passthrough, LLDP, mDNS
 - **Security**: Remote access controls, RADIUS, bootloader security, reset button config
@@ -93,7 +91,7 @@ Comprehensive field-by-field documentation extracted from mtsDeviceAPI source co
 - **System**: Auto-reboot scheduler, cloud management, branding, custom apps
 - **Notifications**: SMTP, event groups, NTP time sync
 
-#### [Stats Monitoring System](/v2/mpower-api-docs/STATS-ENDPOINTS-DISCOVERY.md)
+#### [Stats Monitoring System](mpower-api-docs/STATS-ENDPOINTS-DISCOVERY)
 **33+ stats categories** for comprehensive device monitoring:
 - System stats (CPU, memory, storage, services)
 - Network stats (interfaces, DNS, connectivity)
@@ -102,27 +100,27 @@ Comprehensive field-by-field documentation extracted from mtsDeviceAPI source co
 - VPN stats (OpenVPN, IPsec, GRE)
 - **Dashboard endpoint** - Single-call comprehensive system overview
 
-#### [Discovery Session Summary](/v2/mpower-api-docs/SESSION-SUMMARY-2025-12-17.md)
+#### [Discovery Session Summary](mpower-api-docs/SESSION-SUMMARY-2025-12-17)
 Complete report of the December 2025 discovery session with testing methodology, results, and insights from live gateway testing.
 
-#### [Quick Discovery Reference](/v2/mpower-api-docs/DISCOVERY-SUMMARY.txt)
+#### [Quick Discovery Reference](mpower-api-docs/DISCOVERY-SUMMARY)
 Visual ASCII summary of all discoveries with quick reference tables.
 
 ### 📚 Implementation Guides
 
 Production-ready guides for common use cases:
 
-- **[Monitoring Best Practices](/v2/mpower-api-docs/MONITORING-BEST-PRACTICES.md)** - Complete monitoring strategies with polling intervals, alert thresholds, Python/Bash scripts, and Prometheus exporter examples
-- **[WAN Failover Configuration](/v2/mpower-api-docs/WAN-FAILOVER-GUIDE.md)** - Complete guide to WAN failover and load balancing with FAILOVER vs LOADBALANCE modes, health check strategies, and configuration examples
-- **[API Client Examples](/v2/mpower-api-docs/CLIENT-EXAMPLES.md)** - Production-ready client implementations in Python, Node.js, and Bash with authentication, error handling, and common use cases
-- **[LoRa Operations Workflow](/v2/mpower-api-docs/LORA-OPERATIONS-WORKFLOW.md)** - Complete FOTA and multicast messaging workflows with step-by-step API call sequences, file upload procedures, and code examples
+- **[Monitoring Best Practices](mpower-api-docs/MONITORING-BEST-PRACTICES)** - Complete monitoring strategies with polling intervals, alert thresholds, Python/Bash scripts, and Prometheus exporter examples
+- **[WAN Failover Configuration](mpower-api-docs/WAN-FAILOVER-GUIDE)** - Complete guide to WAN failover and load balancing with FAILOVER vs LOADBALANCE modes, health check strategies, and configuration examples
+- **[API Client Examples](mpower-api-docs/CLIENT-EXAMPLES)** - Production-ready client implementations in Python, Node.js, and Bash with authentication, error handling, and common use cases
+- **[LoRa Operations Workflow](mpower-api-docs/LORA-OPERATIONS-WORKFLOW)** - Complete FOTA and multicast messaging workflows with step-by-step API call sequences, file upload procedures, and code examples
 
 ### 🧪 Testing & Validation Reports
 
 Comprehensive testing documentation:
 
-- **[PUT Operations Test Report](/v2/mpower-api-docs/PUT-OPERATIONS-TEST-REPORT.md)** - Results from testing 17 PUT endpoints (76% success rate) with detailed error analysis, workarounds, and recommendations
-- **[User Role Permissions Report](/v2/mpower-api-docs/USER-ROLE-PERMISSIONS-REPORT.md)** - Admin role permissions documented (100% access), permission matrix, RBAC patterns, and security guidelines
+- **[PUT Operations Test Report](mpower-api-docs/PUT-OPERATIONS-TEST-REPORT)** - Results from testing 17 PUT endpoints (76% success rate) with detailed error analysis, workarounds, and recommendations
+- **[User Role Permissions Report](mpower-api-docs/USER-ROLE-PERMISSIONS-REPORT)** - Admin role permissions documented (100% access), permission matrix, RBAC patterns, and security guidelines
 
 ## Quick Start
 
@@ -330,14 +328,14 @@ Commands are executed via POST to `/api/command/<command>`:
 
 1. Go to [Swagger Editor](https://editor.swagger.io/)
 2. Click File → Import File
-3. Select the [api-documentation.yaml](/v2/mpower-api-docs/api-documentation.yaml) file
+3. Select the [api-documentation.yaml](mpower-api-docs/api-documentation.yaml) file
 4. Explore and test the API interactively
 
 ### Import to Postman
 
 1. Open Postman
 2. Click Import → Upload Files
-3. Select [MTS-Device-API.postman_collection.json](/v2/mpower-api-docs/MTS-Device-API.postman_collection.json)
+3. Select [MTS-Device-API.postman_collection.json](mpower-api-docs/MTS-Device-API.postman_collection.json)
 4. Update the `baseUrl` variable to your device IP
 5. Start making requests!
 
@@ -702,6 +700,6 @@ For technical support and additional documentation:
 ---
 
 **Related Documentation:**
-- [LoRaWAN App Connect](/v2/lorawan-app-connect/)
-- [Conduit Custom App Development](/v2/conduit-custom-app-development/)
-- [Conduit Cursor Development](/v2/conduit-cursor-development/)
+- [LoRaWAN App Connect](lorawan-app-connect)
+- [Conduit Custom App Development](conduit-custom-app-development)
+- [Conduit Cursor Development](conduit-cursor-development)

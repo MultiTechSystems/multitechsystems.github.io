@@ -43,8 +43,7 @@ openapi/
 
 ## Schema Sources
 
-All schemas are extracted from the authoritative source:
-- `/home/jreiss/Workspace/aep/mtsDeviceAPI/json/strict/*.schema.json`
+All schemas are extracted from the mtsDeviceAPI source code (`json/strict/*.schema.json`).
 
 See the detailed Markdown documentation in `../` for comprehensive information:
 - [API-SCHEMAS-REFERENCE.md](../API-SCHEMAS-REFERENCE.md) - Core schemas

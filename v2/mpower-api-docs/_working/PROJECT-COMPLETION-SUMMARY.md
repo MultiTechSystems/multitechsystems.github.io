@@ -442,10 +442,9 @@ Transform incomplete MTS Device API documentation into comprehensive, production
 ### Documentation Updates
 
 To update documentation:
-1. Edit files in `/home/jreiss/Workspace/aep/mpower-api-swagger-doc/`
+1. Edit files in the mpower-api-docs directory
 2. Convert YAML to JSON: `python3 convert.py`
-3. Copy to GitHub repo: `cp *.{yaml,json,md} ../github-repos/multitechsystems.github.io/mpower-api-docs/`
-4. Commit and push: `git add . && git commit -m "..." && git push`
+3. Commit and push: `git add . && git commit -m "..." && git push`
 
 ### Testing
 

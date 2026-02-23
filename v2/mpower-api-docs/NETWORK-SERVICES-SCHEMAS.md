@@ -9,7 +9,7 @@ doc_version: v2
 
 Complete schema documentation for network services extracted from mtsDeviceAPI source code.
 
-**Source:** `/home/jreiss/Workspace/aep/mtsDeviceAPI/json/strict/`
+**Source:** mtsDeviceAPI `json/strict/*.schema.json`
 
 ---
 

@@ -9,7 +9,7 @@ doc_version: v2
 
 Complete schema documentation extracted from mtsDeviceAPI source code (`json/strict/*.schema.json`).
 
-**Source:** `/home/jreiss/Workspace/aep/mtsDeviceAPI/json/strict/`
+**Source:** mtsDeviceAPI `json/strict/*.schema.json`
 
 ---
 

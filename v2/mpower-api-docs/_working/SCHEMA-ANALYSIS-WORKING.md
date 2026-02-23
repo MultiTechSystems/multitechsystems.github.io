@@ -3,10 +3,10 @@
 This document tracks the progress of extracting accurate API schema information from the mtsDeviceAPI and mtsDeviceUI source code.
 
 **Source Locations:**
-- Schema files: `/home/jreiss/Workspace/aep/mtsDeviceAPI/json/strict/`
-- API controllers: `/home/jreiss/Workspace/aep/mtsDeviceAPI/src/`
-- UI components: `/home/jreiss/Workspace/aep/mtsDeviceUI/src/`
-- API tests: `/home/jreiss/Workspace/aep/mtsDeviceAPITests/`
+- Schema files: mtsDeviceAPI `json/strict/`
+- API controllers: mtsDeviceAPI `src/`
+- UI components: mtsDeviceUI `src/`
+- API tests: mtsDeviceAPITests
 
 ---
 

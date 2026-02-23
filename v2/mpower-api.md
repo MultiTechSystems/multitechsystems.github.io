@@ -91,7 +91,7 @@ Production-ready guides for common use cases:
 
 A useful technique for learning the API is to use your browser's developer tools to observe the API calls made by the mPower web interface. This helps you discover the exact endpoints, request formats, and payload structures used by the device.
 
-![Browser Developer Tools showing API calls](images/UI-API-DEBUG.png)
+![Browser Developer Tools showing API calls](/images/UI-API-DEBUG.png)
 
 **Steps to capture API calls:**
 

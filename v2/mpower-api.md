@@ -76,36 +76,6 @@ Comprehensive field-by-field documentation extracted from mtsDeviceAPI source co
 - **[Alert Schema](mpower-api-docs/ALERT-SCHEMA)** - Alert and notification configuration
 - **[SNMP Schema](mpower-api-docs/SNMP-SCHEMA)** - SNMP agent and trap configuration
 
-#### Analysis & Coverage
-
-- **[Schema Analysis Working Doc](mpower-api-docs/SCHEMA-ANALYSIS-WORKING)** - Working document tracking schema analysis progress (55+ schemas analyzed)
-- **[Schema Coverage Analysis](mpower-api-docs/SCHEMA-COVERAGE-ANALYSIS)** - Overview of all documented schemas and coverage status
-
-### 🔍 New Discovery Documentation (December 2025)
-
-#### [Undocumented Endpoints Findings](mpower-api-docs/UNDOCUMENTED-ENDPOINTS-FINDINGS)
-**19+ newly discovered configuration endpoints** including:
-- **Network Management**: WAN failover, load balancing, DDNS, IP passthrough, LLDP, mDNS
-- **Security**: Remote access controls, RADIUS, bootloader security, reset button config
-- **Cellular**: Carrier-specific backoff timers, cellular time sync
-- **System**: Auto-reboot scheduler, cloud management, branding, custom apps
-- **Notifications**: SMTP, event groups, NTP time sync
-
-#### [Stats Monitoring System](mpower-api-docs/STATS-ENDPOINTS-DISCOVERY)
-**33+ stats categories** for comprehensive device monitoring:
-- System stats (CPU, memory, storage, services)
-- Network stats (interfaces, DNS, connectivity)
-- Cellular stats (radio, signal, SIM status, PDP config)
-- IoT stats (LoRa, Modbus, GPS, Bluetooth)
-- VPN stats (OpenVPN, IPsec, GRE)
-- **Dashboard endpoint** - Single-call comprehensive system overview
-
-#### [Discovery Session Summary](mpower-api-docs/SESSION-SUMMARY-2025-12-17)
-Complete report of the December 2025 discovery session with testing methodology, results, and insights from live gateway testing.
-
-#### [Quick Discovery Reference](mpower-api-docs/DISCOVERY-SUMMARY)
-Visual ASCII summary of all discoveries with quick reference tables.
-
 ### 📚 Implementation Guides
 
 Production-ready guides for common use cases:
@@ -114,13 +84,6 @@ Production-ready guides for common use cases:
 - **[WAN Failover Configuration](mpower-api-docs/WAN-FAILOVER-GUIDE)** - Complete guide to WAN failover and load balancing with FAILOVER vs LOADBALANCE modes, health check strategies, and configuration examples
 - **[API Client Examples](mpower-api-docs/CLIENT-EXAMPLES)** - Production-ready client implementations in Python, Node.js, and Bash with authentication, error handling, and common use cases
 - **[LoRa Operations Workflow](mpower-api-docs/LORA-OPERATIONS-WORKFLOW)** - Complete FOTA and multicast messaging workflows with step-by-step API call sequences, file upload procedures, and code examples
-
-### 🧪 Testing & Validation Reports
-
-Comprehensive testing documentation:
-
-- **[PUT Operations Test Report](mpower-api-docs/PUT-OPERATIONS-TEST-REPORT)** - Results from testing 17 PUT endpoints (76% success rate) with detailed error analysis, workarounds, and recommendations
-- **[User Role Permissions Report](mpower-api-docs/USER-ROLE-PERMISSIONS-REPORT)** - Admin role permissions documented (100% access), permission matrix, RBAC patterns, and security guidelines
 
 ## Quick Start
 

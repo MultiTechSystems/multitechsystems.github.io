@@ -220,6 +220,11 @@ openapi-generator-cli generate \
 http://192.168.2.1  (default device IP)
 ```
 
+### Commissioning (First-Time Setup)
+Check and complete device commissioning before login:
+- `GET /api/commissioning` - Check commissioning status (no auth required)
+- `POST /api/commissioning` - Set initial admin password
+
 ### Authentication
 Session-based authentication with cookies. Login required before accessing most endpoints.
 

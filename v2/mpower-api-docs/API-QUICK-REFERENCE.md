@@ -19,6 +19,23 @@ http://192.168.2.1  (or your device IP)
 
 ## Authentication
 
+### Check Commissioning Status (No Auth Required)
+```bash
+GET /api/commissioning
+
+# Response: {"status": "success", "result": {"commissioned": true/false}}
+```
+
+### Commission Device (First-Time Setup)
+```bash
+POST /api/commissioning
+Content-Type: application/json
+
+{
+  "password": "SecurePassword123!"
+}
+```
+
 ### Login
 ```bash
 POST /api/login

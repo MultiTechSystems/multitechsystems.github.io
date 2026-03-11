@@ -342,11 +342,32 @@ curl -X GET http://192.168.2.1/api/policy
 ```
 
 ### Commissioning Mode
-For first-time device setup:
+For first-time device setup, follow these steps:
+
+**Step 1: Check commissioning status** (no authentication required):
+```bash
+curl -X GET http://192.168.2.1/api/commissioning
+
+# Response if not commissioned:
+# {"status": "success", "result": {"commissioned": false}}
+
+# Response if already commissioned:
+# {"status": "success", "result": {"commissioned": true}}
+```
+
+**Step 2: Commission the device** (only if not commissioned):
 ```bash
 curl -X POST http://192.168.2.1/api/commissioning \
   -H "Content-Type: application/json" \
-  -d '{"password": "newpassword"}'
+  -d '{"password": "SecurePassword123!"}'
+```
+
+**Step 3: Login with the new credentials**:
+```bash
+curl -X POST http://192.168.2.1/api/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "admin", "password": "SecurePassword123!"}' \
+  -c cookies.txt
 ```
 
 ### Status Notifications

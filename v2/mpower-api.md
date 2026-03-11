@@ -125,6 +125,21 @@ https://192.168.2.1/api/loraNetwork/?method=PUT&data={"lora":{"enabled":false}}
 
 **Note:** When using the browser address bar, special characters in JSON must be URL-encoded (e.g., `{` becomes `%7B`, `"` becomes `%22`). Most browsers will handle this automatically when you paste the URL.
 
+### Commissioning (First-Time Setup)
+
+For new devices, check and complete commissioning before login:
+
+```bash
+# Step 1: Check commissioning status (no authentication required)
+curl -X GET http://192.168.2.1/api/commissioning
+# Response: {"status": "success", "result": {"commissioned": true/false}}
+
+# Step 2: If not commissioned, set the admin password
+curl -X POST http://192.168.2.1/api/commissioning \
+  -H "Content-Type: application/json" \
+  -d '{"password": "SecurePassword123!"}'
+```
+
 ### Authentication
 
 The API uses session-based authentication with cookies:

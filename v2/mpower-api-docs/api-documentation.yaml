@@ -189,11 +189,56 @@ paths:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
   /api/commissioning:
+    get:
+      tags:
+      - Authentication
+      summary: Get commissioning status
+      description: |
+        Check if the device has been commissioned. This is a public endpoint that does not require authentication.
+        
+        Use this endpoint before attempting login to determine if the device needs initial setup.
+        If the device is not commissioned, use POST /api/commissioning to set the initial admin password.
+      operationId: getCommissioningStatus
+      responses:
+        '200':
+          description: Commissioning status retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  result:
+                    type: object
+                    properties:
+                      commissioned:
+                        type: boolean
+                        description: Whether the device has been commissioned
+                        example: true
+              examples:
+                commissioned:
+                  summary: Device is commissioned
+                  value:
+                    status: success
+                    result:
+                      commissioned: true
+                notCommissioned:
+                  summary: Device is not commissioned
+                  value:
+                    status: success
+                    result:
+                      commissioned: false
     post:
       tags:
       - Authentication
-      summary: Device commissioning
-      description: Initial device setup and password configuration
+      summary: Commission device
+      description: |
+        Initial device setup and password configuration. This endpoint is only available when the device
+        has not been commissioned (when GET /api/commissioning returns commissioned: false).
+        
+        After successful commissioning, the device will require login via POST /api/login.
       operationId: commissioning
       requestBody:
         required: true
@@ -208,6 +253,9 @@ paths:
                   type: string
                   format: password
                   description: New admin password
+                  minLength: 8
+            example:
+              password: "SecurePassword123!"
       responses:
         '200':
           description: Commissioning successful
@@ -216,7 +264,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
         '400':
-          description: Invalid request
+          description: Invalid request (e.g., password does not meet complexity requirements)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Device already commissioned
           content:
             application/json:
               schema:
